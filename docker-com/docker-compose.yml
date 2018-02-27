@@ -14,7 +14,7 @@ services:
     ports:
      - "127.0.0.1:8000:5000"
     volumes:
-     - /root/code/TimedTask:/var/www
+     - /root/fullstack/docker-com/timedtask/TimedTask:/var/www
     links:
      - nginx-host
   db:
@@ -30,10 +30,5 @@ services:
     ports:
       - "80:80"
     links:
-      - yunwei
-      - yunwei1
-      - yunwei_test
-      - yunwei_test1
-      - robot
-      - school 
+      - timedtask
     container_name: nginx-host
