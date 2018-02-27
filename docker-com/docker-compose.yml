@@ -1,0 +1,39 @@
+version: "2"
+services:
+  redis:
+    build : ./redis
+    restart : always
+    container_name : redis
+    ports:
+      - "8080:6379" 
+  timedtask:
+    build : ./timedtask
+    restart: always
+    container_name: timedtask
+    privileged: true
+    ports:
+     - "127.0.0.1:8000:5000"
+    volumes:
+     - /root/code/TimedTask:/var/www
+    links:
+     - nginx-host
+  db:
+    image: mysql:5.5
+    restart: always
+    ports:
+     - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: zzkjyunwei
+  nginx-host:
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+    links:
+      - yunwei
+      - yunwei1
+      - yunwei_test
+      - yunwei_test1
+      - robot
+      - school 
+    container_name: nginx-host
