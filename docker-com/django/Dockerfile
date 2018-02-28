@@ -1,3 +1,3 @@
 FROM kstromeiraos/django-rest-framework 
-CMD python /var/www/manage.py runserver
+CMD runserver 0.0.0.0:80
 
