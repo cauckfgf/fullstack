@@ -1,14 +1,14 @@
-upstream web-app {
-    server timedtask:5000;
+upstream django-app {
+    server django:8000;
 }
 server {
 	#listen 443;
 	listen 80;
-        server_name test.shuhuhu.com
+        server_name shuhuhu.com
 	#ssl on;
 	error_log /var/log/nginx/api-dev.error.log;
 	location / {
-		proxy_pass 		http://web-app;
+		proxy_pass 		http://django-app;
 		proxy_set_header 	Host $host;
 		proxy_set_header 	X-Real-IP $remote_addr;
 		proxy_set_header	X-Forwarded-Proto https;
