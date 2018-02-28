@@ -6,7 +6,6 @@ server {
 	listen 80;
         server_name shuhuhu.com
 	#ssl on;
-	access_log /var/log/nginx/api-dev.log;
 	error_log /var/log/nginx/api-dev.error.log;
 	location / {
 		proxy_pass 		http://web-app;
