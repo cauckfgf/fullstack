@@ -65,6 +65,12 @@ def pausejob():
     scheduler.pause_job('job1')
     return "Success!"
 
+<<<<<<< HEAD
+=======
+@app.route('/')
+def index():
+    return "杜萌你好!"
+>>>>>>> 604474a9c1e39d89762c7c567c6002452b3268a3
 
 @app.route('/resume')
 def resumejob():
