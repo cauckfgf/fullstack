@@ -19,7 +19,7 @@ from .views import index
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url='/index/')),
-    url(r'^index/$', index_view),
+    url(r'^index/$', index),
 ]
 
 urlpatterns += [
