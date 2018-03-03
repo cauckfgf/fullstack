@@ -5,26 +5,28 @@
     initVue();
     
 }();
-
+// <figure id="multiSlide" class="multiSlide">
+//                         <div v-for="item in this.registeredBoxes" class="box" :style="item.style" :data-pos="item.datapos">
+//                             <img :src="item.img"></img>
+//                         </div>
+//                         <div>
+//                             <Button size="large" type="primary" @click="move('top')" shape="circle" icon="arrow-up-a" style="margin:5px"></Button>
+//                             <Button size="large" type="primary" @click="move('bottom')" shape="circle" icon="arrow-down-a" style="margin:5px"></Button>
+//                             <Button size="large" type="primary" @click="move('right')" shape="circle" icon="arrow-right-a" style="margin:5px"></Button>
+//                             <Button size="large" type="primary" @click="move('left')" shape="circle" icon="arrow-left-a" style="margin:5px"></Button>
+//                         </div>
+//                     </figure>
 function initVue() {
     _app = new Vue({
         el:"#app",
         components:{
+            vueimage: vueImages.default
         },
         template:`
             <Row>
                 <i-col :md="24" :sm="24" style="">
-                    <figure id="multiSlide" class="multiSlide">
-                        <div v-for="item in this.registeredBoxes" class="box" :style="item.style" :data-pos="item.datapos">
-                            <img :src="item.img"></img>
-                        </div>
-			<div>
-                            <Button size="large" type="primary" @click="move('top')" shape="circle" icon="arrow-up-a" style="margin:5px"></Button>
-                            <Button size="large" type="primary" @click="move('bottom')" shape="circle" icon="arrow-down-a" style="margin:5px"></Button>
-                            <Button size="large" type="primary" @click="move('right')" shape="circle" icon="arrow-right-a" style="margin:5px"></Button>
-                            <Button size="large" type="primary" @click="move('left')" shape="circle" icon="arrow-left-a" style="margin:5px"></Button>
-                        </div>
-                    </figure>
+                    
+                    <vueimage :imgs="images"></vueimage>
                 </i-col>
             </Row>`,
         created(){
@@ -37,6 +39,10 @@ function initVue() {
                     }else{
                         self.Box(2,len-i+5,res.results[i].file)
                     }
+                    self.images.push({
+                        imageUrl:res.results[i].file,
+                        caption: `<a href="#">Photo by ${i}</a>`
+                    });
                     
                 }
             })
@@ -62,7 +68,8 @@ function initVue() {
                 slidePosY:0,
                 slidePosX:0,
                 registeredBoxes:[],
-                unit:300
+                unit:300,
+                images:[]
             }
         },
         methods:{
