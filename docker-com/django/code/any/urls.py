@@ -16,7 +16,8 @@ Including another URLconf
 from django.conf.urls import include,url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
-
+from django.conf.urls.static import static
+from any import settings
 from .views import index
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,3 +28,7 @@ urlpatterns = [
 urlpatterns += [
     url(r'^first/', include('first.urls')),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
