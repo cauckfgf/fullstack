@@ -15,4 +15,5 @@ import sys, urllib2, json
 @csrf_exempt
 # @login_required(login_url="/login/")
 def index(request):
-    return render_to_response('index.html')
+    # return render_to_response('index.html')
+    return render(request, 'index.html',locals())
