@@ -1,4 +1,4 @@
-upstream django-app {
+upstream django-app-ip {
     server django:8000;
 }
 server {
@@ -8,7 +8,7 @@ server {
 	#ssl on;
 	error_log /var/log/nginx/api-dev.error.log;
 	location / {
-		proxy_pass 		http://django-app;
+		proxy_pass 		http://django-app-ip;
 		proxy_set_header 	Host $host;
 		proxy_set_header 	X-Real-IP $remote_addr;
 		proxy_set_header	X-Forwarded-Proto https;
