@@ -5,3 +5,4 @@
 !.gitignore
 
 
+docker run -d --name="django_debug" -v /root/fullstack/docker-com/django/code:/app dockercom_django sh
