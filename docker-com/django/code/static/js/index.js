@@ -28,22 +28,34 @@ function initVue() {
                 </i-col>
             </Row>`,
         created(){
-            this.Box(-2,2,'/static/image/2689.jpg');
-            this.Box(-1,2,'/static/image/2690.jpg');
-            this.Box(0,2,'/static/image/2691.jpg');
-            this.Box(1,2,'/static/image/2692.jpg');
-            this.Box(2,2,'/static/image/2693.jpg');
-            this.Box(3,2,'/static/image/2694.jpg');
-            this.Box(4,2,'/static/image/2695.jpg');
-            this.Box(5,2,'/static/image/2696.jpg');
-            this.Box(2,-2,'/static/image/2697.jpg');
-            this.Box(2,-1,'/static/image/2698.jpg');
-            this.Box(2,0,'/static/image/2699.jpg');
-            this.Box(2,1,'/static/image/2700.jpg');
-            this.Box(2,2,'/static/image/2701.jpg');
-            this.Box(2,3,'/static/image/2702.jpg');
-            this.Box(2,4,'/static/image/2703.jpg');
-            this.Box(2,5,'/static/image/2704.jpg');
+            var self=this;
+            $.ajax("/first/rest/file/").done(res=>{
+                var len = parseInt(res.results.length/2);
+                for(var i in res.results){
+                    if(i<len){
+                        self.Box(i-len+2,2,res.results[i].file)
+                    }else{
+                        self.Box(2,len-i+2,res.results[i].file)
+                    }
+                    
+                }
+            })
+            // this.Box(-2,2,'/static/image/2689.jpg');
+            // this.Box(-1,2,'/static/image/2690.jpg');
+            // this.Box(0,2,'/static/image/2691.jpg');
+            // this.Box(1,2,'/static/image/2692.jpg');
+            // this.Box(2,2,'/static/image/2693.jpg');
+            // this.Box(3,2,'/static/image/2694.jpg');
+            // this.Box(4,2,'/static/image/2695.jpg');
+            // this.Box(5,2,'/static/image/2696.jpg');
+            // this.Box(2,-2,'/static/image/2697.jpg');
+            // this.Box(2,-1,'/static/image/2698.jpg');
+            // this.Box(2,0,'/static/image/2699.jpg');
+            // this.Box(2,1,'/static/image/2700.jpg');
+            // this.Box(2,2,'/static/image/2701.jpg');
+            // this.Box(2,3,'/static/image/2702.jpg');
+            // this.Box(2,4,'/static/image/2703.jpg');
+            // this.Box(2,5,'/static/image/2704.jpg');
         },
         data(){
             return {
