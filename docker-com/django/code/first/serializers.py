@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 import os
-from models import *
+from .models import *
 
 class FileSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
