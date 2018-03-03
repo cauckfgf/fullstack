@@ -1,3 +1,3 @@
 FROM kstromeiraos/django-rest-framework 
-CMD python manage.py runserver 0.0.0.0:80
+ENTRYPOINT ["runserver", "0.0.0.0:80"]
 
