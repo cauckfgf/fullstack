@@ -18,13 +18,13 @@ function initVue() {
                         <div v-for="item in this.registeredBoxes" class="box" :style="item.style" :data-pos="item.datapos">
                             <img :src="item.img"></img>
                         </div>
+			<div>
+                            <Button type="primary" @click="move('top')" shape="circle" icon="arrow-up-a" style="margin:5px"></Button>
+                            <Button type="primary" @click="move('bottom')" shape="circle" icon="arrow-down-a" style="margin:5px"></Button>
+                            <Button type="primary" @click="move('right')" shape="circle" icon="arrow-right-a" style="margin:5px"></Button>
+                            <Button type="primary" @click="move('left')" shape="circle" icon="arrow-left-a" style="margin:5px"></Button>
+                        </div>
                     </figure>
-                    <nav id="multiSlideNav" class="multiSlideNav">
-                      <a href="#" @click="move('top')" id="top" class="navButton"><</a>
-                      <a href="#" @click="move('bottom')" id="bottom" class="navButton">></a>
-                      <a href="#" @click="move('left')" id="left" class="navButton"><</a>
-                      <a href="#" @click="move('right')" id="right" class="navButton">></a>
-                    </nav>
                 </i-col>
             </Row>`,
         created(){
@@ -33,9 +33,9 @@ function initVue() {
                 var len = parseInt(res.results.length/2);
                 for(var i in res.results){
                     if(i<len){
-                        self.Box(i-len+2,2,res.results[i].file)
+                        self.Box(i-len+5,2,res.results[i].file)
                     }else{
-                        self.Box(2,len-i+2,res.results[i].file)
+                        self.Box(2,len-i+5,res.results[i].file)
                     }
                     
                 }
@@ -62,7 +62,7 @@ function initVue() {
                 slidePosY:0,
                 slidePosX:0,
                 registeredBoxes:[],
-                unit:160
+                unit:300
             }
         },
         methods:{
