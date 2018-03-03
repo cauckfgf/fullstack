@@ -19,10 +19,10 @@ function initVue() {
                             <img :src="item.img"></img>
                         </div>
 			<div>
-                            <Button type="primary" @click="move('top')" shape="circle" icon="arrow-up-a" style="margin:5px"></Button>
-                            <Button type="primary" @click="move('bottom')" shape="circle" icon="arrow-down-a" style="margin:5px"></Button>
-                            <Button type="primary" @click="move('right')" shape="circle" icon="arrow-right-a" style="margin:5px"></Button>
-                            <Button type="primary" @click="move('left')" shape="circle" icon="arrow-left-a" style="margin:5px"></Button>
+                            <Button size="large" type="primary" @click="move('top')" shape="circle" icon="arrow-up-a" style="margin:5px"></Button>
+                            <Button size="large" type="primary" @click="move('bottom')" shape="circle" icon="arrow-down-a" style="margin:5px"></Button>
+                            <Button size="large" type="primary" @click="move('right')" shape="circle" icon="arrow-right-a" style="margin:5px"></Button>
+                            <Button size="large" type="primary" @click="move('left')" shape="circle" icon="arrow-left-a" style="margin:5px"></Button>
                         </div>
                     </figure>
                 </i-col>

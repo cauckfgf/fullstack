@@ -7,7 +7,7 @@ body {
     width: 940px;
     height: 940px;
     position: relative;
-    margin: 100px auto 0;
+    margin: auto;
     overflow: hidden;
     -webkit-perspective: 300px;
 }
@@ -107,4 +107,11 @@ body {
 }
 .navButton#right {
     right:0;
+}
+.ivu-btn-large{
+    width: 100px!important;
+    height: 100px!important;
+    padding: 0;
+    font-size: 80px!important;
+    line-height: 80px;
 }
