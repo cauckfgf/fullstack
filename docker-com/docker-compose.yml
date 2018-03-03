@@ -27,8 +27,8 @@ services:
     restart: always
     container_name: django
     privileged: true
-    environment:
-      project: any
+    # environment:
+    #   project: any
     volumes:
      - /root/fullstack/docker-com/django/code:/app
   nginx-host:
