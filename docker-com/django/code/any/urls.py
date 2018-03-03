@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
+from .views import index
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', RedirectView.as_view(url='/index/')),
+    url(r'^index/$', index_view),
+]
+
+urlpatterns += [
+    url(r'^first/', include('first.urls')),
 ]
