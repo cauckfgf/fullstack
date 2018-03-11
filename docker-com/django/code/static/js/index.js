@@ -17,110 +17,89 @@
 //                         </div>
 //                     </figure>
 function initVue() {
+    const routes = [
+      { path: '/block', component: Block },
+      { path: '/docker', component: Docker },
+    ]
+    const router = new VueRouter({
+      routes // （缩写）相当于 routes: routes
+    })
     _app = new Vue({
         el:"#app",
+        router,
         components:{
             vueimage: vueImages.default
         },
         template:`
-            <Row>
-                <i-col :md="24" :sm="24" style="">
-                    
-                    <vueimage :imgs="images"></vueimage>
-                </i-col>
-            </Row>`,
+            <div class="layout">
+                <Layout style="height: 100vh;">
+                    <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
+                        <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuclick">
+                            <MenuItem name="block">
+                                <Icon type="ios-navigate"></Icon>
+                                <span>区块链</span>
+                            </MenuItem>
+                            <MenuItem name="docker">
+                                <Icon type="search"></Icon>
+                                <span>Docker</span>
+                            </MenuItem>
+                            <MenuItem name="vue">
+                                <Icon type="settings"></Icon>
+                                <span>Vue</span>
+                            </MenuItem>
+                        </Menu>
+                    </Sider>
+                    <Layout>
+                        <Header :style="{padding: 0}" class="layout-header-bar">
+                            <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '20px 20px 0'}" type="navicon-round" size="24"></Icon>
+                        </Header>
+                        <Content :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
+                            // <router-link to="/block">Go to block</router-link>
+                            // <router-link to="/docker">Go to docker</router-link>
+                            <router-view></router-view>
+                        </Content>
+                    </Layout>
+                </Layout>
+            </div>`,
         created(){
             var self=this;
-            $.ajax("/first/rest/file/").done(res=>{
-                var len = parseInt(res.results.length/2);
-                for(var i in res.results){
-                    if(i<len){
-                        self.Box(i-len+5,2,res.results[i].file)
-                    }else{
-                        self.Box(2,len-i+5,res.results[i].file)
-                    }
-                    self.images.push({
-                        imageUrl:res.results[i].file,
-                        caption: `<a href="#">Photo by ${i}</a>`
-                    });
-                    
-                }
-            })
-            // this.Box(-2,2,'/static/image/2689.jpg');
-            // this.Box(-1,2,'/static/image/2690.jpg');
-            // this.Box(0,2,'/static/image/2691.jpg');
-            // this.Box(1,2,'/static/image/2692.jpg');
-            // this.Box(2,2,'/static/image/2693.jpg');
-            // this.Box(3,2,'/static/image/2694.jpg');
-            // this.Box(4,2,'/static/image/2695.jpg');
-            // this.Box(5,2,'/static/image/2696.jpg');
-            // this.Box(2,-2,'/static/image/2697.jpg');
-            // this.Box(2,-1,'/static/image/2698.jpg');
-            // this.Box(2,0,'/static/image/2699.jpg');
-            // this.Box(2,1,'/static/image/2700.jpg');
-            // this.Box(2,2,'/static/image/2701.jpg');
-            // this.Box(2,3,'/static/image/2702.jpg');
-            // this.Box(2,4,'/static/image/2703.jpg');
-            // this.Box(2,5,'/static/image/2704.jpg');
         },
         data(){
             return {
-                slidePosY:0,
-                slidePosX:0,
-                registeredBoxes:[],
-                unit:300,
-                images:[]
+                isCollapsed: false
             }
         },
         methods:{
-            move(dir){
-                if(dir=='top'&&this.slidePosY>-3){
-                    this.slide('Y',-1);
-                }else if(dir=='bottom'&&this.slidePosY<4){
-                    this.slide('Y',1);
-                }else if(dir=='left'&&this.slidePosX>-3){
-                    this.slide('X',-1);
-                }else if(dir=='right'&&this.slidePosY<4){
-                    this.slide('X',1);
-                }
+            collapsedSider () {
+                this.$refs.side1.toggleCollapse();
             },
-            Box(posX,posY,img){
-                var item = {style:{},pos:{X:posX,Y:posY}}
-                item.style.left = (posX*this.unit)-this.unit+'px';
-                item.style.top = (posY*this.unit)-this.unit+'px';
-                item.datapos = posX.toString()+posY.toString()
-                item.img = img
-                this.registeredBoxes.push(item);
+            menuclick(name){
+                router.push({ path: name })
+                // // 字符串
+                // router.push('home')
+
+                // // 对象
+                // router.push({ path: 'home' })
+
+                // // 命名的路由
+                // router.push({ name: 'user', params: { userId: 123 }})
+
+                // // 带查询参数，变成 /register?plan=private
+                // router.push({ path: 'register', query: { plan: 'private' }})
+            }
+        },
+        computed: {
+            rotateIcon () {
+                return [
+                    'menu-icon',
+                    this.isCollapsed ? 'rotate-icon' : ''
+                ];
             },
-            setPosition(item,axis,val){
-                item.pos[axis] = val;
-                if(axis == 'X'){
-                    item.style.left  = (item.pos[axis]*this.unit)-this.unit+'px';
-                }else if(axis == 'Y'){
-                    item.style.top   = (item.pos[axis]*this.unit)-this.unit+'px';
-                }
-                item.datapos= item.pos.X.toString()+item.pos.Y.toString()
-            },
-            slide(axis,dir){
-                var len = this.registeredBoxes.length;
-                
-                if(axis == 'Y'){
-                    for(var i=0; i<len; i++){
-                        if(this.registeredBoxes[i].pos['X']=='2'){
-                            this.setPosition(this.registeredBoxes[i],axis,this.registeredBoxes[i].pos['Y']+(1*dir))
-                            // this.registeredBoxes[i].setPosition(axis,this.registeredBoxes[i].pos['Y']+(1*dir));
-                        }
-                    }
-                    this.slidePosY = this.slidePosY+dir;
-                }else if(axis == 'X'){
-                    for(var i=0; i<len; i++){
-                        if(this.registeredBoxes[i].pos['Y']=='2'){
-                            this.setPosition(this.registeredBoxes[i],axis,this.registeredBoxes[i].pos['X']+(1*dir));
-                            // this.registeredBoxes[i].setPosition(axis,this.registeredBoxes[i].pos['X']+(1*dir));
-                        }
-                    }
-                    this.slidePosX = this.slidePosX+dir;
-                }
+            menuitemClasses () {
+                return [
+                    'menu-item',
+                    this.isCollapsed ? 'collapsed-menu' : ''
+                ]
             }
         },
         mounted(){

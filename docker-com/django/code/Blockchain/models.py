@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-
+from django import core
 # Create your models here.
 
 import time, hashlib, json
@@ -33,16 +33,56 @@ class Block(models.Model):
     time = models.DateTimeField(auto_now=True)
     proof = models.CharField(max_length=64, verbose_name='工作量证明')
     previous_hash = models.CharField(max_length=128, verbose_name='区块的Hash值')
-    transactions = models.ManyToManyField(Transactions)
+    transactions = models.ManyToManyField(Transactions,null=True,blank=True,related_name="Block")
 
-    @staticmethod
-    def hash(block):
+    def save(self, *args, **kwargs):
+        try:
+            latest = Block.objects.latest('id')
+        except:
+            latest = Block.objects.create(proof='root',previous_hash='root')
+        self.previous_hash = latest.hash()
+
+        if self.valid_proof(latest.proof, self.proof):
+            return super(Block,self).save(*args, **kwargs)
+        else:
+            raise core.exceptions.SuspiciousOperation(u'工作量无效')
+
+    def tojson(self):
+        return eval(core.serializers.serialize('json',[self])[1:-1])
+
+    def hash(self):
         # 生成块的 SHA-256 hash值
         # :param block: <dict> Block
         # :return: <str>
         # We must make sure that the Dictionary is Ordered, or we'll have inconsistent hashes
-        block_string = json.dumps(block, sort_keys=True).encode()
+        block_string = json.dumps(self.tojson(), sort_keys=True).encode()
         return hashlib.sha256(block_string).hexdigest()
+
+    def proof_of_work(self, last_proof):
+        """
+        简单的工作量证明:
+         - 查找一个 p' 使得 hash(pp') 以4个0开头
+         - p 是上一个块的证明,  p' 是当前的证明
+        :param last_proof: <int>
+        :return: <int>
+        """
+        proof = 0
+        while self.valid_proof(last_proof, proof) is False:
+            proof += 1
+        return proof
+
+    @staticmethod
+    def valid_proof(last_proof, proof):
+        return True
+        # 验证证明: 是否hash(last_proof, proof)以4个0开头?
+        # :param last_proof: <int> Previous Proof
+        # :param proof: <int> Current Proof
+        # :return: <bool> True if correct, False if not.
+        # guess = f'{last_proof}{proof}'.encode()
+        # guess = ('%s%s'%(last_proof,proof)).encode()
+        # guess_hash = hashlib.sha256(guess).hexdigest()
+        # return guess_hash[:4] == "0000"
+       # return ((int(last_proof)+int(proof))/2)%3==0 and proof > last_proof
 
 class Blockchain(object):
     """docstring for """

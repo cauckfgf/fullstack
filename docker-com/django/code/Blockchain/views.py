@@ -8,11 +8,19 @@ from django_filters.rest_framework import DjangoFilterBackend
 import rest_framework_filters
 from .serializers import *
 
+class TransactionsFilter(rest_framework_filters.FilterSet):
+    class Meta:
+        model = Transactions
+        fields = {
+            'Block__id': ['exact'],
+        }
+
 class TransactionsSet(viewsets.ModelViewSet):
     """docstring for ClassName"""
     queryset = Transactions.objects.all()
     serializer_class = TransactionsSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    filter_class = TransactionsFilter
 
 
 
