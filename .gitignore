@@ -1,6 +1,5 @@
 .*
 *.pyc
 *uwsgi.ini
-*settings.py
 !.gitignore
 

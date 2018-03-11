@@ -27,6 +27,7 @@ urlpatterns = [
 
 urlpatterns += [
     url(r'^first/', include('first.urls')),
+    url(r'^blockchain/', include('Blockchain.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
