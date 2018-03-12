@@ -36,12 +36,13 @@ class Block(models.Model):
     transactions = models.ManyToManyField(Transactions,null=True,blank=True,related_name="Block")
 
     def save(self, *args, **kwargs):
+        if self.id:
+            return super(Block,self).save(*args, **kwargs)
         try:
             latest = Block.objects.latest('id')
         except:
             latest = Block.objects.create(proof='root',previous_hash='root')
         self.previous_hash = latest.hash()
-
         if self.valid_proof(latest.proof, self.proof):
             return super(Block,self).save(*args, **kwargs)
         else:
