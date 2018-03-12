@@ -108,7 +108,8 @@ const Block = {
                             url: '/blockchain/rest/transactions/',
                             data: {
                                 sender:'system',
-                                recipient:self.user
+                                recipient:self.user,
+                                amount:1,
                             },
                             method: 'post'
                         }).then( o => {
