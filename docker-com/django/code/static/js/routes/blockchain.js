@@ -104,7 +104,7 @@ const Block = {
                                 self.$Message.warning('不写名字不作统计')
                                 return
                             }
-                            $.ajax({
+                            ajax({
                                 url: '/blockchain/rest/transactions/',
                                 data: {
                                     sender:'system',
@@ -124,59 +124,7 @@ const Block = {
             }).catch(error=>{
                 self.$Message.error('算的不对')
             })
-            /*$.ajax({
-                url:'/blockchain/rest/block/',
-                data:{
-                    proof:`${this.p_new}`,
-                },
-                method:'post',
-                success:(res)=>{
-                    var block = res.data;
-                    self.$Modal.confirm({
-                        title:'恭喜你，算对了，系统将给您一个系统币',
-                        render:(h,params) => {
-                                return h('Input',
-                                    {
-                                        props: {
-                                        },
-                                        model: {
-                                            value: self.user,
-                                            callback: (value) => {
-                                                self.user = value;
-                                            }
-                                        }
-                                    }
-                                );
-                        },
-                        onOk:()=>{
-                            if(self.user==''){
-                                self.$Message.warning('不写名字不作统计')
-                                return
-                            }
-                            ajax({
-                                url: '/blockchain/rest/transactions/',
-                                data: {
-                                    sender:'system',
-                                    recipient:self.user
-                                },
-                                method: 'post'
-                            }).then( o => {
-                                block.transactions.push(`/blockchain/rest/transactions/${o.data.id}/`)
-                                ajax.put(block.url,block).then(res=>{
-                                        self.$Message.success('交易成功')
-                                })
-                                
-                            });
-                        },
 
-                    })
-                },
-                error:(Exception)=>{
-                    self.$Message.error('算的不对')
-                }
-               
-
-            })*/
         }
     },
     computed: {
