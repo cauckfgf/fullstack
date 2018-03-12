@@ -114,7 +114,8 @@ const Block = {
                         }).then( o => {
                             block.transactions.push(o.data.url)
                             ajax.put(block.url,block).then(res=>{
-                                    self.$Message.success('交易成功')
+                                self.block.push(res.data)
+                                self.$Message.success('交易成功')
                             })
                             
                         });
