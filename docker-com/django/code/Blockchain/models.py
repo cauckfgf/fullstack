@@ -73,7 +73,7 @@ class Block(models.Model):
 
     @staticmethod
     def valid_proof(last_proof, proof):
-        return True
+        # return True
         # 验证证明: 是否hash(last_proof, proof)以4个0开头?
         # :param last_proof: <int> Previous Proof
         # :param proof: <int> Current Proof
@@ -82,7 +82,7 @@ class Block(models.Model):
         # guess = ('%s%s'%(last_proof,proof)).encode()
         # guess_hash = hashlib.sha256(guess).hexdigest()
         # return guess_hash[:4] == "0000"
-       # return ((int(last_proof)+int(proof))/2)%3==0 and proof > last_proof
+       return ((int(last_proof)+int(proof))/2)%3==0 and proof > last_proof
 
 class Blockchain(object):
     """docstring for """

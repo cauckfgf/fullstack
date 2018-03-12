@@ -16,6 +16,11 @@
 //                             <Button size="large" type="primary" @click="move('left')" shape="circle" icon="arrow-left-a" style="margin:5px"></Button>
 //                         </div>
 //                     </figure>
+ajax = axios.create({
+    // baseURL: ajaxUrl,
+    timeout: 30000,
+    headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
+});
 function initVue() {
     const routes = [
       { path: '/block', component: Block },

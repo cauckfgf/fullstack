@@ -113,12 +113,7 @@ const Block = {
                                 method: 'post'
                             }).then( o => {
                                 block.transactions.push(`/blockchain/rest/transactions/${o.id}/`)
-                                $.ajax({
-                                    url:block.url,
-                                    data:JSON.parse(JSON.stringify(block)),
-                                    method:'put',
-                                    contentType: 'application/json',
-                                }).done(res=>{
+                                ajax.put(block.url,block).then(res=>{
                                         self.$Message.success('交易成功')
                                 })
                                 
