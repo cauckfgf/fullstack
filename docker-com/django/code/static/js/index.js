@@ -25,6 +25,7 @@ function initVue() {
     const routes = [
       { path: '/block', component: Block },
       { path: '/docker', component: Docker },
+      { path: '/vue', component: v_model },
     ]
     const router = new VueRouter({
       routes // （缩写）相当于 routes: routes
