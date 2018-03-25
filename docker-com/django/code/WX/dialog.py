@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import urllib,urllib2
+import urllib
 import sys
 import json
 
@@ -15,8 +15,8 @@ class Tuling(object):
     def v1(self,value):
         raw_TULINURL = "http://www.tuling123.com/openapi/api?key=%s&info=" % self.API_KEY
         TULINURL = "%s%s" % (raw_TULINURL,urllib2.quote(value.encode("utf-8")))
-        req = urllib2.Request(url=TULINURL)
-        result = urllib2.urlopen(req).read()
+        #req = urllib2.Request(url=TULINURL)
+        result = urllib.request.urlopen(TULINURL).read()
         hjson=json.loads(result)
         print( u'图灵回复v1',hjson)
         return hjson
