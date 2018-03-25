@@ -46,61 +46,6 @@ class Tuling(object):
         print u'图灵回复v2',hjson
         return hjson
 
-class DialogMachine(StateMachine):
-    states = set(list(robotStr.objects.all().values_list("curState",flat=True)) + list(robotStr.objects.all().values_list("nextState",flat=True)))
-    for i in states:
-        if i:
-            s = "%s = State('%s')"%(i,i)
-            exec(s)
-    start = State('start', initial=True)
-    #发起维修单
-    # space = State('space')#询问位置
-    # device = State('device')#询问设备
-    # submit = State('submit')#询问确认提交
-    # html = State('html')
-    # tuling = State('tuling')
 
-    again = False
-    # go_space = start.to(space)
-    # go_device = space.to(device)
-    # go_submit = device.to(submit)
-    go_start = start.to(start)
-    sim = Similar()
-    tl = Tuling()
-    #页面导航
-    def __init__(self):
-        super(DialogMachine, self).__init__()
-
-    def to(self,m):
-        self.sim.option(m,'status')
-        most = self.sim.getmostsimllar()
-        if most['t']>30:
-            # 不同分支 tuling 导航 发起维修单
-            self.current_state_value = most['nextState']
-            self.again = False
-            rdata = {'obj':most}
-
-        else:
-            #根据当前状态读取匹配
-            rdata = self.do(m)
-        return rdata
-
-    def do(self,m):
-        rdata = {}
-        most = None
-        if self.current_state==self.tuling:
-            most = self.tl.v1(m)
-        else:
-            self.sim.option(m,self.current_state_value)
-            most = self.sim.getmostsimllar()
-            if most['t']>20:
-                self.again = False
-                self.current_state_value = most['nextState']
-            else:
-                self.again = True
-
-        rdata['current_state']= self.current_state_value
-        rdata['obj'] = most
-        return rdata
 
 
