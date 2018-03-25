@@ -18,7 +18,7 @@ class Tuling(object):
         req = urllib2.Request(url=TULINURL)
         result = urllib2.urlopen(req).read()
         hjson=json.loads(result)
-        print u'图灵回复v1',hjson
+        print( u'图灵回复v1',hjson)
         return hjson
 
     def v2(self,value):
@@ -43,7 +43,7 @@ class Tuling(object):
         # response = opener.open(url, data)
         result = response.read() 
         hjson=json.loads(result)
-        print u'图灵回复v2',hjson
+        print( u'图灵回复v2',hjson)
         return hjson
 
 
