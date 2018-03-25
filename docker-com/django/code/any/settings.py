@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'first',
-    'Blockchain'
+    'Blockchain',
+    'WX'
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
