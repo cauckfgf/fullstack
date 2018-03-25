@@ -54,7 +54,7 @@ def wx(request):
             
             if res['code']==100000:
                 replyMsg = AllMsg(toUser, fromUser, res['text'])
-                print replyMsg.Txt()
+                #print replyMsg.Txt()
                 return HttpResponse(replyMsg.Txt())
             elif res['code']==200000:
                 # replyMsg = AllMsg(toUser, fromUser, res['text'],picurl=res['url'])
@@ -62,7 +62,7 @@ def wx(request):
                 # return HttpResponse(replyMsg.ImgTxt())
                 txt = "%s<a href='%s'>打开页面</a>"%(res['text'],res['url'])
                 replyMsg = AllMsg(toUser, fromUser, txt)
-                print replyMsg.Txt()
+                print(replyMsg.Txt())
                 return HttpResponse(replyMsg.Txt())
 
         elif msg_type == 'image':
