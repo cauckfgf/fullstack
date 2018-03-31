@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from django.conf.urls.static import static
 from any import settings
-from .views import index
+from .views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url='/index/')),
     url(r'^index/$', index),
+    url(r'^media/$', taobaoindex),
 ]
 
 urlpatterns += [
@@ -31,6 +32,9 @@ urlpatterns += [
     url(r'^weixin/', include('WX.urls'))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = page_not_found
+handler500 = page_error
 
 
 

@@ -17,3 +17,24 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 def index(request):
     # return render_to_response('index.html')
     return render(request, 'index.html',locals())
+
+@csrf_exempt
+# @login_required(login_url="/login/")
+def taobaoindex(request):
+    # return render_to_response('index.html')
+    return render(request, 'taobaoindex.html',locals())
+
+
+@csrf_exempt
+def page_not_found(request):
+    if request.path[-1]=='/':
+        return render_to_response('error/error_404.html')
+    else:
+        return HttpResponseRedirect(request.path+'/')
+ 
+@csrf_exempt
+def page_error(request):
+    if request.path[-1]=='/':
+        return render_to_response('error/error_500.html')
+    else:
+        return HttpResponseRedirect(request.path+'/')
