@@ -24,14 +24,13 @@ function initVue() {
                           <div id="tt-ds1" class="tt-global" tt-type="alkemia/items">
                             <div class="tt-item" tt-data="items">
                               <div class="tt-pic">
-                                <a href="item.auctionUrl" target="_blank" tt-data="ds_img"><img src="item.pictUrl"></a>
+                                <a :href="item.auctionUrl" target="_blank" tt-data="ds_img"><img :src="item.pictUrl" height="200" width="200"></a>
                               </div>
                               <ul class="tt-attr-l">
-                                <li class="tt-title"><a href="item.auctionUrl" target="_blank">item.title</a></li>
+                                <li class="tt-title"><a :href="item.auctionUrl" target="_blank"><span v-html="item.title">{{item.title}}</span></a></li>
                                 <li tt-if="ds_istmall" class="tt-tmall"></li>
                                 <li class="tt-seller">
-                                  <a href="{{ds_shop_click}}" class="tt-seller-name" target="_blank">{{ds_nick}}</a>
-                                  <a href="http://www.taobao.com/webww/?ver=1&touid=cntaobao{{{ds_nick}}}&siteid=cntaobao&status=1&portalId=&gid=&itemsId="
+                                  <a href="http://www.taobao.com/webww/?ver=1&touid=cntaobao{{item.nick}}&siteid=cntaobao&status=1&portalId=&gid=&itemsId="
                                      class="tt-ww-small" target="_blank">
                                      <img src="http://img02.taobaocdn.com/tps/i2/T1sJ3.XgNeXXX9g2ba-18-18.png">
                                   </a>
@@ -39,11 +38,11 @@ function initVue() {
                               </ul>
                               <ul class="tt-attr-r">
                                 <li class="tt-price">
-                                  <span class="tt-price-16"><i></i>{{ds_discount_price}}</span>
-                                  <span class="tt-price-12" tt-if="ds_reserve_price"><i></i>{{ds_reserve_price}}</span>
+                                  <span class="tt-price-16"><i></i>{{item.reservePrice}}</span>
+                                  <span class="tt-price-12" tt-if="ds_reserve_price"><i></i>{{item.reservePrice}}</span>
                                 </li>
-                                <li class="tt-postfee">邮费：{{ds_postfee}}</li>
-                                <li class="tt-sale">销量：{{ds_sell}}件</li>
+                                <li class="tt-postfee">邮费：包邮</li>
+                                <li class="tt-sale">销量：{{item.biz30day}}件</li>
                               </ul>
                             </div>
                           </div>
