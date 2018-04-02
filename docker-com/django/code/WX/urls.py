@@ -5,6 +5,8 @@ from .views import *
 
 urlpatterns = [
     url(r'^wx/$', wx),
+    url(r'^ylg/$', ylg),
+
 ]
 # import platform
 # if platform.system()=='Windows':
