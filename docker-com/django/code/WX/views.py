@@ -141,7 +141,9 @@ class AllMsg(object):
 
 @csrf_exempt
 def ylg(request):
-    ylg = "http://pub.alimama.com/items/search.json?q=%E5%8E%8B%E5%8A%9B%E9%94%85%201%E4%BA%BA-2%E4%BA%BA%20%E5%B0%8F%E5%9E%8B&_t=1522672038051&auctionTag=&perPageSize=50&shopTag=yxjh&t=1522672038054&_tb_token_=7e3334733150e&pvid=10_180.157.88.117_13571_1522672028149"
+    #ylg = "http://pub.alimama.com/items/search.json?q=%E5%8E%8B%E5%8A%9B%E9%94%85%201%E4%BA%BA-2%E4%BA%BA%20%E5%B0%8F%E5%9E%8B&_t=1522672038051&auctionTag=&perPageSize=50&shopTag=yxjh&t=1522672038054&_tb_token_=7e3334733150e&pvid=10_180.157.88.117_13571_1522672028149"
+    s = urllib.parse.quote('水杯')
+    ylg = "http://pub.alimama.com/items/search.json?q=%s"%(s)
     #req = urllib2.Request(url=TULINURL)
     result = urllib.request.urlopen(ylg).read()
     hjson=json.loads(result)
