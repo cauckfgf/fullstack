@@ -20,27 +20,30 @@ function initVue() {
         },
         template:`<div class="layout">
                   <Layout>
-                      <Header>
-                        <Menu mode="horizontal" theme="light" active-name="卫衣">
-                            <MenuItem name="卫衣" @on-select="choose">
+                        <Menu mode="horizontal" theme="light" active-name="卫衣" @on-select="choose">
+                            <MenuItem name="卫衣" >
                                 <Icon type="ios-paper"></Icon>
                                 卫衣
                             </MenuItem>
-                            <MenuItem name="卫衣" @on-select="choose">
+                            <MenuItem name="保温杯">
                                 <Icon type="ios-people"></Icon>
                                 保温杯
                             </MenuItem>
-                            <MenuItem name="卫衣" @on-select="choose">
+                            <MenuItem name="背包">
                                 <Icon type="settings"></Icon>
                                 背包
                             </MenuItem>
-                            <MenuItem name="卫衣" @on-select="choose">
+                            <MenuItem name="零食" >
                                 <Icon type="settings"></Icon>
                                 零食
                             </MenuItem>
                         </Menu>
-                      </Header>
                       <Content :style="{padding: '0 50px'}">
+			<Breadcrumb :style="{margin: '20px 0'}">
+                   		 <BreadcrumbItem>首页</BreadcrumbItem>
+                   		 <BreadcrumbItem>商场</BreadcrumbItem>
+                    		<BreadcrumbItem>all</BreadcrumbItem>
+                	</Breadcrumb>
                         <Row>
                            <Col :xs="4" :sm="4" :md="4" :lg="4" v-for="item in shangpin">
                               <div id="tt-box" tt-width="628" tt-height="100">
