@@ -26,6 +26,7 @@ function initVue() {
       { path: '/block', component: Block },
       { path: '/docker', component: Docker },
       { path: '/vue', component: v_model },
+      { path: '/threeD', component: threeD },
     ]
     const router = new VueRouter({
       routes // （缩写）相当于 routes: routes
@@ -52,6 +53,10 @@ function initVue() {
                             <MenuItem name="vue">
                                 <Icon type="settings"></Icon>
                                 <span>Vue</span>
+                            </MenuItem>
+                            <MenuItem name="threeD">
+                                <Icon type="settings"></Icon>
+                                <span>threeD</span>
                             </MenuItem>
                         </Menu>
                     </Sider>

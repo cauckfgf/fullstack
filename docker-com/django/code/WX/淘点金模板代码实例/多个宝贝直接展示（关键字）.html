@@ -1,0 +1,81 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>淘点金搜索模板</title>
+  <style type="text/css" id="tt-style">
+  .tt-global{font:12px/1.5 tahoma,arial,sans-serif;width:330px;height:250px;overflow:hidden;*zoom:1;padding:10px;color:#606060;text-align:left;background-color:#FFF;}
+  .tt-global span,.tt-global  a,.tt-global  img,.tt-global  ul,.tt-global  li,.tt-global  div{border:0;margin:0;padding:0;list-style:none;}
+  .tt-global a{font-size:12px;color:#000;text-decoration:none;}
+  .tt-global a:hover{color:#ff4e00;text-decoration:none;}
+  .tt-global .tt-hd{color:#999;margin-bottom:10px;line-height:1.2;}
+  .tt-global .tt-ft{text-align:right;border-top:1px dashed #ccc;padding-top:5px;}
+  .tt-global .tt-ft a{color:#999;}
+  .tt-global .tt-item{border-top:1px dashed #ccc;padding:10px 0;overflow:hidden;*zoom:1;}
+  .tt-global .tt-pic{background-color:#f5f5f5;float:left;margin-right:10px;width:80px;height:80px;}
+  .tt-global .tt-pic a{width:80px;height:80px;vertical-align:middle;text-align:center;display:table-cell;}
+  .tt-global .tt-pic img{vertical-align:middle;}
+  .tt-global .tt-attr{float: left;width:240px;}
+  .tt-global .tt-attr .tt-title{height:18px;overflow:hidden;}
+  .tt-global .tt-attr .tt-tmall{float:right;margin-top:4px;height:12px;width:83px;overflow:hidden;background:url(http://img04.taobaocdn.com/tps/i4/T1HFI3XeNdXXcJ3xfp-83-37.png);background-position:0 -25px;}
+  .tt-global .tt-attr .tt-seller .tt-seller-name{color:#606060;}
+  .tt-global .tt-attr .tt-seller .tt-seller-name:hover{color:#ff4e00;}
+  .tt-global .tt-attr .tt-ww-small{margin-left:10px;}
+  .tt-global .tt-attr .tt-ww-small img{vertical-align:top;}
+  .tt-global .tt-attr li{margin-bottom:10px;}
+  .tt-global .tt-attr .tt-seller{margin-bottom:0;}
+  .tt-global .tt-attr .tt-deal{float:right;margin-top:3px;}
+  .tt-global .tt-attr .tt-legend{float:right;margin-top:3px;}
+  .tt-global .tt-attr .tt-legend span{float:left;height:15px;width:14px;margin-left:10px;background:url(http://img01.taobaocdn.com/tps/i1/T1xtQ1XjleXXabccbg-20-137.png);}
+  .tt-global .tt-attr .tt-legend .tt-genuine{background-position:0 0;}
+  .tt-global .tt-attr .tt-legend .tt-cust{background-position:0 -17px;}
+  .tt-global .tt-attr .tt-legend .tt-exchange7{background-position:0 -38px;}
+  .tt-global .tt-attr .tt-legend .tt-post24{background-position:0 -77px;}
+  .tt-global .tt-attr .tt-price-16{color:#000;font-size:16px;margin-right:10px;padding-left:13px;position:relative;}
+  .tt-global .tt-attr .tt-price-12{color:#acacac;text-decoration:line-through;padding-left:9px;position:relative;}
+  .tt-global .tt-attr .tt-price-16 i,.tt-global .tt-attr .tt-price-12 i{background:url(http://img01.taobaocdn.com/tps/i1/T1xtQ1XjleXXabccbg-20-137.png);height:12px;width:8px;overflow:hidden;position:absolute;top:0;left:0;}
+  .tt-global .tt-attr .tt-price-16 i{background-position:0 -125px;top:4px;}
+  .tt-global .tt-attr .tt-price-12 i{background-position:0 -114px;height:9px;width:6px;top:3px;*top:7px;}
+  </style>
+</head>
+<body>
+
+<div id="tt-box" tt-width="350" tt-height="270">
+  <div id="tt-ds1" tt-count="2" class="tt-global" tt-type="alkemia/keywords">
+    <div class="tt-hd">亲，淘宝为您推荐了以下选购商品哦！</div>
+    <div tt-data="items[0,2]">
+      <div class="tt-item">
+        <div class="tt-pic">
+          <a href="{{ds_item_click}}" target="_blank" tt-data="ds_img"><img src="{{src}}_80x80.jpg"></a>
+        </div>
+        <ul class="tt-attr">
+          <li class="tt-title"><a href="{{ds_item_click}}" target="_blank">{{ds_title}}</a></li>
+          <li class="tt-price">
+            <span class="tt-deal">最近成交：{{ds_sell}}笔</span>
+            <span class="tt-price-16"><i></i>{{ds_discount_price}}</span>
+            <span class="tt-price-12"><i></i>{{ds_reserve_price}}</span>
+          </li>
+          <li class="tt-seller">
+            <div class="tt-legend">
+              <span tt-if="ds_genuine" class="tt-genuine" title="正品保障"></span>
+              <span tt-if="ds_cust" class="tt-cust" title="消费者保障"></span>
+              <span tt-if="ds_exchange7" class="tt-exchange7" title="7天退换货支持"></span>
+              <span tt-if="ds_post24" class="tt-post24" title="24小时发货"></span>
+            </div>
+            <a href="{{ds_shop_click}}" class="tt-seller-name" target="_blank">{{ds_nick}}</a>
+            <a href="http://www.taobao.com/webww/?ver=1&touid=cntaobao{{{ds_nick}}}&siteid=cntaobao&status=1&portalId=&gid=&itemsId="
+               class="tt-ww-small" target="_blank">
+               <img src="http://img02.taobaocdn.com/tps/i2/T1sJ3.XgNeXXX9g2ba-18-18.png">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="tt-ft" tt-data="style"><a href="{{ds_more}}" target="_blank">查看更多&gt;&gt;</a></div>
+  </div>
+</div>
+<script src="http://img01.daily.taobaocdn.net/L1/377/10001/sea.js" data-main="assets/tdk/dent"></script>
+</body>
+</html>

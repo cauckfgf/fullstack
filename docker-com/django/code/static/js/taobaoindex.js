@@ -39,11 +39,11 @@ function initVue() {
                             </MenuItem>
                         </Menu>
                       <Content :style="{padding: '0 50px'}">
-			<Breadcrumb :style="{margin: '20px 0'}">
-                   		 <BreadcrumbItem>首页</BreadcrumbItem>
-                   		 <BreadcrumbItem>商场</BreadcrumbItem>
-                    		<BreadcrumbItem>all</BreadcrumbItem>
-                	</Breadcrumb>
+                        <Breadcrumb :style="{margin: '20px 0'}">
+                          <BreadcrumbItem>首页</BreadcrumbItem>
+                          <BreadcrumbItem>商场</BreadcrumbItem>
+                          <BreadcrumbItem>all</BreadcrumbItem>
+                        </Breadcrumb>
                         <Row>
                            <Col :xs="4" :sm="4" :md="4" :lg="4" v-for="item in shangpin">
                               <div id="tt-box" tt-width="628" tt-height="100">
