@@ -43,6 +43,7 @@ class Block(models.Model):
         except:
             latest = Block.objects.create(proof='root',previous_hash='root')
         self.previous_hash = latest.hash()
+        print(latest.proof,self.proof)
         if self.valid_proof(latest.proof, self.proof):
             return super(Block,self).save(*args, **kwargs)
         else:
@@ -83,7 +84,8 @@ class Block(models.Model):
         # guess = ('%s%s'%(last_proof,proof)).encode()
         # guess_hash = hashlib.sha256(guess).hexdigest()
         # return guess_hash[:4] == "0000"
-       return ((int(last_proof)+int(proof))/2)%3==0 and proof > last_proof
+        a,b = int(last_proof),int(proof)
+        return ((a+b)/2)%3==0 and b > a
 
 class Blockchain(object):
     """docstring for """
