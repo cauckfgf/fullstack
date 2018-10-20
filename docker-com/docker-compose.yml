@@ -31,6 +31,16 @@ services:
     #   project: any
     volumes:
      - /root/fullstack/docker-com/django/code:/app
+
+  jha:
+    build : ./jha
+    restart: always
+    container_name: jha
+    privileged: true
+    # environment:
+    #   project: any
+    volumes:
+     - /root/fullstack/docker-com/jha/code:/app
   nginx-host:
     build: ./nginx
     restart: always
