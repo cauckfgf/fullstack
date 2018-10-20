@@ -49,4 +49,6 @@ services:
     links:
       - timedtask
       - django
+    volumes:
+      - /root/fullstack/jha:/var/www
     container_name: nginx-host
