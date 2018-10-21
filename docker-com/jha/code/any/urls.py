@@ -24,7 +24,6 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/index/')),
     url(r'^index/$', index),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-    url(r'^tinymce/', include('tinymce.urls')),
 ]
 
 urlpatterns += [
