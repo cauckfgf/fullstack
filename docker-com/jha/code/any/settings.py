@@ -155,7 +155,7 @@ CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor"
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 # CKEDITOR_JQUERY_URL = 'js/jquery-3.2.1.min.js'
 CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
-CKEDITOR_IMAGE_BACKEND = 'pillow'
+# CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_CONFIGS = {
     'default': {
         'language': 'zh-cn',
