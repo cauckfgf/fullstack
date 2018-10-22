@@ -1,114 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="M_Adnan">
-<title>Home</title>
-
-<!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
-<link rel="stylesheet" type="text/css" href="/static/rs-plugin/rs-plugin/css/settings.css" media="screen" />
-
-<!-- Bootstrap Core CSS -->
-<link href="/static/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Custom CSS -->
-<link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link href="/static/css/ionicons.min.css" rel="stylesheet">
-<link href="/static/css/main.css" rel="stylesheet">
-<link href="/static/css/style.css" rel="stylesheet">
-<link href="/static/css/responsive.css" rel="stylesheet">
-
-<!-- COLORS -->
-<link rel="stylesheet" id="color" href="/static/css/default.css">
-
-<!-- JavaScripts -->
-<script src="/static/js/modernizr.js"></script>
-
-<!--<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,100' rel='stylesheet' type='text/css'>--->
-
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-
-<!-- Wrap -->
-<div id="wrap"> 
-  
-  <!-- header -->
-  <header class="header-normal">
-    <div class="sticky">
-      <div class="container"> 
-        <!-- Logo -->
-        <div class="logo"> <a href="index.html"><img class="img-responsive" src="/static/images/logo.png" alt="" ></a> </div>
-        
-        <!-- Navigation -->
-        <nav class="navbar webimenu"> 
-          <!-- MENU BUTTON RESPONSIVE -->
-          <div class="menu-toggle"> <i class="fa fa-bars"> </i> </div>
-          <!-- NAV -->
-          <ul class="nav ownmenu">
-            <li class="active"> <a href="index.html">首页</a>
-              
-            </li>
-            <li> <a href="about.html">关于我们</a>
-              <ul class="dropdown animated-3s fadeIn">
-                <li> <a href="index.html">公司简介</a> </li>
-                <li> <a href="index-1.html">领导致辞</a> </li>
-                <li> <a href="index-1.html">组织架构</a> </li>
-                <li> <a href="index-1.html">发展历程</a> </li>
-                <li> <a href="index-1.html">资质荣誉</a> </li>
-              </ul>
-            </li>
-            <li> <a href="services.html">新闻资讯</a> 
-              <ul class="dropdown animated-3s fadeIn">
-                <li> <a href="index.html">公司新闻</a> </li>
-                <li> <a href="index-1.html">行业动态</a> </li>
-              </ul>
-            </li>
-            <li> <a href="portfolio.html"> 业务范围 </a>
-              <ul class="dropdown animated-3s fadeIn">
-                <li> <a href="portoflio_1.html">机场内部设备</a> </li>
-                <li> <a href="portoflio_2.html">航站楼</a> </li>
-                <li> <a href="portoflio_3.html">跑道灯光</a> </li>
-                <li> <a href="portoflio_3.html">雷达通信</a> </li>
-              </ul>
-            </li>
-            <li> <a href="index.html">项目展示</a>
-              <ul class="dropdown animated-3s fadeIn">
-                <li> <a href="index.html">国内业绩</a> </li>
-                <li> <a href="index-1.html">国内工程</a> </li>
-                <li> <a href="about_1.html">国外工程</a> </li>
-              </ul>
-            </li>
-            <li> <a href="blog.html">企业文化</a> 
-              <ul class="dropdown animated-3s fadeIn">
-                <li> <a href="index.html">企业愿景</a> </li>
-                <li> <a href="index-1.html">社会责任</a> </li>
-                <li> <a href="about_1.html">员工风采</a> </li>
-              </ul>
-            </li>
-            <li> <a href="blog.html">人力资源</a> 
-              <ul class="dropdown animated-3s fadeIn">
-                <li> <a href="index.html">人才理念</a> </li>
-                <li> <a href="index-1.html">招聘信息</a> </li>
-                <li> <a href="about_1.html">员工风采</a> </li>
-              </ul>
-            </li>
-            <li> <a href="contact.html">联系我们</a> </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </header>
-  
+﻿{% extends "common.html" %}
+  {% block body %}
   <!--======= HOME MAIN SLIDER =========-->
   <section class="home-slider"> 
     <!-- Slider Loader -->
@@ -152,67 +43,6 @@
                 data-elementdelay="0.07" 
                 data-endelementdelay="0.1" 
                 data-endspeed="300" 
-                style="z-index: 6; font-size:70px; color:#1cd1aa; text-transform:uppercase; white-space: nowrap;">欢迎来到京航安 </div>
-            
-            <!-- LAYER NR. 3 -->
-            <div class="tp-caption sfb tp-resizeme letter-space-1" 
-                data-x="left" data-hoffset="0" 
-                data-y="center" data-voffset="70" 
-                data-speed="800" 
-                data-start="1800" 
-                data-easing="Power3.easeInOut" 
-                data-splitin="none" 
-                data-splitout="none" 
-                data-elementdelay="0.1" 
-                data-endelementdelay="0.1" 
-                data-endspeed="300" 
-                style="z-index: 7; font-size:18px;  font-style:italic; color:#fff; max-width: auto; max-height: auto; white-space: nowrap;">您将看到最专业的团队在做最专业的事情</div>
-            
-            <!-- LAYER NR. 4 -->
-            <div class="tp-caption lfb tp-resizeme" 
-                data-x="left" data-hoffset="0" 
-                data-y="center" data-voffset="150" 
-                data-speed="800" 
-                data-start="2200" 
-                data-easing="Power3.easeInOut" 
-                data-elementdelay="0.1" 
-                data-endelementdelay="0.1" 
-                data-endspeed="300" 
-                data-scrolloffset="0"
-                style="z-index: 8;"><a href="#." class="btn margin-right-20">欢迎来到京航安</a> <a href="#." class="btn btn-white">联系我们</a> </div>
-          </li>
-          <!-- SLIDE  -->
-          <li data-transition="random" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" > 
-            <!-- MAIN IMAGE --> 
-            <img src="/static/images/slide-2.jpg"  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"> 
-            <!-- LAYERS --> 
-            
-            <!-- LAYER NR. 2 -->
-            <div class="tp-caption sfb font-bold tp-resizeme letter-space-4" 
-                data-x="left" data-hoffset="0" 
-                data-y="center" data-voffset="-80" 
-                data-speed="800" 
-                data-start="800" 
-                data-easing="Power3.easeInOut" 
-                data-splitin="words" 
-                data-splitout="none" 
-                data-elementdelay="0.07" 
-                data-endelementdelay="0.1" 
-                data-endspeed="300" 
-                style="z-index: 6; font-size:35px; color:#fff; text-transform:uppercase; white-space: nowrap;">欢迎来到京航安 </div>
-            
-            <!-- LAYER NR. 2 -->
-            <div class="tp-caption sfb font-bold tp-resizeme letter-space-3" 
-                data-x="left" data-hoffset="0" 
-                data-y="center" data-voffset="0" 
-                data-speed="800" 
-                data-start="1300" 
-                data-easing="Power3.easeInOut" 
-                data-splitin="words" 
-                data-splitout="none" 
-                data-elementdelay="0.07" 
-                data-endelementdelay="0.1" 
-                data-endspeed="300" 
                 style="z-index: 6; font-size:70px; color:#1cd1aa; text-transform:uppercase; white-space: nowrap;">欢迎来到京航安</div>
             
             <!-- LAYER NR. 3 -->
@@ -227,7 +57,7 @@
                 data-elementdelay="0.1" 
                 data-endelementdelay="0.1" 
                 data-endspeed="300" 
-                style="z-index: 7; font-size:18px;  font-style:italic; color:#fff; max-width: auto; max-height: auto; white-space: nowrap;">欢迎来到京航安</div>
+                style="z-index: 7; font-size:18px;  font-style:italic; color:#fff; max-width: auto; max-height: auto; white-space: nowrap;"></div>
             
             <!-- LAYER NR. 4 -->
             <div class="tp-caption lfb tp-resizeme" 
@@ -240,7 +70,70 @@
                 data-endelementdelay="0.1" 
                 data-endspeed="300" 
                 data-scrolloffset="0"
-                style="z-index: 8;"><a href="#." class="btn margin-right-20">详情</a> </div>
+                style="z-index: 8;"><a href="#." class="btn margin-right-20"> 做诚信企业</a><a href="#." class="btn margin-right-20">创精品工程</a>
+          </li>
+          <!-- SLIDE  -->
+          <li data-transition="random" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" > 
+            <!-- MAIN IMAGE --> 
+            <img src="/static/images/slide-2.jpg"  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"> 
+            <!-- LAYERS --> 
+            
+            <!-- LAYER NR. 2 -->
+            <div class="tp-caption sfr font-bold tp-resizeme letter-space-4" 
+                data-x="left" data-hoffset="0" 
+                data-y="center" data-voffset="-80" 
+                data-speed="800" 
+                data-start="800" 
+                data-easing="Power3.easeInOut" 
+                data-splitin="chars" 
+                data-splitout="none" 
+                data-elementdelay="0.07" 
+                data-endelementdelay="0.1" 
+                data-endspeed="300" 
+                style="z-index: 6; font-size:35px; color:#fff; text-transform:uppercase; white-space: nowrap;">感受科技的魅力</div>
+            
+            <!-- LAYER NR. 2 -->
+            <div class="tp-caption sfr font-bold tp-resizeme letter-space-3" 
+                data-x="left" data-hoffset="0" 
+                data-y="center" data-voffset="0" 
+                data-speed="800" 
+                data-start="1300" 
+                data-easing="Power3.easeInOut" 
+                data-splitin="chars" 
+                data-splitout="none" 
+                data-elementdelay="0.07" 
+                data-endelementdelay="0.1" 
+                data-endspeed="300" 
+                style="z-index: 6; font-size:70px; color:#1cd1aa; text-transform:uppercase; white-space: nowrap;">欢迎来到京航安 </div>
+            
+            <!-- LAYER NR. 3 -->
+            <div class="tp-caption sfb tp-resizeme letter-space-1" 
+                data-x="left" data-hoffset="0" 
+                data-y="center" data-voffset="70" 
+                data-speed="800" 
+                data-start="1800" 
+                data-easing="Power3.easeInOut" 
+                data-splitin="none" 
+                data-splitout="none" 
+                data-elementdelay="0.1" 
+                data-endelementdelay="0.1" 
+                data-endspeed="300" 
+                style="z-index: 7; font-size:18px;  font-style:italic; color:#fff; max-width: auto; max-height: auto; white-space: nowrap;"></div>
+            
+            <!-- LAYER NR. 4 -->
+            <div class="tp-caption lfb tp-resizeme" 
+                data-x="left" data-hoffset="0" 
+                data-y="center" data-voffset="150" 
+                data-speed="800" 
+                data-start="2200" 
+                data-easing="Power3.easeInOut" 
+                data-elementdelay="0.1" 
+                data-endelementdelay="0.1" 
+                data-endspeed="300" 
+                data-scrolloffset="0"
+                style="z-index: 8;">
+                <a href="#." class="btn margin-right-20"> 做诚信企业</a>
+                <a href="#." class="btn margin-right-20">创精品工程</a>
           </li>
           <!-- SLIDE  -->
           <li data-transition="random" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" > 
@@ -249,61 +142,59 @@
             <!-- LAYERS --> 
             
             <!-- LAYER NR. 1 -->
-            <div class="tp-caption font-bold tp-resizeme" 
-                data-x="center" data-hoffset="0" 
-                data-y="center" data-voffset="-60" 
-                data-speed="100" 
+            <div class="tp-caption sfr font-bold tp-resizeme letter-space-4" 
+                data-x="left" data-hoffset="0" 
+                data-y="center" data-voffset="-80" 
+                data-speed="800" 
                 data-start="800" 
                 data-easing="Power3.easeInOut" 
                 data-splitin="chars" 
-                data-splitout="none" 
-                data-elementdelay="0.1" 
-                data-endelementdelay="0.1" 
-                data-endspeed="300" 
-                style="z-index: 5; font-size:45px; color:#fff; max-width: auto; text-transform:uppercase; max-height: auto; white-space: nowrap;">欢迎来到京航安</div>
-            
-            <!-- LAYER NR. 1 -->
-            <div class="tp-caption font-bold tp-resizeme" 
-                data-x="center" data-hoffset="0" 
-                data-y="center" data-voffset="0" 
-                data-speed="100" 
-                data-start="800" 
-                data-easing="Power3.easeInOut" 
-                data-splitin="chars" 
-                data-splitout="none" 
-                data-elementdelay="0.1" 
-                data-endelementdelay="0.1" 
-                data-endspeed="300" 
-                style="z-index: 5; font-size:45px; color:#1cd1aa; max-width: auto; text-transform:uppercase; max-height: auto; white-space: nowrap;">欢迎来到京航安</div>
-            
-            <!-- LAYER NR. 2 -->
-            <div class="tp-caption font-italic font-lora sfb tp-resizeme text-center" 
-                data-x="center" data-hoffset="0" 
-                data-y="center" data-voffset="80" 
-                data-speed="300" 
-                data-start="1500" 
-                data-easing="Power3.easeInOut" 
-                data-splitin="none" 
                 data-splitout="none" 
                 data-elementdelay="0.07" 
                 data-endelementdelay="0.1" 
                 data-endspeed="300" 
-                style="z-index: 7; font-size:18px;  font-style:italic; color:#fff; max-width: auto; max-height: auto; white-space: nowrap;">欢迎来到京航安<br>
-              欢迎来到京航安</div>
+                style="z-index: 6; font-size:35px; color:#fff; text-transform:uppercase; white-space: nowrap;">感受科技的魅力</div>
+            
+            <!-- LAYER NR. 2 -->
+            <div class="tp-caption sfr font-bold tp-resizeme letter-space-3" 
+                data-x="left" data-hoffset="0" 
+                data-y="center" data-voffset="0" 
+                data-speed="800" 
+                data-start="1300" 
+                data-easing="Power3.easeInOut" 
+                data-splitin="chars" 
+                data-splitout="none" 
+                data-elementdelay="0.07" 
+                data-endelementdelay="0.1" 
+                data-endspeed="300" 
+                style="z-index: 6; font-size:70px; color:#1cd1aa; text-transform:uppercase; white-space: nowrap;">欢迎来到京航安 </div>
             
             <!-- LAYER NR. 3 -->
-            <div class="tp-caption skewfromleft tp-resizeme" 
-                data-x="center" data-hoffset="0" 
-                data-y="center" data-voffset="170" 
-                data-speed="500" 
-                data-start="2000" 
+            <div class="tp-caption sfb tp-resizeme letter-space-1" 
+                data-x="left" data-hoffset="0" 
+                data-y="center" data-voffset="70" 
+                data-speed="800" 
+                data-start="1800" 
                 data-easing="Power3.easeInOut" 
                 data-splitin="none" 
                 data-splitout="none" 
                 data-elementdelay="0.1" 
                 data-endelementdelay="0.1" 
                 data-endspeed="300" 
-                style="z-index: 7; max-width: auto; max-height: auto; white-space: nowrap;"><a href="#." class="btn">欢迎来到京航安</a> </div>
+                style="z-index: 7; font-size:18px;  font-style:italic; color:#fff; max-width: auto; max-height: auto; white-space: nowrap;"></div>
+            
+            <!-- LAYER NR. 4 -->
+            <div class="tp-caption lfb tp-resizeme" 
+                data-x="left" data-hoffset="0" 
+                data-y="center" data-voffset="150" 
+                data-speed="800" 
+                data-start="2200" 
+                data-easing="Power3.easeInOut" 
+                data-elementdelay="0.1" 
+                data-endelementdelay="0.1" 
+                data-endspeed="300" 
+                data-scrolloffset="0"
+                style="z-index: 8;"><a href="#." class="btn margin-right-20"> 做诚信企业</a><a href="#." class="btn margin-right-20">创精品工程</a>
           </li>
         </ul>
       </div>
@@ -331,22 +222,22 @@
               <h5>北京机场灯光</h5>
               <hr class="main">
               <p>北京机场是介绍...</p>
-              <a href="#.">Read more <i class="fa fa-long-arrow-right"></i></a> </li>
+              <a href="#.">更多 <i class="fa fa-long-arrow-right"></i></a> </li>
             <li class="col-sm-4"> <img src="/static/images/offer-img-2.jpg" class="img-responsive" alt="" >
               <h5>上海虹桥机场</h5>
               <hr class="main">
               <p>上海虹桥机场介绍...</p>
-              <a href="#.">Read more <i class="fa fa-long-arrow-right"></i></a> </li>
+              <a href="#.">更多 <i class="fa fa-long-arrow-right"></i></a> </li>
             <li class="col-sm-4"> <img src="/static/images/offer-img-3.jpg" class="img-responsive" alt="" >
               <h5>深圳机场</h5>
               <hr class="main">
               <p>深圳机场介绍...</p>
-              <a href="#.">Read more <i class="fa fa-long-arrow-right"></i></a> </li>
+              <a href="#.">更多 <i class="fa fa-long-arrow-right"></i></a> </li>
           </ul>
         </div>
       </div>
     </section>
-    
+    <iframe frameborder="0" scrolling="no" src="/map" width="100%" height="700px"></iframe>
     <!-- Gallery -->
     <section>
       <div class="container"> 
@@ -376,7 +267,7 @@
           
           <!-- ITEM -->
           <article class="portfolio-item pf-branding-design pf-web-design">
-            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/images/img-1.jpg"> </a> </div>
+            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/img/pro1_1.jpg"> </a> </div>
             <div class="portfolio-overlay">
               <div class="position-center-center"> <a href="#."><i class="ion-link"></i></a> </div>
             </div>
@@ -384,7 +275,7 @@
           
           <!-- ITEM -->
           <article class="portfolio-item pf-photography">
-            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/images/img-2.jpg"> </a> </div>
+            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/img/pro1_2.jpg"> </a> </div>
             <div class="portfolio-overlay">
               <div class="position-center-center"> <a href="#."><i class="ion-link"></i></a> </div>
             </div>
@@ -392,7 +283,7 @@
           
           <!-- ITEM -->
           <article class="portfolio-item pf-web-design pf-branding-design">
-            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/images/img-3.jpg"> </a> </div>
+            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/img/pro2_2.jpg"> </a> </div>
             <div class="portfolio-overlay">
               <div class="position-center-center"> <a href="#."><i class="ion-link"></i></a> </div>
             </div>
@@ -400,7 +291,7 @@
           
           <!-- ITEM -->
           <article class="portfolio-item pf-branding-design pf-digital-art">
-            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/images/img-6.jpg"> </a> </div>
+            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/img/pro2_1.jpg"> </a> </div>
             <div class="portfolio-overlay">
               <div class="position-center-center"> <a href="#."><i class="ion-link"></i></a> </div>
             </div>
@@ -408,7 +299,7 @@
           
           <!-- ITEM -->
           <article class="portfolio-item pf-web-design pf-digital-art pf-branding-design">
-            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/images/img-4.jpg"> </a> </div>
+            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/img/pro3_1.jpg"> </a> </div>
             <div class="portfolio-overlay">
               <div class="position-center-center"> <a href="#."><i class="ion-link"></i></a> </div>
             </div>
@@ -416,7 +307,7 @@
           
           <!-- ITEM -->
           <article class="portfolio-item pf-branding-design pf-digital-art">
-            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/images/img-5.jpg"> </a> </div>
+            <div class="portfolio-image"> <a href="#."> <img alt="" src="/static/img/pro3_2.jpg"> </a> </div>
             <div class="portfolio-overlay">
               <div class="position-center-center"> <a href="#."><i class="ion-link"></i></a> </div>
             </div>
@@ -425,7 +316,7 @@
       </div>
       <div class="text-center"></div>
     </section>
-    
+    <!-- <iframe frameborder="0" scrolling="no" src="/index2" width="100%" height="500px"></iframe> -->
     <!-- TEAM -->
     <section class="innovaction padding-top-150 padding-bottom-150">
       <div class="container">
@@ -542,36 +433,36 @@
         
         <!-- Heading -->
         <div class="heading text-center white">
-          <h4>Fun FActs</h4>
-          <span>Don't Be Vague</span>
+          <h4>发展历程</h4>
+          <span>迈向前方</span>
           <hr>
         </div>
         <div class="row"> 
           <!-- Team Member -->
           <div class="col-md-3 margin-bottom-30"> <i class="icon-anchor"></i>
-            <div class="fats-conter"> <span class="number"> <span class="timer" data-speed="2000" data-refresh-interval="100" data-to="35" data-from="0">500 </span> </span>
-              <h5>Project Completed</h5>
+            <div class="fats-conter"> <span class="number"> <span class="timer" data-speed="2000" data-refresh-interval="100" data-to="35" data-from="0">2002</span> </span>
+              <h5>成立</h5>
             </div>
           </div>
           
           <!-- Line Of Codes -->
           <div class="col-md-3 margin-bottom-30"> <i class="icon-pencil"></i>
-            <div class="fats-conter"> <span class="number"> <span class="timer" data-speed="2000" data-refresh-interval="100" data-to="5225" data-from="0">254 </span> </span>
-              <h5>Line Of Codes</h5>
+            <div class="fats-conter"> <span class="number"> <span class="timer" data-speed="2000" data-refresh-interval="100" data-to="5225" data-from="0">2003~2010 </span> </span>
+              <h5>高速发展</h5>
             </div>
           </div>
           
           <!-- Satisfied Client -->
           <div class="col-md-3  margin-bottom-30"> <i class="icon-heart"></i>
-            <div class="fats-conter"> <span class="number"> <span class="timer" data-speed="2000" data-refresh-interval="100" data-to="4977" data-from="0">184 </span> </span>
-              <h5>Happy Clients</h5>
+            <div class="fats-conter"> <span class="number"> <span class="timer" data-speed="2000" data-refresh-interval="100" data-to="4977" data-from="0">2010~2015 </span> </span>
+              <h5>稳扎稳打</h5>
             </div>
           </div>
           
           <!-- PSD file included -->
           <div class="col-md-3 margin-bottom-30"> <i class="icon-bike"></i>
-            <div class="fats-conter"> <span class="number"> <span class="timer" data-speed="2000" data-refresh-interval="100" data-to="178" data-from="0">35k </span> </span>
-              <h5>Km Drive</h5>
+            <div class="fats-conter"> <span class="number"> <span class="timer" data-speed="2000" data-refresh-interval="100" data-to="178" data-from="0">2015~至今</span> </span>
+              <h5>走向国际</h5>
             </div>
           </div>
         </div>
@@ -633,14 +524,14 @@
         </div>
         
         <!-- CLIENTS -->
-        <div class="clients-img col-4 padding-top-150">
+<!--         <div class="clients-img col-4 padding-top-150">
           <ul class="row">
             <li> <a href="#."> <img src="/static/images/c-img-1.png" class="img-responsive" alt=""> </a></li>
             <li> <a href="#."> <img src="/static/images/c-img-2.png" class="img-responsive" alt=""> </a> </li>
             <li> <a href="#."> <img src="/static/images/c-img-3.png" class="img-responsive" alt=""> </a></li>
             <li> <a href="#."> <img src="/static/images/c-img-4.png" class="img-responsive" alt=""> </a> </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </section>
     
@@ -664,7 +555,7 @@
               <div class="post-info">
                 <div class="post-in">
                   <div class="extra"> <span><i class="icon-calendar"></i>Aug 29, 2015</span> </div>
-                  <a href="#." class="tittle-post">It's Good To Talk Photography </a> <a href="#.">Read More <i class="fa fa-long-arrow-right margin-left-10"></i></a> </div>
+                  <a href="#." class="tittle-post">It's Good To Talk Photography </a> <a href="#.">更多 <i class="fa fa-long-arrow-right margin-left-10"></i></a> </div>
               </div>
             </article>
           </div>
@@ -675,7 +566,7 @@
               <div class="post-info">
                 <div class="post-in">
                   <div class="extra"> <span><i class="icon-calendar"></i>Aug 29, 2015</span> </div>
-                  <a href="#." class="tittle-post">It's Good To Talk Photography </a> <a href="#.">Read More <i class="fa fa-long-arrow-right margin-left-10"></i></a> </div>
+                  <a href="#." class="tittle-post">It's Good To Talk Photography </a> <a href="#.">更多 <i class="fa fa-long-arrow-right margin-left-10"></i></a> </div>
               </div>
             </article>
           </div>
@@ -686,7 +577,7 @@
               <div class="post-info">
                 <div class="post-in">
                   <div class="extra"> <span><i class="icon-calendar"></i>Aug 29, 2015</span> </div>
-                  <a href="#." class="tittle-post">It's Good To Talk Photography </a> <a href="#.">Read More <i class="fa fa-long-arrow-right margin-left-10"></i></a> </div>
+                  <a href="#." class="tittle-post">It's Good To Talk Photography </a> <a href="#.">更多 <i class="fa fa-long-arrow-right margin-left-10"></i></a> </div>
               </div>
             </article>
           </div>
@@ -745,8 +636,8 @@
                 <div class="media-left"> <i class="fa fa-envelope"></i> </div>
                 <div class="media-body">
                   <h6>邮箱</h6>
-                  <p>premio@.co.uk</p>
-                  <p>domain@.co.uk</p>
+                  <p>jha@bjjha.cn</p>
+                  <p>jha@bjjha.cn</p>
                 </div>
               </li>
               
@@ -755,8 +646,7 @@
                 <div class="media-left"> <i class="fa fa-map-marker"></i> </div>
                 <div class="media-body">
                   <h6>地址</h6>
-                  <p>Andrew Cross 50 Front Street
-                    KNOTTY GREEN HP9 2WB</p>
+                  <p>公司地址：北京东城区广渠家园（冠城名墩道）2号楼12层</p>
                 </div>
               </li>
               
@@ -765,8 +655,7 @@
                 <div class="media-left"> <i class="fa fa-phone"></i> </div>
                 <div class="media-body">
                   <h6>电话</h6>
-                  <p>+44 078-5099-1689</p>
-                  <p>+44 078-5099-1859</p>
+                  <p>010-67044575</p>
                 </div>
               </li>
             </ul>
@@ -775,89 +664,4 @@
       </div>
     </section>
   </div>
-  
-  <!--======= FOOTER =========-->
-  <footer>
-    <div class="container"> 
-      
-      <!-- FOOTER -->
-      <div class="footer-info">
-        <div class="row"> 
-          
-          <!-- keep in touch -->
-          <div class="col-md-4">
-            <div class="padding-right-50"> <img src="/static/images/logo.png" class="margin-bottom-30" alt="" >
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at purus varius odio tempus cursus. Donec quis nibh luctus, posuere velit vitae, commodo dui. Nullam eu blandit orci. Pellentesque sit amet enim sapien. Fusce nec mauris pellentesque, lacinia quam eu, molestie elit.</p>
-            </div>
-          </div>
-          
-          <!-- Links -->
-          <div class="col-md-2">
-            <h6>Links</h6>
-            <ul class="links">
-              <li><a href="#.">首页 </a></li>
-              <li><a href="#.">关于我们 </a></li>
-              <li><a href="#.">新闻资讯</a></li>
-              <li><a href="#.">业务范围</a></li>
-              <li><a href="#.">项目展示</a></li>
-              <li><a href="#.">企业文化</a></li>
-              <li><a href="#.">招聘信息</a></li>
-            </ul>
-          </div>
-          
-          <!-- INSTAGRAM  -->
-          <div class="col-md-3">
-            <h6>iNSTAGRAM with us</h6>
-            <div class="flicker-img">
-              <ul>
-                <li><a href="#."><img src="/static/images/flicker-img-1.jpg" alt="" > </a></li>
-                <li><a href="#."><img src="/static/images/flicker-img-2.jpg" alt="" > </a></li>
-                <li><a href="#."><img src="/static/images/flicker-img-3.jpg" alt="" > </a></li>
-                <li><a href="#."><img src="/static/images/flicker-img-4.jpg" alt="" > </a></li>
-                <li><a href="#."><img src="/static/images/flicker-img-5.jpg" alt="" > </a></li>
-                <li><a href="#."><img src="/static/images/flicker-img-6.jpg" alt="" > </a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <!-- keep in touch -->
-          <div class="col-md-3">
-            <h6>newsletter</h6>
-            <div class="news-letter">
-              <p>Subscribe Our Newsletter get the Important News. The Amazing Offers & Inside Scoops:</p>
-              <form class="subscribe">
-                <input type="email" placeholder="Email address">
-                <button type="submit"><i class="fa fa-envelope"></i></button>
-              </form>
-              
-              <!-- Social Icons -->
-              <div class="social_icons"> <a href="#."><i class="fa fa-behance"></i></a> <a href="#."><i class="fa fa-facebook"></i></a> <a href="#."><i class="fa fa-twitter"></i></a> <a href="#."><i class="fa fa-dribbble"></i></a> </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  
-  <!--======= RIGHTS =========-->
-  <div class="rights">
-    <div class="container">
-      <p>Copyright &copy; 2017.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
-      <div class="scroll"> <a href="#wrap" class="go-up"><i class="lnr lnr-arrow-up"></i></a> </div>
-    </div>
-  </div>
-</div>
-
-<!-- JavaScripts --> 
-<script src="/static/js/jquery.min.js"></script> 
-<script src="/static/js/bootstrap.min.js"></script> 
-<script src="/static/js/own-menu.js"></script> 
-<script src="/static/js/jquery.lighter.js"></script> 
-<script src="/static/js/owl.carousel.min.js"></script> 
-<script src="/static/js/color-switcher.js"></script> 
-<!-- SLIDER REVOLUTION 4.x SCRIPTS  --> 
-<script type="text/javascript" src="/static/rs-plugin/rs-plugin/js/jquery.tp.t.min.js"></script> 
-<script type="text/javascript" src="/static/rs-plugin/rs-plugin/js/jquery.tp.min.js"></script> 
-<script src="/static/js/main.js"></script>
-</body>
-</html>
+  {% endblock %}

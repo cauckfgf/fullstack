@@ -23,11 +23,13 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url='/index/')),
     url(r'^index/$', index),
+    url(r'^index2/$', index2),
+    url(r'^map/$', ditu),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 urlpatterns += [
-    url(r'^first/', include('first.urls')),
+    url(r'^o/', include('first.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

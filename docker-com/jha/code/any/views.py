@@ -11,13 +11,28 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 #from django_filters.rest_framework import DjangoFilterBackend
 # from django.contrib.auth.models import User as DjangoUser
 #import sys, urllib2, json
+from any.settings import MENUS
+
 
 @csrf_exempt
 # @login_required(login_url="/login/")
 def index(request):
     # return render_to_response('index.html')
+    menus = MENUS
+    menus[0]['active'] = True
     return render(request, 'index.html',locals())
 
+@csrf_exempt
+# @login_required(login_url="/login/")
+def index2(request):
+    # return render_to_response('index.html')
+    return render(request, 'index2.html',locals())
+
+@csrf_exempt
+# @login_required(login_url="/login/")
+def ditu(request):
+    # return render_to_response('index.html')
+    return render(request, 'map.html',locals())
 
 @csrf_exempt
 def page_not_found(request):

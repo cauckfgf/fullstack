@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for any project.
 
@@ -147,20 +148,25 @@ STATICFILES_DIRS = (
     ("css",os.path.join(STATIC_ROOT, 'css')),
     ("js",os.path.join(STATIC_ROOT, 'js')),
     ("image",os.path.join(STATIC_ROOT, 'image')),
+    ("img",os.path.join(STATIC_ROOT, 'img')),
+    ("images",os.path.join(STATIC_ROOT, 'images')),
+    ("fonts",os.path.join(STATIC_ROOT, 'fonts')),
+    ("ckeditor",os.path.join(STATIC_ROOT, 'ckeditor')),
+    ("rs-plugin",os.path.join(STATIC_ROOT, 'rs-plugin')),
 )
 
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media').replace("\\","/")
 STATIC_PATH=MEDIA_ROOT
 
-CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor"
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 # CKEDITOR_JQUERY_URL = 'js/jquery-3.2.1.min.js'
-CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+CKEDITOR_FILENAME_GENERATOR = 'any.utils.get_filename'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_CONFIGS = {
     'default': {
-        'language': 'zh-cn',
+        'language': 'zh-Hans',
         'toolbar_YourCustomToolbarConfig': [
             {'name': 'clipboard', 'items': ['Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord']},
             {'name': 'paragraph',
@@ -202,3 +208,141 @@ CKEDITOR_CONFIGS = {
 }
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_BROWSE_SHOW_DIRS = True
+
+
+MENUS = [
+    {
+        'name': '首页',
+        'link': '/',
+        'chirld': [],
+        'active':False
+    },
+    {
+        'name': '关于我们',
+        'link': '/',
+        'active':False,
+        'chirld': [
+            {
+                'name': '公司简介',
+                'link': '/',
+            },
+            {
+                'name': '领导致辞',
+                'link': '/',
+            },
+            {
+                'name': '组织架构',
+                'link': '/',
+            },
+            {
+                'name': '发展历程',
+                'link': '/',
+            },
+            {
+                'name': '资质荣誉',
+                'link': '/',
+            },
+        ],
+    },
+    {
+        'name': '新闻资讯',
+        'link': '/',
+        'active':False,
+        'chirld': [
+            {
+                'name': '公司新闻',
+                'link': '/',
+            },
+            {
+                'name': '公司新闻',
+                'link': '/',
+            },
+        ],
+    },
+    {
+        'name': '业务范围',
+        'link': '/',
+        'active':False,
+        'chirld': [
+            {
+                'name': '机场内部设备',
+                'link': '/',
+            },
+            {
+                'name': '航站楼',
+                'link': '/',
+            },
+            {
+                'name': '跑道灯光',
+                'link': '/',
+            },
+            {
+                'name': '雷达通信',
+                'link': '/',
+            },
+        ],
+    },
+    {
+        'name': '项目展示',
+        'link': '/',
+        'active':False,
+        'chirld': [
+            {
+                'name': '国内业绩',
+                'link': '/',
+            },
+            {
+                'name': '国内工程',
+                'link': '/',
+            },
+            {
+                'name': '国外工程',
+                'link': '/',
+            },
+        ],
+    },
+    {
+        'name': '企业文化',
+        'link': '/',
+        'active':False,
+        'chirld': [
+            {
+                'name': '企业愿景',
+                'link': '/',
+            },
+            {
+                'name': '社会责任',
+                'link': '/',
+            },
+            {
+                'name': '员工风采',
+                'link': '/',
+            },
+        ],
+    },
+    {
+        'name': '人力资源',
+        'link': '/',
+        'active':False,
+        'chirld': [
+            {
+                'name': '人才理念',
+                'link': '/',
+            },
+            {
+                'name': '招聘信息',
+                'link': '/',
+            },
+            {
+                'name': '员工风采',
+                'link': '/',
+            },
+        ],
+    },
+    {
+        'name': '联系我们',
+        'link': '/',
+        'active':False,
+        'chirld': [],
+    },
+]
