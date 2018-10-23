@@ -35,7 +35,8 @@ def news(request):
     menus[2]['active'] = True
     hangye = News.objects.filter(t=1).order_by('-id')[:6]
     gongsi = News.objects.filter(t=2).order_by('-id')[:6]
-    return render(request, 'news.html',locals())
+    return render(request, 'index.html',locals())
+    # return render(request, 'news.html',locals())
 
 
 @csrf_exempt
@@ -45,7 +46,8 @@ def news_detail(request,ID):
     menus = copy.deepcopy(MENUS)
     menus[2]['active'] = True
     detail = News.objects.get(id=ID)
-    return render(request, 'news_detail.html',locals())
+    return render(request, 'index.html',locals())
+    # return render(request, 'news_detail.html',locals())
 
 @csrf_exempt
 # @login_required(login_url="/login/")
@@ -54,7 +56,8 @@ def yewu(request):
     # return render_to_response('index.html')
     menus = copy.deepcopy(MENUS)
     menus[3]['active'] = True
-    return render(request, 'portfolio.html',locals())
+    return render(request, 'index.html',locals())
+    # return render(request, 'portfolio.html',locals())
 
 @csrf_exempt
 # @login_required(login_url="/login/")
@@ -63,4 +66,5 @@ def xiangmu(request):
     # return render_to_response('index.html')
     menus = copy.deepcopy(MENUS)
     menus[4]['active'] = True
-    return render(request, 'services.html',locals())
+    return render(request, 'index.html',locals())
+    # return render(request, 'services.html',locals())
