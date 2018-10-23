@@ -8,5 +8,9 @@ router.register(r'file', FileSet)
 
 urlpatterns = [
     url(r'^rest/', include(router.urls)),
+    url(r'^about/$', about),
     url(r'^news/$', news),
+    url(r'^news/(?P<ID>[^/]+)/$', news_detail),
+    url(r'^yewu/$', yewu),
+    url(r'^xiangmu/$', xiangmu),
 ]

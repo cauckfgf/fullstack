@@ -3,17 +3,56 @@ from __future__ import absolute_import
 from django.db import models
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+import os
+from PIL import Image
+from any.settings import MEDIA_ROOT
+from django.db.models.fields.files import ImageFieldFile
+from django.utils.html import format_html
 # from django.utils.encoding import python_2_unicode_compatible
 # Create your models here.
-class File(models.Model):
-    file = models.FileField(upload_to="./")
+THUMB_ROOT = 'upload/thumb'
+def make_thumb(path, size = 240):
+    pixbuf = Image.open(path)
+    width, height = pixbuf.size
 
+    if width > size:
+        delta = width / size
+        height = int(height / delta)
+        pixbuf.thumbnail((size, height), Image.ANTIALIAS)
+        return pixbuf
+
+class File(models.Model):
+    title = models.CharField(max_length=120, blank=True, null=True,verbose_name='素材标题')
+    image = models.ImageField(upload_to='upload/', verbose_name='素材图片')
+    thumb = models.ImageField(upload_to = THUMB_ROOT, blank=True, null=True,verbose_name='素材微缩图')
+    date = models.DateTimeField(auto_now_add=True)
+
+    def ws(self):
+        return format_html('<img src="{}" />'.format(self.thumb.url))
+    ws.allow_tags = True
+    ws.short_description = '微缩图'
+
+    def save(self):
+        super(File, self).save() #将上传的图片先保存一下，否则报错
+        base, ext = os.path.splitext(os.path.basename(self.image.path))
+        thumb_pixbuf = make_thumb(os.path.join(MEDIA_ROOT, self.image.name))
+        relate_thumb_path = os.path.join(THUMB_ROOT, base + '.thumb' + ext).replace("\\","/")
+        thumb_path = os.path.join(MEDIA_ROOT, relate_thumb_path).replace("\\","/")
+        thumb_pixbuf.save(thumb_path)
+        self.thumb = ImageFieldFile(self, self.thumb, relate_thumb_path)
+        super(File, self).save() #再保存一下，包括缩略图等
+
+    def __unicode__(self):
+        return self.title if self.title else '素材'
+    class Meta: 
+        verbose_name = '素材' 
+        verbose_name_plural = '素材'
 
 # @python_2_unicode_compatible
 class News(models.Model):
     # 实时新闻资讯
     T_CHOICES = (
-        (1, '企业新闻'),
+        (1, '行业资讯'),
         (2, '公司新闻'),
     )
     titile = models.CharField(max_length=200, blank=True, null=True,verbose_name='新闻标题')

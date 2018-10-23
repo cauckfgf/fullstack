@@ -12,15 +12,17 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 # from django.contrib.auth.models import User as DjangoUser
 #import sys, urllib2, json
 from any.settings import MENUS
-
+import copy
 
 @csrf_exempt
 # @login_required(login_url="/login/")
 def index(request):
     # return render_to_response('index.html')
-    menus = MENUS
+    menus = copy.deepcopy(MENUS)
     menus[0]['active'] = True
     return render(request, 'index.html',locals())
+
+
 
 @csrf_exempt
 # @login_required(login_url="/login/")

@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url='/index/')),
     url(r'^index/$', index),
+
+
     url(r'^index2/$', index2),
     url(r'^map/$', ditu),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),

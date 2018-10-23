@@ -213,13 +213,13 @@ CKEDITOR_BROWSE_SHOW_DIRS = True
 MENUS = [
     {
         'name': '首页',
-        'link': '/',
+        'link': '/index',
         'chirld': [],
         'active':False
     },
     {
         'name': '关于我们',
-        'link': '/',
+        'link': '/o/about',
         'active':False,
         'chirld': [
             {
@@ -246,7 +246,7 @@ MENUS = [
     },
     {
         'name': '新闻资讯',
-        'link': '/',
+        'link': '/o/news',
         'active':False,
         'chirld': [
             {
@@ -261,7 +261,7 @@ MENUS = [
     },
     {
         'name': '业务范围',
-        'link': '/',
+        'link': '/o/yewu',
         'active':False,
         'chirld': [
             {
@@ -284,7 +284,7 @@ MENUS = [
     },
     {
         'name': '项目展示',
-        'link': '/',
+        'link': '/o/xiangmu',
         'active':False,
         'chirld': [
             {
@@ -303,7 +303,7 @@ MENUS = [
     },
     {
         'name': '企业文化',
-        'link': '/',
+        'link': '/o/',
         'active':False,
         'chirld': [
             {
@@ -322,7 +322,7 @@ MENUS = [
     },
     {
         'name': '人力资源',
-        'link': '/',
+        'link': '/o/',
         'active':False,
         'chirld': [
             {

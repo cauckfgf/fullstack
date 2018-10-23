@@ -62,7 +62,7 @@
                   <li class="active"> <a href="{{ i.link }}">{{ i.name }}</a>
                     <ul class="dropdown animated-3s fadeIn">
                       {% for j in i.chirld %}
-                        <li> <a href="{{ j.link }}"></a>{{ j.name }} </li>
+                        <li> <a href="{{j.link}}">{{j.name}}</a> </li>
                       {% endfor %}
                     </ul>
                   </li>
