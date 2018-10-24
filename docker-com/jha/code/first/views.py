@@ -20,6 +20,16 @@ class FileSet(viewsets.ModelViewSet):
 
 @csrf_exempt
 # @login_required(login_url="/login/")
+def index(request):
+    # return render_to_response('index.html')
+    menus = copy.deepcopy(MENUS)
+    menus[0]['active'] = True
+    slides = SLIDE.objects.all()
+    # print slides,slides.count()
+    return render(request, 'index.html',locals())
+
+@csrf_exempt
+# @login_required(login_url="/login/")
 def about(request):
     # return render_to_response('index.html')
     menus = copy.deepcopy(MENUS)

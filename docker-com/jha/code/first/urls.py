@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^news/(?P<ID>[^/]+)/$', news_detail),
     url(r'^yewu/$', yewu),
     url(r'^xiangmu/$', xiangmu),
+    url(r'^index/$', index),
 ]

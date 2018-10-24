@@ -12,6 +12,9 @@
 	opacity: 1;
 	text-align: center;
 }
+video::-webkit-media-controls{
+    display:none !important;
+}
 .hom-slie {
 	position: absolute !important;
 }

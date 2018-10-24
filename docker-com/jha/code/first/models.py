@@ -96,6 +96,31 @@ class Leader(models.Model):
         verbose_name = '领导致辞' 
         verbose_name_plural = '领导致辞'
 
+
+class SLIDE(models.Model):
+    title = models.CharField(max_length=120, blank=True, null=True,verbose_name='素材标题')
+    image = models.ImageField(upload_to='upload/', verbose_name='素材图片')
+    thumb = models.ImageField(upload_to = THUMB_ROOT, blank=True, null=True,verbose_name='素材微缩图')
+    date = models.DateTimeField(auto_now_add=True)
+
+    def ws(self):
+        return format_html('<img src="{}" />'.format(self.thumb.url))
+    ws.allow_tags = True
+    ws.short_description = '首页轮播图'
+
+    def save(self):
+        super(SLIDE, self).save() #将上传的图片先保存一下，否则报错
+        base, ext = os.path.splitext(os.path.basename(self.image.path))
+        thumb_pixbuf = make_thumb(os.path.join(MEDIA_ROOT, self.image.name))
+        relate_thumb_path = os.path.join(THUMB_ROOT, base + '.thumb' + ext).replace("\\","/")
+        thumb_path = os.path.join(MEDIA_ROOT, relate_thumb_path).replace("\\","/")
+        thumb_pixbuf.save(thumb_path)
+        self.thumb = ImageFieldFile(self, self.thumb, relate_thumb_path)
+        super(SLIDE, self).save() #再保存一下，包括缩略图等
+    class Meta: 
+        verbose_name = '首页轮播图' 
+        verbose_name_plural = '首页轮播图'
+
 class Other(models.Model):
     # 其他 
     titile = models.CharField(max_length=200, blank=True, null=True,verbose_name='业务范围标题')
