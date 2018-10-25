@@ -221,24 +221,24 @@ a:hover, a:focus {
 	border-radius: 30px;
 	font-family: 'Montserrat', sans-serif;
 	line-height: 46px;
-	background: #1cd1aa;
+	background: #018cc5;
 	letter-spacing: 1px;
 	position: relative;
 	z-index: 1;
 }
 .btn:hover {
 	background: #fff;
-	color: #1cd1aa;
+	color: #018cc5;
 }
 .btn i {
 	margin-left: 10px;
 }
 .btn-white {
 	background: #fff;
-	color: #1cd1aa !important;
+	color: #018cc5 !important;
 }
 .btn-white:hover {
-	background: #1cd1aa;
+	background: #018cc5;
 	color: #fff !important;
 }
 .tp-caption .btn {
@@ -325,7 +325,7 @@ section {
 	font-size: 30px;
 }
 .heading span {
-	color: #1cd1aa;
+	color: #018cc5;
 	display: inline-block;
 	width: 100%;
 	font-size: 18px;
@@ -352,8 +352,8 @@ section {
 	height: 1px;
 	background: #fff;
 	border: none;
-	border-top: 1px solid #1cd1aa;
-	border-bottom: 1px solid #1cd1aa;
+	border-top: 1px solid #018cc5;
+	border-bottom: 1px solid #018cc5;
 	margin: 15px auto;
 	width: 50px;
 }
@@ -435,7 +435,7 @@ section {
 }
 .top-info .social li a:hover {
 	color: #fff;
-	background: #1cd1aa;
+	background: #018cc5;
 }
 .right-sec {
 	float: right;
@@ -616,7 +616,7 @@ header .navbar li.active a:before {
 	position: relative;
 }
 .ownmenu ul.dropdown li a:before {
-	background: #1cd1aa;
+	background: #018cc5;
 	content: "";
 	width: 0px;
 	height: 100%;
@@ -1174,8 +1174,8 @@ header .container {
 	height: 1px;
 	background: none;
 	border: none;
-	border-top: 1px solid #1cd1aa;
-	border-bottom: 1px solid #1cd1aa;
+	border-top: 1px solid #018cc5;
+	border-bottom: 1px solid #018cc5;
 	margin: 0px auto;
 	width: 150px;
 }
@@ -1237,7 +1237,7 @@ header .container {
 	margin-top: 30px;
 }
 .offers a {
-	color: #1cd1aa;
+	color: #018cc5;
 	font-size: 12px;
 	text-transform: uppercase;
 	margin-top: 10px;
@@ -1249,7 +1249,7 @@ header .container {
 	font-size: 20px;
 	text-align: center;
 	line-height: 60px;
-	background: #1cd1aa;
+	background: #018cc5;
 	color: #fff;
 	border-radius: 50%;
 }
@@ -1285,7 +1285,7 @@ header .container {
 .portfolio-overlay a {
 	height: 50px;
 	width: 50px;
-	background: #1cd1aa;
+	background: #018cc5;
 	display: inline-block;
 	border-radius: 50%;
 	line-height: 50px;
@@ -1448,7 +1448,7 @@ header .container {
 	font-weight: bold;
 }
 .portfolio-overlay .bottom-text h6 a:hover {
-	color: #1cd1aa
+	color: #018cc5
 }
 .items.row {
 	margin: 0px;
@@ -1479,7 +1479,7 @@ header .container {
 	font-weight: bold;
 }
 .bottom-text-white h6 a:hover {
-	color: #1cd1aa
+	color: #018cc5
 }
 .width-70 {
 	width: 70% !important;
@@ -1596,10 +1596,10 @@ header .container {
 	text-transform: uppercase;
 }
 .portfolio-filter li a:hover {
-	color: #1cd1aa;
+	color: #018cc5;
 }
 .portfolio-filter li a.active {
-	color: #1cd1aa;
+	color: #018cc5;
 }
 /*=======================================================
       POERFOLIO COL
@@ -1621,7 +1621,7 @@ header .container {
 	background-size: cover;
 }
 .innovaction .heading span {
-	color: #1cd1aa;
+	color: #018cc5;
 }
 .innovaction.light-sec {
 	background: #fff;
@@ -2584,7 +2584,7 @@ a.close-page {
 	margin: 0 10px;
 }
 .team article span {
-	color: #1cd1aa;
+	color: #018cc5;
 	font-size: 13px;
 	display: inline-block;
 	width: 100%;
@@ -2693,7 +2693,7 @@ a.close-page {
 	line-height: 100px;
 	width: 100px;
 	border-radius: 50%;
-	background: #1cd1aa;
+	background: #018cc5;
 	text-align: center;
 	color: #fff;
 	margin-bottom: 10px;
@@ -3160,10 +3160,10 @@ a.close-page {
 }
 .testi-name span {
 	text-align: left !important;
-	color: #1cd1aa !important;
+	color: #018cc5 !important;
 }
 .testi-name i {
-	color: #1cd1aa;
+	color: #018cc5;
 }
 .testi .media-left .avatar {
 	width: 85px;
@@ -3199,7 +3199,7 @@ a.close-page {
 }
 .testi .in-testi {
 	text-align: center;
-	border: 1px solid #1cd1aa;
+	border: 1px solid #018cc5;
 	padding: 30px;
 }
 .testi .owl-nav {
@@ -3266,7 +3266,7 @@ a.close-page {
 	transition: all 0.4s ease-in-out;
 }
 .testi .owl-dots .owl-dot.active {
-	background: #1cd1aa;
+	background: #018cc5;
 	width: 20px;
 }
 .testi .owl-dots .owl-dot span {
@@ -3420,7 +3420,7 @@ a.close-page {
 .why-choose article {
 	background: #fff;
 	text-align: center;
-	border-bottom: 2px solid #1cd1aa;
+	border-bottom: 2px solid #018cc5;
 	padding: 0 20px;
 	padding-bottom: 30px;
 	box-shadow: 0 0 20px rgba(0,0,0,0.05);
@@ -3432,7 +3432,7 @@ a.close-page {
 .why-choose article hr {
 	width: 40px;
 	height: 2px;
-	background: #1cd1aa;
+	background: #018cc5;
 	border: none;
 	margin: 20px auto;
 }
@@ -3442,7 +3442,7 @@ a.close-page {
 	margin-top: -40px;
 	border-radius: 50%;
 	line-height: 80px;
-	background: #1cd1aa;
+	background: #018cc5;
 	color: #fff;
 	display: inline-block;
 	font-size: 30px;
@@ -3684,11 +3684,11 @@ a.close-page {
 	height: 10px;
 	border-radius: 0px;
 	margin-top: 10px;
-	border: 1px solid #1cd1aa;
+	border: 1px solid #018cc5;
 }
 .progress-bar {
 	border-radius: 0px;
-	background: #1cd1aa;
+	background: #018cc5;
 	height: 9px;
 	box-shadow: none;
 }
@@ -3711,7 +3711,7 @@ a.close-page {
 	height: 10px;
 	border-radius: 0px;
 	position: relative;
-	background: #1cd1aa;
+	background: #018cc5;
 	box-shadow: none;
 	display: inline-block;
 	width: 100%;
@@ -3740,7 +3740,7 @@ a.close-page {
 	right: 3px;
 	top: -28px;
 	color: #fff;
-	background: #1cd1aa;
+	background: #018cc5;
 	font-size: 10px;
 	font-weight: normal;
 	width: 35px;
@@ -3798,7 +3798,7 @@ a.close-page {
 	left: 0px;
 	margin: 0 auto;
 	bottom: -14px;
-	color: #1cd1aa;
+	color: #018cc5;
 	font-family: 'FontAwesome';
 }
 /*=======================================================
@@ -4131,7 +4131,7 @@ footer .subscribe button {
 	float: right;
 	margin-top: -45px;
 	height: 40px;
-	color: #1cd1aa;
+	color: #018cc5;
 	padding: 0 10px;
 	line-height: 40px;
 	z-index: 9;
@@ -4308,7 +4308,7 @@ footer .subscribe input {
 	border: 2px solid #fff;
 }
 .intro-pur {
-	background: #1cd1aa;
+	background: #018cc5;
 	padding: 50px 0;
 }
 /*=======================================================
@@ -4337,7 +4337,7 @@ footer .subscribe input {
 	margin-bottom: 30px;
 }
 .contact-info li i {
-	border: 2px solid #1cd1aa;
+	border: 2px solid #018cc5;
 	height: 80px;
 	width: 80px;
 	display: inline-block;
@@ -4349,7 +4349,7 @@ footer .subscribe input {
 	margin-right: 10px;
 }
 .contact-info h6 {
-	color: #1cd1aa;
+	color: #018cc5;
 	margin-top: 0px;
 }
 .contact-info li p {
@@ -4463,7 +4463,7 @@ footer .subscribe input {
 }
 .contact-form label input {
 	border: none;
-	border-bottom: 2px solid #1cd1aa;
+	border-bottom: 2px solid #018cc5;
 	height: 40px;
 	padding: 0 20px;
 	border-radius: 0px;
@@ -4484,7 +4484,7 @@ footer .subscribe input {
 	position: relative;
 	padding: 10px 20px;
 	border: none;
-	border-bottom: 2px solid #1cd1aa;
+	border-bottom: 2px solid #018cc5;
 	height: 160px;
 	border-radius: 0px;
 	background: none;
@@ -4547,7 +4547,7 @@ footer .subscribe input {
 	border: 3px solid #08ada7;
 }
 .contact-page .contact-info li i {
-	color: #1cd1aa;
+	color: #018cc5;
 }
 .contact-page .contact-info p {
 	color: #141414;
@@ -5035,7 +5035,7 @@ footer .subscribe input {
 	color: #fff;
 	height: 29px;
 	width: 43px;
-	background: #1cd1aa;
+	background: #018cc5;
 	text-align: center;
 	top: 7px;
 	line-height: 29px;
@@ -5319,7 +5319,7 @@ footer .subscribe input {
 	position: relative;
 	z-index: 2;
 	text-align: center;
-	background: #1cd1aa;
+	background: #018cc5;
 	padding: 1px;
 	padding-top: 55px;
 	display: inline-block;
@@ -5352,7 +5352,7 @@ footer .subscribe input {
 	margin: 0 auto;
 	left: 0px;
 	right: 0px;
-	background: #1cd1aa;
+	background: #018cc5;
 	top: -30px;
 	color: #fff;
 	text-align: center;
