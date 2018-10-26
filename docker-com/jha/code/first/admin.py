@@ -17,7 +17,7 @@ class FileAdmin(admin.ModelAdmin):
     model = File
 
 class SLIDEAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date', 'image','ws')
+    list_display = ('title', 'date', 'image','ws','file')
     readonly_fields = ('ws','thumb')
     model = File
 admin.site.register(News, NewsAdmin)

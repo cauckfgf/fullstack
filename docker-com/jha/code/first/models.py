@@ -99,24 +99,29 @@ class Leader(models.Model):
 
 class SLIDE(models.Model):
     title = models.CharField(max_length=120, blank=True, null=True,verbose_name='素材标题')
-    image = models.ImageField(upload_to='upload/', verbose_name='素材图片')
+    image = models.ImageField(upload_to='upload/', verbose_name='轮播图片')
+    file = models.FileField(upload_to='upload/', verbose_name='录播视频', blank=True, null=True)
     thumb = models.ImageField(upload_to = THUMB_ROOT, blank=True, null=True,verbose_name='素材微缩图')
     date = models.DateTimeField(auto_now_add=True)
 
     def ws(self):
-        return format_html('<img src="{}" />'.format(self.thumb.url))
+        if self.thumb:
+            return format_html('<img src="{}" />'.format(self.thumb.url))
+        else:
+            return format_html('视频暂不支持微缩图')
     ws.allow_tags = True
     ws.short_description = '首页轮播图'
 
     def save(self):
         super(SLIDE, self).save() #将上传的图片先保存一下，否则报错
-        base, ext = os.path.splitext(os.path.basename(self.image.path))
-        thumb_pixbuf = make_thumb(os.path.join(MEDIA_ROOT, self.image.name))
-        relate_thumb_path = os.path.join(THUMB_ROOT, base + '.thumb' + ext).replace("\\","/")
-        thumb_path = os.path.join(MEDIA_ROOT, relate_thumb_path).replace("\\","/")
-        thumb_pixbuf.save(thumb_path)
-        self.thumb = ImageFieldFile(self, self.thumb, relate_thumb_path)
-        super(SLIDE, self).save() #再保存一下，包括缩略图等
+        if self.image:
+            base, ext = os.path.splitext(os.path.basename(self.image.path))
+            thumb_pixbuf = make_thumb(os.path.join(MEDIA_ROOT, self.image.name))
+            relate_thumb_path = os.path.join(THUMB_ROOT, base + '.thumb' + ext).replace("\\","/")
+            thumb_path = os.path.join(MEDIA_ROOT, relate_thumb_path).replace("\\","/")
+            thumb_pixbuf.save(thumb_path)
+            self.thumb = ImageFieldFile(self, self.thumb, relate_thumb_path)
+            super(SLIDE, self).save() #再保存一下，包括缩略图等
     class Meta: 
         verbose_name = '首页轮播图' 
         verbose_name_plural = '首页轮播图'
