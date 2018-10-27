@@ -11,8 +11,8 @@ function osSlider(objs) {
     that.nowNodeKey = 0; //初始第一次默认显示节点为第一个
     // that.width = that.cNodes.find('img').width();//得到容器的宽度
     // that.height = that.cNodes.find('img').height();//得到容器的高度
-    that.width = img1.width/2;
-    that.height = img1.height/2;
+    that.width = services.width/2;
+    that.height = services.offsetHeight/2;
     that.moveFlag = true;//添加是否可以进行下一个轮播状态
     that.isPause = false;//是否暂停状态
     that.speedNum = 0;//自动轮播的计数
