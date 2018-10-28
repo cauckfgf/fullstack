@@ -3908,7 +3908,7 @@ footer h6 {
 }
 footer {
 	padding: 90px 0;
-	background: #212121;
+	background: white;
 }
 .flicker-img ul {
 	margin: 0 -5px;
@@ -4103,14 +4103,14 @@ footer .social_icons a {
 	margin-right: 20px;
 	border-radius: 50%;
 	line-height: 34px;
-	color: #949494;
+	color: black;
 	display: inline-block;
 	text-align: center;
 }
 .footer-info h6 {
 	font-size: 12px;
 	text-transform: uppercase;
-	color: #fff;
+	color: black;
 	letter-spacing: 2px;
 	font-weight: 600;
 	margin-bottom: 30px;
@@ -4139,7 +4139,7 @@ footer .subscribe button {
 }
 footer .subscribe input {
 	width: 100%;
-	border: none;
+	/*border: none;*/
 	height: 40px;
 	font-size: 12px;
 	font-family: 'Montserrat', sans-serif;
