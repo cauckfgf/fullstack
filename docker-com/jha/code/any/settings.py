@@ -217,6 +217,22 @@ MENUS = [
         'chirld': [],
         'active':False
     },
+    
+    {
+        'name': '新闻资讯',
+        'link': '/o/news',
+        'active':False,
+        'chirld': [
+            {
+                'name': '公司新闻',
+                'link': '/',
+            },
+            {
+                'name': '行业新闻',
+                'link': '/',
+            },
+        ],
+    },
     {
         'name': '关于我们',
         'link': '/o/about',
@@ -227,7 +243,7 @@ MENUS = [
                 'link': '/',
             },
             {
-                'name': '领导致辞',
+                'name': '董事长致辞',
                 'link': '/',
             },
             {
@@ -240,21 +256,6 @@ MENUS = [
             },
             {
                 'name': '资质荣誉',
-                'link': '/',
-            },
-        ],
-    },
-    {
-        'name': '新闻资讯',
-        'link': '/o/news',
-        'active':False,
-        'chirld': [
-            {
-                'name': '公司新闻',
-                'link': '/',
-            },
-            {
-                'name': '公司新闻',
                 'link': '/',
             },
         ],
@@ -287,10 +288,6 @@ MENUS = [
         'link': '/o/xiangmu',
         'active':False,
         'chirld': [
-            {
-                'name': '国内业绩',
-                'link': '/',
-            },
             {
                 'name': '国内工程',
                 'link': '/',
@@ -331,10 +328,6 @@ MENUS = [
             },
             {
                 'name': '招聘信息',
-                'link': '/',
-            },
-            {
-                'name': '员工风采',
                 'link': '/',
             },
         ],
