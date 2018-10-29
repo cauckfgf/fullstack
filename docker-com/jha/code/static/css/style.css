@@ -526,6 +526,7 @@ header .navbar li {
 }
 header .navbar li:nth-child(1) {
 	margin-left: 0px;
+
 }
 header .sticky {
 	width: 100%;
@@ -601,7 +602,7 @@ header .navbar li.active a:before {
 	background: none;
 }
 .ownmenu ul.dropdown {
-	background: #222222;
+	background: #5899dd;
 	padding: 0px;
 }
 .ownmenu ul.dropdown li {
