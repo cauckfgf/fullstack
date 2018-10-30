@@ -25,7 +25,7 @@ def index(request):
     menus = copy.deepcopy(MENUS)
     menus[0]['active'] = True
     slides = SLIDE.objects.all()
-    xiaolunbo = range(6)
+    xiaolunbo = range(10)
     # print slides,slides.count()
     return render(request, 'index.html',locals())
 

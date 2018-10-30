@@ -132,57 +132,67 @@ $(document).ready(function($) {
         }
     });
     
+    var galleryThumbs = new Swiper('.gallery-thumbs', {
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
+      paginationClickable: false,
+    });
+    var galleryTop = new Swiper('.gallery-top', {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+        hideOnClick: true,
+      },
+      thumbs: {
+        swiper: galleryThumbs
+      }
+    });
+    var galleryTop = new Swiper('.gallery-left', {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+        hideOnClick: true,
+      },
+      thumbs: {
+        swiper: galleryThumbs
+      }
+    });
 
+    var galleryThumbs = new Swiper('.gallery-thumbs-1', {
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
+      paginationClickable: false,
+    });
+    var galleryTop = new Swiper('.gallery-top-1', {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+        hideOnClick: true,
+      },
+      thumbs: {
+        swiper: galleryThumbs
+      }
+    });
+    var galleryTop = new Swiper('.gallery-left-1', {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+        hideOnClick: true,
+      },
+      thumbs: {
+        swiper: galleryThumbs
+      }
+    });
 });
 
 
-function nexlunbo(){
-    // 新闻轮播
-    $('.shutter').shutter({
-        shutterW: services.offsetWidth/2, // 容器宽度
-        shutterH: services.offsetHeight, // 容器高度
-        isAutoPlay: true, // 是否自动播放
-        playInterval: 3000, // 自动播放时间
-        curDisplay: 3, // 当前显示页
-        fullPage: false // 是否全屏展示
-    });
-    // var slider = new osSlider({ //开始创建效果
-    //     pNode:'.slider', //容器的选择器 必填
-    //     cNode:'.slider-main li', //轮播体的选择器 必填
-    //     speed:3000, //速度 默认3000 可不填写
-    //     autoPlay:true //是否自动播放 默认true 可不填写
-    // });
-    img2.height=services.offsetHeight/2;
-    
-}
-
-nexlunbo()
-window.onload = function() {
-  $("#yx").height(img2.height);
-  $("#yx").width(img2.width);
-  var swiper = new Swiper ('#yx', {
-        direction: 'vertical',
-        slidesPerView : 1,
-        loop: true,
-        autoplay:true,
-        width: window.innerWidth/4,
-        height:services.offsetHeight/2,
-        // 如果需要分页器
-        // pagination: '.swiper-pagination',
-        
-        // // 如果需要前进后退按钮
-        // nextButton: '.swiper-button-next',
-        // prevButton: '.swiper-button-prev',
-        
-        // // 如果需要滚动条
-        // scrollbar: '.swiper-scrollbar',
-        effect : 'cube',
-          cubeEffect: {
-            slideShadows: true,
-            shadow: true,
-            shadowOffset: 100,
-            shadowScale: 0.6
-        },
-      });
-
-}

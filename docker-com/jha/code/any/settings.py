@@ -234,7 +234,7 @@ MENUS = [
         ],
     },
     {
-        'name': '关于我们',
+        'name': '关于京航安',
         'link': '/o/about',
         'active':False,
         'chirld': [
