@@ -134,7 +134,7 @@ $(document).ready(function($) {
     
     var galleryThumbs = new Swiper('.gallery-thumbs', {
       spaceBetween: 10,
-      slidesPerView: 4,
+      slidesPerView: 3,
       freeMode: true,
       watchSlidesVisibility: true,
       watchSlidesProgress: true,
@@ -165,7 +165,7 @@ $(document).ready(function($) {
 
     var galleryThumbs = new Swiper('.gallery-thumbs-1', {
       spaceBetween: 10,
-      slidesPerView: 4,
+      slidesPerView: 3,
       freeMode: true,
       watchSlidesVisibility: true,
       watchSlidesProgress: true,

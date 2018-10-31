@@ -12,13 +12,24 @@
             <ul>
                 {% for s in slides %}
                 {% if s.file %}
-                <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off">
-                    <!-- MAIN IMAGE -->
-                    <!-- <img style="z-index: 8" src=""  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">  -->
-                    <!-- <img src="{{ s.image.url }}"  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"> -->
+<!--                 <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off">
+                    <img style="z-index: 8" src=""  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"> 
+                    <img src="{{ s.image.url }}"  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                     <video poster="{{ s.image.url }}" alt="slider" style="width: 100%;height: 100%;object-fit: cover;  z-index: 9" loop controls="" autoplay="" name="media">
                         <source src="{{ s.file.url }}" type="video/mp4">
                     </video>
+                    <div class="tp-caption sfr font-bold tp-resizeme letter-space-4" data-x="left" data-hoffset="0" data-y="center" data-voffset="-80" data-speed="800" data-start="800" data-easing="Power3.easeInOut" data-splitin="chars" data-splitout="none" data-elementdelay="0.07" data-endelementdelay="0.1" data-endspeed="300" style="z-index: 6; font-size:35px; color:#fff; text-transform:uppercase; white-space: nowrap;">致力于成为全球领先的智慧机场服务商
+                    </div>
+                    <div class="tp-caption sfr font-bold tp-resizeme letter-space-3" data-x="left" data-hoffset="0" data-y="center" data-voffset="0" data-speed="800" data-start="1300" data-easing="Power3.easeInOut" data-splitin="chars" data-splitout="none" data-elementdelay="0.07" data-endelementdelay="0.1" data-endspeed="300" style="z-index: 6; font-size:70px; color:red; text-transform:uppercase; white-space: nowrap;">京航安欢迎您</div>
+                    <div class="tp-caption sfb tp-resizeme letter-space-1" data-x="left" data-hoffset="0" data-y="center" data-voffset="70" data-speed="800" data-start="1800" data-easing="Power3.easeInOut" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="300" style="z-index: 7; font-size:18px;  font-style:italic; color:#fff; max-width: auto; max-height: auto; white-space: nowrap;">
+                    </div>
+                    <div class="tp-caption lfb tp-resizeme" data-x="left" data-hoffset="0" data-y="center" data-voffset="150" data-speed="800" data-start="2200" data-easing="Power3.easeInOut" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="300" data-scrolloffset="0" style="z-index: 8;"><a href="#." class="btn margin-right-20"> 做诚信企业</a><a href="#." class="btn  btn-white">创精品工程</a>
+                    </div>
+                </li> -->
+                {% else %}
+                <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off">
+                    <!-- MAIN IMAGE -->
+                    <img src="{{ s.image.url }}"  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                     <div class="tp-caption sfr font-bold tp-resizeme letter-space-4" data-x="left" data-hoffset="0" data-y="center" data-voffset="-80" data-speed="800" data-start="800" data-easing="Power3.easeInOut" data-splitin="chars" data-splitout="none" data-elementdelay="0.07" data-endelementdelay="0.1" data-endspeed="300" style="z-index: 6; font-size:35px; color:#fff; text-transform:uppercase; white-space: nowrap;">致力于成为全球领先的智慧机场服务商
                     </div>
                     <!-- LAYER NR. 2 -->
@@ -28,12 +39,6 @@
                     </div>
                     <!-- LAYER NR. 4 -->
                     <div class="tp-caption lfb tp-resizeme" data-x="left" data-hoffset="0" data-y="center" data-voffset="150" data-speed="800" data-start="2200" data-easing="Power3.easeInOut" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="300" data-scrolloffset="0" style="z-index: 8;"><a href="#." class="btn margin-right-20"> 做诚信企业</a><a href="#." class="btn  btn-white">创精品工程</a>
-                    </div>
-                </li>
-                {% else %}
-                <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off">
-                    <!-- MAIN IMAGE -->
-                    <img src="{{ s.image.url }}"  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                     <!-- LAYERS -->
                     <!-- LAYER NR. 2 -->
                 </li>
@@ -44,140 +49,146 @@
     </div>
 </section>
     <!-- Content -->
+<div class="container-fiuled">
+    <div class="col-md-6 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+        <section class="index-image index-image-right">
+            <div class="img-left" data-animation="fadeInUp">
+                <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw3.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw1.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="swiper-button-next swiper-button-white"></div>
+                    <div class="swiper-button-prev swiper-button-white"></div>
+                  </div>
+                  <div class="swiper-container gallery-thumbs">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw3.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw1.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                    </div>
+                  </div>
+            </div>
+            <div class="swiper-container gallery-left information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+                <div class="swiper-wrapper">
+                    {% for i in gongsi %}
+                    <div class="swiper-slide">
+                        
+                        <div class="information-right information-right-s">
+                
+                            <h3 class="tittle three">公司新闻</h3>
+                            <h4>{{ i.title }}</h4>
+                            <p>{{ i.c }}</p>
+                            <a href="blog_inner.html" class="read-more">更多</a>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-6 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInRight" data-animation-delay="0s">
+        <section class="index-image">
+            <div class="img-left" data-animation="fadeInUp">
+                <div class="swiper-container gallery-top-1">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw1.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw3.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="swiper-button-next swiper-button-white"></div>
+                    <div class="swiper-button-prev swiper-button-white"></div>
+                  </div>
+                  <div class="swiper-container gallery-thumbs-1">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw1.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw3.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                    </div>
+                  </div>
+            </div>
+            <div class="swiper-container gallery-left-1 information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+                <div class="swiper-wrapper">
+                    {% for i in hangye %}
+                    <div class="swiper-slide">
+                        
+                        <div class="information-right information-right-s">
+                
+                            <h3 class="tittle three">行业新闻</h3>
+                            <h4>{{ i.title }}</h4>
+                            <p>{{ i.c }}</p>
+                            <a href="blog_inner.html" class="read-more">更多</a>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 <div id="content">
     <!-- Welcome -->
     
 
-    <section class="index-image index-image-right">
-        <div class="img-left" data-animation="fadeInUp">
-            <div class="swiper-container gallery-top">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen1.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen2.png)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen3.png)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                </div>
-                <!-- Add Arrows -->
-                <div class="swiper-button-next swiper-button-white"></div>
-                <div class="swiper-button-prev swiper-button-white"></div>
-              </div>
-              <div class="swiper-container gallery-thumbs">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen1.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen2.png)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen3.png)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                </div>
-              </div>
-        </div>
-        <div class="swiper-container gallery-left information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
-            <div class="swiper-wrapper">
-                {% for i in xiaolunbo %}
-                <div class="swiper-slide">
-                    
-                    <div class="information-right information-right-s">
-            
-                        <h3 class="tittle three">公司新闻</h3>
-                        <h4>京航安承建的上海虹桥机场东区空侧助航灯光配套改造工程顺利通过行业验收</h4>
-                        <p>10月18日，由京航安承建的上海虹桥机场东区空侧助航灯光配套改造工程顺利通过行业验收。该工程主要包括新增远机位立式标记牌27块，改造现有远机位立式标记牌13块；在东区机坪滑行通道新增滑行道中线灯225套，中间等待位灯39套；在16条快速脱离滑行道靠近平行滑行道处新增禁止进入排灯162套；对原灯光监控系统进行升级等。</p>
-                        <a href="blog_inner.html" class="read-more">更多</a>
-                    </div>
-                    
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    <hr>
-    <section class="index-image">
-        <div class="img-left" data-animation="fadeInUp">
-            <div class="swiper-container gallery-top-1">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen4.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen5.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                </div>
-                <!-- Add Arrows -->
-                <div class="swiper-button-next swiper-button-white"></div>
-                <div class="swiper-button-prev swiper-button-white"></div>
-              </div>
-              <div class="swiper-container gallery-thumbs-1">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen4.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/xinwen5.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                  <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                </div>
-              </div>
-        </div>
-        <div class="swiper-container gallery-left-1 information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
-            <div class="swiper-wrapper">
-                {% for i in xiaolunbo %}
-                <div class="swiper-slide">
-                    
-                    <div class="information-right information-right-s">
-            
-                        <h3 class="tittle three">行业新闻</h3>
-                        <h4>港珠澳大桥通车仪式举行 远东电缆点亮世界最长跨海大桥</h4>
-                        <p>10月23日，世界最长跨海大桥——港珠澳大桥通车仪式在珠海举行，国家主席习近平出席仪式并宣布大桥正式开通。作为港珠澳大桥主体工程交通工程战略供应商，远东智慧能源股份有限公司（简称：智慧能源，股票代码600869）为港珠澳大桥项目提供了优质的产品和服务。</p>
-                        <a href="blog_inner.html" class="read-more">更多</a>
-                    </div>
-                    
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
+
     <div class="services_agile">
     <div class="container-fiuled">
         <div class="services_right">
             <div class="col-md-3 list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s" >
             
                 <h4 class="text-center-h">民航机场目视助航工程</h4>
-                <div class="multi-gd-text"><a href="#"><img class="img-responsive" src="/static/images/1.jpg" alt=" "></a></div>
+                <div class="multi-gd-text"><a href="#"><img class="img-responsive" src="/static/images/yw1.jpg" alt=" "></a></div>
                 <!-- <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,sed quia consequuntur magni dolores eos qui</p> -->
             </div>
             <div class="col-md-3 list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
                 
                 <h4 class="text-center-h">民航空管工程</h4>
-                <div class="multi-gd-text"><a href="#"><img class="img-responsive" src="/static/images/2.jpg" alt=" "></a></div>
+                <div class="multi-gd-text"><a href="#"><img class="img-responsive" src="/static/images/yw2.jpg" alt=" "></a></div>
                 <!-- <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,sed quia consequuntur magni dolores eos qui</p> -->
             </div>
             <div class="col-md-3 list-left text-center scroll-animation" data-animation="fadeInRight" data-animation-delay="0s">
                 
                 <h4 class="text-center-h">民航机场弱电系统工程</h4>
-                <div class="multi-gd-text"><a href="#"><img class="img-responsive" src="/static/images/3.jpg" alt=" "></a></div>
+                <div class="multi-gd-text"><a href="#"><img class="img-responsive" src="/static/images/yw3.jpg" alt=" "></a></div>
                 <!-- <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,sed quia consequuntur magni dolores eos qui</p> -->
             </div>
             <div class="col-md-3 list-left text-center scroll-animation" data-animation="fadeInRight" data-animation-delay="0s">
                 
                 <h4 class="text-center-h">建筑机电安装工程</h4>
-                <div class="multi-gd-text"><a href="#"><img class="img-responsive" src="/static/images/4.jpg" alt=" "></a></div>
+                <div class="multi-gd-text"><a href="#"><img class="img-responsive" src="/static/images/yw4.jpg" alt=" "></a></div>
                 <!-- <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,sed quia consequuntur magni dolores eos qui</p> -->
             </div>
             <div class="clearfix"></div>
