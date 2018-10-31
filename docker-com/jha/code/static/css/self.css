@@ -1012,5 +1012,26 @@ h3.tittle {
 }
 
 .col-md-6-s{
-  height: 50em;
+  height: 80vh;
 }
+header .navbar li a {
+  color: #201b14cc;
+
+}
+.header-normal .logo {
+  margin: 15px 0;
+}
+
+.p2{
+
+      overflow:hidden;
+      text-overflow:ellipsis; 
+      /*background: greenyellow;*/
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
+      overflow: hidden;
+      /*-webkit-line-clamp用来限制在一个块元素显示的文本的行数。 为了实现该效果，它需要组合其他的WebKit属性。常见结合属性：
+      display: -webkit-box; 必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 。
+      -webkit-box-orient 必须结合的属性 ，设置或检索伸缩盒对象的子元素的排列方式 。*/
+  }
