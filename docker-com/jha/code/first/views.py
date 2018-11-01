@@ -24,7 +24,7 @@ def index(request):
     # return render_to_response('index.html')
     menus = copy.deepcopy(MENUS)
     menus[0]['active'] = True
-    slides = SLIDE.objects.all().order_by('-id')
+    slides = SLIDE.objects.all().order_by('-id')[:1]
     gongsi = [
         {
             'title':"致敬改革开放40年，展望光明未来30年：企业家如何顺势而起？",

@@ -29,7 +29,7 @@
                 {% else %}
                 <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off">
                     <!-- MAIN IMAGE -->
-                    <img src="{{ s.image.url }}"  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
+                    <img src="{{ s.image.url }}" class="p15img"  alt="slider"  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                     <div class="tp-caption sfr font-bold tp-resizeme letter-space-4" data-x="left" data-hoffset="0" data-y="center" data-voffset="-80" data-speed="800" data-start="800" data-easing="Power3.easeInOut" data-splitin="chars" data-splitout="none" data-elementdelay="0.07" data-endelementdelay="0.1" data-endspeed="300" style="z-index: 6; font-size:35px; color:#fff; text-transform:uppercase; white-space: nowrap;">致力于成为全球领先的智慧机场服务商
                     </div>
                     <!-- LAYER NR. 2 -->
@@ -49,122 +49,93 @@
     </div>
 </section>
     <!-- Content -->
-<div class="container-fiuled">
-    <div class="col-md-6 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
-        <section class="index-image index-image-right">
-            <div class="img-left" data-animation="fadeInUp">
-                <div class="swiper-container gallery-top">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw3.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                    </div>
-                    <!-- Add Arrows -->
-                    <div class="swiper-button-next swiper-button-white"></div>
-                    <div class="swiper-button-prev swiper-button-white"></div>
-                  </div>
-                  <div class="swiper-container gallery-thumbs">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw3.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/gsxw1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                    </div>
-                  </div>
-            </div>
-            <div class="swiper-container gallery-left information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
-                <div class="swiper-wrapper">
-                    {% for i in gongsi %}
-                    <div class="swiper-slide">
-                        
-                        <div class="information-right information-right-s">
-                
-                            <h3 class="tittle three">公司新闻</h3>
-                            <h4>{{ i.title }}</h4>
-                            <p class="p2">{{ i.c }}</p>
-                            <a href="blog_inner.html" class="read-more">更多</a>
-                        </div>
-                        
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInRight" data-animation-delay="0s">
-        <section class="index-image">
-            <div class="img-left" data-animation="fadeInUp">
-                <div class="swiper-container gallery-top-1">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw3.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                    </div>
-                    <!-- Add Arrows -->
-                    <div class="swiper-button-next swiper-button-white"></div>
-                    <div class="swiper-button-prev swiper-button-white"></div>
-                  </div>
-                  <div class="swiper-container gallery-thumbs-1">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/hyxw3.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
-                    </div>
-                  </div>
-            </div>
-            <div class="swiper-container gallery-left-1 information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
-                <div class="swiper-wrapper">
-                    {% for i in hangye %}
-                    <div class="swiper-slide">
-                        
-                        <div class="information-right information-right-s">
-                
-                            <h3 class="tittle three">行业动态</h3>
-                            <h4>{{ i.title }}</h4>
-                            <p class="p2">{{ i.c }}</p>
-                            <a href="blog_inner.html" class="read-more">更多</a>
-                        </div>
-                        
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-    </div>
-</div>
-<div id="content">
+
+
     <!-- Welcome -->
-    
+    <div class="container-fiuled">
+      <div class="col-md-6 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+          <section class="index-image index-image-right">
+              <div class="img-left" data-animation="fadeInUp">
+                  <div class="swiper-container gallery-top">
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide" style="background-image:url(/static/images/gsxw3.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/gsxw2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/gsxw1.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      </div>
+                      <!-- Add Arrows -->
+                      <div class="swiper-button-next swiper-button-white"></div>
+                      <div class="swiper-button-prev swiper-button-white"></div>
+                    </div>
+   
+              </div>
+              <div class="swiper-container gallery-left information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+                  <h3 class="tittle three">公司新闻</h3>
+                  <div class="swiper-wrapper">
+                      {% for i in gongsi %}
+                      <div class="swiper-slide">
+                          
+                          <div class="information-right information-right-s">
+                              <h4>{{ i.title }}<a href="blog_inner.html" class="a-s">更多</a></h4>
+                              <!-- <a href="blog_inner.html" class="read-more">更多</a> -->
+                          </div>
+                          
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          </section>
+      </div>
+      <div class="col-md-6 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInRight" data-animation-delay="0s">
+          <section class="index-image">
+              <div class="img-left" data-animation="fadeInUp">
+                  <div class="swiper-container gallery-top-1">
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide" style="background-image:url(/static/images/hyxw1.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/hyxw2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/hyxw3.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      </div>
+                      <!-- Add Arrows -->
+                      <div class="swiper-button-next swiper-button-white"></div>
+                      <div class="swiper-button-prev swiper-button-white"></div>
+                    </div>
 
+              </div>
+              <div class="swiper-container gallery-left-1 information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+                  <h3 class="tittle three">行业动态</h3>
+                  <div class="swiper-wrapper">
+                      {% for i in hangye %}
+                      <div class="swiper-slide">
+                          
+                          <div class="information-right information-right-s">
+                  
+                              
+                              <h4>{{ i.title }}<a href="blog_inner.html" class="a-s">更多</a></h4>
+                              <!-- <a href="blog_inner.html" class="read-more">更多</a> -->
+                          </div>
+                          
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          </section>
+      </div>
+    </div>
 
-    <div class="services_agile">
+    <div class="col-md-12" style="height: 25px;width: 100%;"></div>
     <div class="container-fiuled">
         <div class="services_right">
             <div class="col-md-3 list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s" >
@@ -194,8 +165,9 @@
             <div class="clearfix"></div>
         </div>
     </div>
+    <div class="col-md-12" style="height: 25px;width: 100%;"></div>
     <div id="partners" class="scroll-animation" data-animation="fadeInUp" data-animation-delay="0s">
-        <div class="container">
+        <div class="container-fiuled">
             <div class="carousel-wrapper">
                 <div class="swiper-container" id="carousel">
                     <div class="swiper-wrapper">
@@ -216,5 +188,5 @@
     </div>
    
 
-</div>
+
     {% endblock %}
