@@ -1017,7 +1017,7 @@ h3.tittle {
 }
 header .navbar li a {
   color: #201b14cc;
-
+  font-weight: bolder;
 }
 /*.header-normal .logo {
   margin: 15px 0;
