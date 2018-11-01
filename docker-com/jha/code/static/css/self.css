@@ -204,10 +204,13 @@
 }
 #partners{
     text-align: center;
-    padding: 93px 0;
+    padding: 93px 0px;
     border-top: 2px solid #efefef;
     border-bottom: 2px solid #efefef;
     background-color: #edf9fe;
+    margin-left: 15px;
+    margin-right: 15px;
+
 }
 #carousel .swiper-slide, #carousel.swiper-container{
   background:transparent;
@@ -1039,8 +1042,11 @@ header .navbar li a {
       display: -webkit-box; 必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 。
       -webkit-box-orient 必须结合的属性 ，设置或检索伸缩盒对象的子元素的排列方式 。*/
   }
-.tp-banner-container{
+.home-slider{
   margin-top:75px;
+}
+.tp-banner-container{
+  /*margin-top:75px;*/
   margin: 0 15px;
 }
 .preview1{
@@ -1050,7 +1056,7 @@ header .navbar li a {
   margin: 0 15px;
 }*/
 .active-revslide{
-  width: calc(100% - 30px);
+  width: calc(100% - 30px)!important;
 }
 .a-s {
     font-size: 0.2em;
@@ -1059,5 +1065,5 @@ header .navbar li a {
     padding-right: 15px;
 }
 .container-fiuled{
-  padding-top: 15px;
+  padding: 15px;
 }
