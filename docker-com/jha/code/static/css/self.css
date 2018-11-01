@@ -1006,7 +1006,7 @@ h3.tittle {
     -webkit-transition: .2s ease-in-out;
 }*/
 .erweima{
-  width: 70%;
+  width: 85%;
 }
 .rights-s{
   text-align: center;
@@ -1036,3 +1036,6 @@ header .navbar li a {
       display: -webkit-box; 必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 。
       -webkit-box-orient 必须结合的属性 ，设置或检索伸缩盒对象的子元素的排列方式 。*/
   }
+.home-slider{
+  padding: 75px 15px 0 15px;
+}
