@@ -62,10 +62,10 @@ $(document).ready(function($) {
     /*-----------------------------------------------------------------------------------*/
     jQuery('.tp-banner').show().revolution({
         dottedOverlay: "none",
-        delay: 10000,
+        delay: 5000,
         startwidth: 1170,
         startheight: 900,
-        navigationType: "",
+        navigationType: null,
         navigationArrows: "solo",
         navigationStyle: "preview1",
         parallax: "mouse",
