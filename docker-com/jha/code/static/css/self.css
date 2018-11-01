@@ -208,7 +208,7 @@
     border-top: 2px solid #efefef;
     border-bottom: 2px solid #efefef;
     background-color: #edf9fe;
-    margin-left: 15px;
+    /*margin-left: 15px;*/
     /*margin-right: 15px;*/
     margin-top: 25px;
 
@@ -1016,7 +1016,7 @@ h3.tittle {
 }
 .rights-s{
   text-align: center;
-  margin-left: 15px;
+  /*margin-left: 15px;*/
 }
 
 .col-md-6-s{
@@ -1049,7 +1049,7 @@ header .navbar li a {
 }
 .tp-banner-container{
   /*margin-top:75px;*/
-  margin: 0 15px;
+  /*margin: 0 15px;*/
 }
 .preview1{
   display: none;
@@ -1067,12 +1067,12 @@ header .navbar li a {
     padding-right: 15px;
 }
 .container-fiuled{
-  padding-left: 15px;
+  /*padding-left: 15px;*/
 }
 /*.sticky{
   background: #2ad2c9d9!important;
 }*/
 
 body{
-  padding-right: 15px
+  padding:0 15px
 }
