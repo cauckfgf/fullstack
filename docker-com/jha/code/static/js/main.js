@@ -31,7 +31,26 @@ $(document).ready(function($) {
         mode: 'fade',
         auto: true
     });
-
+    jQuery('.tp-banner').revolution({
+        dottedOverlay: "none",
+        delay: 5000,
+        startwidth: 1170,
+        startheight: 900,
+        navigationType: "none",
+        navigationArrows: "solo",
+        navigationStyle: "preview1",
+        parallax: "mouse",
+        parallaxBgFreeze: "on",
+        parallaxLevels: [7, 4, 3, 2, 5, 4, 3, 2, 1, 0],
+        keyboardNavigation: "on",
+        shadow: 0,
+        fullWidth: "off",
+        fullScreen: "off",
+        shuffle: "off",
+        autoHeight: "off",
+        forceFullWidth: "off",
+        fullScreenOffsetContainer: ""
+    });
     function onScrollInit(items, trigger) {
         items.each(function() {
             var osElement = $(this),
@@ -60,26 +79,7 @@ $(document).ready(function($) {
     /*-----------------------------------------------------------------------------------*/
     /*  SLIDER REVOLUTION
     /*-----------------------------------------------------------------------------------*/
-    jQuery('.tp-banner').revolution({
-        dottedOverlay: "none",
-        delay: 5000,
-        startwidth: 1170,
-        startheight: 900,
-        navigationType: "none",
-        navigationArrows: "solo",
-        navigationStyle: "preview1",
-        parallax: "mouse",
-        parallaxBgFreeze: "on",
-        parallaxLevels: [7, 4, 3, 2, 5, 4, 3, 2, 1, 0],
-        keyboardNavigation: "on",
-        shadow: 0,
-        fullWidth: "off",
-        fullScreen: "off",
-        shuffle: "off",
-        autoHeight: "off",
-        forceFullWidth: "off",
-        fullScreenOffsetContainer: ""
-    });
+    
 
     /*----
     -------------------------------------------------------------------------------*/
