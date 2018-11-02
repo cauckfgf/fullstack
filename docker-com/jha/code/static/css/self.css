@@ -285,6 +285,8 @@ h3.tittle {
     color:#018cc5;
     height: 100%;
     font-size: 0.7em;
+    text-decoration:underline;
+    line-height: 1.4em;
 
 }
 
