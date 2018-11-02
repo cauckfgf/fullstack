@@ -253,7 +253,7 @@
 .index-image{
     overflow:hidden;
     position:relative;
-    padding:0 !important;
+    padding:15px 0!important;
     background:#edf9fe;
     height: 100%;
 }
@@ -272,24 +272,27 @@
 h3.tittle {
     text-transform: uppercase;
     font-weight: bold;
-    /*font-size: 2.5em;*/
+    font-size: 1.5em;
     line-height: 1.4em;
     border-left: 8px solid #0f93c8;
     padding-left: 14px;
     margin-top:1em;
-    margin-bottom: 3.5em;
+    margin-bottom: 0.5em;
 }
 .index-image h4{
     text-align: left;
     margin: 0 0 22px;
     color:#018cc5;
     height: 100%;
-    font-size: 1em;
+    font-size: 0.7em;
+
 }
+
 .img-left{
     width:50%;
-    height:100%;
-    padding: 10% 2% 0 2%;
+    height:70%;
+    padding: 0 2%;
+    margin-top: 20%;
     position:absolute;
     top:0;
     left:0;
@@ -314,6 +317,7 @@ h3.tittle {
 .index-image-right .information-right{
     float:left;
     text-align:left;
+    height: 100%;
     /*padding: 50px 49px 145px 11%;*/
     /*margin:50px 20px 145px 1%;*/
 }
@@ -1020,7 +1024,8 @@ h3.tittle {
 }
 
 .col-md-6-s{
-  height: 65vh;
+  height: 40vh;
+  padding-top:15px; 
   background: #edf9fe;
 }
 header .navbar li a {
@@ -1074,5 +1079,56 @@ header .navbar li a {
 }*/
 
 body{
-  padding:0 15px
+  padding:0;
+}
+.menu-toggle{
+  background:#2196F3!important;
+}
+@media (max-width: 768px) {
+  header .ownmenu{
+    background: rgba(33, 150, 243, 0.76)!important;
+  }
+}
+@media (min-width: 768px) {
+
+  .index-image h4{
+    font-size: 1em;
+  }
+  .col-md-6-s{
+    height: 65vh;
+  }
+  body{
+    padding:0 15px;
+  }
+  h3.tittle {
+    text-transform: uppercase;
+    font-weight: bold;
+    /*font-size: 2.5em;*/
+    line-height: 1.4em;
+    border-left: 8px solid #0f93c8;
+    padding-left: 14px;
+    margin-top:1em;
+    margin-bottom: 3.5em;
+  }
+  .img-left{
+      width:50%;
+      height:100%;
+      padding: 10% 2% 0 2%;
+      margin-top: 0;
+      position:absolute;
+      top:0;
+      left:0;
+      background-size:cover;
+  }
+  .index-image{
+      overflow:hidden;
+      position:relative;
+      padding:0 !important;
+      background:#edf9fe;
+      height: 100%;
+  }
+｝
+
+.footer-info a:hover{
+  color:black!important;
 }

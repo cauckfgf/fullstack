@@ -33,7 +33,7 @@ $(document).ready(function($) {
     });
     jQuery('.tp-banner').revolution({
         dottedOverlay: "none",
-        delay: 5000,
+        delay: 1000,
         startwidth: 1170,
         startheight: 900,
         navigationType: "none",
