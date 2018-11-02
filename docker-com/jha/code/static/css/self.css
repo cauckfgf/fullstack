@@ -80,11 +80,11 @@
   background-size: cover;
   background-position: center;
 }
-.gallery-top, .gallery-top-1 {
+.gallery-top, .gallery-top-1,.gallery-top-2 {
   height: 60%;
   width: 100%;
 }
-.gallery-left,.gallery-left-1 {
+.gallery-left,.gallery-left-1,.gallery-left-2 {
   height: 100%;
   width: 100%;
 }

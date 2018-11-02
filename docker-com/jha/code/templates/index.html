@@ -53,7 +53,7 @@
 
     <!-- Welcome -->
     <div class="container-fiuled">
-      <div class="col-md-6 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+      <div class="col-md-4 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
           <section class="index-image">
               <div class="img-left" data-animation="fadeInUp">
                   <div class="swiper-container gallery-top">
@@ -81,7 +81,7 @@
                       {% for i in gongsi %}
                       <div class="swiper-slide">
                           <div class="information-right information-right-s">
-                              <h4><i class="fa fa-star"></i> {{ i.title }}<a href="blog_inner.html" class="a-s">更多</a></h4>
+                              <h4><i style="color: red" class="fa fa-star"></i> {{ i.title }}<a href="blog_inner.html" class="a-s">更多</a></h4>
                               <!-- <a href="blog_inner.html" class="read-more">更多</a> -->
                           </div>
                           
@@ -91,7 +91,45 @@
               </div>
           </section>
       </div>
-      <div class="col-md-6 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInRight" data-animation-delay="0s">
+      <div class="col-md-4 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+          <section class="index-image">
+              <div class="img-left" data-animation="fadeInUp">
+                  <div class="swiper-container gallery-top-2">
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide" style="background-image:url(/static/images/jtxh1.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jtxh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jtxh3.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                        <div class="swiper-slide" style="background-image:url(/static/images/jh2.jpg)"></div>
+                      </div>
+                      <!-- Add Arrows -->
+                      <div class="swiper-button-next swiper-button-white"></div>
+                      <div class="swiper-button-prev swiper-button-white"></div>
+                    </div>
+   
+              </div>
+              <div class="swiper-container gallery-left-2 information-right scroll-animation" data-animation="fadeInLeft" data-animation-delay="0s">
+                  <h3 class="tittle three">集团要闻</h3>
+                  <div class="swiper-wrapper">
+                      {% for i in gongsi %}
+                      <div class="swiper-slide">
+                          <div class="information-right information-right-s">
+                              <h4><i style="color: red" class="fa fa-star"></i> {{ i.title }}<a href="blog_inner.html" class="a-s">更多</a></h4>
+                              <!-- <a href="blog_inner.html" class="read-more">更多</a> -->
+                          </div>
+                          
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          </section>
+      </div>
+      <div class="col-md-4 col-md-6-s list-left text-center scroll-animation" data-animation="fadeInRight" data-animation-delay="0s">
           <section class="index-image">
               <div class="img-left" data-animation="fadeInUp">
                   <div class="swiper-container gallery-top-1">
@@ -117,7 +155,7 @@
                           <div class="information-right information-right-s">
                   
                               
-                              <h4><i class="fa fa-star"></i>{{ i.title }}<a href="blog_inner.html" class="a-s">更多</a></h4>
+                              <h4><i style="color: red" class="fa fa-star"></i>{{ i.title }}<a href="blog_inner.html" class="a-s">更多</a></h4>
                               <!-- <a href="blog_inner.html" class="read-more">更多</a> -->
                           </div>
                           

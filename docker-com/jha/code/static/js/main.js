@@ -150,7 +150,7 @@ $(document).ready(function($) {
         prevEl: '.swiper-button-prev',
         hideOnClick: true,
       },
-      height: 200
+      height: 300
     });
     var galleryTop = new Swiper('.gallery-top', {
       spaceBetween: 10,
@@ -179,9 +179,30 @@ $(document).ready(function($) {
       watchSlidesVisibility: true,
       watchSlidesProgress: true,
       paginationClickable: false,
-      height: 200
+      height: 300
     });
     var galleryTop1 = new Swiper('.gallery-top-1', {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+        hideOnClick: true,
+      },
+      thumbs: {
+        swiper: galleryLeft1
+      }
+    });
+    var galleryLeft1 = new Swiper('.gallery-left-2', {
+      direction : 'vertical',
+      slidesPerView: 3,
+      spaceBetween: 10,
+      freeMode: true,
+      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
+      paginationClickable: false,
+      height: 300
+    });
+    var galleryTop1 = new Swiper('.gallery-top-2', {
       spaceBetween: 10,
       navigation: {
         nextEl: '.swiper-button-next',
