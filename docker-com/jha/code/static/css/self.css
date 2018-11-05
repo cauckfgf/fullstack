@@ -996,7 +996,7 @@ h3.tittle {
 .text-center-h{
   display: block;
   margin:0;
-  background-color: #white;
+  background-color: white;
   padding: 12px 0;
   border-top: 2px solid #1c66be;
   color: #018cc5;
@@ -1094,7 +1094,7 @@ body{
 @media (min-width: 768px) {
 
   .index-image h4{
-    font-size: 1em;
+    font-size: 80%;
   }
   .col-md-6-s{
     height: 65vh;
@@ -1110,7 +1110,7 @@ body{
     border-left: 8px solid #0f93c8;
     padding-left: 14px;
     margin-top:1em;
-    margin-bottom: 3.5em;
+    margin-bottom: 3em;
   }
   .img-left{
       width:50%;
