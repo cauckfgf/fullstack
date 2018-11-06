@@ -9,13 +9,13 @@ sys.setdefaultencoding("utf8")
 admin.site.site_header = '京航安后台管理'
 admin.site.site_title = '京航安'
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author',' t')
-    model = File
+    list_display = ('titile', 'author', 't')
+    model = News
         
 class FileAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'image','ws')
     readonly_fields = ('ws','thumb')
-    model = News
+    model = File
 
 class SLIDEAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'image','ws','file')
