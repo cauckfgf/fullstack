@@ -60,7 +60,10 @@ class News(models.Model):
     en_titile = models.CharField(max_length=200, blank=True, null=True,verbose_name='新闻标题英文')
     en_txt = RichTextUploadingField(verbose_name='新闻内容英文', blank=True, null=True)
     ntime = models.DateTimeField(blank=True, null=True,verbose_name='日期')
-    images = models.ManyToManyField(File,verbose_name='新闻图片', blank=True, null=True)
+    image = models.ImageField(upload_to='upload/', verbose_name='新闻图片')
+    author = models.CharField(max_length=200, blank=True, null=True,verbose_name='作者')
+    pageviews = models.IntegerField(default=0,verbose_name='浏览量')
+    shorttxt = models.IntegerField(default=0,verbose_name='新闻简介')
     t = models.IntegerField(verbose_name='企业新闻/公司新闻',default=1,choices=T_CHOICES)
     def __unicode__(self):
         return self.titile
