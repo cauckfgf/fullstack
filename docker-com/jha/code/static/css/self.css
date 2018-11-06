@@ -1103,8 +1103,21 @@ body{
     border-top: 2px solid #1c66be;
     color: #018cc5;
   }
+  
 }
-@media (min-width: 768px) {
+@media (min-width: 1301px) {
+  .index-image h4{
+    font-size: 1em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+  .img-left{
+    margin-top: 2%;
+  }
+}
+@media (min-width: 768px) and (max-width: 1300px) {
   
 
   .index-image h4{
