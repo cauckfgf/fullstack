@@ -65,7 +65,7 @@ class News(models.Model):
     author = models.CharField(max_length=200, blank=True, null=True,verbose_name='作者')
     pageviews = models.IntegerField(default=0,verbose_name='浏览量')
     shorttxt = models.IntegerField(default=0,verbose_name='新闻简介')
-    t = models.IntegerField(verbose_name='企业新闻/公司新闻',default=1,choices=T_CHOICES)
+    t = models.IntegerField(verbose_name='集团/公司/行业新闻',default=1,choices=T_CHOICES)
     def __unicode__(self):
         return self.titile
     class Meta: 
