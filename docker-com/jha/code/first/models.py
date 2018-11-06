@@ -52,8 +52,9 @@ class File(models.Model):
 class News(models.Model):
     # 实时新闻资讯
     T_CHOICES = (
-        (1, '行业资讯'),
+        (1, '行业动态'),
         (2, '公司新闻'),
+        (3, '集团要闻'),
     )
     titile = models.CharField(max_length=200, blank=True, null=True,verbose_name='新闻标题')
     txt = RichTextUploadingField(verbose_name='新闻内容', blank=True, null=True)
