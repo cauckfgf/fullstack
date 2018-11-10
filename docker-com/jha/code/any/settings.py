@@ -225,15 +225,15 @@ MENUS = [
         'chirld': [
             {
                 'name': '公司新闻',
-                'link': '/',
+                'link': '/news?t=gs',
             },
             {
                 'name': '集团要闻',
-                'link': '/',
+                'link': '/news?t=jt',
             },
             {
                 'name': '行业动态',
-                'link': '/',
+                'link': '/news?t=hy',
             },
             
         ],

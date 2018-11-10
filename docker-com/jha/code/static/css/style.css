@@ -5162,9 +5162,9 @@ footer .subscribe input {
 	float: left;
 }
 .tags a:hover {
-	background: #965452;
-	border: 1px solid #965452;
-	color: #fff;
+	/*background: #965452;*/
+	/*border: 1px solid #965452;*/
+	/*color: #fff;*/
 }
 .flickr-steam {
 	margin: 0 -5px;
