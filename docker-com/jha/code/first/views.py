@@ -74,8 +74,10 @@ def news_detail(request,ID):
     menus = copy.deepcopy(MENUS)
     menus[2]['active'] = True
     detail = News.objects.get(id=ID)
-    return render(request, 'index.html',locals())
-    # return render(request, 'news_detail.html',locals())
+    detail.pageviews += 1
+    detail.save()
+    # return render(request, 'index.html',locals())
+    return render(request, 'news_detail.html',locals())
 
 @csrf_exempt
 # @login_required(login_url="/login/")

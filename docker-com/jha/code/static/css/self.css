@@ -1128,7 +1128,6 @@ body{
   }
 }
 @media (min-width: 768px) and (max-width: 1300px) {
-  
 
   .index-image h4{
     font-size: 80%;
@@ -1170,7 +1169,7 @@ body{
       background:#edf9fe;
       height: 100%;
   }
-｝
+}
 
 .links ul li a:hover{
   color: black;
