@@ -47,8 +47,9 @@ services:
     ports:
       - "80:80"
     links:
-      - timedtask
-      - django
+      # - timedtask
+      # - django
+      - jha
     volumes:
-      - /root/fullstack/jha:/var/www
+      - /root/fullstack/docker-com/jha/code:/var/www
     container_name: nginx-host
