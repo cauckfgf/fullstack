@@ -1,0 +1,252 @@
+{
+    "guid": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6OTcwMTk4ZmE5NzE2NGMyZjk2MjRmNTk3M2UwNjQ1ZDIvJUU3JUE5JUJBJUU4JUIwJTgzJUU2JUIwJUI0JUU3JUIzJUJCJUU3JUJCJTlGJUU1JUIxJTgwJUU5JTgzJUE4LnJ2dA",
+    "success": "100%",
+    "hasThumbnail": "true",
+    "progress": "complete",
+    "urn": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6OTcwMTk4ZmE5NzE2NGMyZjk2MjRmNTk3M2UwNjQ1ZDIvJUU3JUE5JUJBJUU4JUIwJTgzJUU2JUIwJUI0JUU3JUIzJUJCJUU3JUJCJTlGJUU1JUIxJTgwJUU5JTgzJUE4LnJ2dA",
+    "status": "success",
+    "startedAt": "Thu Dec 14 04:41:50 UTC 2017",
+    "region": "US",
+    "owner": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6OTcwMTk4ZmE5NzE2NGMyZjk2MjRmNTk3M2UwNjQ1ZDIvJUU3JUE5JUJBJUU4JUIwJTgzJUU2JUIwJUI0JUU3JUIzJUJCJUU3JUJCJTlGJUU1JUIxJTgwJUU5JTgzJUE4LnJ2dA",
+    "type": "design",
+    "children": [
+    {
+        "guid": "aa85aad6-c480-4a35-9cbf-4cf5994a25ba",
+        "hasThumbnail": "true",
+        "role": "viewable",
+        "progress": "complete",
+        "status": "success",
+        "type": "folder",
+        "version": "2.0",
+        "urn": "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6OTcwMTk4ZmE5NzE2NGMyZjk2MjRmNTk3M2UwNjQ1ZDIvJUU3JUE5JUJBJUU4JUIwJTgzJUU2JUIwJUI0JUU3JUIzJUJCJUU3JUJCJTlGJUU1JUIxJTgwJUU5JTgzJUE4LnJ2dA",
+        "name": "空调水系统局部.rvt",
+        "properties":
+        {
+            "Document Information":
+            {
+                "项目名称": "项目名称",
+                "项目编号": "项目编号",
+                "作者": "",
+                "项目地址": "请在此处输入地址",
+                "项目发布日期": "出图日期",
+                "项目状态": "项目状态",
+                "建筑名称": "",
+                "客户姓名": "所有者",
+                "组织名称": "",
+                "组织描述": ""
+            }
+        },
+        "success": "100%",
+        "children": [
+        {
+            "guid": "72c1b16a-7ad7-5497-e0fd-3268ee880a0a",
+            "type": "resource",
+            "role": "thumbnail",
+            "urn": "/forgedata/preview4.png",
+            "resolution": [400, 400],
+            "size": 14629,
+            "mime": "image/png",
+            "status": "success"
+        },
+        {
+            "guid": "0576ce39-e54e-369e-da0e-7a306abf2144",
+            "type": "resource",
+            "role": "thumbnail",
+            "urn": "/forgedata/preview1.png",
+            "resolution": [100, 100],
+            "size": 3223,
+            "mime": "image/png",
+            "status": "success"
+        },
+        {
+            "guid": "cf4bbc4b-29a7-40ce-a201-0c36cb5223cc-000aceb9",
+            "type": "view",
+            "name": "{3D}",
+            "role": "3d",
+            "progress": "complete",
+            "status": "success",
+            "camera": [-65.064262, -12.067833, 85.531113, -59.783905, 97.218536, -11.978147, 0.032109, 0.66455, 0.746553, 1.021935, 0, 1, 1]
+        },
+        {
+            "guid": "a4aac952-a3f4-031c-4113-b2d9ac2d0de6",
+            "type": "resource",
+            "role": "Autodesk.AEC.ModelData",
+            "urn": "/forgedata/Resource/AECModelData.json",
+            "mime": "application/json",
+            "status": "success"
+        },
+        {
+            "guid": "399f1f46-48b4-ad84-0fb6-2320475f3b24",
+            "type": "folder",
+            "name": "图纸",
+            "hasThumbnail": "true",
+            "status": "success",
+            "progress": "complete",
+            "success": "100%",
+            "children": [
+            {
+                "guid": "6dbe8df0-668e-4b74-be80-ffbb598f3f75-001ee0ad",
+                "type": "geometry",
+                "role": "2d",
+                "name": "A101 - 未命名",
+                "viewableID": "6dbe8df0-668e-4b74-be80-ffbb598f3f75-001ee0ad",
+                "phaseNames": "新构造",
+                "status": "success",
+                "size": 15783,
+                "progress": "complete",
+                "intermediateFile": "output/Resource/图纸/A101 - 未命名 2023597/dwfx/A101 - 未命名.dwfx",
+                "levelName": "B1",
+                "placement": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 20.341207, 1],
+                "properties":
+                {
+                    "Print Setting":
+                    {
+                        "Layout": "Landscape",
+                        "Paper size": "ISO A4, 210 x 297 mm"
+                    }
+                },
+                "levelNumber": 1,
+                "hasThumbnail": "true",
+                "success": "100%",
+                "order": 0,
+                "children": [
+                {
+                    "guid": "9486850f-8a4f-49ca-0627-ee37eecb601d",
+                    "type": "resource",
+                    "role": "thumbnail",
+                    "urn": "/forgedata/Resource/图纸/A101 - 未命名 2023597/dwfx/A101 - 未命名1.png",
+                    "resolution": [100, 100],
+                    "size": 3120,
+                    "mime": "image/png",
+                    "status": "success"
+                },
+                {
+                    "guid": "e59590cc-2596-3b7b-a02b-153fe23c4f3a",
+                    "type": "resource",
+                    "role": "thumbnail",
+                    "urn": "/forgedata/Resource/图纸/A101 - 未命名 2023597/dwfx/A101 - 未命名2.png",
+                    "resolution": [200, 200],
+                    "size": 7227,
+                    "mime": "image/png",
+                    "status": "success"
+                },
+                {
+                    "guid": "a1f3d557-c79d-d74c-a73f-4234d822507a",
+                    "type": "resource",
+                    "role": "thumbnail",
+                    "urn": "/forgedata/Resource/图纸/A101 - 未命名 2023597/dwfx/A101 - 未命名4.png",
+                    "resolution": [400, 400],
+                    "size": 19062,
+                    "mime": "image/png",
+                    "status": "success"
+                },
+                {
+                    "guid": "2e770da0-60d3-4833-0b49-f2ea9a80cfa5",
+                    "type": "resource",
+                    "role": "graphics",
+                    "mime": "application/autodesk-f2d",
+                    "status": "success",
+                    "size": 15783,
+                    "urn": "/forgedata/58945edd-5afc-9bfc-f358-bc5b4c7b0d7f_f2d/primaryGraphics.f2d"
+                }]
+            },
+            {
+                "guid": "744cf89a-4bd5-23e1-5d93-e0e76fb30d71",
+                "type": "folder",
+                "name": "三维视图",
+                "hasThumbnail": "true",
+                "status": "success",
+                "progress": "complete",
+                "success": "100%",
+                "children": [
+                {
+                    "guid": "51cb996c-ca07-3bbe-72d0-3028169f191d",
+                    "type": "geometry",
+                    "role": "3d",
+                    "name": "{3D}",
+                    "viewableID": "cf4bbc4b-29a7-40ce-a201-0c36cb5223cc-000aceb9",
+                    "status": "success",
+                    "size": 2555989,
+                    "hasThumbnail": "true",
+                    "progress": "complete",
+                    "success": "100%",
+                    "children": [
+                    {
+                        "guid": "cf4bbc4b-29a7-40ce-a201-0c36cb5223cc-000aceb9",
+                        "type": "view",
+                        "name": "{3D}",
+                        "role": "3d",
+                        "progress": "complete",
+                        "status": "success",
+                        "camera": [-65.064262, -12.067833, 85.531113, -59.783905, 97.218536, -11.978147, 0.032109, 0.66455, 0.746553, 1.021935, 0, 1, 1]
+                    },
+                    {
+                        "guid": "f82f6e5d-8582-bab5-3002-6ec164ce0809",
+                        "type": "resource",
+                        "role": "graphics",
+                        "urn": "http://modelbucket.oss-cn-shanghai.aliyuncs.com/east_hospital/MEPSystemType11/0/0.svf",
+                        "mime": "application/autodesk-svf",
+                        "size": 2465811
+                    },
+                    {
+                        "guid": "9c6d2d4c-1af1-0351-506a-ddbd736d952b",
+                        "type": "resource",
+                        "role": "thumbnail",
+                        "urn": "/forgedata/Resource/三维视图/{3D} 708281/{3D}1.png",
+                        "resolution": [100, 100],
+                        "size": 7679,
+                        "mime": "image/png",
+                        "status": "success"
+                    },
+                    {
+                        "guid": "e0c4f70b-8707-6683-9c68-51915c0b3473",
+                        "type": "resource",
+                        "role": "thumbnail",
+                        "urn": "/forgedata/Resource/三维视图/{3D} 708281/{3D}2.png",
+                        "resolution": [200, 200],
+                        "size": 21265,
+                        "mime": "image/png",
+                        "status": "success"
+                    },
+                    {
+                        "guid": "bdecbd66-b282-09f6-1c55-5c42662fc004",
+                        "type": "resource",
+                        "role": "thumbnail",
+                        "urn": "/forgedata/Resource/三维视图/{3D} 708281/{3D}4.png",
+                        "resolution": [400, 400],
+                        "size": 61234,
+                        "mime": "image/png",
+                        "status": "success"
+                    }]
+                }]
+            }]
+        },
+        {
+            "guid": "8f55cfeb-b04c-4364-c9ab-4c88788f0966",
+            "type": "resource",
+            "role": "Autodesk.CloudPlatform.DesignDescription",
+            "urn": "/forgedata/designDescription.json",
+            "mime": "application/json",
+            "status": "success"
+        },
+        {
+            "guid": "6fac95cb-af5d-3e4f-b943-8a7f55847ff1",
+            "type": "resource",
+            "role": "Autodesk.CloudPlatform.PropertyDatabase",
+            "urn": "/forgedata/Resource/model.sdb",
+            "mime": "application/autodesk-db",
+            "status": "success",
+            "size": 2334720
+        },
+        {
+            "guid": "b5608b0b-b2e4-d4d7-85eb-3817e1a4a69f",
+            "type": "resource",
+            "role": "thumbnail",
+            "urn": "/forgedata/preview2.png",
+            "resolution": [200, 200],
+            "size": 6825,
+            "mime": "image/png",
+            "status": "success"
+        }]
+    }]
+}
