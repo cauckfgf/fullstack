@@ -1,4 +1,4 @@
-﻿var documentPath = './forgeData.json'
+﻿var documentPath = '/static/forgeData.json'
 var viewer3D;
 var viewer2D;
 var _blockEventMain = false;
