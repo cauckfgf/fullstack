@@ -4,7 +4,7 @@ var viewer2D;
 var _blockEventMain = false;
 var _blockEventSecondary = false;
 
-Autodesk.Viewing.Initializer({ env: 'AutodeskProduction' }, function() {
+Autodesk.Viewing.Initializer({ env: 'Local' }, function() {
     //创建3D视口
     viewer3D = new Autodesk.Viewing.Private.GuiViewer3D(document.querySelector("#forge-viewer"), {});
     //创建2D视口
