@@ -49,8 +49,11 @@ Autodesk.Viewing.Initializer({ env: 'AutodeskProduction' }, function() {
                 'type': 'geometry',
                 'role': '2d'
             }, true);
-            viewer3D.load(document.getViewablePath(geometryItems3D[0]), null);
-            viewer2D.load(document.getViewablePath(geometryItems2D[0]), null);
+            // viewer3D.load(document.getViewablePath(geometryItems3D[0]), null);
+            // viewer2D.load(document.getViewablePath(geometryItems2D[0]), null);
+
+            viewer3D.initialize();
+            viewer3D.loadModel('http://modelbucket.oss-cn-shanghai.aliyuncs.com/east_hospital/MEPSystemType11/0/0.svf',{},()=>{})
         },
         // onErrorCallback
         function(msg) {
