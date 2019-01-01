@@ -41,6 +41,15 @@ services:
     #   project: any
     volumes:
      - /root/fullstack/docker-com/jha/code:/app
+  3d:
+    uild : ./3d
+    restart: always
+    container_name: 3d
+    privileged: true
+    # environment:
+    #   project: any
+    volumes:
+     - /root/fullstack/docker-com/3d/code:/app
   nginx-host:
     build: ./nginx
     restart: always
@@ -50,6 +59,8 @@ services:
       # - timedtask
       # - django
       - jha
+      - 3d
     volumes:
       - /root/fullstack/docker-com/jha/code:/var/www
+      - /root/fullstack/docker-com/3d/code:/var/3d
     container_name: nginx-host
