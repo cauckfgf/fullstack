@@ -956,15 +956,32 @@ h3.tittle {
   /*background:url(/static/images/bg.jpg) no-repeat center center;*/
   /*background-size:100% 100%;*/
 }
+.multi-gd-text{
+    opacity: 0.9;
+    background-color: #0f0f0f;
+}
 
 .multi-gd-text a {
     display: block;
     position: relative;
 }
-.multi-gd-text a:hover::before {
+/*.multi-gd-text a:hover::before {
     width: 100%;
     height: 100%;
+}*/
+
+.multi-gd-text a .img-dd {
+    position: absolute;
+    top: 0;
+    height: 50px;
+    background-color: #018cc587;
+    width: 100%;
+    color: white;
+    line-height: 50px;
+    font-size: 1.5em;
 }
+
+
 .multi-gd-text a::before {
     background:rgba(247, 247, 247, 0.3);
     position: absolute;
@@ -984,8 +1001,16 @@ h3.tittle {
     width: 100%;
     height: 100%;
 }
-.multi-gd-text a::after {
-    background:rgba(247, 247, 247, 0.3);
+.multi-gd-text a:hover .img-dd {
+    width: 100%;
+    height: 100%;
+    line-height: 55vh;
+    transition: all 0.5s ease-out 0s;
+    z-index: 100;
+}
+
+/*.multi-gd-text a::after {
+    background:#018cc587;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -994,7 +1019,7 @@ h3.tittle {
     transition: all 0.5s ease-out 0s;
     z-index: 99;
     content: "";
-}
+}*/
 .text-center-h{
   display: block;
   margin:0;
@@ -1004,7 +1029,11 @@ h3.tittle {
   color: #018cc5;
   font-size: 100%;
 }
-
+.cn2en{
+  position: absolute;
+  top:25px;
+  right: 30px;
+}
 /*.text-center-h:before {
     position: absolute;
     bottom: 0;

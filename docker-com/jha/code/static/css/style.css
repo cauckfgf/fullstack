@@ -537,7 +537,7 @@ header .sticky {
 	transition: 0.4s ease-in-out;
 }
 header .navbar li a {
-	font-size: 12px;
+	font-size: 15px;
 	color: #fff;
 	font-weight: normal;
 	padding: 20px 0px;
