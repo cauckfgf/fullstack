@@ -977,7 +977,7 @@ h3.tittle {
     content: "";
 }
 .multi-gd-text img {
-    height: auto;
+    height: 55vh;
     width: 100%;
 }
 .multi-gd-text a:hover::after {
