@@ -14,8 +14,8 @@ const xingming = {
                         <span slot="prepend">姓</span>
                         <Button slot="append" icon="ios-search" @click="zuijia"></Button>
                     </Input>
-                    <Button slot="append" icon="ios-search" @click="zuijia(1)">大吉</Button>
-                    <Button slot="append" icon="ios-search" @click="zuijia(2)">吉</Button>
+                    <Button icon="ios-search" @click="zuijia(1)">大吉</Button>
+                    <Button icon="ios-search" @click="zuijia(2)">吉</Button>
                 </Card>
             </Col>
             <Col :xs="24" :sm="24" :md="24" :lg="24">
