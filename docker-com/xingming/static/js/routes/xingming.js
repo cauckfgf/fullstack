@@ -12,7 +12,6 @@ const xingming = {
                     </p>
                     <Input v-model="xing" style="width: 300px">
                         <span slot="prepend">姓</span>
-                        <Button slot="append" icon="ios-search" @click="zuijia"></Button>
                     </Input>
                     <Button icon="ios-search" @click="zuijia(1)">大吉</Button>
                     <Button icon="ios-search" @click="zuijia(2)">吉</Button>
