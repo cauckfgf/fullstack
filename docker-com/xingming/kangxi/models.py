@@ -86,8 +86,16 @@ class Wuge(models.Model):
                         "f":x,
                         "s":y,
                         "i":i,
-                        "fkey":'',
-                        "skey":''
+                        "jin1":"",
+                        "mu1":"",
+                        "shui1":"",
+                        "huo1":"",
+                        "tu1":"",
+                        "jin2":"",
+                        "mu2":"",
+                        "shui2":"",
+                        "huo2":"",
+                        "tu2":""
                     })
         return {
             "姓":s,

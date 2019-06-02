@@ -10,21 +10,28 @@ const xingming = {
                         <Icon type="ios-film-outline"></Icon>
                         计算最佳五格
                     </p>
-                    <Input v-model="xing" style="width: 300px">
-                        <span slot="prepend">姓</span>
-                    </Input>
-                    <Button icon="ios-search" @click="zuijia(1)">大吉</Button>
-                    <Button icon="ios-search" @click="zuijia(2)">吉</Button>
+                    <Row>
+                        <Col :xs="6" :sm="6" :md="6" :lg="6">
+                            <Input v-model="xing" style="width: 300px">
+                                <span slot="prepend">姓</span>
+                            </Input>
+                        </Col>
+                        <Col :xs="18" :sm="18" :md="18" :lg="18">
+                            <Button icon="ios-search" @click="zuijia(1)">大吉</Button>
+                            <Button icon="ios-search" @click="zuijia(2)">吉</Button>
+                        </Col>
+                    </Row>
                 </Card>
             </Col>
             <Col :xs="24" :sm="24" :md="24" :lg="24">
-                <Table border :columns="columns" :data="zuijia_res">
+                <Table border :columns="columns" :data="zuijia_res" max-height="600">
                     <template slot-scope="{ row, index }" slot="f">
                         <Button type="primary" shape="circle" icon="ios-search" @click="getzi(row,index,1)">{{ row.f }}</Button>
                     </template>
                     <template slot-scope="{ row,index }" slot="s">
                         <Button type="primary" shape="circle" icon="ios-search" @click="getzi(row,index,2)">{{ row.s }}</Button>
                     </template>
+
                 </Table>
             </Col>
 
@@ -44,8 +51,35 @@ const xingming = {
                 },
                 {
                     title: '第一个名字',
-                    key:'fkey',
-                    sortable: true
+                    align: 'center',
+                    children: [
+                        {
+                            title: '金',
+                            key:'jin1',
+                            sortable: true
+                        },
+                        {
+                            title: '木',
+                            key:'mu1',
+                            sortable: true
+                        },
+                        {
+                            title: '水',
+                            key:'shui1',
+                            sortable: true
+                        },
+                        {
+                            title: '火',
+                            key:'huo1',
+                            sortable: true
+                        },
+                        {
+                            title: '土',
+                            key:'tu1',
+                            sortable: true
+                        },
+                    ]
+                    
                 },
                 {
                     title: '第二个名字笔画数',
@@ -55,8 +89,34 @@ const xingming = {
                 },
                 {
                     title: '第二个名字',
-                    key:'skey',
-                    sortable: true
+                    align: 'center',
+                    children: [
+                        {
+                            title: '金',
+                            key:'jin2',
+                            sortable: true
+                        },
+                        {
+                            title: '木',
+                            key:'mu2',
+                            sortable: true
+                        },
+                        {
+                            title: '水',
+                            key:'shui2',
+                            sortable: true
+                        },
+                        {
+                            title: '火',
+                            key:'huo2',
+                            sortable: true
+                        },
+                        {
+                            title: '土',
+                            key:'tu2',
+                            sortable: true
+                        },
+                    ]
                 },
             ],
         }
@@ -68,9 +128,20 @@ const xingming = {
                     url:`/kangxi/rest/hanzi/?bihua=${row.f}`,
                     method: 'get'
                 }).then(res => {
-                    this.zuijia_res[index].fkey=''
+                    // this.zuijia_res[index].fkey={jin1:'',m:'',s:'',h:'',t:''}
                     for(var j in res.data.results){
-                        this.zuijia_res[index].fkey+=res.data.results[j].zi
+                        if(res.data.results[j].wuxing==1){
+                            this.zuijia_res[index].jin1+=res.data.results[j].zi
+                        }else if(res.data.results[j].wuxing==2){
+                            this.zuijia_res[index].mu1+=res.data.results[j].zi
+                        }else if(res.data.results[j].wuxing==3){
+                            this.zuijia_res[index].shui1+=res.data.results[j].zi
+                        }else if(res.data.results[j].wuxing==4){
+                            this.zuijia_res[index].huo1+=res.data.results[j].zi
+                        }else if(res.data.results[j].wuxing==5){
+                            this.zuijia_res[index].tu1+=res.data.results[j].zi
+                        }
+                        
                     }
                 })
             }else{
@@ -78,9 +149,19 @@ const xingming = {
                     url:`/kangxi/rest/hanzi/?bihua=${row.s}`,
                     method: 'get'
                 }).then(res => {
-                    this.zuijia_res[index].skey=''
+                    // this.zuijia_res[index].skey={j:'',m:'',s:'',h:'',t:''}
                     for(var j in res.data.results){
-                        this.zuijia_res[index].skey+=res.data.results[j].zi
+                        if(res.data.results[j].wuxing==1){
+                            this.zuijia_res[index].jin2+=res.data.results[j].zi
+                        }else if(res.data.results[j].wuxing==2){
+                            this.zuijia_res[index].mu2+=res.data.results[j].zi
+                        }else if(res.data.results[j].wuxing==3){
+                            this.zuijia_res[index].shui2+=res.data.results[j].zi
+                        }else if(res.data.results[j].wuxing==4){
+                            this.zuijia_res[index].huo2+=res.data.results[j].zi
+                        }else if(res.data.results[j].wuxing==5){
+                            this.zuijia_res[index].tu2+=res.data.results[j].zi
+                        }
                     }
                 })
             }
