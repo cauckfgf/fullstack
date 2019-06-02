@@ -86,7 +86,7 @@ const xingming = {
         },
         zuijia(){
             ajax({
-                url:`/kangxi/rest/hanzi/xing/?xing=${this.xing}&level=2`,
+                url:`/kangxi/rest/hanzi/xing/?xing=${this.xing}&level=1`,
                 method: 'get'
             }).then(res => {
                 this.zuijia_res = res.data["大吉组合"]
