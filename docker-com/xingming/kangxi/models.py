@@ -55,14 +55,14 @@ class Wuge(models.Model):
             "总":zongge,
         }
     @classmethod
-    def isbest(clc,x,y,z,best):
+    def isbest(clc,x,y,z,best,best1):
 
         tian = x + 1
         di = y + z
         ren = x + y
         wai = z + 1
         zong = (x + y + z)%82
-        if di in best and ren in best and wai in best and zong in best:
+        if di in best1 and ren in best and wai in best1 and zong in best:
             return {
                 't':tian,
                 'd':di,
@@ -76,10 +76,11 @@ class Wuge(models.Model):
     def xing2good(clc,s,index=1):
         data = []
         xing = Hanzi.objects.get(zi=s)
-        best = list(Wuge.objects.filter(jx_index__lte=index).values_list('number',flat=True))
+        best = list(Wuge.objects.filter(jx_index=1).values_list('number',flat=True))
+        best1 = list(Wuge.objects.filter(jx_index__lte=index).values_list('number',flat=True))
         for x in xrange(1,31):
             for y in xrange(1,31):
-                i = Wuge.isbest(xing.bihua,x,y,best)
+                i = Wuge.isbest(xing.bihua,x,y,best,best1)
                 if i:
                     data.append({
                         "f":x,

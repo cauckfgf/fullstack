@@ -14,6 +14,8 @@ const xingming = {
                         <span slot="prepend">姓</span>
                         <Button slot="append" icon="ios-search" @click="zuijia"></Button>
                     </Input>
+                    <Button slot="append" icon="ios-search" @click="zuijia(1)">大吉</Button>
+                    <Button slot="append" icon="ios-search" @click="zuijia(2)">吉</Button>
                 </Card>
             </Col>
             <Col :xs="24" :sm="24" :md="24" :lg="24">
@@ -84,9 +86,9 @@ const xingming = {
                 })
             }
         },
-        zuijia(){
+        zuijia(i){
             ajax({
-                url:`/kangxi/rest/hanzi/xing/?xing=${this.xing}&level=1`,
+                url:`/kangxi/rest/hanzi/xing/?xing=${this.xing}&level=${i}`,
                 method: 'get'
             }).then(res => {
                 this.zuijia_res = res.data["大吉组合"]
