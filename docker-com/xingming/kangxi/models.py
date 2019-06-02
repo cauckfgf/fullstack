@@ -62,7 +62,7 @@ class Wuge(models.Model):
         ren = x + y
         wai = z + 1
         zong = (x + y + z)%82
-        if di in best1 and ren in best1 and wai in best1 and zong in best1:
+        if di in best1 and ren in best and wai in best1 and zong in best:
             return {
                 't':tian,
                 'd':di,
