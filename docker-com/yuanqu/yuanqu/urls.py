@@ -27,7 +27,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    # url(r'^kangxi/', include('kangxi.urls')),
+    url(r'^device/', include('Device.urls')),
+    url(r'^config/', include('SystemManage.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

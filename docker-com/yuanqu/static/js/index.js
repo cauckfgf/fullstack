@@ -19,12 +19,12 @@
 ajax = axios.create({
     // baseURL: ajaxUrl,
     timeout: 30000,
-    // headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
+    headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
 });
 function initVue() {
     const routes = [
-      { path: '/xingming', component: xingming },
-
+      { path: '/yuanqu', component: yuanqu },
+      { path: '/other', component: other },
     ]
     const router = new VueRouter({
       routes // （缩写）相当于 routes: routes
@@ -40,13 +40,13 @@ function initVue() {
                 <Layout style="height: 100vh;">
                     <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
                         <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuclick">
-                            <MenuItem name="xingming">
+                            <MenuItem name="yuanqu">
                                 <Icon type="ios-navigate"></Icon>
-                                <span>取名五格</span>
+                                <span>院区管理</span>
                             </MenuItem>
-                            <MenuItem name="othrer">
+                            <MenuItem name="other">
                                 <Icon type="search"></Icon>
-                                <span>其他</span>
+                                <span>拓扑图demo</span>
                             </MenuItem>
                         </Menu>
                     </Sider>
@@ -59,6 +59,7 @@ function initVue() {
                             <router-view></router-view>
                         </Content>
                     </Layout>
+
                 </Layout>
             </div>`,
         created(){

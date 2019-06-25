@@ -39,9 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'rest_framework',
-    'Device'
+    'Device',
+    'SystemManage'
 ]
+
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 1000
 }
@@ -83,7 +93,29 @@ WSGI_APPLICATION = 'yuanqu.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
+        'auth': {
+            'ENGINE': 'django.db.backends.mysql',
+            #'NAME': 'scc4pms',
+            # 'NAME': 'xhyyfm',
+
+            'NAME': 'yuanqu',
+            'USER':'root',
+            'PASSWORD':'zzkjyunwei',
+            'HOST':'116.62.228.242',
+            'PORT':3306,
+        },
         'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            #'NAME': 'scc4pms',
+            # 'NAME': 'xhyyfm',
+
+            'NAME': 'yuanqu',
+            'USER':'root',
+            'PASSWORD':'zzkjyunwei',
+            'HOST':'116.62.228.242',
+            'PORT':3306,
+        },
+        'slave': {
             'ENGINE': 'django.db.backends.mysql',
             #'NAME': 'scc4pms',
             # 'NAME': 'xhyyfm',
@@ -98,7 +130,7 @@ DATABASES = {
 
 }
 
-
+DATABASE_ROUTERS = ['yuanqu.dbrouter.Router',]  
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
