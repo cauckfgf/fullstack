@@ -12,7 +12,7 @@ from  rest_framework.permissions import IsAdminUser
 from .models import *
 from .serializers import *
 import traceback
-from rest_framework_extensions.cache.mixins import CacheResponseMixin
+# from rest_framework_extensions.cache.mixins import CacheResponseMixin
 # Create your views here.
 
 
