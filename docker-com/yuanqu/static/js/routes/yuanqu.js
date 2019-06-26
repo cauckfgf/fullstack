@@ -50,19 +50,7 @@ const yuanqu = {
             },
             seriesIndex:0,
             planePath : 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
-            geoCoordMap : {
-                '二次循环泵': [10.8432, 100.01165],
-                '分水器': [100.00461, 10.01165],
-                '集水器': [50.00461, 100.08395],
-                '空压机': [100.8432, 50.08395],
-                '监控中心': [30.24717, 60.62063]
-            },
-            data : {
-                '二次循环泵': 20,
-                '分水器': 30,
-                '集水器': 44,
-                '空压机': 30
-            },
+
             option : {
                 // backgroundColor: '#1b1b1b',
                 title: {
@@ -79,7 +67,7 @@ const yuanqu = {
                 tooltip: {
                     trigger: 'item',
                     formatter: function(o) {
-
+                        // debugger
                         // return o.name + "：" + o.value[2] + "起";
                         return o.name
                     }
@@ -209,7 +197,9 @@ const yuanqu = {
                         name: d.name,
                         value: d.postion,
                         symbol: `image://${d.icon}`,
-                        deviceid:d.id
+                        deviceid:d.id,
+                        sensors:d.sensors
+                        // shortname: d.name
                                             // symbol: 'image:'+weixin
                     })
                     type = 'scatter'
@@ -226,11 +216,33 @@ const yuanqu = {
                             scale: 2.5,
                             brushType: 'stroke'
                         },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: function(o) {
+                                // debugger
+                                // return o.name + "：" + o.value[2] + "起";
+                                r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
+                                for(var i in o.data.sensors){
+                                    var s =  o.data.sensors[i]
+                                    if(s.status==0){
+                                        r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
+                                    }else{
+                                        r += `<br /><span style="text-shadow:0px 0px 2px  green;">${s.name}:${s.lastdata}${s.unit}</span>`
+                                    }
+                                    
+                                }
+                                return r
+                            }
+                        },
                         label: {
                             normal: {
                                 show: true,
                                 position: 'bottom',
-                                formatter: '{b}'
+                                formatter: function(o) {
+                                    // debugger
+                                    // return o.name + "：" + o.value[2] + "起";
+                                    return o.data.name
+                                }
                             }
                         },
 

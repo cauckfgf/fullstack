@@ -43,6 +43,9 @@ class Device(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def sensors(self):
+        return Sensor.objects.filter(device=self).order_by('-status').values('name','lastdata','unit','status')
     class Meta:
         verbose_name = '设备'
         verbose_name_plural = '设备'
@@ -71,6 +74,10 @@ class Device2Device(models.Model):
 class Sensor(models.Model):
     name = models.CharField(max_length=96,default='点位名字',verbose_name='点位名字')
     lastdata = models.CharField(max_length=96,default='最新数值',verbose_name='最新数值')
+    device = models.ForeignKey('Device',null=True,verbose_name='设备',related_name='Sensor')
+    unit = models.CharField(max_length=96,default='℃',verbose_name='点位单位')
+    isnumber = models.BooleanField(default=True,verbose_name='是否是数值量')
+    status = models.IntegerField(default=0,verbose_name='状态')
     def __unicode__(self):
         return "{}:{}".format(self.name,self.lastdata)
     class Meta:

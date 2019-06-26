@@ -21,7 +21,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     postion = serializers.SerializerMethodField()
     icon = serializers.SerializerMethodField()
-
+    sensors = serializers.ReadOnlyField()
     def get_postion(self,obj):
         # return Document.objects.filter(docdirectory__name=self.name)
         system = self.context['request'].query_params.get('system',None)
