@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
 from rest_framework.decorators import detail_route, list_route
+
 # Create your views here.
 
 class SystemFilter(rest_framework_filters.FilterSet):

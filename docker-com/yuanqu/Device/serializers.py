@@ -22,6 +22,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     postion = serializers.SerializerMethodField()
     icon = serializers.SerializerMethodField()
     sensors = serializers.ReadOnlyField()
+
     def get_postion(self,obj):
         # return Document.objects.filter(docdirectory__name=self.name)
         system = self.context['request'].query_params.get('system',None)
@@ -35,12 +36,15 @@ class DeviceSerializer(serializers.ModelSerializer):
                 return map(int,p2.position_to.split(','))
         return []
     def get_icon(self,obj):
+
         if obj.status==1:
             return obj.devicetype.icon1.url
         elif obj.status==2:
             return obj.devicetype.icon2.url
         elif obj.status==3:
             return obj.devicetype.icon3.url
+
+
 
     class Meta:
         model = Device
@@ -50,6 +54,7 @@ class Device2DeviceSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
     line_lable = serializers.ReadOnlyField()
+    path_list = serializers.ListField()
     class Meta:
         model = Device2Device
         fields = '__all__'

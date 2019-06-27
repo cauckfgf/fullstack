@@ -9,22 +9,40 @@ const yuanqu = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 80vh;">
-        <v-chart style="width: 100%;  height: 100%;" :options="option" @click="chartClick"/>
+        编辑模式
+        <i-switch v-model="editable">
+            <span slot="open">开</span>
+            <span slot="close">关</span>
+        </i-switch>
+        <v-chart style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject"/>
         <Drawer
             title="修改"
             v-model="change_show"
             width="720"
             :mask-closable="false"
             :styles="styles"
+            draggable
+            placement='left'
         >
-            <Form :model="selectDevice">
+            <Form :model="select_obj">
                 <Row :gutter="32">
-                    <Col span="12">
+                    <Col span="12"  v-if="select_obj.type!='lines'">
                         <FormItem label="x坐标" label-position="top">
-                            <InputNumber :max="200" :min="1" v-model="selectDevice.value[0]"></InputNumber>
+                            <InputNumber :max="200" :min="1" v-model="select_obj.value[0]"></InputNumber>
                         </FormItem>
                         <FormItem label="y坐标" label-position="top">
-                            <InputNumber :max="200" :min="1" v-model="selectDevice.value[1]"></InputNumber>
+                            <InputNumber :max="200" :min="1" v-model="select_obj.value[1]"></InputNumber>
+                        </FormItem>
+                    </Col>
+                    <Col span="12"  v-else>
+                        <FormItem  label-position="top" v-for='(item,index) in select_obj.coords'  :key="index" :label="index|formatLable">
+                            <InputNumber :max="200" :min="1" v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
+                            <InputNumber :max="200" :min="1" v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
+
+                            <ButtonGroup>
+                                <Button type="dashed" v-if="index!=select_obj.coords.length-1" @click="addPoint(index)">+</Button>
+                                <Button type="dashed" v-if="index!=0 && index!=select_obj.coords.length-1" @click="delPoint(index)">-</Button>
+                            </ButtonGroup>
                         </FormItem>
                     </Col>
                 </Row>
@@ -45,7 +63,7 @@ const yuanqu = {
                 paddingBottom: '53px',
                 position: 'static'
             },
-            selectDevice: {
+            select_obj: {
                 value: [],
             },
             seriesIndex:0,
@@ -102,38 +120,104 @@ const yuanqu = {
                 //     }
                 // },
                 series: []
-            }
+            },
+            chart:null,
+            choosing:false,
+            styleObject:{
+                cursor:'default'
+            },
+            addindex:0,
+            editable:false
+        }
+    },
+    filters: {
+        formatLable: function(data) {
+            return `点位${data}`
         }
     },
     methods:{
-       chartClick(event, instance, echarts){
-            this.selectDevice = event.data
-            this.change_show = true
+        choosPoint(){
+            if(this.choosing){
+                this.chart.getZr().setCursorStyle('crosshair');
+            }
+            
+        },
+        addPoint(i){
+            this.choosing=true
+            this.change_show = false
+            
+            this.select_obj.coords.splice(i+1, 0, [190,190]);
+            this.addindex = i+1
+            // this.chart.on('mousemove', this.choosPoint);
+        },
+        delPoint(i){
+            this.select_obj.coords.splice(i, 1);
+            this.option.series[this.seriesIndex].data[0].coords = this.select_obj.coords
+        },
+        chartClick(event, instance, echarts){
+            this.select_obj = event.data
+            this.select_obj.type = event.seriesType 
+            if(this.editable){
+                this.change_show = true
+            }
+            
             this.seriesIndex = event.seriesIndex
-       },
-       change_device(){
+        },
+        chartClickNull(pa){
+            if(this.choosing){
+                this.choosing=false
+                var r = this.chart.convertFromPixel({xAxisIndex: 0, yAxisIndex: 0}, [pa.offsetX, pa.offsetY]);
+                // 鼠标点击位置对应xy 坐标值
+                
+                this.select_obj.coords[this.addindex] = r
+                this.option.series[this.seriesIndex].data[0].coords = this.select_obj.coords
+                this.change_show=true
+            }
+            
+        },
+        change_device(){
             this.change_show=false
-            ajax({
-                url:'/device/rest/device2device/setdevicepostion/',
-                transformRequest: [function (data) {
-                    return Qs.stringify(data, {
-                        encode: false,
-                        arrayFormat: 'brackets'
-                    });
-                }],
-                data:{
-                    x:this.selectDevice.value[0],
-                    y:this.selectDevice.value[1],
-                    system:1,
-                    device:this.selectDevice.deviceid
-                },
-                method: 'post'
-            }).then(res=>{
-                this.init()
-            })
+            if(this.select_obj.type!='lines'){
+                ajax({
+                    url:'/device/rest/device2device/setdevicepostion/',
+                    transformRequest: [function (data) {
+                        return Qs.stringify(data, {
+                            encode: false,
+                            arrayFormat: 'brackets'
+                        });
+                    }],
+                    data:{
+                        x:this.select_obj.value[0],
+                        y:this.select_obj.value[1],
+                        system:1,
+                        device:this.select_obj.deviceid
+                    },
+                    method: 'post'
+                }).then(res=>{
+                    this.init()
+                })
+            }else{
+                var b=[]
+
+                for(var i in this.select_obj.coords){
+                    if(i!=0 &&i !=this.select_obj.coords.length-1){
+                        b.push(this.select_obj.coords[i])
+                    }
+                }
+                ajax({
+                    url:`/device/rest/device2device/${this.option.series[this.seriesIndex].device2deviceid}/`,
+                    data:{
+                        mid:JSON.stringify(b)
+                    },
+                    method: 'PATCH'
+                }).then(res=>{
+                    // this.init()
+                })
+            }
+            
     
-       },
-       init(){
+        },
+        init(){
             this.option.series=[]
             ajax({
                 url:`/device/rest/device2device/`,
@@ -142,10 +226,11 @@ const yuanqu = {
                 // this.zuijia_res[index].fkey={jin1:'',m:'',s:'',h:'',t:''}
                 for(var i in res.data){
                       var d = res.data[i]
-                      coords = [d.position_from.split(','),d.position_to.split(',')]
+                      coords = d.path_list
                       this.option.series.push({
                             type: 'lines',
                             zlevel: 1,
+                            device2deviceid:d.id,
                             // effect: {
                             //     show: true,
                             //     period: 3,
@@ -162,12 +247,13 @@ const yuanqu = {
                                 symbolSize: 8,
                                 color: d.connection,
                             },
+                            polyline:true,//是否为多线段
                             lineStyle: {
                                 normal: {
                                     // color: '#a6c84c',
                                     width: 1,
                                     opacity: 0.4,
-                                    curveness: 0.1
+                                    curveness: 0.1//曲线弯曲
                                 }
                             },
 
@@ -210,7 +296,7 @@ const yuanqu = {
                         type: type,
                         // type: 'scatter',
                         coordinateSystem: 'cartesian2d',
-                        zlevel: 1,
+                        zlevel: 2,
                         rippleEffect: {
                             period: 4,
                             scale: 2.5,
@@ -250,6 +336,7 @@ const yuanqu = {
                         itemStyle: {
                             normal: {
                                 color: '#0D6695',
+                                opacity:1//透明度
                             }
                         },
                         data: data
@@ -257,12 +344,19 @@ const yuanqu = {
                 }
                 
             })
-       }
+        }
     },
     computed: {
     },
+    mounted(){
+        this.chart = this.$refs.chart.chart
+        var zr = this.chart.getZr()
+        zr.on('click',this.chartClickNull)
+        zr.on('mousemove',this.choosPoint)
+    },
     created(){
         this.init()
+
         // // 动态线
         // this.option.series.push({
         //     type: 'lines',

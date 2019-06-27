@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+import json
 # Create your models here.
 
 class System(models.Model):
@@ -40,6 +40,7 @@ class Device(models.Model):
     status = models.IntegerField(default=0,verbose_name='状态')
     devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
+    # isshow = models.BooleanField(default=False,verbose_name='是否虚拟设备')
 
     def __unicode__(self):
         return self.name
@@ -60,6 +61,13 @@ class Device2Device(models.Model):
     connection = models.CharField(max_length=96,default='连接方式1',verbose_name='连接方式')
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
     sensor = models.ForeignKey('Sensor',null=True,verbose_name='连接传感器')
+    mid = models.TextField(default='',blank=True,null=True,verbose_name='线路中间点位')
+
+    def path_list(self):
+        if self.mid:
+            return [map(int,self.position_from.split(','))] + json.loads(self.mid) + [map(int,self.position_to.split(','))]
+        else:
+            return [map(int,self.position_from.split(',')), map(int,self.position_to.split(','))]
     def __unicode__(self):
         return self.device_from.name+'-'+self.device_to.name
 
