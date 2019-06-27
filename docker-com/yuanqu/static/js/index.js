@@ -44,7 +44,7 @@ function initVue() {
                                 <Icon type="ios-navigate"></Icon>
                                 <span>院区管理</span>
                             </MenuItem>
-                            <MenuItem name="other">
+                            <MenuItem name="yuanqu">
                                 <Icon type="search"></Icon>
                                 <span>拓扑图demo</span>
                             </MenuItem>
