@@ -14,7 +14,7 @@ const yuanqu = {
             <span slot="open">开</span>
             <span slot="close">关</span>
         </i-switch>
-        <v-chart style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject"/>
+        <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"   ref="chart" :style="styleObject"/>
         <Drawer
             title="修改"
             v-model="change_show"
@@ -127,7 +127,8 @@ const yuanqu = {
                 cursor:'default'
             },
             addindex:0,
-            editable:false
+            editable:false,
+
         }
     },
     filters: {
@@ -211,19 +212,41 @@ const yuanqu = {
                     },
                     method: 'PATCH'
                 }).then(res=>{
-                    // this.init()
+                    
+                    this.init()
                 })
             }
             
     
         },
         init(){
-            this.option.series=[]
-            ajax({
-                url:`/device/rest/device2device/`,
-                method: 'get'
-            }).then(res => {
-                // this.zuijia_res[index].fkey={jin1:'',m:'',s:'',h:'',t:''}
+            if (this.chart) {
+                this.chart.showLoading({
+                    text: '加载中',
+                    color: '#eeeeeeee',
+                    textColor: '#111111',
+                    maskColor: 'rgba(0, 0, 0, 0.9)',
+                })
+            }
+            var p1 = new Promise((resolve,reject)=>{
+                ajax({
+                    url:`/device/rest/device2device/`,
+                    method: 'get'
+                }).then(res => {
+                    resolve(res)
+                })
+            })
+            var p2 = new Promise((resolve,reject)=>{
+                ajax({
+                    url:`/device/rest/device/?system=1`,
+                    method: 'get'
+                }).then(res => {
+                    resolve(res)
+                })
+            })
+            Promise.all([p1, p2]).then((ress)=>{
+                this.option.series=[]
+                var res = ress[0]
                 for(var i in res.data){
                       var d = res.data[i]
                       coords = d.path_list
@@ -245,7 +268,7 @@ const yuanqu = {
                                 show: true,
                                 trailLength: 0.1,
                                 symbolSize: 8,
-                                color: d.connection,
+                                color: d.line.sensor_status,
                             },
                             polyline:true,//是否为多线段
                             lineStyle: {
@@ -262,20 +285,15 @@ const yuanqu = {
                                 coords: coords,
                                 lineStyle:{
                                     normal:{
-                                       color: d.connection,
+                                       color: d.line.sensor_status
                                     }
                                 },
-                                name:d.line_lable,
+                                name:d.line.label,
 
                             }]
                     })
                 }
-            })
-            ajax({
-                url:`/device/rest/device/?system=1`,
-                method: 'get'
-            }).then(res => {
-                
+                res = ress[1]
                 for(var i in res.data.results){
                     var d = res.data.results[i]
                     var data = []
@@ -288,9 +306,11 @@ const yuanqu = {
                         // shortname: d.name
                                             // symbol: 'image:'+weixin
                     })
-                    type = 'scatter'
+                    var type = 'scatter'
+                    var symbolSize = [200,100] 
                     if(d.status==2){
                         type = 'effectScatter'
+                        symbolSize = [150,75] 
                     }
                     this.option.series.push({
                         type: type,
@@ -332,7 +352,7 @@ const yuanqu = {
                             }
                         },
 
-                        symbolSize: ['200','100'],
+                        symbolSize: symbolSize,
                         itemStyle: {
                             normal: {
                                 color: '#0D6695',
@@ -342,8 +362,137 @@ const yuanqu = {
                         data: data
                     })
                 }
-                
+                if (this.chart) {
+                    this.chart.hideLoading ()
+                }
             })
+            // var aj1 = ajax({
+            //     url:`/device/rest/device2device/`,
+            //     method: 'get'
+            // }).then(res => {
+            //     // this.zuijia_res[index].fkey={jin1:'',m:'',s:'',h:'',t:''}
+            //     for(var i in res.data){
+            //           var d = res.data[i]
+            //           coords = d.path_list
+            //           this.option.series.push({
+            //                 type: 'lines',
+            //                 zlevel: 1,
+            //                 device2deviceid:d.id,
+            //                 // effect: {
+            //                 //     show: true,
+            //                 //     period: 3,
+            //                 //     trailLength: 0,
+            //                 //     //symbol: 'image://',
+            //                 //     symbol: this.planePath,
+            //                 //     symbolSize: 15
+            //                 // },
+            //                 effect: {
+            //                     period: 3,
+            //                     // constantSpeed: 50,
+            //                     show: true,
+            //                     trailLength: 0.1,
+            //                     symbolSize: 8,
+            //                     color: d.line.sensor_status,
+            //                 },
+            //                 polyline:true,//是否为多线段
+            //                 lineStyle: {
+            //                     normal: {
+            //                         // color: '#a6c84c',
+            //                         width: 1,
+            //                         opacity: 0.4,
+            //                         curveness: 0.1//曲线弯曲
+            //                     }
+            //                 },
+
+            //                 coordinateSystem:'cartesian2d',
+            //                 data: [{
+            //                     coords: coords,
+            //                     lineStyle:{
+            //                         normal:{
+            //                            color: d.line.sensor_status
+            //                         }
+            //                     },
+            //                     name:d.line.label,
+
+            //                 }]
+            //         })
+            //     }
+            // })
+            // var aj1 = ajax({
+            //     url:`/device/rest/device/?system=1`,
+            //     method: 'get'
+            // }).then(res => {
+                
+            //     for(var i in res.data.results){
+            //         var d = res.data.results[i]
+            //         var data = []
+            //         data.push({
+            //             name: d.name,
+            //             value: d.postion,
+            //             symbol: `image://${d.icon}`,
+            //             deviceid:d.id,
+            //             sensors:d.sensors
+            //             // shortname: d.name
+            //                                 // symbol: 'image:'+weixin
+            //         })
+            //         type = 'scatter'
+            //         if(d.status==2){
+            //             type = 'effectScatter'
+            //         }
+            //         this.option.series.push({
+            //             type: type,
+            //             // type: 'scatter',
+            //             coordinateSystem: 'cartesian2d',
+            //             zlevel: 2,
+            //             rippleEffect: {
+            //                 period: 4,
+            //                 scale: 2.5,
+            //                 brushType: 'stroke'
+            //             },
+            //             tooltip: {
+            //                 trigger: 'item',
+            //                 formatter: function(o) {
+            //                     // debugger
+            //                     // return o.name + "：" + o.value[2] + "起";
+            //                     r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
+            //                     for(var i in o.data.sensors){
+            //                         var s =  o.data.sensors[i]
+            //                         if(s.status==0){
+            //                             r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
+            //                         }else{
+            //                             r += `<br /><span style="text-shadow:0px 0px 2px  green;">${s.name}:${s.lastdata}${s.unit}</span>`
+            //                         }
+                                    
+            //                     }
+            //                     return r
+            //                 }
+            //             },
+            //             label: {
+            //                 normal: {
+            //                     show: true,
+            //                     position: 'bottom',
+            //                     formatter: function(o) {
+            //                         // debugger
+            //                         // return o.name + "：" + o.value[2] + "起";
+            //                         return o.data.name
+            //                     }
+            //                 }
+            //             },
+
+            //             symbolSize: ['200','100'],
+            //             itemStyle: {
+            //                 normal: {
+            //                     color: '#0D6695',
+            //                     opacity:1//透明度
+            //                 }
+            //             },
+            //             data: data
+            //         })
+            //     }
+                
+            // })
+
+
         }
     },
     computed: {

@@ -37,7 +37,7 @@ class DeviceType(models.Model):
 class Device(models.Model):
     '''设备'''
     name = models.CharField(max_length=96,default='未命名设备',verbose_name='名字')
-    status = models.IntegerField(default=0,verbose_name='状态')
+    status = models.IntegerField(default=0,verbose_name='状态')#1正常 2报警
     devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
     # isshow = models.BooleanField(default=False,verbose_name='是否虚拟设备')
@@ -71,9 +71,12 @@ class Device2Device(models.Model):
     def __unicode__(self):
         return self.device_from.name+'-'+self.device_to.name
 
-    def line_lable(self):
+    def line(self):
         if self.sensor:
-            return self.sensor.__unicode__()
+            return {
+                'label':self.sensor.__unicode__(),
+                'sensor_status': 'green' if self.sensor.status==1 else 'red'
+            }
     class Meta:
         verbose_name = '设备连接'
         verbose_name_plural = '设备连接'
@@ -85,7 +88,7 @@ class Sensor(models.Model):
     device = models.ForeignKey('Device',null=True,verbose_name='设备',related_name='Sensor')
     unit = models.CharField(max_length=96,default='℃',verbose_name='点位单位')
     isnumber = models.BooleanField(default=True,verbose_name='是否是数值量')
-    status = models.IntegerField(default=0,verbose_name='状态')
+    status = models.IntegerField(default=1,verbose_name='状态') #1正常 2报警
     def __unicode__(self):
         return "{}:{}".format(self.name,self.lastdata)
     class Meta:

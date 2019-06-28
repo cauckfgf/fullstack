@@ -53,7 +53,7 @@ class DeviceSerializer(serializers.ModelSerializer):
 class Device2DeviceSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
-    line_lable = serializers.ReadOnlyField()
+    line = serializers.ReadOnlyField()
     path_list = serializers.ListField()
     class Meta:
         model = Device2Device
