@@ -77,6 +77,11 @@ class Device2Device(models.Model):
                 'label':self.sensor.__unicode__(),
                 'sensor_status': 'green' if self.sensor.status==1 else 'red'
             }
+        else:
+            return {
+                'label':'传感器xx',
+                'sensor_status': self.connection
+            }
     class Meta:
         verbose_name = '设备连接'
         verbose_name_plural = '设备连接'

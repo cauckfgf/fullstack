@@ -24,7 +24,8 @@ ajax = axios.create({
 function initVue() {
     const routes = [
       { path: '/yuanqu', component: yuanqu },
-      { path: '/other', component: other },
+      { path: '/louyu', component: louyu },
+      { path: '/system', component: system },
     ]
     const router = new VueRouter({
       routes // （缩写）相当于 routes: routes
@@ -34,32 +35,16 @@ function initVue() {
         router,
         components:{
             // vueimage: vueImages.default
+            'v-chart':VueECharts
         },
         template:`
-            <div class="layout">
-                <Layout style="height: 100vh;">
-                    <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-                        <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuclick">
-                            <MenuItem name="yuanqu">
-                                <Icon type="ios-navigate"></Icon>
-                                <span>院区管理</span>
-                            </MenuItem>
-                            <MenuItem name="yuanqu">
-                                <Icon type="search"></Icon>
-                                <span>拓扑图demo</span>
-                            </MenuItem>
-                        </Menu>
-                    </Sider>
-                    <Layout>
-                        <Header :style="{padding: 0}" class="layout-header-bar">
-                            <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '20px 20px 0'}" type="navicon-round" size="24"></Icon>
-                        </Header>
-                        <Content :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
+            <div style="width: 100%;  height: 100%;">
+                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick" v-show='show'   ref="chart" />
+                <Layout v-show='!show' style='height:100%'>
+                    <Content :style="{margin: '20px', background: '#fff', height:'100%'}">
 
-                            <router-view></router-view>
-                        </Content>
-                    </Layout>
-
+                        <router-view></router-view>
+                    </Content>
                 </Layout>
             </div>`,
         created(){
@@ -67,7 +52,106 @@ function initVue() {
         },
         data(){
             return {
-                isCollapsed: false
+                show : true,
+                isCollapsed: false,
+                option : {
+                    backgroundColor: '#404a59',
+                    title: {
+                        text: '院区分布',
+                        subtext: '数据统计',
+                        sublink: '数据统计',
+                        left: 'center',
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    tooltip : {
+                        trigger: 'item'
+                    },
+                    // legend: {
+                    //     orient: 'vertical',
+                    //     y: 'bottom',
+                    //     x:'right',
+                    //     data:['新园区'],
+                    //     textStyle: {
+                    //         color: '#fff'
+                    //     }
+                    // },
+                    geo: {
+                        map: 'china',
+                        label: {
+                            emphasis: {
+                                show: false
+                            }
+                        },
+                        roam: true,
+                        itemStyle: {
+                            normal: {
+                                areaColor: '#323c48',
+                                borderColor: '#111'
+                            },
+                            emphasis: {
+                                areaColor: '#2a333d'
+                            }
+                        }
+                    },
+                    series : [
+
+                        {
+                            name: '',
+                            type: 'effectScatter',
+                            coordinateSystem: 'geo',
+                            data: [
+                                {
+                                    name: "东莞",
+                                    value: [113.75,23.04]
+                                },
+                                {
+                                    name: "北京",
+                                    value: [116.46,39.92]
+                                },
+                                {
+                                    name: "太原",
+                                    value: [112.53,37.87]
+                                },
+                                {
+                                    name: "成都",
+                                    value: [104.06,30.67],
+                                },
+                                {
+                                    name: "苏州",
+                                    value: [120.62,31.32]
+                                }
+                            ],
+                            encode: {
+                                value: 2
+                            },
+                            symbolSize: function (val) {
+                                return 20;
+                            },
+                            showEffectOn: 'render',
+                            rippleEffect: {
+                                brushType: 'stroke'
+                            },
+                            hoverAnimation: true,
+                            label: {
+                                normal: {
+                                    formatter: '{b}',
+                                    position: 'right',
+                                    show: true
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: '#f4e925',
+                                    shadowBlur: 10,
+                                    shadowColor: '#333'
+                                }
+                            },
+                            zlevel: 1
+                        }
+                    ]
+                }
             }
         },
         methods:{
@@ -76,6 +160,21 @@ function initVue() {
             },
             menuclick(name){
                 router.push({ path: name })
+                // // 字符串
+                // router.push('home')
+
+                // // 对象
+                // router.push({ path: 'home' })
+
+                // // 命名的路由
+                // router.push({ name: 'user', params: { userId: 123 }})
+
+                // // 带查询参数，变成 /register?plan=private
+                // router.push({ path: 'register', query: { plan: 'private' }})
+            },
+            chartClick(event){
+                this.show = false
+                router.push({ path: '/louyu', query: {louyu: event.name} })
                 // // 字符串
                 // router.push('home')
 

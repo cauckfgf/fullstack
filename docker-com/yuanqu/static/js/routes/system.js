@@ -3,7 +3,7 @@ ajax = axios.create({
     timeout: 30000,
     headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
 });
-const yuanqu = { 
+const system = { 
     components:{
         // transactions
         'v-chart':VueECharts
@@ -28,16 +28,16 @@ const yuanqu = {
                 <Row :gutter="32">
                     <Col span="12"  v-if="select_obj.type!='lines'">
                         <FormItem label="x坐标" label-position="top">
-                            <InputNumber :max="200" :min="1" v-model="select_obj.value[0]"></InputNumber>
+                            <InputNumber :max="400"  v-model="select_obj.value[0]"></InputNumber>
                         </FormItem>
                         <FormItem label="y坐标" label-position="top">
-                            <InputNumber :max="200" :min="1" v-model="select_obj.value[1]"></InputNumber>
+                            <InputNumber :max="400"  v-model="select_obj.value[1]"></InputNumber>
                         </FormItem>
                     </Col>
                     <Col span="12"  v-else>
                         <FormItem  label-position="top" v-for='(item,index) in select_obj.coords'  :key="index" :label="index|formatLable">
-                            <InputNumber :max="400" :min="1" v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
-                            <InputNumber :max="400" :min="1" v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
+                            <InputNumber :max="400"  v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
+                            <InputNumber :max="400"  v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
 
                             <ButtonGroup>
                                 <Button type="dashed" v-if="index!=select_obj.coords.length-1" @click="addPoint(index)">+</Button>
@@ -123,7 +123,7 @@ const yuanqu = {
                 },
                 xAxis: {gridIndex: 0, min: 0, max: 400,show: false},
 
-                yAxis: {gridIndex: 0, min: 0, max: 400,show: false},
+                yAxis: {gridIndex: 0, min: -20, max: 400,show: false},
 
                 // geo: {
                 //     map: 'wuhan',
@@ -157,6 +157,7 @@ const yuanqu = {
             },
             addindex:0,
             editable:false,
+            system:1,
 
         }
     },
@@ -219,7 +220,7 @@ const yuanqu = {
                     data:{
                         x:this.select_obj.value[0],
                         y:this.select_obj.value[1],
-                        system:1,
+                        system:this.system,
                         device:this.select_obj.deviceid
                     },
                     method: 'post'
@@ -249,6 +250,12 @@ const yuanqu = {
     
         },
         init(){
+            var system = this.$route.query
+            if(system.system=='1#楼' || system.system=='2#楼'){
+                this.system=1
+            }else{
+                this.system=2
+            }
             if (this.chart) {
                 this.chart.showLoading({
                     text: '加载中',
@@ -259,7 +266,7 @@ const yuanqu = {
             }
             var p1 = new Promise((resolve,reject)=>{
                 ajax({
-                    url:`/device/rest/device2device/`,
+                    url:`/device/rest/device2device/?system=${this.system}`,
                     method: 'get'
                 }).then(res => {
                     resolve(res)
@@ -267,7 +274,7 @@ const yuanqu = {
             })
             var p2 = new Promise((resolve,reject)=>{
                 ajax({
-                    url:`/device/rest/device/?system=1`,
+                    url:`/device/rest/device/?system=${this.system}`,
                     method: 'get'
                 }).then(res => {
                     resolve(res)
@@ -298,6 +305,17 @@ const yuanqu = {
                                 trailLength: 0.1,
                                 symbolSize: 8,
                                 color: d.line.sensor_status,
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'bottom',
+                                    formatter: function(o) {
+                                        debugger
+                                        // return o.name + "：" + o.value[2] + "起";
+                                        return o.data[0].name
+                                    }
+                                }
                             },
                             polyline:true,//是否为多线段
                             lineStyle: {
