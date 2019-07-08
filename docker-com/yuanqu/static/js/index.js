@@ -174,7 +174,7 @@ function initVue() {
             },
             chartClick(event){
                 this.show = false
-                router.push({ path: '/louyu', query: {louyu: event.name} })
+                router.push({ path: '/system', query: {louyu: event.name} })
                 // // 字符串
                 // router.push('home')
 

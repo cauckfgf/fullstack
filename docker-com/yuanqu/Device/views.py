@@ -48,6 +48,7 @@ class DeviceFilter(rest_framework_filters.FilterSet):
         model = Device
         fields = {
             'name':['exact','in'],
+            'system':['exact','in'],
         }
 
 class DeviceSet(viewsets.ModelViewSet):

@@ -9,49 +9,56 @@ const system = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 100%;">
-        编辑模式
-        <i-switch v-model="editable">
-            <span slot="open">开</span>
-            <span slot="close">关</span>
-        </i-switch>
-        <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"   ref="chart" :style="styleObject"/>
-        <Drawer
-            title="修改"
-            v-model="change_show"
-            width="720"
-            :mask-closable="false"
-            :styles="styles"
-            draggable
-            placement='left'
-        >
-            <Form :model="select_obj">
-                <Row :gutter="32">
-                    <Col span="12"  v-if="select_obj.type!='lines'">
-                        <FormItem label="x坐标" label-position="top">
-                            <InputNumber :max="400"  v-model="select_obj.value[0]"></InputNumber>
-                        </FormItem>
-                        <FormItem label="y坐标" label-position="top">
-                            <InputNumber :max="400"  v-model="select_obj.value[1]"></InputNumber>
-                        </FormItem>
-                    </Col>
-                    <Col span="12"  v-else>
-                        <FormItem  label-position="top" v-for='(item,index) in select_obj.coords'  :key="index" :label="index|formatLable">
-                            <InputNumber :max="400"  v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
-                            <InputNumber :max="400"  v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
-
-                            <ButtonGroup>
-                                <Button type="dashed" v-if="index!=select_obj.coords.length-1" @click="addPoint(index)">+</Button>
-                                <Button type="dashed" v-if="index!=0 && index!=select_obj.coords.length-1" @click="delPoint(index)">-</Button>
-                            </ButtonGroup>
-                        </FormItem>
-                    </Col>
-                </Row>
-            </Form>
-            <div class="demo-drawer-footer">
-                <Button style="margin-right: 8px" @click="change_show = false">取消</Button>
-                <Button type="primary" @click="change_device">确定</Button>
+        <Split v-model="split1">
+            <div slot="left" class="demo-split-pane">
+                <Tree :data="systemData" @on-select-change='systemChange'></Tree>
             </div>
-        </Drawer>
+            <div slot="right" style="width: 100%;  height: 100%;">
+                <span style="margin-left:20px">编辑模式</span>
+                <i-switch v-model="editable">
+                    <span slot="open">开</span>
+                    <span slot="close">关</span>
+                </i-switch>
+                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"   ref="chart" :style="styleObject"/>
+                <Drawer
+                    title="修改"
+                    v-model="change_show"
+                    width="720"
+                    :mask-closable="false"
+                    :styles="styles"
+                    draggable
+                    placement='left'
+                >
+                    <Form :model="select_obj">
+                        <Row :gutter="32">
+                            <Col span="12"  v-if="select_obj.type!='lines'">
+                                <FormItem label="x坐标" label-position="top">
+                                    <InputNumber :max="400"  v-model="select_obj.value[0]"></InputNumber>
+                                </FormItem>
+                                <FormItem label="y坐标" label-position="top">
+                                    <InputNumber :max="400"  v-model="select_obj.value[1]"></InputNumber>
+                                </FormItem>
+                            </Col>
+                            <Col span="12"  v-else>
+                                <FormItem  label-position="top" v-for='(item,index) in select_obj.coords'  :key="index" :label="index|formatLable">
+                                    <InputNumber :max="400"  v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
+                                    <InputNumber :max="400"  v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
+
+                                    <ButtonGroup>
+                                        <Button type="dashed" v-if="index!=select_obj.coords.length-1" @click="addPoint(index)">+</Button>
+                                        <Button type="dashed" v-if="index!=0 && index!=select_obj.coords.length-1" @click="delPoint(index)">-</Button>
+                                    </ButtonGroup>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                    </Form>
+                    <div class="demo-drawer-footer">
+                        <Button style="margin-right: 8px" @click="change_show = false">取消</Button>
+                        <Button type="primary" @click="change_device">确定</Button>
+                    </div>
+                </Drawer>
+            </div>
+        </Split>
     </div>`,
 
     data(){
@@ -68,7 +75,66 @@ const system = {
             },
             seriesIndex:0,
             planePath : 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
-
+            split1:0.15,
+            systemData:[
+                {
+                    title: '1#楼',
+                    expand: true,
+                    children:[
+                        {
+                            title: '空调系统',
+                            sid : 1,
+                            selected:true
+                        },
+                        {
+                            title: '空压机系统',
+                            sid : 2,
+                        },
+                    ]
+                },
+                {
+                    title: '2#楼',
+                    expand: true,
+                    children:[
+                        {
+                            title: '空调系统',
+                            sid : 1,
+                        },
+                        {
+                            title: '空压机系统',
+                            sid : 2,
+                        },
+                    ]
+                },
+                {
+                    title: '3#楼',
+                    expand: true,
+                    children:[
+                        {
+                            title: '空调系统',
+                            sid : 1,
+                        },
+                        {
+                            title: '空压机系统',
+                            sid : 2,
+                        },
+                    ]
+                },
+                {
+                    title: '4#楼',
+                    expand: true,
+                    children:[
+                        {
+                            title: '空调系统',
+                            sid : 1,
+                        },
+                        {
+                            title: '空压机系统',
+                            sid : 2,
+                        },
+                    ]
+                },
+            ],
             option : {
                 // backgroundColor: '#1b1b1b',
                 title: {
@@ -167,6 +233,12 @@ const system = {
         }
     },
     methods:{
+        systemChange(point){
+
+            this.system = point[0].sid
+            this.init()
+            // console.log(point)
+        },
         choosPoint(){
             if(this.choosing){
                 this.chart.getZr().setCursorStyle('crosshair');
@@ -250,12 +322,12 @@ const system = {
     
         },
         init(){
-            var system = this.$route.query
-            if(system.system=='1#楼' || system.system=='2#楼'){
-                this.system=1
-            }else{
-                this.system=2
-            }
+            // var system = this.$route.query
+            // if(system.system=='1#楼' || system.system=='2#楼'){
+            //     this.system=1
+            // }else{
+            //     this.system=2
+            // }
             if (this.chart) {
                 this.chart.showLoading({
                     text: '加载中',
@@ -263,6 +335,7 @@ const system = {
                     textColor: '#111111',
                     maskColor: 'rgba(0, 0, 0, 0.9)',
                 })
+                this.$refs.chart.clear()
             }
             var p1 = new Promise((resolve,reject)=>{
                 ajax({
@@ -282,11 +355,12 @@ const system = {
             })
             Promise.all([p1, p2]).then((ress)=>{
                 this.option.series=[]
+                var series = []
                 var res = ress[0]
                 for(var i in res.data){
                       var d = res.data[i]
                       coords = d.path_list
-                      this.option.series.push({
+                      series.push({
                             type: 'lines',
                             zlevel: 1,
                             device2deviceid:d.id,
@@ -359,7 +433,7 @@ const system = {
                         type = 'effectScatter'
                         symbolSize = [150,75] 
                     }
-                    this.option.series.push({
+                    series.push({
                         type: type,
                         // type: 'scatter',
                         coordinateSystem: 'cartesian2d',
@@ -387,14 +461,22 @@ const system = {
                                 return r
                             }
                         },
+                        animation:false,
+                        symbol : 'image://https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562565407150&di=0eaa1f1dc340a7e3b3e477adf3485c19&imgtype=0&src=http%3A%2F%2Fdemo.lanrenzhijia.com%2Fdemo%2F49%2F4936%2F1.jpg',
                         label: {
                             normal: {
                                 show: true,
                                 position: 'bottom',
+                                fontWeight :'bold',
+                                fontSize: 15,
+                                // borderWidth: 1.5,
+                                textBorderColor :'#2196f3',
+                                color :'#fff',
+                                textBorderWidth  :3,
                                 formatter: function(o) {
                                     // debugger
                                     // return o.name + "：" + o.value[2] + "起";
-                                    return o.data.name
+                                    return o.data.name 
                                 }
                             }
                         },
@@ -409,6 +491,7 @@ const system = {
                         data: data
                     })
                 }
+                this.option.series = series
                 if (this.chart) {
                     this.chart.hideLoading ()
                 }
