@@ -137,6 +137,7 @@ const system = {
                 {
                     title: '1#楼',
                     expand: true,
+                    // disabled:true,
                     children:[
                         {
                             title: '空调系统',
@@ -152,6 +153,7 @@ const system = {
                 {
                     title: '2#楼',
                     expand: true,
+                    // disabled:true,
                     children:[
                         {
                             title: '空调系统',
@@ -166,6 +168,7 @@ const system = {
                 {
                     title: '3#楼',
                     expand: true,
+                    // disabled:true,
                     children:[
                         {
                             title: '空调系统',
@@ -180,6 +183,7 @@ const system = {
                 {
                     title: '4#楼',
                     expand: true,
+                    // disabled:true,
                     children:[
                         {
                             title: '空调系统',
@@ -293,7 +297,10 @@ const system = {
         systemChange(point){
 
             this.system = point[0].sid
-            this.init()
+            if(this.system!=undefined){
+                this.init()
+            }
+            
             // console.log(point)
         },
         choosPoint(){
