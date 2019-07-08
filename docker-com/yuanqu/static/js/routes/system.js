@@ -57,13 +57,70 @@ const system = {
                         <Button type="primary" @click="change_device">确定</Button>
                     </div>
                 </Drawer>
+                <Drawer
+                    title="工单"
+                    v-model="gongdan_show"
+                    width="720"
+                    :mask-closable="false"
+                    :styles="styles"
+                    draggable
+                    placement='left'
+                >
+                    <Tabs value="维修">
+                        <TabPane label="维修" name="维修">
+                            <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
+                        </TabPane>
+                        <TabPane label="维保" name="维保">
+                            <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
+                        </TabPane>
+                        <TabPane label="报警" name="报警">
+                            <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
+                        </TabPane>
+                    </Tabs>
+                </Drawer>
             </div>
         </Split>
     </div>`,
 
     data(){
         return {
-            change_show:false,
+            columns_weixiu:[
+                {
+                    title: '工单',
+                    key: 'describe'
+                },
+                {
+                    title: '截止日期',
+                    key: 'date',
+                    width:150
+                },
+                {
+                    title: '负责人',
+                    key: 'people',
+                    width:150
+                },
+                {
+                    title: '状态',
+                    key: 'status',
+                    width:150
+                }
+            ],//维修工单
+            data_weixiu:[
+                {
+                    describe: '1#空压机入水口异常',
+                    people: '张三',
+                    date: '2016-10-03',
+                    status: '维修中'
+                },
+                {
+                    describe: '4#水塔水位过高报警',
+                    people: '李四',
+                    date: '2016-10-03',
+                    status: '已关闭'
+                },
+            ],
+            change_show:false,//抽屉1
+            gongdan_show:false,//抽屉2
             styles: {
                 height: 'calc(100% - 55px)',
                 overflow: 'auto',
@@ -261,7 +318,11 @@ const system = {
             this.select_obj = event.data
             this.select_obj.type = event.seriesType 
             if(this.editable){
+                // 编辑抽屉
                 this.change_show = true
+            }else{
+                // 工单抽屉
+                this.gongdan_show = true
             }
             
             this.seriesIndex = event.seriesIndex
