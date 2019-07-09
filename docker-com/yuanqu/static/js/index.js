@@ -58,7 +58,7 @@ function initVue() {
                 option : {
                     backgroundColor: '#404a59',
                     title: {
-                        text: '院区分布',
+                        text: '立讯精密院区分布',
                         subtext: '数据统计',
                         sublink: '数据统计',
                         left: 'center',
@@ -66,8 +66,14 @@ function initVue() {
                             color: '#fff'
                         }
                     },
-                    tooltip : {
-                        trigger: 'item'
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function(o) {
+                            // debugger
+                            // return o.name + "：" + o.value[2] + "起";
+                            r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}院区</span>`
+                            return r
+                        }
                     },
                     // legend: {
                     //     orient: 'vertical',
@@ -83,6 +89,15 @@ function initVue() {
                         label: {
                             emphasis: {
                                 show: false
+                            },
+                            normal: {
+                                show: true,
+                                position: 'bottom',
+                                formatter: function(o) {
+                                    debugger
+                                    // return o.name + "：" + o.value[2] + "起";
+                                    return o.data[0].name
+                                }
                             }
                         },
                         roam: true,
