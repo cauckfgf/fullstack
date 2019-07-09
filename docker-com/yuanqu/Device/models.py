@@ -46,7 +46,7 @@ class Device(models.Model):
         return self.name
 
     def sensors(self):
-        return Sensor.objects.filter(device=self).order_by('-status').values('name','lastdata','unit','status')
+        return Sensor.objects.filter(device=self).order_by('-status').values('name','lastdata','unit','status','id')
     class Meta:
         verbose_name = '设备'
         verbose_name_plural = '设备'

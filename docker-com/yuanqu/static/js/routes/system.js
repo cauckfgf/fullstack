@@ -59,7 +59,13 @@ const system = {
                                         <Button type="dashed" v-if="index!=0 && index!=select_obj.coords.length-1" @click="delPoint(index)">-</Button>
                                     </ButtonGroup>
                                 </FormItem>
+                                <FormItem  label-position="top" label="监测点位">
+                                    <Select v-model="select_obj.sensor" style="width:200px">
+                                        <Option v-for="item in sensors" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                                    </Select>
+                                </FormItem>
                             </Col>
+
                         </Row>
                     </Form>
                     <div class="demo-drawer-footer">
@@ -95,6 +101,7 @@ const system = {
     data(){
         return {
             yuanqu:'',
+            sensors:[],//选中线的来源设备的传感器
             columns_weixiu:[
                 {
                     title: '工单',
@@ -337,8 +344,31 @@ const system = {
             this.select_obj.coords.splice(i, 1);
             this.option.series[this.seriesIndex].data[0].coords = this.select_obj.coords
         },
+        getLineSensor(){
+            
+            if(this.select_obj.type=='lines'){
+                this.select_obj.sensor = this.option.series[this.seriesIndex].sensor
+                var deviceid = this.option.series[this.seriesIndex].fromDevice
+                for(var i in this.option.series){
+                    var s = this.option.series[i]
+                    if(s.type!='lines'){
+                        for(var j in s.data){
+                            console.log(s.data[j].deviceid)
+                            if(s.data[j].deviceid==deviceid){
+                                this.sensors = s.data[j].sensors
+                                return 
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            
+        },
         chartClick(event, instance, echarts){
             this.select_obj = event.data
+            
             this.select_obj.type = event.seriesType 
             if(this.editable){
                 // 编辑抽屉
@@ -349,6 +379,7 @@ const system = {
             }
             this.title = this.select_obj.name + '工单'
             this.seriesIndex = event.seriesIndex
+            this.getLineSensor()
         },
         chartClickNull(pa){
             if(this.choosing){
@@ -394,7 +425,8 @@ const system = {
                 ajax({
                     url:`/device/rest/device2device/${this.option.series[this.seriesIndex].device2deviceid}/`,
                     data:{
-                        mid:JSON.stringify(b)
+                        mid:JSON.stringify(b),
+                        sensor:this.select_obj.sensor
                     },
                     method: 'PATCH'
                 }).then(res=>{
@@ -448,6 +480,8 @@ const system = {
                             type: 'lines',
                             zlevel: 1,
                             device2deviceid:d.id,
+                            sensor:d.sensor,//自定义字段
+                            fromDevice:d.device_from,
                             // effect: {
                             //     show: true,
                             //     period: 3,
@@ -535,7 +569,7 @@ const system = {
                                 r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
                                 for(var i in o.data.sensors){
                                     var s =  o.data.sensors[i]
-                                    if(s.status==0){
+                                    if(s.status!=1){
                                         r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
                                     }else{
                                         r += `<br /><span style="text-shadow:0px 0px 2px  green;">${s.name}:${s.lastdata}${s.unit}</span>`
