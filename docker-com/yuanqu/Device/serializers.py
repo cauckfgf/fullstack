@@ -36,13 +36,13 @@ class DeviceSerializer(serializers.ModelSerializer):
                 return map(int,p2.position_to.split(','))
         return []
     def get_icon(self,obj):
-
-        if obj.status==1:
-            return obj.devicetype.icon1.url
-        elif obj.status==2:
-            return obj.devicetype.icon2.url
-        elif obj.status==3:
-            return obj.devicetype.icon3.url
+        return obj.devicetype.icon1.url
+        # if obj.status==1:
+        #     return obj.devicetype.icon1.url
+        # elif obj.status==2:
+        #     return obj.devicetype.icon2.url
+        # elif obj.status==3:
+        #     return obj.devicetype.icon3.url
 
 
 

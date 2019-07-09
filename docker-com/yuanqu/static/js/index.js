@@ -58,9 +58,9 @@ function initVue() {
                 option : {
                     backgroundColor: '#404a59',
                     title: {
-                        text: '立讯精密院区分布',
-                        subtext: '数据统计',
-                        sublink: '数据统计',
+                        text: '立讯精密智慧园区',
+                        subtext: '院区分布',
+                        sublink: '/',
                         left: 'center',
                         textStyle: {
                             color: '#fff'
