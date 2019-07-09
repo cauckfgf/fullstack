@@ -10,15 +10,25 @@ const system = {
     },
     template:`<div style="width: 100%;  height: 100%;">
         <Split v-model="split1">
+            
             <div slot="left" class="demo-split-pane">
-                <Tree :data="systemData" @on-select-change='systemChange'></Tree>
+                <Card>
+                    <p slot="title">
+                        <Icon type="ios-home" />
+                        {{yuanqu}}院区
+                    </p>
+                    <div slot="extra">
+                        <span style="margin-left:20px">编辑模式</span>
+                        <i-switch v-model="editable">
+                            <span slot="open">开</span>
+                            <span slot="close">关</span>
+                        </i-switch>
+                    </div>
+                    <Tree :data="systemData" @on-select-change='systemChange' style="margin-left:15px"></Tree>
+                </Card>
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
-                <span style="margin-left:20px">编辑模式</span>
-                <i-switch v-model="editable">
-                    <span slot="open">开</span>
-                    <span slot="close">关</span>
-                </i-switch>
+
                 <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"   ref="chart" :style="styleObject"/>
                 <Drawer
                     title="修改"
@@ -58,7 +68,7 @@ const system = {
                     </div>
                 </Drawer>
                 <Drawer
-                    title="工单"
+                    :title="title"
                     v-model="gongdan_show"
                     width="720"
                     :mask-closable="false"
@@ -84,6 +94,7 @@ const system = {
 
     data(){
         return {
+            yuanqu:'',
             columns_weixiu:[
                 {
                     title: '工单',
@@ -285,6 +296,7 @@ const system = {
             addindex:0,
             editable:false,
             system:1,
+            title:''//工单抽屉标题
 
         }
     },
@@ -331,7 +343,7 @@ const system = {
                 // 工单抽屉
                 this.gongdan_show = true
             }
-            
+            this.title = this.select_obj.name + '工单'
             this.seriesIndex = event.seriesIndex
         },
         chartClickNull(pa){
@@ -390,7 +402,7 @@ const system = {
     
         },
         init(){
-            // var system = this.$route.query
+            
             // if(system.system=='1#楼' || system.system=='2#楼'){
             //     this.system=1
             // }else{
@@ -696,6 +708,7 @@ const system = {
     computed: {
     },
     mounted(){
+        this.yuanqu = this.$route.query.yuanqu
         this.chart = this.$refs.chart.chart
         var zr = this.chart.getZr()
         zr.on('click',this.chartClickNull)
