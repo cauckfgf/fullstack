@@ -14,9 +14,8 @@ const system = {
             <div slot="left" class="demo-split-pane">
                 <Card>
                     <p slot="title">
-                        <Icon type="md-arrow-back" />
-                        <Icon type="ios-home" />
-                        {{yuanqu}}院区
+                        <a @click="back" title="切换院区"><Icon type="ios-home" />
+                        {{yuanqu}}院区</a>
                     </p>
                     <div slot="extra">
                         <span style="margin-left:20px">编辑模式</span>
@@ -307,6 +306,10 @@ const system = {
         }
     },
     methods:{
+        back(){
+            this.$router.push('/')
+            _app.show=true;
+        },
         systemChange(point){
 
             this.system = point[0].sid

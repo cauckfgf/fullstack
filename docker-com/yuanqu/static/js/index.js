@@ -174,8 +174,12 @@ function initVue() {
                 // router.push({ path: 'register', query: { plan: 'private' }})
             },
             chartClick(event){
-                this.show = false
-                router.push({ path: '/system', query: {yuanqu: event.name} })
+                
+                if(event.componentType=='series'){
+                    this.show = false
+                    router.push({ path: '/system', query: {yuanqu: event.name}})
+                }
+                
                 // // 字符串
                 // router.push('home')
 
