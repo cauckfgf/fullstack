@@ -14,6 +14,7 @@ const system = {
             <div slot="left" class="demo-split-pane">
                 <Card>
                     <p slot="title">
+                        <Icon type="md-arrow-back" />
                         <Icon type="ios-home" />
                         {{yuanqu}}院区
                     </p>
@@ -709,6 +710,7 @@ const system = {
     },
     mounted(){
         this.yuanqu = this.$route.query.yuanqu
+        
         this.chart = this.$refs.chart.chart
         var zr = this.chart.getZr()
         zr.on('click',this.chartClickNull)

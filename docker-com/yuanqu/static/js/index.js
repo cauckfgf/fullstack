@@ -21,6 +21,7 @@ ajax = axios.create({
     timeout: 30000,
     headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
 });
+
 function initVue() {
     const routes = [
       { path: '/yuanqu', component: yuanqu },
@@ -28,7 +29,7 @@ function initVue() {
       { path: '/system', component: system },
     ]
     const router = new VueRouter({
-      routes // （缩写）相当于 routes: routes
+        routes // （缩写）相当于 routes: routes
     })
     _app = new Vue({
         el:"#app",
@@ -203,6 +204,11 @@ function initVue() {
             }
         },
         mounted(){
+            if(this.$route.path!='/'){
+                this.show = false
+                router.push({ path: this.$route.path, query: this.$route.query })
+            }
+            
             // Vue.nextTick(()=>{
             //     for(var i in $(".ttips")){
             //         AddMarkerPingMian('red',$(".ttips")[i])
