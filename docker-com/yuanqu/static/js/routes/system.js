@@ -1030,9 +1030,9 @@ const system = {
                             return o.data.name 
                         }
                     }
-                    if(d.status==2){
-                        type = 'effectScatter'
-                    }
+                    // if(d.status==2){
+                    //     type = 'effectScatter'
+                    // }
 
                     series.push({
                         type: type,
@@ -1208,9 +1208,9 @@ const system = {
                     })
                     var type = 'scatter'
 
-                    if(d.status==2){
-                        type = 'effectScatter'
-                    }
+                    // if(d.status==2){
+                    //     type = 'effectScatter'
+                    // }
 
                     series.push({
                         type: type,

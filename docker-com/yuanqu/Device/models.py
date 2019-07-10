@@ -37,7 +37,7 @@ class DeviceType(models.Model):
 class Device(models.Model):
     '''设备'''
     name = models.CharField(max_length=96,default='未命名设备',verbose_name='名字')
-    status = models.IntegerField(default=1,verbose_name='状态')#1正常 2报警
+    status = models.IntegerField(default=1,verbose_name='状态')#1正常 2报警 或者开关关闭
     devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
     isrun = models.BooleanField(default=False,verbose_name='是否显示动态图')
