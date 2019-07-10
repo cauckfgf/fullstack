@@ -936,6 +936,7 @@ const system = {
                 var icons = this.imageChangeObj[key]
                 this.option.series[key].data[0].symbol = 'image://'+icons[this.count%icons.length]
             }
+            this.count+=1
         }
     },
     computed: {
