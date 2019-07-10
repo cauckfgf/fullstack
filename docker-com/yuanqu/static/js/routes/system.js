@@ -10,7 +10,7 @@ const system = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 100%;">
-        <Split v-model="split1">
+        <Split v-model="split1" @on-move-end="datazoom">
             
             <div slot="left" class="demo-split-pane">
                 <Card>
@@ -30,7 +30,7 @@ const system = {
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
                 <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style"/>
-                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"   ref="chart" :style="styleObject"/>
+                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject"/>
                 
                 <Drawer
                     title="修改"
@@ -106,7 +106,6 @@ const system = {
             source:null,
             imageChangeObj:[],
             t1:null,//定时更新数据定时器
-            count:0,//update 更新次数计数器
             yuanqu:'',
             sensors:[],//选中线的来源设备的传感器
             columns_weixiu:[
@@ -325,6 +324,9 @@ const system = {
         }
     },
     methods:{
+        datazoom(){
+            this.imageChange()
+        },
         back(){
             this.$router.push('/')
             _app.show=true;
@@ -457,8 +459,7 @@ const system = {
             //     this.system=2
             // }
             this.source&&this.source.cancel('取消上个请求')
-
-            this.count=0
+            this.imageChangeObj = []
             if(this.t1){
                 window.clearInterval(this.t1); 
             }
@@ -857,27 +858,16 @@ const system = {
                                 'pointer-events':'none'
                             }
                         })
-                        data.push({
-                            name: d.name,
-                            value: d.postion,
-                            symbol: `image://${d.icon[this.count%d.icon.length]}`,
-                            deviceid:d.id,
-                            sensors:d.sensors
-                            // shortname: d.name
-                                                // symbol: 'image:'+weixin
-                        })
-                    }else{
-                        data.push({
-                            name: d.name,
-                            value: d.postion,
-                            symbol: `image://${d.icon[0]}`,
-                            deviceid:d.id,
-                            sensors:d.sensors
-                            // shortname: d.name
-                                                // symbol: 'image:'+weixin
-                        })
                     }
-                        
+                    data.push({
+                        name: d.name,
+                        value: d.postion,
+                        symbol: `image://${d.icon[0]}`,
+                        deviceid:d.id,
+                        sensors:d.sensors
+                        // shortname: d.name
+                                            // symbol: 'image:'+weixin
+                    })
                     var type = 'scatter'
                     var symbolSize = [200,100] 
                     if(d.status==2){
