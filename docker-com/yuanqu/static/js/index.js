@@ -39,7 +39,7 @@ function initVue() {
             'v-chart':VueECharts
         },
         template:`
-            <div style="width: 100%;  height: 100%;">
+            <div style="width: 100%;  height: calc(100% - 40px);">
                 <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick" v-show='show'   ref="chart" />
                 <Layout v-show='!show' style='height:100%'>
                     <Content :style="{margin: '20px', background: '#fff', height:'100%'}">
