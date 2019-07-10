@@ -853,7 +853,8 @@ const system = {
                                 // left:'0px',
                                 // bottom:'0px',
                                 display: 'none',
-                                'z-index': 1
+                                'z-index': 1,
+                                'pointer-events':'none'
                             }
                         })
                         data.push({
