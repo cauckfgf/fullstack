@@ -313,7 +313,7 @@ const system = {
             },
             addindex:0,
             editable:false,
-            system:1,
+            system:2,
             title:''//工单抽屉标题
 
         }
