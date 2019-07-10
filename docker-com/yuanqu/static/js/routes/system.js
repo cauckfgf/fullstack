@@ -1206,21 +1206,6 @@ const system = {
                     })
                     var type = 'scatter'
 
-                    var labelNormal = {
-                        show: true,
-                        position: 'bottom',
-                        fontWeight :'bold',
-                        fontSize: 15,
-                        // borderWidth: 1.5,
-                        textBorderColor :'#2196f3',
-                        color :'auto',
-                        textBorderWidth  :3,
-                        formatter: function(o) {
-                            // debugger
-                            // return o.name + "：" + o.value[2] + "起";
-                            return o.data.name 
-                        }
-                    }
                     if(d.status==2){
                         type = 'effectScatter'
                     }
@@ -1258,13 +1243,13 @@ const system = {
                         label: {
                             normal: {
                                 show: true,
-                                position: 'bottom',
-                                fontWeight :'bold',
-                                fontSize: 15,
+                                position: ['-25%', '25%'],
+                                // fontWeight :'bold',
+                                // fontSize: 15,
                                 // borderWidth: 1.5,
-                                textBorderColor :'#2196f3',
+                                // textBorderColor :'#2196f3',
                                 color :'auto',
-                                textBorderWidth  :3,
+                                // textBorderWidth  :3,
                                 formatter: function(o) {
                                     // debugger
                                     // return o.name + "：" + o.value[2] + "起";
