@@ -450,6 +450,7 @@ const system = {
             // }else{
             //     this.system=2
             // }
+            this.imageChangeObj=[]
             this.source&&this.source.cancel('取消上个请求')
 
             this.count=0
@@ -933,7 +934,7 @@ const system = {
         imageChange(){
             for(var key in this.imageChangeObj){
                 var icons = this.imageChangeObj[key]
-                this.option.series[key].data[0].symbol = 'image://'icons[this.count%icons.length]
+                this.option.series[key].data[0].symbol = 'image://'+icons[this.count%icons.length]
             }
         }
     },
