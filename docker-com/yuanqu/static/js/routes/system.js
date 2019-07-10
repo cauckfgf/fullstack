@@ -3,6 +3,7 @@ ajax = axios.create({
     timeout: 30000,
     headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
 });
+
 const system = { 
     components:{
         // transactions
@@ -100,6 +101,10 @@ const system = {
 
     data(){
         return {
+            CancelToken:null,
+            source:null,
+            t1:null,//定时更新数据定时器
+            count:0,//update 更新次数计数器
             yuanqu:'',
             sensors:[],//选中线的来源设备的传感器
             columns_weixiu:[
@@ -444,14 +449,20 @@ const system = {
             // }else{
             //     this.system=2
             // }
+            this.source&&this.source.cancel('取消上个请求')
+
+            this.count=0
+            if(this.t1){
+                window.clearInterval(this.t1); 
+            }
             if (this.chart) {
-                this.chart.showLoading({
-                    text: '加载中',
-                    color: '#eeeeeeee',
-                    textColor: '#111111',
-                    maskColor: 'rgba(0, 0, 0, 0.9)',
-                })
-                this.$refs.chart.clear()
+                // this.chart.showLoading({
+                //     text: '加载中',
+                //     color: '#eeeeeeee',
+                //     textColor: '#111111',
+                //     maskColor: 'rgba(0, 0, 0, 0.9)',
+                // })
+                // this.$refs.chart.clear()
             }
             var p1 = new Promise((resolve,reject)=>{
                 ajax({
@@ -470,6 +481,9 @@ const system = {
                 })
             })
             Promise.all([p1, p2]).then((ress)=>{
+                if(this.chart){
+                    this.$refs.chart.clear()
+                }
                 this.option.series=[]
                 var series = []
                 var res = ress[0]
@@ -536,10 +550,11 @@ const system = {
                 for(var i in res.data.results){
                     var d = res.data.results[i]
                     var data = []
+
                     data.push({
                         name: d.name,
                         value: d.postion,
-                        symbol: `image://${d.icon}`,
+                        symbol: `image://${d.icon[0]}`,
                         deviceid:d.id,
                         sensors:d.sensors
                         // shortname: d.name
@@ -611,8 +626,9 @@ const system = {
                 }
                 this.option.series = series
                 if (this.chart) {
-                    this.chart.hideLoading ()
+                    // this.chart.hideLoading ()
                 }
+                this.t1 = window.setInterval(this.update,3000)
             })
             // var aj1 = ajax({
             //     url:`/device/rest/device2device/`,
@@ -739,8 +755,176 @@ const system = {
             //     }
                 
             // })
+        },
+        update(){
+            this.source&&this.source.cancel('取消上个请求')
+            this.source = this.CancelToken.source()
+            var p1 = new Promise((resolve,reject)=>{
+                ajax.get(`/device/rest/device2device/?system=${this.system}`, {cancelToken: this.source.token}).then(res => {
+                    resolve(res)
+                })
+            })
+            var p2 = new Promise((resolve,reject)=>{
+                ajax.get(`/device/rest/device/?system=${this.system}`,{cancelToken: this.source.token}).then(res => {
+                    resolve(res)
+                })
+            })
+            Promise.all([p1, p2]).then((ress)=>{
+                this.option.series=[]
+                var series = []
+                var res = ress[0]
+                for(var i in res.data){
+                      var d = res.data[i]
+                      coords = d.path_list
+                      series.push({
+                            type: 'lines',
+                            zlevel: 1,
+                            device2deviceid:d.id,
+                            sensor:d.sensor,//自定义字段
+                            fromDevice:d.device_from,
+                            // effect: {
+                            //     show: true,
+                            //     period: 3,
+                            //     trailLength: 0,
+                            //     //symbol: 'image://',
+                            //     symbol: this.planePath,
+                            //     symbolSize: 15
+                            // },
+                            effect: {
+                                period: 3,
+                                // constantSpeed: 50,
+                                show: true,
+                                trailLength: 0.1,
+                                symbolSize: 8,
+                                color: d.line.sensor_status,
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'bottom',
+                                    formatter: function(o) {
+                                        debugger
+                                        // return o.name + "：" + o.value[2] + "起";
+                                        return o.data[0].name
+                                    }
+                                }
+                            },
+                            polyline:true,//是否为多线段
+                            lineStyle: {
+                                normal: {
+                                    // color: '#a6c84c',
+                                    width: 1,
+                                    opacity: 0.4,
+                                    curveness: 0.1//曲线弯曲
+                                }
+                            },
 
+                            coordinateSystem:'cartesian2d',
+                            data: [{
+                                coords: coords,
+                                lineStyle:{
+                                    normal:{
+                                       color: d.line.sensor_status
+                                    }
+                                },
+                                name:d.line.label,
 
+                            }]
+                    })
+                }
+                res = ress[1]
+                for(var i in res.data.results){
+                    var d = res.data.results[i]
+                    var data = []
+                    if(d.isrun){
+                        data.push({
+                            name: d.name,
+                            value: d.postion,
+                            symbol: `image://${d.icon[this.count%d.icon.length]}`,
+                            deviceid:d.id,
+                            sensors:d.sensors
+                            // shortname: d.name
+                                                // symbol: 'image:'+weixin
+                        })
+                    }else{
+                        data.push({
+                            name: d.name,
+                            value: d.postion,
+                            symbol: `image://${d.icon[0]}`,
+                            deviceid:d.id,
+                            sensors:d.sensors
+                            // shortname: d.name
+                                                // symbol: 'image:'+weixin
+                        })
+                    }
+                        
+                    var type = 'scatter'
+                    var symbolSize = [200,100] 
+                    if(d.status==2){
+                        type = 'effectScatter'
+                        symbolSize = [150,75] 
+                    }
+                    series.push({
+                        type: type,
+                        // type: 'scatter',
+                        coordinateSystem: 'cartesian2d',
+                        zlevel: 2,
+                        rippleEffect: {
+                            period: 4,
+                            scale: 2.5,
+                            brushType: 'stroke'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: function(o) {
+                                // debugger
+                                // return o.name + "：" + o.value[2] + "起";
+                                r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
+                                for(var i in o.data.sensors){
+                                    var s =  o.data.sensors[i]
+                                    if(s.status!=1){
+                                        r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
+                                    }else{
+                                        r += `<br /><span style="text-shadow:0px 0px 2px  green;">${s.name}:${s.lastdata}${s.unit}</span>`
+                                    }
+                                    
+                                }
+                                return r
+                            }
+                        },
+                        animation:false,
+                        symbol : 'image://https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562565407150&di=0eaa1f1dc340a7e3b3e477adf3485c19&imgtype=0&src=http%3A%2F%2Fdemo.lanrenzhijia.com%2Fdemo%2F49%2F4936%2F1.jpg',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'bottom',
+                                fontWeight :'bold',
+                                fontSize: 15,
+                                // borderWidth: 1.5,
+                                textBorderColor :'#2196f3',
+                                color :'#fff',
+                                textBorderWidth  :3,
+                                formatter: function(o) {
+                                    // debugger
+                                    // return o.name + "：" + o.value[2] + "起";
+                                    return o.data.name 
+                                }
+                            }
+                        },
+
+                        symbolSize: symbolSize,
+                        itemStyle: {
+                            normal: {
+                                color: '#0D6695',
+                                opacity:1//透明度
+                            }
+                        },
+                        data: data
+                    })
+                }
+                this.option.series = series
+            })
+            this.count+=1
         }
     },
     computed: {
@@ -754,8 +938,9 @@ const system = {
         zr.on('mousemove',this.choosPoint)
     },
     created(){
+        this.CancelToken =axios.CancelToken;
         this.init()
-
+        
         // // 动态线
         // this.option.series.push({
         //     type: 'lines',

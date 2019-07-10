@@ -40,7 +40,7 @@ class Device(models.Model):
     status = models.IntegerField(default=0,verbose_name='状态')#1正常 2报警
     devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
-    # isshow = models.BooleanField(default=False,verbose_name='是否虚拟设备')
+    isrun = models.BooleanField(default=False,verbose_name='是否显示动态图')
 
     def __unicode__(self):
         return self.name
@@ -94,6 +94,7 @@ class Sensor(models.Model):
     unit = models.CharField(max_length=96,default='℃',verbose_name='点位单位')
     isnumber = models.BooleanField(default=True,verbose_name='是否是数值量')
     status = models.IntegerField(default=1,verbose_name='状态') #1正常 2报警
+    isrun = models.BooleanField(default=False,verbose_name='是否是决定设备运行停止进而影响逻辑图中是否显示动态图')
     def __unicode__(self):
         return "{}:{}".format(self.name,self.lastdata)
     class Meta:
