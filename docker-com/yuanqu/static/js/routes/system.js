@@ -1008,7 +1008,7 @@ const system = {
                     data.push({
                         name: d.name,
                         value: d.postion,
-                        symbol: `image://${d.icon[0]}`,
+                        symbol: `image://${d.icon[d.status-1]}`,
                         deviceid:d.id,
                         sensors:d.sensors
                         // shortname: d.name
@@ -1200,7 +1200,7 @@ const system = {
                     data.push({
                         name: d.name,
                         value: d.postion,
-                        symbol: `image://${d.icon[0]}`,
+                        symbol: `image://${d.icon[d.status-1]}`,
                         deviceid:d.id,
                         sensors:d.sensors
                         // shortname: d.name
