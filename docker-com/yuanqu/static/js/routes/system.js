@@ -103,6 +103,7 @@ const system = {
         return {
             CancelToken:null,
             source:null,
+            imageChangeObj:{},//需要定时切换image的内容
             t1:null,//定时更新数据定时器
             count:0,//update 更新次数计数器
             yuanqu:'',
@@ -628,7 +629,7 @@ const system = {
                 if (this.chart) {
                     // this.chart.hideLoading ()
                 }
-                this.t1 = window.setInterval(this.update,3000)
+                this.t1 = window.setInterval(this.update,5000)
             })
             // var aj1 = ajax({
             //     url:`/device/rest/device2device/`,
@@ -770,6 +771,7 @@ const system = {
                 })
             })
             Promise.all([p1, p2]).then((ress)=>{
+                this.imageChangeObj = []
                 this.option.series=[]
                 var series = []
                 var res = ress[0]
@@ -837,6 +839,7 @@ const system = {
                     var d = res.data.results[i]
                     var data = []
                     if(d.isrun){
+                        this.imageChangeObj[series.length] = d.icon
                         data.push({
                             name: d.name,
                             value: d.postion,
@@ -847,6 +850,7 @@ const system = {
                                                 // symbol: 'image:'+weixin
                         })
                     }else{
+                        delete this.imageChangeObj[series.length]
                         data.push({
                             name: d.name,
                             value: d.postion,
@@ -924,7 +928,13 @@ const system = {
                 }
                 this.option.series = series
             })
-            this.count+=1
+            
+        },
+        imageChange(){
+            for(var key in this.imageChangeObj){
+                var icons = this.imageChangeObj[key]
+                this.option.series[key].data[0].symbol = icons[this.count%icons.length]
+            }
         }
     },
     computed: {
@@ -940,7 +950,7 @@ const system = {
     created(){
         this.CancelToken =axios.CancelToken;
         this.init()
-        
+        window.setInterval(this.imageChange,500)
         // // 动态线
         // this.option.series.push({
         //     type: 'lines',
