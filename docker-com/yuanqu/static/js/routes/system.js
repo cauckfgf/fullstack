@@ -165,12 +165,12 @@ const system = {
                     children:[
                         {
                             title: '空调系统',
-                            sid : 1,
+                            sid : 2,
                             selected:true
                         },
                         {
                             title: '空压机系统',
-                            sid : 2,
+                            sid : 1,
                         },
                     ]
                 },
@@ -181,11 +181,12 @@ const system = {
                     children:[
                         {
                             title: '空调系统',
-                            sid : 1,
+                            sid : 2,
+                            selected:true
                         },
                         {
                             title: '空压机系统',
-                            sid : 2,
+                            sid : 1,
                         },
                     ]
                 },
@@ -196,11 +197,12 @@ const system = {
                     children:[
                         {
                             title: '空调系统',
-                            sid : 1,
+                            sid : 2,
+                            selected:true
                         },
                         {
                             title: '空压机系统',
-                            sid : 2,
+                            sid : 1,
                         },
                     ]
                 },
@@ -211,11 +213,12 @@ const system = {
                     children:[
                         {
                             title: '空调系统',
-                            sid : 1,
+                            sid : 2,
+                            selected:true
                         },
                         {
                             title: '空压机系统',
-                            sid : 2,
+                            sid : 1,
                         },
                     ]
                 },
