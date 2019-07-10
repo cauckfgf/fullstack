@@ -933,7 +933,7 @@ const system = {
         imageChange(){
             for(var key in this.imageChangeObj){
                 var icons = this.imageChangeObj[key]
-                this.option.series[key].data[0].symbol = icons[this.count%icons.length]
+                this.option.series[key].data[0].symbol = 'image://'icons[this.count%icons.length]
             }
         }
     },
