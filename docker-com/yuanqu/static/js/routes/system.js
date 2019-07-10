@@ -689,6 +689,7 @@ const system = {
                 if (this.chart) {
                     // this.chart.hideLoading ()
                 }
+                this.update()
                 this.t1 = window.setInterval(this.update,5000)
             })
         },
@@ -1095,6 +1096,7 @@ const system = {
                 if (this.chart) {
                     // this.chart.hideLoading ()
                 }
+                this.updateDian()
                 this.t1 = window.setInterval(this.updateDian,5000)
             })
         },
