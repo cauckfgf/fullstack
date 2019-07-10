@@ -26,7 +26,7 @@ class DeviceType(models.Model):
     icon1 = models.FileField(upload_to='upload/', null=True, blank=True,verbose_name='设备拓扑图状态1图标')
     icon2 = models.FileField(upload_to='upload/',null=True, blank=True,verbose_name='设备拓扑图状态2图标')
     icon3 = models.FileField(upload_to='upload/',null=True, blank=True,verbose_name='设备拓扑图状态3图标')
-
+    gif = models.FileField(upload_to='upload/',null=True, blank=True,verbose_name='设备动态图')
     def __unicode__(self):
         return self.name
     class Meta:

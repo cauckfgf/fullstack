@@ -29,8 +29,9 @@ const system = {
                 </Card>
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
-
+                <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style"/>
                 <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"   ref="chart" :style="styleObject"/>
+                
                 <Drawer
                     title="修改"
                     v-model="change_show"
@@ -44,16 +45,16 @@ const system = {
                         <Row :gutter="32">
                             <Col span="12"  v-if="select_obj.type!='lines'">
                                 <FormItem label="x坐标" label-position="top">
-                                    <InputNumber :max="400"  v-model="select_obj.value[0]"></InputNumber>
+                                    <InputNumber :max="200"  v-model="select_obj.value[0]"></InputNumber>
                                 </FormItem>
                                 <FormItem label="y坐标" label-position="top">
-                                    <InputNumber :max="400"  v-model="select_obj.value[1]"></InputNumber>
+                                    <InputNumber :max="200"  v-model="select_obj.value[1]"></InputNumber>
                                 </FormItem>
                             </Col>
                             <Col span="12"  v-else>
                                 <FormItem  label-position="top" v-for='(item,index) in select_obj.coords'  :key="index" :label="index|formatLable">
-                                    <InputNumber :max="400"  v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
-                                    <InputNumber :max="400"  v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
+                                    <InputNumber :max="200"  v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
+                                    <InputNumber :max="200"  v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
 
                                     <ButtonGroup>
                                         <Button type="dashed" v-if="index!=select_obj.coords.length-1" @click="addPoint(index)">+</Button>
@@ -103,7 +104,7 @@ const system = {
         return {
             CancelToken:null,
             source:null,
-            imageChangeObj:{},//需要定时切换image的内容
+            imageChangeObj:[],
             t1:null,//定时更新数据定时器
             count:0,//update 更新次数计数器
             yuanqu:'',
@@ -233,35 +234,35 @@ const system = {
                         fontSize: 18
                     }
                 },
-                dataZoom: [
-                    {
-                        type: 'inside',
-                        show: true,
-                        xAxisIndex: [0],
-                        start: 0,
-                        end: 50
-                    },
-                    {
-                        type: 'inside',
-                        show: true,
-                        yAxisIndex: [0],
-                        // left: '93%',
-                        start: 0,
-                        end: 50
-                    },
-                    {
-                        type: 'inside',
-                        xAxisIndex: [0],
-                        start: 0,
-                        end: 50
-                    },
-                    {
-                        type: 'inside',
-                        yAxisIndex: [0],
-                        start: 0,
-                        end: 50
-                    }
-                ],
+                // dataZoom: [
+                //     {
+                //         type: 'inside',
+                //         show: true,
+                //         xAxisIndex: [0],
+                //         start: 0,
+                //         end: 50
+                //     },
+                //     {
+                //         type: 'inside',
+                //         show: true,
+                //         yAxisIndex: [0],
+                //         // left: '93%',
+                //         start: 0,
+                //         end: 50
+                //     },
+                //     {
+                //         type: 'inside',
+                //         xAxisIndex: [0],
+                //         start: 0,
+                //         end: 50
+                //     },
+                //     {
+                //         type: 'inside',
+                //         yAxisIndex: [0],
+                //         start: 0,
+                //         end: 50
+                //     }
+                // ],
                 tooltip: {
                     trigger: 'item',
                     formatter: function(o) {
@@ -272,9 +273,9 @@ const system = {
 
 
                 },
-                xAxis: {gridIndex: 0, min: 0, max: 400,show: false},
+                xAxis: {gridIndex: 0, min: 0, max: 200,show: false},
 
-                yAxis: {gridIndex: 0, min: -20, max: 400,show: false},
+                yAxis: {gridIndex: 0, min: -20, max: 200,show: false},
 
                 // geo: {
                 //     map: 'wuhan',
@@ -305,6 +306,11 @@ const system = {
             choosing:false,
             styleObject:{
                 cursor:'default'
+            },
+            imgStyle:{
+                position:'absolute',
+                left:'110px',
+                top:'110px',
             },
             addindex:0,
             editable:false,
@@ -450,7 +456,6 @@ const system = {
             // }else{
             //     this.system=2
             // }
-            this.imageChangeObj=[]
             this.source&&this.source.cancel('取消上个请求')
 
             this.count=0
@@ -840,7 +845,17 @@ const system = {
                     var d = res.data.results[i]
                     var data = []
                     if(d.isrun){
-                        this.imageChangeObj[series.length] = d.icon
+                        this.imageChangeObj.push({
+                            postion : d.postion,
+                            gif : d.gif,
+                            style:{
+                                position: 'absolute',
+                                // left:'0px',
+                                // bottom:'0px',
+                                display: 'none',
+                                'z-index': 1
+                            }
+                        })
                         data.push({
                             name: d.name,
                             value: d.postion,
@@ -851,7 +866,6 @@ const system = {
                                                 // symbol: 'image:'+weixin
                         })
                     }else{
-                        delete this.imageChangeObj[series.length]
                         data.push({
                             name: d.name,
                             value: d.postion,
@@ -928,16 +942,34 @@ const system = {
                     })
                 }
                 this.option.series = series
+                this.imageChange()
             })
             
         },
         imageChange(){
-            for(var key in this.imageChangeObj){
-                var icons = this.imageChangeObj[key]
-                this.option.series[key].data[0].symbol = 'image://'+icons[this.count%icons.length]
+            // 通过html 绝对定位来弄图片
+            // this.imageChangeObj.push({
+            //                 postion : d.postion,
+            //                 gif : d.gif
+            //                 style:{
+            //                     postion: 'absolute',
+            //                     left:'0px',
+            //                     bottom:'0px',
+            //                     display: 'none';
+            //                 }
+            //             })
+            for(var i in this.imageChangeObj){
+                var xy = this.chart.convertToPixel ({xAxisIndex: 0, yAxisIndex: 0}, [this.imageChangeObj[i].postion[0], this.imageChangeObj[i].postion[1]]);
+                this.imageChangeObj[i].style.left=(xy[0]-100)+'px'
+                this.imageChangeObj[i].style.top=(xy[1]-50)+'px'
+                this.imageChangeObj[i].style.display='block'
+                this.imageChangeObj[i].style.height='100px'
+                this.imageChangeObj[i].style.width='200px'
+                this.imageChangeObj[i].style.position='absolute'
             }
-            this.count+=1
-        }
+            
+        },
+
     },
     computed: {
     },
@@ -952,7 +984,6 @@ const system = {
     created(){
         this.CancelToken =axios.CancelToken;
         this.init()
-        window.setInterval(this.imageChange,500)
         // // 动态线
         // this.option.series.push({
         //     type: 'lines',

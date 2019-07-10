@@ -21,6 +21,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     postion = serializers.SerializerMethodField()
     icon = serializers.SerializerMethodField()
+    gif = serializers.SerializerMethodField()
     sensors = serializers.ReadOnlyField()
 
     def get_postion(self,obj):
@@ -35,6 +36,12 @@ class DeviceSerializer(serializers.ModelSerializer):
             if p2:
                 return map(int,p2.position_to.split(','))
         return []
+    def get_gif(self,obj):
+        devicetype = obj.devicetype
+        if devicetype.gif:
+            return devicetype.gif.url
+        return ''
+        
     def get_icon(self,obj):
         devicetype = obj.devicetype
         l = []
