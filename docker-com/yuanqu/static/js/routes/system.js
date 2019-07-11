@@ -30,7 +30,7 @@ const system = {
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
                 <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style"/>
-                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject"/>
+                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished"/>
                 
                 <Drawer
                     title="修改"
@@ -355,9 +355,9 @@ const system = {
             this.system = point[0].sid
             if(this.system!=undefined){
                 if(this.system==3){
-                    this.initDian()
+                    this.initDian(update=false)
                 }else{
-                    this.init()
+                    this.init(update=false)
                 }
                 
             }
@@ -475,58 +475,52 @@ const system = {
             
     
         },
-        init(){
-            
-            // if(system.system=='1#楼' || system.system=='2#楼'){
-            //     this.system=1
-            // }else{
-            //     this.system=2
-            // }
+        finished(){
+            // chart 渲染完成
+            this.imageChange()
+        },
+        init(update=true){
             this.source&&this.source.cancel('取消上个请求')
-            this.imageChangeObj = []
+            if(update){
+                this.source = this.CancelToken.source()
+            }
             if(this.t1){
-                window.clearInterval(this.t1); 
+                // window.clearInterval(this.t1); 
+                window.clearTimeout(this.t1); 
             }
-            if (this.chart) {
-                // this.chart.showLoading({
-                //     text: '加载中',
-                //     color: '#eeeeeeee',
-                //     textColor: '#111111',
-                //     maskColor: 'rgba(0, 0, 0, 0.9)',
-                // })
-                // this.$refs.chart.clear()
-            }
+
             var p1 = new Promise((resolve,reject)=>{
-                ajax({
-                    url:`/device/rest/device2device/?system=${this.system}`,
-                    method: 'get'
-                }).then(res => {
-                    resolve(res)
-                })
+                if(update){
+                    ajax.get(`/device/rest/device2device/?system=${this.system}`, {cancelToken: this.source.token}).then(res => {
+                        resolve(res)
+                    })
+                }else{
+                    ajax.get(`/device/rest/device2device/?system=${this.system}`).then(res => {
+                        resolve(res)
+                    })
+                }
+                    
             })
             var p2 = new Promise((resolve,reject)=>{
-                ajax({
-                    url:`/device/rest/device/?system=${this.system}`,
-                    method: 'get'
-                }).then(res => {
-                    resolve(res)
-                })
+                if(update){
+                    ajax.get(`/device/rest/device/?system=${this.system}`,{cancelToken: this.source.token}).then(res => {
+                        resolve(res)
+                    })
+                }else{
+                    ajax.get(`/device/rest/device/?system=${this.system}`).then(res => {
+                        resolve(res)
+                    })
+                }
+                    
             })
             Promise.all([p1, p2]).then((ress)=>{
-                if(this.chart){
+                this.imageChangeObj = []
+                if(this.chart && !update){
                     this.$refs.chart.clear()
                 }
                 this.option.series=[]
                 var series = []
                 var res = ress[0]
-                var linewidth=4
-                var effectShow=true
-                var lineopacity = 0.4
-                if(this.system==3){
-                    linewidth = 1
-                    effectShow = false
-                    lineopacity = 1
-                }
                 for(var i in res.data){
                       var d = res.data[i]
                       coords = d.path_list
@@ -548,7 +542,7 @@ const system = {
                             effect: {
                                 period: 3,
                                 // constantSpeed: 50,
-                                show: effectShow,
+                                show: true,
                                 trailLength: 0.1,
                                 symbolSize: 8,
                                 color: d.line.sensor_status,
@@ -568,8 +562,8 @@ const system = {
                             lineStyle: {
                                 normal: {
                                     // color: '#a6c84c',
-                                    width: linewidth,
-                                    opacity: lineopacity,
+                                    width: 4,
+                                    opacity: 0.4,
                                     curveness: 0.1,//曲线弯曲
                                     // type:'dotted'//虚线
                                 }
@@ -581,197 +575,6 @@ const system = {
                                 lineStyle:{
                                     normal:{
                                        color: d.line.sensor_status,
-                                    }
-                                },
-                                name:d.line.label,
-
-                            }]
-                    })
-                }
-                res = ress[1]
-                for(var i in res.data.results){
-                    var d = res.data.results[i]
-                    var data = []
-
-                    data.push({
-                        name: d.name,
-                        value: d.postion,
-                        symbol: `image://${d.icon[0]}`,
-                        deviceid:d.id,
-                        sensors:d.sensors
-                        // shortname: d.name
-                                            // symbol: 'image:'+weixin
-                    })
-                    var type = 'scatter'
-                    var symbolSize = [200,100] 
-                    var labelNormal = {
-                        show: true,
-                        position: 'bottom',
-                        fontWeight :'bold',
-                        fontSize: 15,
-                        // borderWidth: 1.5,
-                        textBorderColor :'#2196f3',
-                        color :'#fff',
-                        textBorderWidth  :3,
-                        formatter: function(o) {
-                            // debugger
-                            // return o.name + "：" + o.value[2] + "起";
-                            return o.data.name 
-                        }
-                    }
-                    if(d.status==2){
-                        type = 'effectScatter'
-                        symbolSize = [150,75] 
-                    }
-                    if(this.system==3){
-                        symbolSize = [75,75]
-                        labelNormal = {
-                            show: true,
-                            position: ['-25%', '25%'],
-                            // fontWeight :'bold',
-                            // fontSize: 15,
-                            // borderWidth: 1.5,
-                            // textBorderColor :'#2196f3',
-                            color :'auto',
-                            // textBorderWidth  :3,
-                            formatter: function(o) {
-                                // debugger
-                                // return o.name + "：" + o.value[2] + "起";
-                                return o.data.name 
-                            }
-                        }
-                    }
-                    series.push({
-                        type: type,
-                        // type: 'scatter',
-                        coordinateSystem: 'cartesian2d',
-                        zlevel: 2,
-                        rippleEffect: {
-                            period: 4,
-                            scale: 2.5,
-                            brushType: 'stroke'
-                        },
-                        tooltip: {
-                            trigger: 'item',
-                            formatter: function(o) {
-                                // debugger
-                                // return o.name + "：" + o.value[2] + "起";
-                                r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
-                                for(var i in o.data.sensors){
-                                    var s =  o.data.sensors[i]
-                                    if(s.status!=1){
-                                        r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
-                                    }else{
-                                        r += `<br /><span style="text-shadow:0px 0px 2px  green;">${s.name}:${s.lastdata}${s.unit}</span>`
-                                    }
-                                    
-                                }
-                                return r
-                            }
-                        },
-                        animation:false,
-                        symbol : 'image://https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562565407150&di=0eaa1f1dc340a7e3b3e477adf3485c19&imgtype=0&src=http%3A%2F%2Fdemo.lanrenzhijia.com%2Fdemo%2F49%2F4936%2F1.jpg',
-                        label: {
-                            normal: labelNormal
-                        },
-
-                        symbolSize: symbolSize,
-                        itemStyle: {
-                            normal: {
-                                color: '#0D6695',
-                                opacity:1//透明度
-                            }
-                        },
-                        data: data
-                    })
-                }
-                this.option.series = series
-                if (this.chart) {
-                    // this.chart.hideLoading ()
-                }
-                this.update()
-                this.t1 = window.setInterval(this.update,5000)
-            })
-        },
-        update(){
-            this.source&&this.source.cancel('取消上个请求')
-            this.source = this.CancelToken.source()
-            var p1 = new Promise((resolve,reject)=>{
-                ajax.get(`/device/rest/device2device/?system=${this.system}`, {cancelToken: this.source.token}).then(res => {
-                    resolve(res)
-                })
-            })
-            var p2 = new Promise((resolve,reject)=>{
-                ajax.get(`/device/rest/device/?system=${this.system}`,{cancelToken: this.source.token}).then(res => {
-                    resolve(res)
-                })
-            })
-            Promise.all([p1, p2]).then((ress)=>{
-                this.imageChangeObj = []
-                this.option.series=[]
-                var series = []
-                var res = ress[0]
-                var linewidth=4
-                var effectShow=true
-                var lineopacity = 0.4
-                if(this.system==3){
-                    linewidth = 1
-                    effectShow = false
-                    lineopacity = 1
-                }
-                for(var i in res.data){
-                      var d = res.data[i]
-                      coords = d.path_list
-
-                      series.push({
-                            type: 'lines',
-                            zlevel: 1,
-                            device2deviceid:d.id,
-                            sensor:d.sensor,//自定义字段
-                            fromDevice:d.device_from,
-                            // effect: {
-                            //     show: true,
-                            //     period: 3,
-                            //     trailLength: 0,
-                            //     //symbol: 'image://',
-                            //     symbol: this.planePath,
-                            //     symbolSize: 15
-                            // },
-                            effect: {
-                                period: 3,
-                                // constantSpeed: 50,
-                                show: effectShow,
-                                trailLength: 0.1,
-                                symbolSize: 8,
-                                color: d.line.sensor_status,
-                            },
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'bottom',
-                                    formatter: function(o) {
-                                        
-                                        // return o.name + "：" + o.value[2] + "起";
-                                        return o.data[0].name
-                                    }
-                                }
-                            },
-                            polyline:true,//是否为多线段
-                            lineStyle: {
-                                normal: {
-                                    width: linewidth,
-                                    opacity: lineopacity,
-                                    curveness: 0.1,//曲线弯曲
-                                    // type:'dotted'
-                                }
-                            },
-
-                            coordinateSystem:'cartesian2d',
-                            data: [{
-                                coords: coords,
-                                lineStyle:{
-                                    normal:{
-                                       color: d.line.sensor_status
                                     }
                                 },
                                 name:d.line.label,
@@ -808,43 +611,11 @@ const system = {
                     })
                     var type = 'scatter'
                     var symbolSize = [200,100] 
-                    var labelNormal = {
-                        show: true,
-                        position: 'bottom',
-                        fontWeight :'bold',
-                        fontSize: 15,
-                        // borderWidth: 1.5,
-                        textBorderColor :'#2196f3',
-                        color :'#fff',
-                        textBorderWidth  :3,
-                        formatter: function(o) {
-                            // debugger
-                            // return o.name + "：" + o.value[2] + "起";
-                            return o.data.name 
-                        }
-                    }
                     if(d.status==2){
                         type = 'effectScatter'
                         symbolSize = [150,75] 
                     }
-                    if(this.system==3){
-                        symbolSize = [75,75]
-                        labelNormal = {
-                            show: true,
-                            position: ['-25%', '25%'],
-                            // fontWeight :'bold',
-                            // fontSize: 15,
-                            // borderWidth: 1.5,
-                            // textBorderColor :'#2196f3',
-                            // color :'#fff',
-                            // textBorderWidth  :3,
-                            formatter: function(o) {
-                                // debugger
-                                // return o.name + "：" + o.value[2] + "起";
-                                return o.data.name 
-                            }
-                        }
-                    }
+
                     series.push({
                         type: type,
                         // type: 'scatter',
@@ -876,7 +647,21 @@ const system = {
                         animation:false,
                         symbol : 'image://https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562565407150&di=0eaa1f1dc340a7e3b3e477adf3485c19&imgtype=0&src=http%3A%2F%2Fdemo.lanrenzhijia.com%2Fdemo%2F49%2F4936%2F1.jpg',
                         label: {
-                            normal: labelNormal
+                            normal: {
+                                show: true,
+                                position: 'bottom',
+                                fontWeight :'bold',
+                                fontSize: 15,
+                                // borderWidth: 1.5,
+                                textBorderColor :'#2196f3',
+                                color :'#fff',
+                                textBorderWidth  :3,
+                                formatter: function(o) {
+                                    // debugger
+                                    // return o.name + "：" + o.value[2] + "起";
+                                    return o.data.name 
+                                }
+                            }
                         },
 
                         symbolSize: symbolSize,
@@ -889,51 +674,54 @@ const system = {
                         data: data
                     })
                 }
-
                 this.option.series = series
-                this.imageChange()
+                if (this.chart) {
+                    // this.chart.hideLoading ()
+                }
+
+                // this.t1 = window.setInterval(this.initDian,5000)
+                this.t1 = window.setTimeout(this.init,5000)
             })
-            
         },
-        initDian(){
-            
-            // if(system.system=='1#楼' || system.system=='2#楼'){
-            //     this.system=1
-            // }else{
-            //     this.system=2
-            // }
+
+
+        initDian(update=true){
             this.source&&this.source.cancel('取消上个请求')
-            this.imageChangeObj = []
+            if(update){
+                this.source = this.CancelToken.source()
+            }
             if(this.t1){
-                window.clearInterval(this.t1); 
+                // window.clearInterval(this.t1); 
+                window.clearTimeout(this.t1); 
             }
-            if (this.chart) {
-                // this.chart.showLoading({
-                //     text: '加载中',
-                //     color: '#eeeeeeee',
-                //     textColor: '#111111',
-                //     maskColor: 'rgba(0, 0, 0, 0.9)',
-                // })
-                // this.$refs.chart.clear()
-            }
+
             var p1 = new Promise((resolve,reject)=>{
-                ajax({
-                    url:`/device/rest/device2device/?system=${this.system}`,
-                    method: 'get'
-                }).then(res => {
-                    resolve(res)
-                })
+                if(update){
+                    ajax.get(`/device/rest/device2device/?system=${this.system}`, {cancelToken: this.source.token}).then(res => {
+                        resolve(res)
+                    })
+                }else{
+                    ajax.get(`/device/rest/device2device/?system=${this.system}`).then(res => {
+                        resolve(res)
+                    })
+                }
+                    
             })
             var p2 = new Promise((resolve,reject)=>{
-                ajax({
-                    url:`/device/rest/device/?system=${this.system}`,
-                    method: 'get'
-                }).then(res => {
-                    resolve(res)
-                })
+                if(update){
+                    ajax.get(`/device/rest/device/?system=${this.system}`,{cancelToken: this.source.token}).then(res => {
+                        resolve(res)
+                    })
+                }else{
+                    ajax.get(`/device/rest/device/?system=${this.system}`).then(res => {
+                        resolve(res)
+                    })
+                }
+                    
             })
             Promise.all([p1, p2]).then((ress)=>{
-                if(this.chart){
+                this.imageChangeObj = []
+                if(this.chart && !update){
                     this.$refs.chart.clear()
                 }
                 this.option.series=[]
@@ -984,185 +772,6 @@ const system = {
                                     opacity: 1,
                                     curveness: 0.1,//曲线弯曲
                                     // type:'dotted'//虚线
-                                }
-                            },
-
-                            coordinateSystem:'cartesian2d',
-                            data: [{
-                                coords: coords,
-                                lineStyle:{
-                                    normal:{
-                                       color: d.line.sensor_status,
-                                    }
-                                },
-                                name:d.line.label,
-
-                            }]
-                    })
-                }
-                res = ress[1]
-                for(var i in res.data.results){
-                    var d = res.data.results[i]
-                    var data = []
-
-                    data.push({
-                        name: d.name,
-                        value: d.postion,
-                        symbol: `image://${d.icon[d.status-1]}`,
-                        deviceid:d.id,
-                        sensors:d.sensors
-                        // shortname: d.name
-                                            // symbol: 'image:'+weixin
-                    })
-                    var type = 'scatter'
-                    var labelNormal = {
-                        show: true,
-                        position: 'bottom',
-                        fontWeight :'bold',
-                        fontSize: 15,
-                        // borderWidth: 1.5,
-                        textBorderColor :'#2196f3',
-                        color :'#fff',
-                        textBorderWidth  :3,
-                        formatter: function(o) {
-                            // debugger
-                            // return o.name + "：" + o.value[2] + "起";
-                            return o.data.name 
-                        }
-                    }
-                    // if(d.status==2){
-                    //     type = 'effectScatter'
-                    // }
-
-                    series.push({
-                        type: type,
-                        // type: 'scatter',
-                        coordinateSystem: 'cartesian2d',
-                        zlevel: 2,
-                        rippleEffect: {
-                            period: 4,
-                            scale: 2.5,
-                            brushType: 'stroke'
-                        },
-                        tooltip: {
-                            trigger: 'item',
-                            formatter: function(o) {
-                                // debugger
-                                // return o.name + "：" + o.value[2] + "起";
-                                r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
-                                for(var i in o.data.sensors){
-                                    var s =  o.data.sensors[i]
-                                    if(s.status!=1){
-                                        r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
-                                    }else{
-                                        r += `<br /><span style="text-shadow:0px 0px 2px  green;">${s.name}:${s.lastdata}${s.unit}</span>`
-                                    }
-                                    
-                                }
-                                return r
-                            }
-                        },
-                        animation:false,
-                        symbol : 'image://https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562565407150&di=0eaa1f1dc340a7e3b3e477adf3485c19&imgtype=0&src=http%3A%2F%2Fdemo.lanrenzhijia.com%2Fdemo%2F49%2F4936%2F1.jpg',
-                        label: {
-                            normal: {
-                                show: true,
-                                position: ['-25%', '25%'],
-                                // fontWeight :'bold',
-                                // fontSize: 15,
-                                // borderWidth: 1.5,
-                                // textBorderColor :'#2196f3',
-                                color :'auto',
-                                // textBorderWidth  :3,
-                                formatter: function(o) {
-                                    // debugger
-                                    // return o.name + "：" + o.value[2] + "起";
-                                    return o.data.name 
-                                }
-                            }
-                        },
-
-                        symbolSize: [75,75],
-                        itemStyle: {
-                            normal: {
-                                color: '#0D6695',
-                                opacity:1//透明度
-                            }
-                        },
-                        data: data
-                    })
-                }
-                this.option.series = series
-                if (this.chart) {
-                    // this.chart.hideLoading ()
-                }
-                this.updateDian()
-                this.t1 = window.setInterval(this.updateDian,5000)
-            })
-        },
-        updateDian(){
-            this.source&&this.source.cancel('取消上个请求')
-            this.source = this.CancelToken.source()
-            var p1 = new Promise((resolve,reject)=>{
-                ajax.get(`/device/rest/device2device/?system=${this.system}`, {cancelToken: this.source.token}).then(res => {
-                    resolve(res)
-                })
-            })
-            var p2 = new Promise((resolve,reject)=>{
-                ajax.get(`/device/rest/device/?system=${this.system}`,{cancelToken: this.source.token}).then(res => {
-                    resolve(res)
-                })
-            })
-            Promise.all([p1, p2]).then((ress)=>{
-                this.imageChangeObj = []
-                this.option.series=[]
-                var series = []
-                var res = ress[0]
-   
-                for(var i in res.data){
-                      var d = res.data[i]
-                      coords = d.path_list
-
-                      series.push({
-                            type: 'lines',
-                            zlevel: 1,
-                            device2deviceid:d.id,
-                            sensor:d.sensor,//自定义字段
-                            fromDevice:d.device_from,
-                            // effect: {
-                            //     show: true,
-                            //     period: 3,
-                            //     trailLength: 0,
-                            //     //symbol: 'image://',
-                            //     symbol: this.planePath,
-                            //     symbolSize: 15
-                            // },
-                            effect: {
-                                period: 3,
-                                // constantSpeed: 50,
-                                show: false,
-                                trailLength: 0.1,
-                                symbolSize: 8,
-                                color: d.line.sensor_status,
-                            },
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'bottom',
-                                    formatter: function(o) {
-                                        
-                                        // return o.name + "：" + o.value[2] + "起";
-                                        return o.data[0].name
-                                    }
-                                }
-                            },
-                            polyline:true,//是否为多线段
-                            lineStyle: {
-                                normal: {
-                                    width: 1,
-                                    opacity: 1,
-                                    curveness: 0.1,//曲线弯曲
-                                    // type:'dotted'
                                 }
                             },
 
@@ -1270,12 +879,17 @@ const system = {
                         data: data
                     })
                 }
-
                 this.option.series = series
-                this.imageChange()
+                if (this.chart) {
+                    // this.chart.hideLoading ()
+                }
+
+                // this.t1 = window.setInterval(this.initDian,5000)
+                this.t1 = window.setTimeout(this.initDian,5000)
+                
             })
-            
         },
+
         imageChange(){
             // 通过html 绝对定位来弄图片
             // this.imageChangeObj.push({
@@ -1313,7 +927,7 @@ const system = {
     },
     created(){
         this.CancelToken =axios.CancelToken;
-        this.init()
+        this.init(update=false)
         // // 动态线
         // this.option.series.push({
         //     type: 'lines',
