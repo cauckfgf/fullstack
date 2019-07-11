@@ -351,9 +351,8 @@ const system = {
             _app.show=true;
         },
         systemChange(point){
-
-            this.system = point[0].sid
-            if(this.system!=undefined){
+            if(point[0].sid!=undefined){
+                this.system = point[0].sid
                 if(this.system==3){
                     this.initDian(update=false)
                 }else{
