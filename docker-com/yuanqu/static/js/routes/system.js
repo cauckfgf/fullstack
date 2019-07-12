@@ -476,7 +476,7 @@ const system = {
         },
         finished(){
             // chart 渲染完成
-            this.imageChange()
+            // this.imageChange()
         },
         init(update=true){
             this.source&&this.source.cancel('取消上个请求')
