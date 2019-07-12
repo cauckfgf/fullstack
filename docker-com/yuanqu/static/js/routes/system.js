@@ -677,7 +677,9 @@ const system = {
                 if (this.chart) {
                     // this.chart.hideLoading ()
                 }
-
+                if(!update){
+                    this.imageChange()
+                }
                 // this.t1 = window.setInterval(this.initDian,5000)
                 this.t1 = window.setTimeout(this.init,5000)
             })
@@ -882,7 +884,9 @@ const system = {
                 if (this.chart) {
                     // this.chart.hideLoading ()
                 }
-
+                if(!update){
+                    this.imageChange()
+                }
                 // this.t1 = window.setInterval(this.initDian,5000)
                 this.t1 = window.setTimeout(this.initDian,5000)
                 
