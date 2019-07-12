@@ -30,7 +30,7 @@ const system = {
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
                 <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style"/>
-                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished"/>
+                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @finished="finished"/>
                 
                 <Drawer
                     title="修改"
@@ -476,7 +476,7 @@ const system = {
         },
         finished(){
             // chart 渲染完成
-            // this.imageChange()
+            this.imageChange()
         },
         init(update=true){
             this.source&&this.source.cancel('取消上个请求')
@@ -677,9 +677,7 @@ const system = {
                 if (this.chart) {
                     // this.chart.hideLoading ()
                 }
-                if(!update){
-                    this.imageChange()
-                }
+
                 // this.t1 = window.setInterval(this.initDian,5000)
                 this.t1 = window.setTimeout(this.init,5000)
             })
@@ -884,9 +882,7 @@ const system = {
                 if (this.chart) {
                     // this.chart.hideLoading ()
                 }
-                if(!update){
-                    this.imageChange()
-                }
+
                 // this.t1 = window.setInterval(this.initDian,5000)
                 this.t1 = window.setTimeout(this.initDian,5000)
                 
