@@ -30,7 +30,7 @@ const system = {
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
                 <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style"/>
-                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @finished="finished"/>
+                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished"/>
                 
                 <Drawer
                     title="修改"
