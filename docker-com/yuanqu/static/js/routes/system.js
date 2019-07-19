@@ -29,8 +29,9 @@ const system = {
                 </Card>
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
-                <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style"/>
-                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished"/>
+                <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style" v-show="gifshow"/>
+                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished" @datazoom="datazoom"
+/>
                 
                 <Drawer
                     title="修改"
@@ -105,6 +106,7 @@ const system = {
             CancelToken:null,
             source:null,
             imageChangeObj:[],
+            gifshow:true,
             t1:null,//定时更新数据定时器
             yuanqu:'',
             sensors:[],//选中线的来源设备的传感器
@@ -252,35 +254,27 @@ const system = {
                         fontSize: 18
                     }
                 },
-                // dataZoom: [
-                //     {
-                //         type: 'insideTopRight',
-                //         show: true,
-                //         xAxisIndex: [0],
-                //         start: 0,
-                //         end: 50
-                //     },
-                //     {
-                //         type: 'insideTopRight',
-                //         show: true,
-                //         yAxisIndex: [0],
-                //         // left: '93%',
-                //         start: 0,
-                //         end: 50
-                //     },
-                //     {
-                //         type: 'insideTopRight',
-                //         xAxisIndex: [0],
-                //         start: 0,
-                //         end: 50
-                //     },
-                //     {
-                //         type: 'insideTopRight',
-                //         yAxisIndex: [0],
-                //         start: 0,
-                //         end: 50
-                //     }
-                // ],
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        show: true,
+                        xAxisIndex: [0],
+                        start: 0,
+                        end: 10,
+                        filterMode: 'filter'
+                    },
+                    {
+                        type: 'inside',
+                        show: true,
+                        yAxisIndex: [0],
+                        // left: '93%',
+                        start: 0,
+                        end: 10,
+                        filterMode: 'filter'
+                    },
+
+
+                ],
                 tooltip: {
                     trigger: 'item',
                     formatter: function(o) {
@@ -291,9 +285,9 @@ const system = {
 
 
                 },
-                xAxis: {gridIndex: 0, min: 0, max: 200,show: false},
+                xAxis: {gridIndex: 0, min: 0, max: 2000,show: false},
 
-                yAxis: {gridIndex: 0, min: -20, max: 200,show: false},
+                yAxis: {gridIndex: 0, min: -20, max: 2000,show: false},
 
                 // geo: {
                 //     map: 'wuhan',
@@ -343,7 +337,20 @@ const system = {
         }
     },
     methods:{
-        datazoom(){
+        datazoom(event){
+            this.gifshow=false
+            if(event!=undefined && event.type=='datazoom'){
+                this.option.dataZoom[0].start = event.batch[0].start
+                this.option.dataZoom[0].end = event.batch[0].end
+                if(event.batch.length==2){
+                    this.option.dataZoom[1].start = event.batch[1].start
+                    this.option.dataZoom[1].end = event.batch[1].end
+                }else{
+                    this.option.dataZoom[1].start = event.batch[0].start
+                    this.option.dataZoom[1].end = event.batch[0].end
+                }
+    
+            }
             this.imageChange()
         },
         back(){
@@ -609,11 +616,11 @@ const system = {
                                             // symbol: 'image:'+weixin
                     })
                     var type = 'scatter'
-                    var symbolSize = [200,100] 
-                    if(d.status==2){
-                        type = 'effectScatter'
-                        symbolSize = [150,75] 
-                    }
+                    // var symbolSize = [200,100] 
+                    // if(d.status==2){
+                    //     type = 'effectScatter'
+                    //     symbolSize = [150,75] 
+                    // }
 
                     series.push({
                         type: type,
@@ -663,7 +670,17 @@ const system = {
                             }
                         },
 
-                        symbolSize: symbolSize,
+                        symbolSize:  (p1,p2)=>{
+                            var x = (this.option.dataZoom[0].end - this.option.dataZoom[0].start)/10
+                            if(p2.seriesType=='scatter'){
+                                // console.log([200/x, 100/x])
+                                return [200/x, 100/x] 
+                            }else if(p2.seriesType=='effectScatter'){
+                                // console.log([150/x,75/x])
+                                return [150/x,75/x] 
+                            }
+                            
+                        },
                         itemStyle: {
                             normal: {
                                 color: '#0D6695',
@@ -902,15 +919,18 @@ const system = {
             //                 }
             //             })
             for(var i in this.imageChangeObj){
+                var b = (this.option.dataZoom[0].end - this.option.dataZoom[0].start)/10
+                var x = (200/b)
+                var y = (100/b)
                 var xy = this.chart.convertToPixel ({xAxisIndex: 0, yAxisIndex: 0}, [this.imageChangeObj[i].postion[0], this.imageChangeObj[i].postion[1]]);
-                this.imageChangeObj[i].style.left=(xy[0]-100)+'px'
-                this.imageChangeObj[i].style.top=(xy[1]-50)+'px'
-                this.imageChangeObj[i].style.display='block'
-                this.imageChangeObj[i].style.height='100px'
-                this.imageChangeObj[i].style.width='200px'
-                this.imageChangeObj[i].style.position='absolute'
+                this.imageChangeObj[i].style.left = (xy[0]-x/2)+'px'
+                this.imageChangeObj[i].style.top = (xy[1]-y/2)+'px'
+                this.imageChangeObj[i].style.display = 'block'
+                this.imageChangeObj[i].style.height = y + 'px'
+                this.imageChangeObj[i].style.width = x + 'px'
+                this.imageChangeObj[i].style.position ='absolute'
             }
-            
+            this.gifshow=true
         },
 
     },
