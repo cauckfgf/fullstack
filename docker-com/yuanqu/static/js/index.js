@@ -67,14 +67,19 @@ function initVue() {
                 show : true,
                 isCollapsed: false,
                 option : {
-                    backgroundColor: 'rgb(0, 0, 2)',
+                    backgroundColor: '#0a0022',
                     title: {
                         text: '立讯精密智慧园区',
                         subtext: '院区分布',
                         sublink: '/',
                         left: 'center',
                         textStyle: {
-                            color: '#fff'
+                            color: '#80d8ee',
+                            fontSize: 24,
+                            textBorderWidth : 2,
+                            textBorderColor : 'blue',
+                            textShadowColor  :'blue',
+                            textShadowBlur :2,
                         }
                     },
                     tooltip: {
@@ -105,21 +110,33 @@ function initVue() {
                                 show: true,
                                 position: 'bottom',
                                 formatter: function(o) {
-                                    debugger
                                     // return o.name + ":" + o.value[2] + "起";
-                                    return o.data[0].name
-                                }
-                            }
+                                    // return o.data[0].name
+                                    return ''
+                                },
+                                textStyle: {
+                                    color: "#aaaaaa"
+                                } //省份标签字体颜色
+                            },
+                            emphasis: {
+                                textStyle: {
+                                    color: "#9DDCEB"
+                                } //省份标签字体颜色
+                            },
                         },
                         roam: true,
                         itemStyle: {
                             normal: {
-                                areaColor: '#323c48',
-                                borderColor: '#111'
+                                areaColor : '#004881',
+                                borderColor : '#aaaaaa',
+                                borderWidth : 0.5,
+                                shadowColor : '#aaaaaa',
+                                shadowBlur : 1
                             },
                             emphasis: {
                                 areaColor: '#2a333d'
-                            }
+                            },
+
                         }
                     },
                     series : [
@@ -194,7 +211,7 @@ function initVue() {
                         },
                         // sublink: 'https://worldcoffeeresearch.org/work/sensory-lexicon/'
                     },
-                    backgroundColor: 'rgb(0, 0, 2)',
+                    backgroundColor: '#0a0022',
                     series: {
                         type: 'sunburst',
                         highlightPolicy: 'ancestor',
@@ -411,7 +428,7 @@ function initVue() {
                         },
                         // sublink: 'https://worldcoffeeresearch.org/work/sensory-lexicon/'
                     },
-                    backgroundColor: 'rgb(0, 0, 2)',
+                    backgroundColor: '#0a0022',
                     tooltip : {
                         trigger: 'axis',
                         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -475,7 +492,7 @@ function initVue() {
                     ]
                 },
                 option3 : {
-                    backgroundColor: 'rgb(0, 0, 2)',
+                    backgroundColor: '#0a0022',
                     title: {
                         text: '产能',
                         left: 'center'
@@ -544,7 +561,7 @@ function initVue() {
                         },
                         // sublink: 'https://worldcoffeeresearch.org/work/sensory-lexicon/'
                     },
-                    backgroundColor: 'rgb(0, 0, 2)',
+                    backgroundColor: '#0a0022',
                     tooltip : {
                         trigger: 'axis',
                         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
