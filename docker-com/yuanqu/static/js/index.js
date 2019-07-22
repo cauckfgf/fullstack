@@ -21,7 +21,7 @@ ajax = axios.create({
     timeout: 30000,
     headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
 });
-
+echarts.registerTheme('shine')
 function initVue() {
     const routes = [
       { path: '/yuanqu', component: yuanqu },
@@ -175,10 +175,10 @@ function initVue() {
                         itemStyle: {
                             normal: {
                                 areaColor : 'rgb(5, 39, 175,0.5)',
-                                borderColor : '#aaaaaa',
+                                borderColor : '#eee',
                                 borderWidth : 0.5,
                                 shadowColor : '#aaaaaa',
-                                shadowBlur : 1
+                                shadowBlur : 10
                             },
                             emphasis: {
                                 areaColor: '#2a333d'
@@ -245,6 +245,7 @@ function initVue() {
                     ]
                 },
                 option1 : {
+                    color:['rgb(5, 39, 175,0.5)','#f5b03188','#fad79788','#59ccf788','#c3b4df88'],
                     title: {
                         text: '能耗统计',
                         // subtext: 'Source: https://worldcoffeeresearch.org/work/sensory-lexicon/',
@@ -462,6 +463,7 @@ function initVue() {
                     }
                 },
                 option2 : {
+                    color:['rgb(5, 39, 175,0.5)','#f5b03188','#fad79788','#59ccf788','#c3b4df88'],
                     title: {
                         text: '工单数量',
                         // subtext: 'Source: https://worldcoffeeresearch.org/work/sensory-lexicon/',

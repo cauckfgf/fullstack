@@ -178,6 +178,10 @@ const system = {
                             title: '配电系统',
                             sid : 3,
                         },
+                        {
+                            title: '空调冷水远系统图',
+                            sid : 4,
+                        },
                     ]
                 },
                 {
@@ -326,7 +330,7 @@ const system = {
             },
             addindex:0,
             editable:false,
-            system:2,
+            system:4,
             title:''//工单抽屉标题
 
         }
@@ -568,7 +572,7 @@ const system = {
                             lineStyle: {
                                 normal: {
                                     // color: '#a6c84c',
-                                    width: 4,
+                                    width: 2,
                                     opacity: 0.4,
                                     curveness: 0.1,//曲线弯曲
                                     // type:'dotted'//虚线
@@ -596,6 +600,7 @@ const system = {
                         this.imageChangeObj.push({
                             postion : d.postion,
                             gif : d.gif,
+                            sizeXY: d.sizeXY,
                             style:{
                                 position: 'absolute',
                                 // left:'0px',
@@ -611,7 +616,8 @@ const system = {
                         value: d.postion,
                         symbol: `image://${d.icon[0]}`,
                         deviceid:d.id,
-                        sensors:d.sensors
+                        sensors:d.sensors,
+                        sizeXY:d.sizeXY
                         // shortname: d.name
                                             // symbol: 'image:'+weixin
                     })
@@ -674,10 +680,10 @@ const system = {
                             var x = (this.option.dataZoom[0].end - this.option.dataZoom[0].start)/10
                             if(p2.seriesType=='scatter'){
                                 // console.log([200/x, 100/x])
-                                return [200/x, 100/x] 
+                                return [p2.data.sizeXY.x/x, p2.data.sizeXY.y/x] 
                             }else if(p2.seriesType=='effectScatter'){
                                 // console.log([150/x,75/x])
-                                return [150/x,75/x] 
+                                return [p2.data.sizeXY.x/(1.5*x),p2.data.sizeXY.y/(1.5*x)] 
                             }
                             
                         },
@@ -920,8 +926,8 @@ const system = {
             //             })
             for(var i in this.imageChangeObj){
                 var b = (this.option.dataZoom[0].end - this.option.dataZoom[0].start)/10
-                var x = (200/b)
-                var y = (100/b)
+                var x = (this.imageChangeObj[i].sizeXY.x/b)
+                var y = (this.imageChangeObj[i].sizeXY.y/b)
                 var xy = this.chart.convertToPixel ({xAxisIndex: 0, yAxisIndex: 0}, [this.imageChangeObj[i].postion[0], this.imageChangeObj[i].postion[1]]);
                 this.imageChangeObj[i].style.left = (xy[0]-x/2)+'px'
                 this.imageChangeObj[i].style.top = (xy[1]-y/2)+'px'
