@@ -175,7 +175,11 @@ const system = {
                             sid : 5,
                             
                         },
-
+                        {
+                            title: '电气',
+                            sid : 5,
+                            
+                        },
                         
                     ]
                 },
