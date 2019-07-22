@@ -166,22 +166,17 @@ const system = {
                     // disabled:true,
                     children:[
                         {
-                            title: '空调系统',
-                            sid : 2,
+                            title: '空调冷水远系统图',
+                            sid : 4,
                             selected:true
                         },
                         {
-                            title: '空压机系统',
-                            sid : 1,
+                            title: '热水供回水',
+                            sid : 5,
+                            
                         },
-                        {
-                            title: '配电系统',
-                            sid : 3,
-                        },
-                        {
-                            title: '空调冷水远系统图',
-                            sid : 4,
-                        },
+
+                        
                     ]
                 },
                 {
