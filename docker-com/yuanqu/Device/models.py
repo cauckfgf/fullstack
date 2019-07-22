@@ -41,7 +41,7 @@ class Device(models.Model):
     devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
     isrun = models.BooleanField(default=False,verbose_name='是否显示动态图')
-
+    size = models.CharField(max_length=96,default='200,100',verbose_name='大小')
     def __unicode__(self):
         return self.name
 
