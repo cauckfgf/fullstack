@@ -177,7 +177,7 @@ const system = {
                         },
                         {
                             title: '电气',
-                            sid : 5,
+                            sid : 6,
                             
                         },
                         
