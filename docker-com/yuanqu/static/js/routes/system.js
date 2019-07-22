@@ -166,7 +166,7 @@ const system = {
                     // disabled:true,
                     children:[
                         {
-                            title: '空调冷水远系统图',
+                            title: '空调冷源',
                             sid : 4,
                             selected:true
                         },
