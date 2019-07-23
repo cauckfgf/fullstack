@@ -164,84 +164,25 @@ const system = {
                     title: '1#楼',
                     expand: true,
                     // disabled:true,
-                    children:[
-                        {
-                            title: '空调冷源',
-                            sid : 4,
-                            selected:true
-                        },
-                        {
-                            title: '热水供回水',
-                            sid : 5,
-                            
-                        },
-                        {
-                            title: '电气',
-                            sid : 6,
-                            
-                        },
-                        
-                    ]
+                    children:[]
                 },
                 {
                     title: '2#楼',
                     expand: true,
                     // disabled:true,
-                    children:[
-                        {
-                            title: '空调系统',
-                            sid : 2,
-
-                        },
-                        {
-                            title: '空压机系统',
-                            sid : 1,
-                        },
-                        {
-                            title: '配电系统',
-                            sid : 3,
-                        },
-                    ]
+                    children:[]
                 },
                 {
                     title: '3#楼',
                     expand: true,
                     // disabled:true,
-                    children:[
-                        {
-                            title: '空调系统',
-                            sid : 2,
-
-                        },
-                        {
-                            title: '空压机系统',
-                            sid : 1,
-                        },
-                        {
-                            title: '配电系统',
-                            sid : 3,
-                        },
-                    ]
+                    children:[]
                 },
                 {
                     title: '4#楼',
                     expand: true,
                     // disabled:true,
-                    children:[
-                        {
-                            title: '空调系统',
-                            sid : 2,
-
-                        },
-                        {
-                            title: '空压机系统',
-                            sid : 1,
-                        },
-                        {
-                            title: '配电系统',
-                            sid : 3,
-                        },
-                    ]
+                    children:[]
                 },
             ],
             option : {
@@ -361,6 +302,7 @@ const system = {
             _app.show=true;
         },
         systemChange(point){
+            // this.systemData[0].children[0].selected=false
             if(point[0].sid!=undefined){
                 this.system = point[0].sid
                 if(this.system==3){
@@ -912,24 +854,21 @@ const system = {
         },
         initSystem(){
             ajax.get(`/device/rest/system/?ordering=-id`).then(res => {
-                var systems=[]
                 for(var i in res.data.results){
                     if(res.data.results[i].id>2){
-                        systems.push({
-                            title : res.data.results[i].name,
-                            sid : res.data.results[i].id,
-                            // selected:true
-                        })
+                        for(var j in this.systemData){
+                            this.systemData[j].children.push({
+                                title : res.data.results[i].name,
+                                sid : res.data.results[i].id,
+                                selected:false
+                            })
+                        }
                     }
     
                 }
-                for(var j in this.systemData){
-                    this.systemData[j].children=JSON.parse(JSON.stringify(systems))
-                    if(j==0){
-                        // this.systemData[j].children[0].selected=true
-                    }
-                }
-                this.system = systems[0].sid
+                this.systemData[0].children[0].selected=true
+
+                this.system = this.systemData[0].children[0].sid
                 this.init(update=false)
                 
             })
