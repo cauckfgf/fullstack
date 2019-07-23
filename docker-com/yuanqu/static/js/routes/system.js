@@ -926,7 +926,7 @@ const system = {
                 for(var j in this.systemData){
                     this.systemData[j].children=JSON.parse(JSON.stringify(systems))
                     if(j==0){
-                        this.systemData[j].children[0].selected=true
+                        // this.systemData[j].children[0].selected=true
                     }
                 }
                 this.system = systems[0].sid
