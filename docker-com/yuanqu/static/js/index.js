@@ -39,7 +39,7 @@ function initVue() {
             'v-chart':VueECharts
         },
         template:`
-            <div style="width: 100%;  height: calc(100%);background: url('/static/image/bg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
+            <div style="width: 100%;  height: calc(100%);">
                 <Row v-show='show' style="height:100%">
                     <Col span="6" style="height:100%">
                         <v-chart autoresize style="width: 100%;  height: 50%;padding:4px; border-radius: 1.5em;" :options="option1" theme="dark"/>
@@ -55,7 +55,7 @@ function initVue() {
                 </Row>
                 
                 <Layout v-show='!show' style='height:100%'>
-                    <Content :style="{margin: '20px', background: '#fff', height:'100%'}">
+                    <Content :style="{background: '#fff', height:'100%'}">
 
                         <router-view></router-view>
                     </Content>

@@ -10,10 +10,10 @@ const system = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 100%;">
-        <Split v-model="split1" @on-move-end="datazoom">
+        <Split v-model="split1" @on-move-end="datazoom" style="background: url('/static/image/systembg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
             
             <div slot="left" class="demo-split-pane">
-                <Card>
+                <Card style="background: #fff0;">
                     <p slot="title">
                         <a @click="back" title="切换院区"><Icon type="ios-home" />
                         {{yuanqu}}院区</a>
@@ -247,8 +247,8 @@ const system = {
             option : {
                 // backgroundColor: '#1b1b1b',
                 title: {
-                    text: '空调系统',
-                    left: '-5',
+                    text: '',
+                    left: '5',
                     top: '10px',
                     textStyle: {
                         color: '#ffffff',
