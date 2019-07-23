@@ -910,7 +910,30 @@ const system = {
                 
             })
         },
-
+        initSystem(){
+            ajax.get(`/device/rest/system/?ordering=-id`).then(res => {
+                var systems=[]
+                for(var i in res.data.results){
+                    if(res.data.results[i].id>2){
+                        systems.push({
+                            title : res.data.results[i].name,
+                            sid : res.data.results[i].id,
+                            // selected:true
+                        })
+                    }
+    
+                }
+                for(var j in this.systemData){
+                    this.systemData[j].children=JSON.parse(JSON.stringify(systems))
+                    if(j==0){
+                        this.systemData[j].children[0].selected=true
+                    }
+                }
+                this.system = systems[0].sid
+                this.init(update=false)
+                
+            })
+        },
         imageChange(){
             // 通过html 绝对定位来弄图片
             // this.imageChangeObj.push({
@@ -951,7 +974,8 @@ const system = {
     },
     created(){
         this.CancelToken =axios.CancelToken;
-        this.init(update=false)
+        
+        this.initSystem()
         // // 动态线
         // this.option.series.push({
         //     type: 'lines',
