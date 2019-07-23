@@ -7,22 +7,24 @@ sys.setdefaultencoding("utf8")
 # Register your models here.
 
 class SystemAdmin(admin.ModelAdmin):
-    list_display = ('name', )
+    list_display = ('id','name', )
     # ordering=['t']
     model = System
         
 class DeviceTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'icon1', 'icon2','icon3')
+    list_display = ('id','name', 'icon1', 'icon2','icon3')
     # readonly_fields = ('ws','thumb')
     model = DeviceType
 
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'devicetype', 'system')
+    list_display = ('id','name', 'devicetype', 'system')
+    list_filter = ('system',)
     # readonly_fields = ('ws','thumb')
     model = Device
 
 class Device2DeviceAdmin(admin.ModelAdmin):
-    list_display = ('device_from', 'position_from', 'device_to', 'position_to', 'connection')
+    list_display = ('id','device_from', 'position_from', 'device_to', 'position_to', 'connection','system')
+    list_filter = ('system',)
     model = Device2Device
 
 class SensorAdmin(admin.ModelAdmin):
