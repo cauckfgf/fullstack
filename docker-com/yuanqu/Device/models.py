@@ -60,7 +60,7 @@ class Device2Device(models.Model):
     position_to = models.CharField(max_length=96,default='1,2',verbose_name='被连接设备在逻辑图中位置')
     connection = models.CharField(max_length=96,default='连接方式1',verbose_name='连接方式')
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
-    sensor = models.ForeignKey('Sensor',null=True,verbose_name='连接传感器')
+    sensor = models.ForeignKey('Sensor',null=True,blank=True,verbose_name='连接传感器')
     mid = models.TextField(default='',blank=True,null=True,verbose_name='线路中间点位')
 
     def path_list(self):
