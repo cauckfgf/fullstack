@@ -519,7 +519,7 @@ const system = {
                             //     symbolSize: 15
                             // },
                             effect: {
-                                period: 3,
+                                period: 8,
                                 // constantSpeed: 50,
                                 show: true,
                                 // trailLength: 0,
