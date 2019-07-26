@@ -45,7 +45,7 @@ class DeviceSerializer(serializers.ModelSerializer):
             p2 = Device2Device.objects.filter(device_to=obj,system_id=system).first()
             if p2:
                 return map(toInt,p2.position_to.split(','))
-        return []
+        return [100,100]
     def get_gif(self,obj):
         devicetype = obj.devicetype
         if devicetype.gif:

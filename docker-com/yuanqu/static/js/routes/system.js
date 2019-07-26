@@ -73,7 +73,7 @@ const system = {
                         </Row>
                     </Form>
                     <div class="demo-drawer-footer">
-                        <Button style="margin-right: 8px" @click="change_show = false">取消</Button>
+                        <Button style="margin-right: 8px" @click="cancel">取消</Button>
                         <Button type="dashed"icon="ios-disc-outline" @click="positionDevice" v-show="select_obj.type!='lines'">定位</Button>
                         <Button type="primary" @click="change_device">确定</Button>
                     </div>
@@ -405,6 +405,10 @@ const system = {
                 this.change_show=true
             }
             
+        },
+        cancel(){
+            this.change_show = false;
+            this.init();
         },
         change_device(){
             this.change_show=false
