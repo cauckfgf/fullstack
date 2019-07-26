@@ -44,7 +44,7 @@ const system = {
                 >
                     <Form :model="select_obj">
                         <Row :gutter="32">
-                            <Col span="12"  v-if="select_obj.type!='lines'">
+                            <Col span="24"  v-if="select_obj.type!='lines'">
                                 <FormItem label="x坐标" label-position="top">
                                     <InputNumber :max="200"  v-model="select_obj.value[0]"></InputNumber>
                                 </FormItem>
@@ -52,13 +52,14 @@ const system = {
                                     <InputNumber :max="200"  v-model="select_obj.value[1]"></InputNumber>
                                 </FormItem>
                             </Col>
-                            <Col span="12"  v-else>
+                            <Col span="24"  v-else>
                                 <FormItem  label-position="top" v-for='(item,index) in select_obj.coords'  :key="index" :label="index|formatLable">
                                     <InputNumber :max="200"  v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
                                     <InputNumber :max="200"  v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
 
                                     <ButtonGroup>
                                         <Button type="dashed" v-if="index!=select_obj.coords.length-1" @click="addPoint(index)">+</Button>
+                                        <Button type="dashed" v-if="index!=select_obj.coords.length-1" icon="ios-disc-outline" @click="positionLine(index)"></Button>
                                         <Button type="dashed" v-if="index!=0 && index!=select_obj.coords.length-1" @click="delPoint(index)">-</Button>
                                     </ButtonGroup>
                                 </FormItem>
@@ -73,6 +74,7 @@ const system = {
                     </Form>
                     <div class="demo-drawer-footer">
                         <Button style="margin-right: 8px" @click="change_show = false">取消</Button>
+                        <Button type="dashed"icon="ios-disc-outline" @click="positionDevice" v-show="select_obj.type!='lines'">定位</Button>
                         <Button type="primary" @click="change_device">确定</Button>
                     </div>
                 </Drawer>
@@ -322,12 +324,29 @@ const system = {
             
         },
         addPoint(i){
+            // this.choosing=true
+            // this.change_show = false
+            
+            this.select_obj.coords.splice(i+1, 0, [190,190]);
+            // this.addindex = i+1
+            // this.chart.on('mousemove', this.choosPoint);
+        },
+        positionLine(i){
             this.choosing=true
             this.change_show = false
             
-            this.select_obj.coords.splice(i+1, 0, [190,190]);
-            this.addindex = i+1
+            // this.select_obj.coords.splice(i+1, 0, [190,190]);
+            this.addindex = i
             // this.chart.on('mousemove', this.choosPoint);
+            window.clearTimeout(this.t1); 
+        },
+        positionDevice(){
+            this.choosing=true
+            this.change_show = false
+            
+            // this.select_obj.coords.splice(i+1, 0, [190,190]);
+            // this.chart.on('mousemove', this.choosPoint);
+            window.clearTimeout(this.t1); 
         },
         delPoint(i){
             this.select_obj.coords.splice(i, 1);
@@ -374,10 +393,15 @@ const system = {
             if(this.choosing){
                 this.choosing=false
                 var r = this.chart.convertFromPixel({xAxisIndex: 0, yAxisIndex: 0}, [pa.offsetX, pa.offsetY]);
-                // 鼠标点击位置对应xy 坐标值
-                
-                this.select_obj.coords[this.addindex] = r
-                this.option.series[this.seriesIndex].data[0].coords = this.select_obj.coords
+                if(this.select_obj.type!='lines'){
+                    this.select_obj.value = r
+                    this.option.series[this.seriesIndex].data[0].value = this.select_obj.value
+                }
+                else{
+                    // 鼠标点击位置对应xy 坐标值
+                    this.select_obj.coords[this.addindex] = r
+                    this.option.series[this.seriesIndex].data[0].coords = this.select_obj.coords
+                }
                 this.change_show=true
             }
             

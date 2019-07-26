@@ -33,16 +33,18 @@ class DeviceSerializer(serializers.ModelSerializer):
         } 
 
     def get_postion(self,obj):
+        def toInt(i):
+            return int(float(i))
         # return Document.objects.filter(docdirectory__name=self.name)
         system = self.context['request'].query_params.get('system',None)
         if system:
             p1 = Device2Device.objects.filter(device_from=obj,system_id=system).first()
             
             if p1:
-                return map(int,p1.position_from.split(','))
+                return map(toInt,p1.position_from.split(','))
             p2 = Device2Device.objects.filter(device_to=obj,system_id=system).first()
             if p2:
-                return map(int,p2.position_to.split(','))
+                return map(toInt,p2.position_to.split(','))
         return []
     def get_gif(self,obj):
         devicetype = obj.devicetype

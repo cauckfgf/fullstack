@@ -64,10 +64,12 @@ class Device2Device(models.Model):
     mid = models.TextField(default='',blank=True,null=True,verbose_name='线路中间点位')
 
     def path_list(self):
+        def toInt(i):
+            return int(float(i))
         if self.mid:
-            return [map(int,self.position_from.split(','))] + json.loads(self.mid) + [map(int,self.position_to.split(','))]
+            return [map(toInt,self.position_from.split(','))] + json.loads(self.mid) + [map(toInt,self.position_to.split(','))]
         else:
-            return [map(int,self.position_from.split(',')), map(int,self.position_to.split(','))]
+            return [map(toInt,self.position_from.split(',')), map(toInt,self.position_to.split(','))]
     def __unicode__(self):
         return self.device_from.name+'-'+self.device_to.name
 
