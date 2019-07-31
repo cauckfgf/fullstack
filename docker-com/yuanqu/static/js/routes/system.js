@@ -477,9 +477,9 @@ const system = {
                     this.yibiao.series[0].detail =  {formatter:'{value}'+this.select_obj.sensors[i].unit}
                     var j = Number(this.select_obj.sensors[i].lastdata)
                     if(j<100){
-                        this.yibiao.series[0].data[0].max = 100
+                        this.yibiao.series[0].max = 100
                     }else if(j<500){
-                        this.yibiao.series[0].data[0].max = 500
+                        this.yibiao.series[0].max = 500
                     }else if(j<1000){
                         this.yibiao.series[0].max = 1000
                     }
