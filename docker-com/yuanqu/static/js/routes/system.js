@@ -348,7 +348,8 @@ const system = {
                     {
                         name: '压力',
                         type: 'gauge',
-                        detail: {formatter:'{value}Mp'},
+                        max:100,
+                        detail: {formatter:'{value}Mpa'},
                         data: [{value: 50, name: '压力'}]
                     }
                 ]
@@ -454,7 +455,7 @@ const system = {
         },
         chartClick(event, instance, echarts){
             this.select_obj = event.data
-            
+            this.yibiaoSet()
             this.select_obj.type = event.seriesType 
             if(this.editable){
                 // 编辑抽屉
@@ -466,6 +467,27 @@ const system = {
             this.title = this.select_obj.name + '工单'
             this.seriesIndex = event.seriesIndex
             this.getLineSensor()
+        },
+        yibiaoSet(){
+            var unitlist = ['℃','m³/h','rpm','MPa']
+            for(var i in this.select_obj.sensors){
+                if(unitlist.indexOf(this.select_obj.sensors[i].unit)!=-1){
+                    this.yibiao.series[0].data[0].name = this.select_obj.sensors[i].name
+                    this.yibiao.series[0].data[0].value = this.select_obj.sensors[i].lastdata
+                    this.yibiao.series[0].detail =  {formatter:'{value}'+this.select_obj.sensors[i].unit}
+                    var j = Number(this.select_obj.sensors[i].lastdata)
+                    if(j<100){
+                        this.yibiao.series[0].data[0].max = 100
+                    }else if(j<500){
+                        this.yibiao.series[0].data[0].max = 500
+                    }else if(j<1000){
+                        this.yibiao.series[0].max = 1000
+                    }
+                     
+
+                }
+            }
+            
         },
         chartClickNull(pa){
             if(this.choosing){
@@ -1023,7 +1045,7 @@ const system = {
         
         this.initSystem()
         setInterval(()=>{
-            this.yibiao.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+            this.yibiao.series[0].data[0].value = (Math.random() * this.yibiao.series[0].max /2).toFixed(2) - 0;
 
         },2000)
         // // 动态线
