@@ -93,7 +93,7 @@ class Sensor(models.Model):
     name = models.CharField(max_length=96,default='点位名字',verbose_name='点位名字')
     lastdata = models.CharField(max_length=96,default='最新数值',verbose_name='最新数值')
     device = models.ForeignKey('Device',null=True,verbose_name='设备',related_name='Sensor')
-    unit = models.CharField(max_length=96,default='℃',verbose_name='点位单位')
+    unit = models.CharField(max_length=96,null=True,blank=True,default='℃',verbose_name='点位单位')
     isnumber = models.BooleanField(default=True,verbose_name='是否是数值量')
     status = models.IntegerField(default=1,verbose_name='状态') #1正常 2报警
     isrun = models.BooleanField(default=False,verbose_name='是否是决定设备运行停止进而影响逻辑图中是否显示动态图')
