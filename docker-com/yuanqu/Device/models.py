@@ -81,7 +81,7 @@ class Device2Device(models.Model):
             }
         else:
             return {
-                'label':'传感器xx',
+                'label':'',
                 'sensor_status': self.connection
             }
     class Meta:

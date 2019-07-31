@@ -681,8 +681,16 @@ const system = {
                             }
                         })
                     }
+                    var name = d.name
+                    if(d.devicetype==26){
+                        name = '' 
+                        for(var s in d.sensors){
+                            var sensor = d.sensors[s]
+                            name += `${sensor.name}:${sensor.lastdata}${sensor.unit}\r\n`
+                        }
+                    }
                     data.push({
-                        name: d.name,
+                        name: name,
                         value: d.postion,
                         symbol: `image://${d.icon[0]}`,
                         deviceid:d.id,
