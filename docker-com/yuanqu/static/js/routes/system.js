@@ -81,13 +81,17 @@ const system = {
                 <Drawer
                     :title="title"
                     v-model="gongdan_show"
-                    width="720"
+                    width="600"
                     :mask-closable="false"
                     :styles="styles"
                     draggable
                     placement='left'
                 >
-                    <Tabs value="维修">
+                    <Tabs value="状态">
+                        <TabPane label="状态" name="状态">
+                            <v-chart autoresize style="width: 100%; " :options="status"/>
+                            <v-chart autoresize style="width: 100%; " :options="yibiao"/>
+                        </TabPane>
                         <TabPane label="维修" name="维修">
                             <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
                         </TabPane>
@@ -273,8 +277,278 @@ const system = {
             addindex:0,
             editable:false,
             system:4,
-            title:''//工单抽屉标题
-
+            title:'',//工单抽屉标题
+            status:{
+                title: {
+                    // text: '设备运行数据'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['回风温度','送风温度','回水温度','送水温度']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '0%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['周一','周二','周三','周四','周五','周六','周日']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name:'回风温度',
+                        type:'line',
+                        stack: '总量',
+                        data:[30, 40, 32, 43, 23, 20, 40]
+                    },
+                    {
+                        name:'送风温度',
+                        type:'line',
+                        stack: '总量',
+                        data:[35, 45, 33, 25, 38, 29, 34]
+                    },
+                    {
+                        name:'回水温度',
+                        type:'line',
+                        stack: '总量',
+                        data:[25, 36, 21, 33, 22, 32, 37]
+                    },
+                    {
+                        name:'送水温度',
+                        type:'line',
+                        stack: '总量',
+                        data:[23, 33, 31, 23, 35, 31, 36]
+                    },
+                ]
+            },
+            yibiao:{
+                tooltip : {
+                    formatter: "{a} <br/>{c} {b}"
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                series : [
+                    {
+                        name: '速度',
+                        type: 'gauge',
+                        z: 3,
+                        min: 0,
+                        max: 220,
+                        splitNumber: 11,
+                        radius: '50%',
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                width: 10
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            length: 15,        // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length: 20,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        axisLabel: {
+                            backgroundColor: 'auto',
+                            borderRadius: 2,
+                            color: '#eee',
+                            padding: 3,
+                            textShadowBlur: 2,
+                            textShadowOffsetX: 1,
+                            textShadowOffsetY: 1,
+                            textShadowColor: '#222'
+                        },
+                        title : {
+                            // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                            fontWeight: 'bolder',
+                            fontSize: 20,
+                            fontStyle: 'italic'
+                        },
+                        detail : {
+                            // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                            formatter: function (value) {
+                                value = (value + '').split('.');
+                                value.length < 2 && (value.push('00'));
+                                return ('00' + value[0]).slice(-2)
+                                    + '.' + (value[1] + '00').slice(0, 2);
+                            },
+                            fontWeight: 'bolder',
+                            borderRadius: 3,
+                            backgroundColor: '#444',
+                            borderColor: '#aaa',
+                            shadowBlur: 5,
+                            shadowColor: '#333',
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 3,
+                            borderWidth: 2,
+                            textBorderColor: '#000',
+                            textBorderWidth: 2,
+                            textShadowBlur: 2,
+                            textShadowColor: '#fff',
+                            textShadowOffsetX: 0,
+                            textShadowOffsetY: 0,
+                            fontFamily: 'Arial',
+                            width: 100,
+                            color: '#eee',
+                            rich: {}
+                        },
+                        data:[{value: 40, name: 'km/h'}]
+                    },
+                    {
+                        name: '转速',
+                        type: 'gauge',
+                        center: ['20%', '55%'],    // 默认全局居中
+                        radius: '35%',
+                        min:0,
+                        max:7,
+                        endAngle:45,
+                        splitNumber:7,
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                width: 8
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            length:12,        // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length:20,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        pointer: {
+                            width:5
+                        },
+                        title: {
+                            offsetCenter: [0, '-30%'],       // x, y，单位px
+                        },
+                        detail: {
+                            // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                            fontWeight: 'bolder'
+                        },
+                        data:[{value: 1.5, name: 'x1000 r/min'}]
+                    },
+                    {
+                        name: '油表',
+                        type: 'gauge',
+                        center: ['77%', '50%'],    // 默认全局居中
+                        radius: '25%',
+                        min: 0,
+                        max: 2,
+                        startAngle: 135,
+                        endAngle: 45,
+                        splitNumber: 2,
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                width: 8
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            splitNumber: 5,
+                            length: 10,        // 属性length控制线长
+                            lineStyle: {        // 属性lineStyle控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        axisLabel: {
+                            formatter:function(v){
+                                switch (v + '') {
+                                    case '0' : return 'E';
+                                    case '1' : return 'Gas';
+                                    case '2' : return 'F';
+                                }
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length: 15,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        pointer: {
+                            width:2
+                        },
+                        title : {
+                            show: false
+                        },
+                        detail : {
+                            show: false
+                        },
+                        data:[{value: 0.5, name: 'gas'}]
+                    },
+                    {
+                        name: '水表',
+                        type: 'gauge',
+                        center : ['77%', '50%'],    // 默认全局居中
+                        radius : '25%',
+                        min: 0,
+                        max: 2,
+                        startAngle: 315,
+                        endAngle: 225,
+                        splitNumber: 2,
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                width: 8
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            show: false
+                        },
+                        axisLabel: {
+                            formatter:function(v){
+                                switch (v + '') {
+                                    case '0' : return 'H';
+                                    case '1' : return 'Water';
+                                    case '2' : return 'C';
+                                }
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length: 15,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        pointer: {
+                            width:2
+                        },
+                        title: {
+                            show: false
+                        },
+                        detail: {
+                            show: false
+                        },
+                        data:[{value: 0.5, name: 'gas'}]
+                    }
+                ]
+            }
         }
     },
     filters: {
@@ -944,6 +1218,12 @@ const system = {
         this.CancelToken =axios.CancelToken;
         
         this.initSystem()
+        setInterval(()=>{
+            this.yibiao.series[0].data[0].value = (Math.random()*100).toFixed(2) - 0;
+            this.yibiao.series[1].data[0].value = (Math.random()*7).toFixed(2) - 0;
+            this.yibiao.series[2].data[0].value = (Math.random()*2).toFixed(2) - 0;
+            this.yibiao.series[3].data[0].value = (Math.random()*2).toFixed(2) - 0;
+        },2000)
         // // 动态线
         // this.option.series.push({
         //     type: 'lines',
