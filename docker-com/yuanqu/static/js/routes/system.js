@@ -742,7 +742,7 @@ const system = {
                         label: {
                             normal: {
                                 show: true,
-                                position: 'bottom',
+                                position: d.label_position,
                                 fontWeight :'bold',
                                 fontSize: 15,
                                 // borderWidth: 1.5,
