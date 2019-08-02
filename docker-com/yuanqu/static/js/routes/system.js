@@ -603,10 +603,13 @@ const system = {
                 for(var i in res.data){
                       var d = res.data[i]
                       coords = d.path_list
-                      
+                      var zlevel = 1
+                      if(!d.show_direction){
+                        zlevel=2
+                      }
                       series.push({
                             type: 'lines',
-                            zlevel: 1,
+                            zlevel: zlevel,
                             device2deviceid:d.id,
                             sensor:d.sensor,//自定义字段
                             fromDevice:d.device_from,
@@ -622,7 +625,7 @@ const system = {
                                 period: 8,
                                 // constantSpeed: 50,
                                 show: d.show_direction,
-                                trailLength: 0.1,
+                                // trailLength: 0.1,
                                 // symbol: 'image:///static/image/up.svg',
                                 symbolSize: 8,
                                 color: d.line.sensor_status,
