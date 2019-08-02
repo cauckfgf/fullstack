@@ -621,7 +621,7 @@ const system = {
                             effect: {
                                 period: 8,
                                 // constantSpeed: 50,
-                                show: true,
+                                show: d.show_direction,
                                 // trailLength: 0,
                                 // symbol: 'image:///static/image/up.svg',
                                 symbolSize: 8,

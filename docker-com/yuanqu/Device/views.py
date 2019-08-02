@@ -14,7 +14,8 @@ class SystemFilter(rest_framework_filters.FilterSet):
     class Meta:
         model = System
         fields = {
-            'name':['exact','in'],
+            'name' : ['exact','in'],
+            'create_time' : ['month__gte']
         }
 
 class SystemSet(viewsets.ModelViewSet):

@@ -8,6 +8,7 @@ import json
 class System(models.Model):
     '''系统'''
     name = models.CharField(max_length=96,default='系统名字',verbose_name='名字')
+    create_time = models.DateTimeField(auto_now_add=True)
     # devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
 
     def __unicode__(self):
@@ -62,7 +63,7 @@ class Device2Device(models.Model):
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
     sensor = models.ForeignKey('Sensor',null=True,blank=True,verbose_name='连接传感器')
     mid = models.TextField(default='',blank=True,null=True,verbose_name='线路中间点位')
-
+    show_direction = models.BooleanField(default=True,verbose_name='是否流向')
     def path_list(self):
         def toInt(i):
             return int(float(i))
