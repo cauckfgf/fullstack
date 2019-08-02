@@ -622,7 +622,7 @@ const system = {
                                 period: 8,
                                 // constantSpeed: 50,
                                 show: d.show_direction,
-                                // trailLength: 0,
+                                trailLength: 0.1,
                                 // symbol: 'image:///static/image/up.svg',
                                 symbolSize: 8,
                                 color: d.line.sensor_status,
