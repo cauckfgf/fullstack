@@ -114,7 +114,7 @@ class Device2Device(models.Model):
 
 class Sensor(models.Model):
     name = models.CharField(max_length=96,default='点位名字',verbose_name='点位名字')
-    lastdata = models.CharField(max_length=96,default='最新数值',verbose_name='最新数值')
+    lastdata = models.CharField(max_length=96,default='最新数值',verbose_name='最新数值',null=True,blank=True)
     device = models.ForeignKey('Device',null=True,verbose_name='设备',related_name='Sensor')
     unit = models.CharField(max_length=96,null=True,blank=True,default='℃',verbose_name='点位单位')
     isnumber = models.BooleanField(default=True,verbose_name='是否是数值量')

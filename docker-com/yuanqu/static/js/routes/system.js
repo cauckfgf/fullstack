@@ -689,7 +689,7 @@ const system = {
                         name = '' 
                         for(var s in d.sensors){
                             var sensor = d.sensors[s]
-                            name += `${sensor.name}:${sensor.lastdata}${sensor.unit}\r\n`
+                            name += `${sensor.name}${sensor.lastdata}${sensor.unit}\r\n`
                         }
                     }
                     data.push({
