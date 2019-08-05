@@ -502,7 +502,7 @@ const system = {
                                 name: '压力',
                                 type: 'gauge',
                                 max: max,
-                                detail: {formatter:'{value}'+this.select_obj.sensors[i].unit}
+                                detail: {formatter:'{value}'+this.select_obj.sensors[i].unit},
                                 data: [{value: this.select_obj.sensors[i].lastdata, name: this.select_obj.sensors[i].name}]
                             }
                         ]
