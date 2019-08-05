@@ -334,28 +334,7 @@ const system = {
                     },
                 ]
             },
-            yibiaos:[
-                {
-                    tooltip : {
-                        formatter: "{a} <br/>{b} : {c}%"
-                    },
-                    toolbox: {
-                        feature: {
-                            restore: {},
-                            saveAsImage: {}
-                        }
-                    },
-                    series: [
-                        {
-                            name: '压力',
-                            type: 'gauge',
-                            max:100,
-                            detail: {formatter:'{value}Mpa'},
-                            data: [{value: 50, name: '压力'}]
-                        }
-                    ]
-                },
-            ]
+            yibiaos:[]
         }
     },
     filters: {
@@ -472,6 +451,7 @@ const system = {
         },
         yibiaoSet(){
             var unitlist = ['℃','m³/h','rpm','MPa']
+            this.yibiaos = []
             for(var i in this.select_obj.sensors){
                 if(unitlist.indexOf(this.select_obj.sensors[i].unit)!=-1){
                     // this.yibiao.series[0].data[0].name = this.select_obj.sensors[i].name
