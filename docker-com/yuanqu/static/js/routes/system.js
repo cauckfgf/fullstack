@@ -716,7 +716,7 @@ const system = {
                         type: type,
                         // type: 'scatter',
                         coordinateSystem: 'cartesian2d',
-                        zlevel: 2,
+                        zlevel: 3,
                         rippleEffect: {
                             period: 4,
                             scale: 2.5,
