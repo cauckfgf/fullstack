@@ -606,7 +606,7 @@ const system = {
                 for(var i in res.data){
                       var d = res.data[i]
                       coords = d.path_list
-                      var zlevel = 1
+                      var zlevel = 3
                       if(!d.show_direction){
                         zlevel=2
                       }
