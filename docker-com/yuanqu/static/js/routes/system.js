@@ -90,7 +90,7 @@ const system = {
                     <Tabs value="状态">
                         <TabPane label="状态" name="状态">
                             <v-chart autoresize style="width: 100%; " :options="status"/>
-                            <v-chart autoresize style="width: 100%; " :options="yibiao"/>
+                            <v-chart v-for="item in yibiaos" autoresize style="width: 100%; " :options="item"/>
                         </TabPane>
                         <TabPane label="维修" name="维修">
                             <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
@@ -334,26 +334,28 @@ const system = {
                     },
                 ]
             },
-            yibiao:{
-                tooltip : {
-                    formatter: "{a} <br/>{b} : {c}%"
+            yibiaos:[
+                {
+                    tooltip : {
+                        formatter: "{a} <br/>{b} : {c}%"
+                    },
+                    toolbox: {
+                        feature: {
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '压力',
+                            type: 'gauge',
+                            max:100,
+                            detail: {formatter:'{value}Mpa'},
+                            data: [{value: 50, name: '压力'}]
+                        }
+                    ]
                 },
-                toolbox: {
-                    feature: {
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                series: [
-                    {
-                        name: '压力',
-                        type: 'gauge',
-                        max:100,
-                        detail: {formatter:'{value}Mpa'},
-                        data: [{value: 50, name: '压力'}]
-                    }
-                ]
-            }
+            ]
         }
     },
     filters: {
@@ -472,18 +474,39 @@ const system = {
             var unitlist = ['℃','m³/h','rpm','MPa']
             for(var i in this.select_obj.sensors){
                 if(unitlist.indexOf(this.select_obj.sensors[i].unit)!=-1){
-                    this.yibiao.series[0].data[0].name = this.select_obj.sensors[i].name
-                    this.yibiao.series[0].data[0].value = this.select_obj.sensors[i].lastdata
-                    this.yibiao.series[0].detail =  {formatter:'{value}'+this.select_obj.sensors[i].unit}
+                    // this.yibiao.series[0].data[0].name = this.select_obj.sensors[i].name
+                    // this.yibiao.series[0].data[0].value = this.select_obj.sensors[i].lastdata
+                    // this.yibiao.series[0].detail =  {formatter:'{value}'+this.select_obj.sensors[i].unit}
                     var j = Number(this.select_obj.sensors[i].lastdata)
+                    var max = 0
                     if(j<100){
-                        this.yibiao.series[0].max = 100
+                        max = 100
                     }else if(j<500){
-                        this.yibiao.series[0].max = 500
+                        max = 500
                     }else if(j<1000){
-                        this.yibiao.series[0].max = 1000
+                        max = 1000
                     }
                      
+                    this.yibiaos.push({
+                        tooltip : {
+                            formatter: "{a} <br/>{b} : {c}%"
+                        },
+                        toolbox: {
+                            feature: {
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        series: [
+                            {
+                                name: '压力',
+                                type: 'gauge',
+                                max: max,
+                                detail: {formatter:'{value}'+this.select_obj.sensors[i].unit}
+                                data: [{value: this.select_obj.sensors[i].lastdata, name: this.select_obj.sensors[i].name}]
+                            }
+                        ]
+                    })
 
                 }
             }
@@ -1055,10 +1078,10 @@ const system = {
         this.CancelToken =axios.CancelToken;
         
         this.initSystem()
-        setInterval(()=>{
-            this.yibiao.series[0].data[0].value = (Math.random() * this.yibiao.series[0].max /2).toFixed(2) - 0;
+        // setInterval(()=>{
+        //     this.yibiao.series[0].data[0].value = (Math.random() * this.yibiao.series[0].max /2).toFixed(2) - 0;
 
-        },2000)
+        // },2000)
         // // 动态线
         // this.option.series.push({
         //     type: 'lines',
