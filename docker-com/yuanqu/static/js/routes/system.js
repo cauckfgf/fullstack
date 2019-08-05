@@ -648,7 +648,7 @@ const system = {
                                     width: 2,
                                     opacity: 0.4,
                                     curveness: 0.1,//曲线弯曲
-                                    // type:'dotted'//虚线
+                                    type:d.line_style_type//虚线
                                 }
                             },
 

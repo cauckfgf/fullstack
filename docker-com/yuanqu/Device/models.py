@@ -71,6 +71,11 @@ class Device(models.Model):
 
 class Device2Device(models.Model):
     '''设备连接'''
+    CHOICES = (
+        ('solid','实线'),
+        ('dashed','长虚线'),
+        ('dotted','短虚线'),
+    )
     device_from = models.ForeignKey(Device,related_name="DeviceFrom",verbose_name='连接设备')
     position_from = models.CharField(max_length=96,default='1,2',verbose_name='连接设备在逻辑图中位置')
     device_to = models.ForeignKey(Device,related_name="DeviceTo",verbose_name='被连接设备')
@@ -80,6 +85,7 @@ class Device2Device(models.Model):
     sensor = models.ForeignKey('Sensor',null=True,blank=True,verbose_name='连接传感器')
     mid = models.TextField(default='',blank=True,null=True,verbose_name='线路中间点位')
     show_direction = models.BooleanField(default=True,verbose_name='是否流向')
+    line_style_type = models.CharField(max_length=96,default='solid',verbose_name='线的类型',choices=CHOICES)
     def path_list(self):
         def toInt(i):
             return int(float(i))
