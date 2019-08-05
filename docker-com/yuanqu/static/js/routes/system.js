@@ -746,9 +746,9 @@ const system = {
                                 fontWeight :'bold',
                                 fontSize: 15,
                                 // borderWidth: 1.5,
-                                textBorderColor :'#2196f3',
-                                color :'#fff',
-                                textBorderWidth  :3,
+                                // textBorderColor :'#2196f3',
+                                // color :'#fff',
+                                // textBorderWidth  :3,
                                 formatter: function(o) {
                                     // debugger
                                     // return o.name + "：" + o.value[2] + "起";
