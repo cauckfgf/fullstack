@@ -445,7 +445,7 @@ const system = {
                 // 工单抽屉
                 this.gongdan_show = true
             }
-            this.title = this.select_obj.name + '工单'
+            this.title = this.select_obj.name + '详情'
             this.seriesIndex = event.seriesIndex
             this.getLineSensor()
         },
