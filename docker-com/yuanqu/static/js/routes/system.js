@@ -469,7 +469,7 @@ const system = {
                      
                     this.yibiaos.push({
                         tooltip : {
-                            formatter: "{a} <br/>{b} : {c}%"
+                            formatter: "{a} <br/>{b} : {c}"
                         },
                         toolbox: {
                             feature: {
