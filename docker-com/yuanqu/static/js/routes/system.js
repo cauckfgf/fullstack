@@ -90,7 +90,7 @@ const system = {
                     <Tabs value="状态">
                         <TabPane label="状态" name="状态">
                             <v-chart autoresize style="width: 100%;" :options="status"/>
-                            <Row style="width: 100%;>
+                            <Row style="width: 100%;">
                                 <Col xs="24" sm="12" md="12" lg="6" xl="4" v-for="item in yibiaos">
                                     <v-chart  autoresize style="width: 100%; " :options="item"/>
                                 </Col>
