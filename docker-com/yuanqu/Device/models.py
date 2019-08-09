@@ -113,6 +113,11 @@ class Device2Device(models.Model):
         db_table = 'Device2Device'
 
 class Sensor(models.Model):
+    CHOICES = (
+        ('opc', 'opc'),
+        ('snmp', 'snmp'),
+        ('modbus', 'modbus'),
+    )
     name = models.CharField(max_length=96,default='点位名字',verbose_name='点位名字')
     lastdata = models.CharField(max_length=96,default='最新数值',verbose_name='最新数值',null=True,blank=True)
     device = models.ForeignKey('Device',null=True,verbose_name='设备',related_name='Sensor')
@@ -120,8 +125,19 @@ class Sensor(models.Model):
     isnumber = models.BooleanField(default=True,verbose_name='是否是数值量')
     status = models.IntegerField(default=1,verbose_name='状态') #1正常 2报警
     isrun = models.BooleanField(default=False,verbose_name='是否是决定设备运行停止进而影响逻辑图中是否显示动态图')
+    # 数据对接部分
+    xieyi = models.CharField(max_length=96, blank=True,null=True,verbose_name='code',choices=CHOICES)
+    ip = models.CharField(max_length=15, blank=True,null=True,verbose_name='采集IP地址')
+    port = models.IntegerField(default=0,blank=True,null=True)
+    address = models.TextField(blank=True,null=True,verbose_name='opc 协议ItemName snmp oid modbus 寄存器地址')
+    re_number = models.IntegerField(default=0,blank=True,null=True,verbose_name='寄存器数量')
+    datatype = models.TextField(blank=True,null=True,verbose_name='解析方式json')
+    modbus_device_id = models.IntegerField(default=0,blank=True,null=True)
+
     def __unicode__(self):
         return "{}:{}".format(self.name,self.lastdata)
+
+
     class Meta:
         verbose_name = '传感器'
         verbose_name_plural = '传感器'

@@ -455,7 +455,7 @@ const system = {
             this.getLineSensor()
         },
         yibiaoSet(){
-            var unitlist = ['℃','m³/h','rpm','MPa']
+            var unitlist = ['℃','m³/h','rpm','MPa','A','V']
             this.yibiaos = []
             for(var i in this.select_obj.sensors){
                 if(unitlist.indexOf(this.select_obj.sensors[i].unit)!=-1){
@@ -464,7 +464,9 @@ const system = {
                     // this.yibiao.series[0].detail =  {formatter:'{value}'+this.select_obj.sensors[i].unit}
                     var j = Number(this.select_obj.sensors[i].lastdata)
                     var max = 0
-                    if(j<100){
+                    if(j<10){
+                        max = 10
+                    }else if(j<100){
                         max = 100
                     }else if(j<500){
                         max = 500
