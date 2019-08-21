@@ -95,6 +95,6 @@ class HttpRest(object):
         data = json.loads(data)
         for each in data['result']:
             DeviceType.objects.get_or_create(id=each['id'], name=each['name'])
-    def getDeviceTypeCode(self):
+
 test = HttpRest()
 test.getDeviceTypeCode()
