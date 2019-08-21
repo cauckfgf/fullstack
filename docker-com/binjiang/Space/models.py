@@ -44,7 +44,7 @@ class Floor(models.Model):
     coefficient = models.DecimalField(max_digits=5,decimal_places=2,verbose_name=u'系数',null=True,blank=True)
     description = models.TextField(verbose_name=u'楼层描述')
     area = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'面积',null=True,blank=True)
-    model = models.ForeignKey('ModelManage.PrecastBeam',blank=True,null=True,related_name='Floor')
+    # model = models.ForeignKey('ModelManage.PrecastBeam',blank=True,null=True,related_name='Floor')
     def __str__(self):
         return self.name
 
