@@ -16,18 +16,18 @@ from rest_framework.decorators import detail_route, list_route
 
 
 
-class DeviceTypeFilter(rest_framework_filters.FilterSet):
-    class Meta:
-        model = DeviceType
-        fields = {
-            'name':['exact','in'],
-        }
+# class DeviceTypeFilter(rest_framework_filters.FilterSet):
+#     class Meta:
+#         model = DeviceType
+#         fields = {
+#             'name':['exact','in'],
+#         }
 
-class DeviceTypeSet(viewsets.ModelViewSet):
-    queryset = DeviceType.objects.all()
-    serializer_class = DeviceTypeSerializer
-    filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
-    filter_class = DeviceTypeFilter
+# class DeviceTypeSet(viewsets.ModelViewSet):
+#     queryset = DeviceType.objects.all()
+#     serializer_class = DeviceTypeSerializer
+#     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
+#     filter_class = DeviceTypeFilter
 
 
 
