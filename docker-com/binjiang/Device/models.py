@@ -20,12 +20,22 @@ import urllib2
 #         verbose_name_plural = '系统'
 #         db_table = 'Device_System'
 
+class DeviceCategory(models.Model):
+    '''设备大类型'''
+    name = models.CharField(max_length=96, blank=True,verbose_name='类型名称')
+    
+    def __str__(self):
+        return self.name
 
+    class Meta:
+        verbose_name = '设备类别'
+        verbose_name_plural = '设备类别'
+        db_table = 'Device_DeviceCategory'
 
 class DeviceType(models.Model):
     '''设备类型'''
     name = models.CharField(max_length=96,default='未命名设备类型',verbose_name='类型名称')
-
+    device_category  = models.ForeignKey(DeviceCategory,blank=True,null=True, verbose_name='设备类别')
     def __unicode__(self):
         return self.name
     class Meta:
@@ -82,3 +92,32 @@ class SensorData(models.Model):
     mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
     class Meta:
         db_table = 'Device_SensorData'
+
+
+# class Camera(models.Model):
+#     '''摄像头'''
+#     CHOICE = (
+#         (1,'在线'),
+#         (0,'不在线')
+#     )
+#     name = models.CharField(max_length=64,verbose_name='摄像头名字')
+#     code = models.CharField(max_length=64,verbose_name='摄像头编码')
+#     ctype = models.ForeignKey(CameraType,null=True,blank=True)
+#     floor = models.ForeignKey('SpaceManage.Floor',null=True,blank=True)
+#     room = models.ForeignKey('SpaceManage.Room',null=True,blank=True,related_name='Camera')
+#     datatype = models.CharField(max_length=64,verbose_name='摄像头数据类型')
+#     asset = models.ForeignKey('AssetManage.Asset',verbose_name=u'资产id',null=True)
+#     addr = models.TextField(max_length=128,verbose_name='访问地址')
+#     ip = models.CharField(max_length=128,verbose_name='ip地址',null=True,blank=True)
+#     model = models.ForeignKey('ModelManage.PrecastBeam',verbose_name=u'构件',null=True,blank=True)
+#     ModelUrl2Model = models.ForeignKey('ModelManage.ModelUrl2Model',verbose_name=u'构件模型对应',null=True,blank=True)
+#     cameraUuid = models.CharField(max_length=128,verbose_name='摄像机对应海康8700cameraUuid',null=True,blank=True)
+#     onLineStatus = models.IntegerField(default=1,verbose_name='是否在线',choices=CHOICE)
+
+#     # zone = models.ManyToManyField('SpaceManage.Zone',blank=True,verbose_name='分区')
+#     def dbid(self):
+#         return self.model.cameradbid()
+#     def __unicode__(self):
+#         return self.name
+#     class Meta:
+#         db_table = 'Device_Camera'

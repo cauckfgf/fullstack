@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # 'django_crontab',
     'rest_framework',
     'Device',
-    'SystemManage'
+    'SystemManage',
+    # 'Space'
 ]
 
 # CRONJOBS = [
