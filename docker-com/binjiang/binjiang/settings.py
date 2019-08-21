@@ -38,15 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
-    'django_crontab',
+    # 'django_crontab',
     'rest_framework',
     'Device',
     'SystemManage'
 ]
 
-CRONJOBS = [
-    ('*/1 * * * *', 'Device.cron.getdata','>>/tmp/django_crontab/log.log')
-]
+# CRONJOBS = [
+#     ('*/1 * * * *', 'Device.cron.getdata','>>/tmp/django_crontab/log.log')
+# ]
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),

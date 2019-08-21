@@ -5,7 +5,7 @@ RUN  pip install djangorestframework-filters
 RUN  pip install Pillow
 RUN  pip install django-ckeditor
 RUN  pip install ipython
-RUN  pip install django-crontab
+#RUN  pip install django-crontab
 RUN mkdir /app
 
 #ENTRYPOINT ["/docker-entrypoint.sh","runserver", "0.0.0.0:8000"]

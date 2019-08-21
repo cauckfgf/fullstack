@@ -1,9 +1,13 @@
-# -*- coding: utf-8 -*-
+# -*- coding:utf-8 -*-
+import os
+import sys
+import django
 import json
 import httplib
-# from .models  import *
 
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
+django.setup()
+from Device.models  import *
 class HttpRest(object):
 
     urls = {
