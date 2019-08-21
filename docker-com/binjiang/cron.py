@@ -105,8 +105,9 @@ class HttpRest(object):
             data = json.loads(data)
             for each in data['result']:
                 try:
-                    Device.objects.get_or_create(id=each['id'], name=each['name'], areay=each['areay'], areax=each['areax'],
-                                                 code=each['code'], structureName=each['structureName'], devicetype=devicetype)
+                    Device.objects.get_or_create(id=each['id'], name=each['name'], areay=str(each['areay']), 
+                                                 areax=str(each['areax']), code=each['code'], 
+                                                 structureName=each['structureName'], devicetype=devicetype)
                 except:
                     Device.objects.filter(id=each['id']).update(name=each['name'], areay=each['areay'], areax=each['areax'],
                                                                 code=each['code'], structureName=each['structureName'],
