@@ -22,9 +22,9 @@ class Facility(models.Model):
     piuTime = models.DateTimeField(verbose_name=u'投入使用时间',null=True)
     project_url = models.CharField(max_length=256,verbose_name=u'项目网址',null=True)
     summary = models.TextField(verbose_name=u'项目简介',null=True)
-    project = models.ForeignKey(Prj,verbose_name=u'项目',null=True)
-    asset = models.ForeignKey('AssetManage.Asset',verbose_name=u'资产id',null=True)
-    model = models.ForeignKey('ModelManage.PrecastBeam',blank=True,null=True)
+    # project = models.ForeignKey(Prj,verbose_name=u'项目',null=True)
+    # asset = models.ForeignKey('AssetManage.Asset',verbose_name=u'资产id',null=True)
+    # model = models.ForeignKey('ModelManage.PrecastBeam',blank=True,null=True)
     sequence = models.IntegerField(verbose_name=u'排序字段',default=0)
     def __str__(self):
         return self.name
