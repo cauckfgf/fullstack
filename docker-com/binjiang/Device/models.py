@@ -40,7 +40,9 @@ class Device(models.Model):
     devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
     # system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
     isrun = models.BooleanField(default=False,verbose_name='是否显示动态图')
-
+    areax = models.CharField(max_length=96,default='',verbose_name='x坐标')
+    areay = models.CharField(max_length=96,default='',verbose_name='y坐标')
+    code = models.CharField(max_length=96,default='',verbose_name='设备编码')
     def __unicode__(self):
         return self.name
 

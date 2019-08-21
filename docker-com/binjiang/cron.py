@@ -4,9 +4,10 @@ import sys
 import django
 import json
 import httplib
-
+import datetime
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
 django.setup()
+
 from Device.models  import *
 class HttpRest(object):
 
@@ -33,7 +34,7 @@ class HttpRest(object):
                 'deviceTypeId':'3'
             }
         },
-        '获取设备型号':{
+        '获取设备列表':{
             'url': '/spm-api/rest/device/getDevicePage',
             'params': {
                 'currPage': 1, 
@@ -84,7 +85,7 @@ class HttpRest(object):
         data = response.read()  # 推送返回数据
         conn.close()
         if response.status == 200:
-            print 'success'
+            print datetime.datetime.now()
             return data
         else:
             return None
@@ -95,6 +96,15 @@ class HttpRest(object):
         data = json.loads(data)
         for each in data['result']:
             DeviceType.objects.get_or_create(id=each['id'], name=each['name'])
+
+    def getDevicePage(self):
+        for devicetype in DeviceType.objects.all():
+            p = {'currPage': 1, 'pageSize': 1,'deviceTypeId':devicetype.id}
+            data = self.post(self.urls['获取设备列表']['url'], p)
+            print data
+            data = json.loads(data)
+            for each in data['result']:
+                Device.objects.get_or_create(id=each['id'], name=each['name'])
 
 test = HttpRest()
 test.getDeviceTypeCode()
