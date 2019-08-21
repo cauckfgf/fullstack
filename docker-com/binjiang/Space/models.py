@@ -77,7 +77,7 @@ class Room(models.Model):
     # pbposition_z=models.CharField(max_length=64,unique=True,verbose_name='构件位置z',null=True,blank=True)
     # nearestCamera = models.ForeignKey('SMT.Camera',verbose_name='最近的摄像头',null=True,blank=True,related_name='nearestRoom', on_delete=models.SET_NULL)
     def __str__(self):
-        return self.Name+self.number
+        return self.name+self.number
 
     class Meta:
         db_table = 'SpaceManage_room'
