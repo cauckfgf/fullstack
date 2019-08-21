@@ -43,6 +43,7 @@ class Device(models.Model):
     areax = models.CharField(max_length=96,default='',verbose_name='x坐标')
     areay = models.CharField(max_length=96,default='',verbose_name='y坐标')
     code = models.CharField(max_length=96,default='',verbose_name='设备编码')
+    structureName = models.CharField(max_length=96,default='',verbose_name='点位名称')
     def __unicode__(self):
         return self.name
 

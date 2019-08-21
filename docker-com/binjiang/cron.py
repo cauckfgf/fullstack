@@ -92,7 +92,7 @@ class HttpRest(object):
 
     def getDeviceTypeCode(self):
         data = self.post(self.urls['获取设备类型列表']['url'],{})
-        print data
+        # print data
         data = json.loads(data)
         for each in data['result']:
             DeviceType.objects.get_or_create(id=each['id'], name=each['name'])
@@ -104,7 +104,14 @@ class HttpRest(object):
             print data
             data = json.loads(data)
             for each in data['result']:
-                Device.objects.get_or_create(id=each['id'], name=each['name'])
+                try:
+                    Device.objects.get_or_create(id=each['id'], name=each['name'], areay=each['areay'], areax=each['areax'],
+                                                 code=each['code'], structureName=each['structureName'], devicetype=devicetype)
+                except:
+                    Device.objects.filter(id=each['id']).update(name=each['name'], areay=each['areay'], areax=each['areax'],
+                                                                code=each['code'], structureName=each['structureName'],
+                                                                devicetype=devicetype)
 
 test = HttpRest()
 test.getDeviceTypeCode()
+test.getDevicePage()
