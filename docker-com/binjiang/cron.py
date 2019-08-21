@@ -100,20 +100,26 @@ class HttpRest(object):
 
     def getDevicePage(self):
         for devicetype in DeviceType.objects.all():
+            currPage = 1
             p = {'currPage': 1, 'pageSize': 1,'deviceTypeId':devicetype.id}
-            data = self.post(self.urls['获取设备列表']['url'], p)
-            print data
-            data = json.loads(data)
-            for each in data['result']:
-                try:
-                    Device.objects.get_or_create(id=each['id'], name=each['name'], areay=str(each['areay']), 
-                                                 areax=str(each['areax']), code=each['code'], 
-                                                 structureName=each['structureName'], devicetype=devicetype)
-                except:
-                    traceback.print_exc()
-                    Device.objects.filter(id=each['id']).update(name=each['name'], areay=str(each['areay']), 
-                                                                areax=str(each['areax']), code=each['code'], 
-                                                                structureName=each['structureName'], devicetype=devicetype)
+            totalPage = 0
+            while currPage!=totalPage
+                data = self.post(self.urls['获取设备列表']['url'], p)
+                print data
+                data = json.loads(data)
+                totalPage = data['result']["totalPage"]
+                currPage += 1
+                p['currPage'] = currPage
+                for each in data['result']["list"]:
+                    try:
+                        Device.objects.get_or_create(id=each['id'], name=each['name'], areay=str(each['areay']), 
+                                                     areax=str(each['areax']), code=each['code'], 
+                                                     structureName=each['structureName'], devicetype=devicetype)
+                    except:
+                        traceback.print_exc()
+                        Device.objects.filter(id=each['id']).update(name=each['name'], areay=str(each['areay']), 
+                                                                    areax=str(each['areax']), code=each['code'], 
+                                                                    structureName=each['structureName'], devicetype=devicetype)
 
 test = HttpRest()
 test.getDeviceTypeCode()
