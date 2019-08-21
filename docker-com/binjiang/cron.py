@@ -5,6 +5,7 @@ import django
 import json
 import httplib
 import datetime
+import traceback
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
 django.setup()
 
@@ -109,9 +110,10 @@ class HttpRest(object):
                                                  areax=str(each['areax']), code=each['code'], 
                                                  structureName=each['structureName'], devicetype=devicetype)
                 except:
-                    Device.objects.filter(id=each['id']).update(name=each['name'], areay=each['areay'], areax=each['areax'],
-                                                                code=each['code'], structureName=each['structureName'],
-                                                                devicetype=devicetype)
+                    traceback.print_exc()
+                    Device.objects.filter(id=each['id']).update(name=each['name'], areay=str(each['areay']), 
+                                                                areax=str(each['areax']), code=each['code'], 
+                                                                structureName=each['structureName'], devicetype=devicetype)
 
 test = HttpRest()
 test.getDeviceTypeCode()
