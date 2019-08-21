@@ -114,7 +114,7 @@ DATABASES = {
 
 }
 
-DATABASE_ROUTERS = ['binjiang.dbrouter.Router',]  
+# DATABASE_ROUTERS = ['binjiang.dbrouter.Router',]  
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
