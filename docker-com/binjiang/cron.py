@@ -92,5 +92,9 @@ class HttpRest(object):
     def getDeviceTypeCode(self):
         data = self.post(self.urls['获取设备类型列表']['url'],{})
         print data
+        data = json.loads(data)
+        for each in data['result']:
+            DeviceType.objects.get_or_create(id=each['id'], name=each['name'])
+    def getDeviceTypeCode(self):
 test = HttpRest()
 test.getDeviceTypeCode()
