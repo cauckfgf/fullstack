@@ -54,8 +54,8 @@ class Device(models.Model):
     areay = models.CharField(max_length=96,default='',verbose_name='y坐标')
     code = models.CharField(max_length=96,default='',verbose_name='设备编码')
     structureName = models.CharField(max_length=96,default='',verbose_name='点位名称')
-    create_datetime = models.DateTimeField(verbose_name="创建时间", auto_now_add=True, default='2019-08-22 12:39:23')
-    last_update_datetime = models.DateTimeField(verbose_name="最后修改时间", auto_now=True, default='2019-08-22 12:39:23')
+    create_datetime = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    last_update_datetime = models.DateTimeField(verbose_name="最后修改时间", auto_now=True)
     def __unicode__(self):
         return self.name
 
