@@ -54,6 +54,8 @@ class Device(models.Model):
     areay = models.CharField(max_length=96,default='',verbose_name='y坐标')
     code = models.CharField(max_length=96,default='',verbose_name='设备编码')
     structureName = models.CharField(max_length=96,default='',verbose_name='点位名称')
+    create_datetime = models.DateTimeField("创建时间", auto_now_add=True)
+    last_update_datetime = models.DateTimeField("最后修改时间", auto_now=True)
     def __unicode__(self):
         return self.name
 
@@ -73,6 +75,8 @@ class Sensor(models.Model):
     unit = models.CharField(max_length=96,null=True,blank=True,default='℃',verbose_name='点位单位')
     isnumber = models.BooleanField(default=True,verbose_name='是否是数值量')
     status = models.IntegerField(default=1,verbose_name='状态') #1正常 2报警
+    create_datetime = models.DateTimeField("创建时间", auto_now_add=True)
+    last_update_datetime = models.DateTimeField("最后修改时间", auto_now=True)
 
 
     def __unicode__(self):
@@ -90,6 +94,7 @@ class SensorData(models.Model):
     data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
     stime = models.DateTimeField(auto_now_add=True, verbose_name='记录时间')
     mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
+
     class Meta:
         db_table = 'Device_SensorData'
 

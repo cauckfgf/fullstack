@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'Device',
     'SystemManage',
-    'Space'
+    'Space',
+    'SMT'
 ]
 
 # CRONJOBS = [
