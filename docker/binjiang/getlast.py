@@ -20,8 +20,9 @@ import paho.mqtt.client as mqtt
  
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
-    client.subscribe("device_data_out_1")
-    client.subscribe("device_data_out_2")
+    for i in DeviceType.objects.all():
+        client.subscribe("device_data_out_{}".format(i.id))
+
  
  
 def on_message(client, userdata, msg):
