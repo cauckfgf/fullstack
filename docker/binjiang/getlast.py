@@ -25,8 +25,11 @@ def on_connect(client, userdata, flags, rc):
  
  
 def on_message(client, userdata, msg):
-    # logger.debug(msg.topic+" " + ":" + str(msg.payload))
-    print(msg.topic+" " + ":" + str(msg.payload))
+    try:
+        logger.debug(msg.topic+" " + ":" + str(msg.payload))
+    except:
+        traceback.print_exc()
+    # print(msg.topic+" " + ":" + str(msg.payload))
     data = json.loads(msg.payload)
     code = data.get('code','')
     device = Device.objects.get(code=code)
