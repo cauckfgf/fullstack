@@ -72,7 +72,7 @@ class Device(models.Model):
                 s += i.name+i.lastdata+i.unit+'\r\n'
 
         else:
-            return name
+            return self.name
 
     class Meta:
         verbose_name = '设备'
