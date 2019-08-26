@@ -24,6 +24,14 @@ def on_connect(client, userdata, flags, rc):
  
 def on_message(client, userdata, msg):
     print(msg.topic+" " + ":" + str(msg.payload))
+    data = json.loads(msg.payload)
+    code = data.get('code','')
+    device = Device.objects.get(code=code)
+    for sensor in data['sensors']:
+        s = Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
+        s.lastdata = sensor['data']
+        s.save()
+        SensorData.objects.create(sensor=s,data=sensor['data'])
  
 def runner():
     client = mqtt.Client()

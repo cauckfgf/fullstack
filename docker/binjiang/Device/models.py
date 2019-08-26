@@ -77,6 +77,7 @@ class Sensor(models.Model):
     status = models.IntegerField(default=1,verbose_name='状态') #1正常 2报警
     create_datetime = models.DateTimeField("创建时间", auto_now_add=True)
     last_update_datetime = models.DateTimeField("最后修改时间", auto_now=True)
+    key = models.CharField(max_length=96,default='对方公司起的名字',verbose_name='对方公司起的名字')
 
 
     def __unicode__(self):
