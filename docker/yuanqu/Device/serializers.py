@@ -24,13 +24,15 @@ class DeviceSerializer(serializers.ModelSerializer):
     gif = serializers.SerializerMethodField()
     sensors = serializers.ReadOnlyField()
     sizeXY = serializers.SerializerMethodField()
-
+    showname = serializers.ReadOnlyField()
     def get_sizeXY(self,obj):
         xy = obj.size.split(',')
         return {
             'x':xy[0],
             'y':xy[1]
         } 
+
+
 
     def get_postion(self,obj):
         def toInt(i):

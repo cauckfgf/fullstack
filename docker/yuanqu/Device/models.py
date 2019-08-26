@@ -64,6 +64,16 @@ class Device(models.Model):
 
     def sensors(self):
         return Sensor.objects.filter(device=self).order_by('-status').values('name','lastdata','unit','status','id')
+
+    def showname(self):
+        if "虚拟设备" in self.name:
+            s = ''
+            for i in Sensor.objects.filter(device=self):
+                s += i.name+i.lastdata+i.unit+'\r\n'
+
+        else:
+            return name
+
     class Meta:
         verbose_name = '设备'
         verbose_name_plural = '设备'

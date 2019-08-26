@@ -694,14 +694,14 @@ const system = {
                             }
                         })
                     }
-                    var name = d.name
-                    if(d.devicetype==26){
-                        name = '' 
-                        for(var s in d.sensors){
-                            var sensor = d.sensors[s]
-                            name += `${sensor.name}${sensor.lastdata}${sensor.unit}\r\n`
-                        }
-                    }
+                    var name = d.showname
+                    // if(d.devicetype==26){
+                    //     name = '' 
+                    //     for(var s in d.sensors){
+                    //         var sensor = d.sensors[s]
+                    //         name += `${sensor.name}${sensor.lastdata}${sensor.unit}\r\n`
+                    //     }
+                    // }
                     data.push({
                         name: name,
                         value: d.postion,
