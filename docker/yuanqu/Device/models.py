@@ -70,6 +70,7 @@ class Device(models.Model):
             s = ''
             for i in Sensor.objects.filter(device=self):
                 s += i.name+i.lastdata+i.unit+'\r\n'
+            return s
 
         else:
             return self.name
