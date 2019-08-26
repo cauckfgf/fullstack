@@ -1003,17 +1003,17 @@ const system = {
             })
         },
         initSystem(){
-            ajax.get(`/device/rest/system/?ordering=-id`).then(res => {
+            ajax.get(`/device/rest/system/`).then(res => {
                 for(var i in res.data.results){
-                    if(res.data.results[i].id>2){
-                        for(var j in this.systemData){
-                            this.systemData[j].children.push({
-                                title : res.data.results[i].name,
-                                sid : res.data.results[i].id,
-                                selected:false
-                            })
-                        }
+
+                    for(var j in this.systemData){
+                        this.systemData[j].children.push({
+                            title : res.data.results[i].name,
+                            sid : res.data.results[i].id,
+                            selected:false
+                        })
                     }
+
     
                 }
                 this.systemData[0].children[0].selected=true
