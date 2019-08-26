@@ -34,6 +34,7 @@ def on_message(client, userdata, msg):
         SensorData.objects.create(sensor=s,data=sensor['data'])
  
 def runner():
+    print "[%s]enter..." % os.getpid()
     client = mqtt.Client()
     # client.username_pw_set("admin", "password")
     client.on_connect = on_connect
