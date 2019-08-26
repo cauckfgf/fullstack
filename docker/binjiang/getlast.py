@@ -6,8 +6,8 @@ import json
 import httplib
 import datetime
 import traceback
-# import logging
-# logging.basicConfig(level=logging.DEBUG,filename='/app/getdata.log',filemode='a',format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',stream=sys.stdout)
+import logging
+logging.basicConfig(level=logging.DEBUG,filename='/app/getdata.log',filemode='a',format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',stream=sys.stdout)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
 django.setup()
@@ -26,7 +26,7 @@ def on_connect(client, userdata, flags, rc):
  
 def on_message(client, userdata, msg):
     try:
-        logger.debug(msg.topic+" " + ":" + str(msg.payload))
+        logging.debug(msg.topic+" " + ":" + str(msg.payload))
     except:
         traceback.print_exc()
     # print(msg.topic+" " + ":" + str(msg.payload))
