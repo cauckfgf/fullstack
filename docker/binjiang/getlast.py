@@ -7,7 +7,7 @@ import httplib
 import datetime
 import traceback
 import logging
-logging.basicConfig(level=logging.DEBUG,filename='getdata.log',filemode='a',format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',stream=sys.stdout)
+logging.basicConfig(level=logging.DEBUG,filename='/app/getdata.log',filemode='a',format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',stream=sys.stdout)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
 django.setup()
