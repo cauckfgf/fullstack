@@ -7,7 +7,7 @@ import httplib
 import datetime
 import traceback
 import logging
-logging.basicConfig(level = logging.INFO,format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s',stream=sys.stdout)
+logging.basicConfig(level=logging.DEBUG,filename='getdata.log',filemode='a',format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',stream=sys.stdout)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
 django.setup()
@@ -25,7 +25,7 @@ def on_connect(client, userdata, flags, rc):
  
  
 def on_message(client, userdata, msg):
-    logger.info(msg.topic+" " + ":" + str(msg.payload))
+    logger.debug(msg.topic+" " + ":" + str(msg.payload))
     data = json.loads(msg.payload)
     code = data.get('code','')
     device = Device.objects.get(code=code)
