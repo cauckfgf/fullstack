@@ -1,0 +1,53 @@
+version: "2"
+services:
+  xingming:
+    build : ./xingming
+    restart: always
+    container_name: xingming
+    volumes:
+     - /root/code/fullstack/docker-com/xingming/:/app
+  
+
+  yuanqu:
+      build : ./yuanqu
+      restart: always
+      container_name: yuanqu
+      volumes:
+       - /root/code/fullstack/docker-com/yuanqu/:/app 
+
+  #mqtt:
+  #    build : ./mqtt
+  #    restart: always
+  #    container_name: mqtt
+  #    ports:
+  #      - "8091:1883"      
+  #      - "9001:9001"
+  #    volumes:
+  #      - ./mqtt/config:/var/mqtt
+  
+  binjiang:
+     build: ./binjiang
+     restart: always
+     container_name: binjiang
+     volumes:
+        - /root/code/fullstack/docker-com/binjiang/:/app
+        - /etc/localtime:/etc/localtime
+
+  nginx-fs:
+    build: ./nginx
+    restart: always
+    ports:
+      - "8088:8088"
+      - "8089:8089"
+      - "8090:8090"
+      
+    links:
+      # - timedtask
+      # - django
+      - xingming
+      - yuanqu
+    volumes:
+      - /root/code/fullstack/docker-com/jha/code:/var/www/jha
+      - /root/code/fullstack/docker-com/xingming:/var/www/xingming
+      - /root/code/fullstack/docker-com/yuanqu:/var/www/yuanqu
+    container_name: nginx-jha

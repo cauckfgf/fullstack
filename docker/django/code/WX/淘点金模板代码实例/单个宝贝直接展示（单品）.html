@@ -1,0 +1,67 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>淘点金单品模板</title>
+  <style type="text/css" id="tt-style">
+  .tt-global{font:12px/1.5 tahoma,arial,sans-serif;width:608px;height:80px;overflow:hidden;*zoom:1;padding:10px;color:#606060;text-align:left;background-color:#FFF;}
+  .tt-global span,.tt-global  a,.tt-global  img,.tt-global  ul,.tt-global  li,.tt-global  div{border:0;margin:0;padding:0;list-style:none;}
+  .tt-global a{font-size:12px;color:#000;text-decoration:none;}
+  .tt-global a:hover{color:#ff4e00;text-decoration:none;}
+  .tt-global .tt-pic,.tt-global .tt-attr-l,.tt-global .tt-attr-r{float:left;}
+  .tt-global .tt-pic{background-color:#f5f5f5;margin-right:10px;width:80px;height:80px;}
+  .tt-global .tt-pic a{width:80px;height:80px;vertical-align:middle;text-align:center;display:table-cell;}
+  .tt-global .tt-pic img{vertical-align:middle;}
+  .tt-global .tt-attr-l{margin-right:50px;width:270px;position:relative;}
+  .tt-global .tt-attr-l .tt-title{height:36px;margin-bottom:26px;}
+  .tt-global .tt-attr-l .tt-tmall{position:absolute;top:46px;left:0;height:12px;width:83px;overflow:hidden;background:url(http://img04.taobaocdn.com/tps/i4/T1HFI3XeNdXXcJ3xfp-83-37.png);background-position:0 -25px;}
+  .tt-global .tt-attr-l .tt-seller .tt-seller-name{color:#606060;}
+  .tt-global .tt-attr-l .tt-seller .tt-seller-name:hover{color:#ff4e00;}
+  .tt-global .tt-attr-l .tt-ww-small{margin-left:10px;}
+  .tt-global .tt-attr-l .tt-ww-small img{vertical-align:top;}
+  .tt-global .tt-attr-r{width:180px;}
+  .tt-global .tt-attr-r li{margin-bottom:10px;}
+  .tt-global .tt-attr-r .tt-sale{margin-bottom:0;}
+  .tt-global .tt-attr-r .tt-price-16{color:#000;font-size:16px;margin-right:10px;padding-left:13px;position:relative;}
+  .tt-global .tt-attr-r .tt-price-12{color:#acacac;text-decoration:line-through;padding-left:9px;position:relative;}
+  .tt-global .tt-attr-r .tt-price-16 i,.tt-global .tt-attr-r .tt-price-12 i{background:url(http://img01.taobaocdn.com/tps/i1/T1xtQ1XjleXXabccbg-20-137.png);height:12px;width:8px;overflow:hidden;position:absolute;top:0;left:0;}
+  .tt-global .tt-attr-r .tt-price-16 i{background-position:0 -125px;top:4px;}
+  .tt-global .tt-attr-r .tt-price-12 i{background-position:0 -114px;height:9px;width:6px;top:3px;*top:7px;}
+  </style>
+</head>
+<body>
+
+<div id="tt-box" tt-width="628" tt-height="100">
+  <div id="tt-ds1" class="tt-global" tt-type="alkemia/items">
+    <div class="tt-item" tt-data="items">
+      <div class="tt-pic">
+        <a href="{{ds_item_click}}" target="_blank" tt-data="ds_img"><img src="{{src}}_80x80.jpg"></a>
+      </div>
+      <ul class="tt-attr-l">
+        <li class="tt-title"><a href="{{ds_item_click}}" target="_blank">{{ds_title}}</a></li>
+        <li tt-if="ds_istmall" class="tt-tmall"></li>
+        <li class="tt-seller">
+          <a href="{{ds_shop_click}}" class="tt-seller-name" target="_blank">{{ds_nick}}</a>
+          <a href="http://www.taobao.com/webww/?ver=1&touid=cntaobao{{{ds_nick}}}&siteid=cntaobao&status=1&portalId=&gid=&itemsId="
+             class="tt-ww-small" target="_blank">
+             <img src="http://img02.taobaocdn.com/tps/i2/T1sJ3.XgNeXXX9g2ba-18-18.png">
+          </a>
+        </li>
+      </ul>
+      <ul class="tt-attr-r">
+        <li class="tt-price">
+          <span class="tt-price-16"><i></i>{{ds_discount_price}}</span>
+          <span class="tt-price-12" tt-if="ds_reserve_price"><i></i>{{ds_reserve_price}}</span>
+        </li>
+        <li class="tt-postfee">邮费：{{ds_postfee}}</li>
+        <li class="tt-sale">销量：{{ds_sell}}件</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script src="http://img01.taobaocdn.com/L1/377/10001/sea.js" data-main="assets/tdk/dent"></script>
+
+</body>
+</html>

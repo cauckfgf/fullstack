@@ -1,0 +1,27 @@
+upstream xingming-app {
+    server xingming:8000;
+}
+server {
+	#listen 443;
+	listen 8089;
+        server_name http://116.62.228.242
+	#ssl on;
+	error_log /var/log/nginx/api-dev.error.log;
+        location /static {
+            root   /var/www/xingming/;
+            #index index.html;
+        }
+        location / {
+		proxy_pass 		http://xingming-app;
+		proxy_set_header 	Host $host;
+		proxy_set_header 	X-Real-IP $remote_addr;
+		proxy_set_header	X-Forwarded-Proto https;
+		proxy_set_header 	X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_connect_timeout 	150;
+		proxy_send_timeout 	100;
+		proxy_read_timeout	100;
+		proxy_buffers		4 32k;
+		client_max_body_size	8m;
+		client_body_buffer_size	128;	
+	}
+}

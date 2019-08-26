@@ -1,0 +1,60 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>淘点金店铺模板</title>
+  <style type="text/css" id="tt-style">
+  .tt-global{font:12px/1.5 tahoma,arial,sans-serif;width:120px;height:170px;overflow:hidden;*zoom:1;padding:10px;color:#606060;text-align:left;background-color:#FFF;}
+  .tt-global span,.tt-global  a,.tt-global  img,.tt-global  ul,.tt-global  li,.tt-global  div{border:0;margin:0;padding:0;list-style:none;}
+  .tt-global a{font-size:12px;color:#000;text-decoration:none;}
+  .tt-global a:hover{color:#ff4e00;text-decoration:none;}
+  .tt-global .tt-pic{background-color:#f5f5f5;margin-bottom:5px;}
+  .tt-global .tt-pic img{vertical-align:top;height:120px;width:120px;}
+  .tt-global .tt-attr .tt-shopname{height:18px;overflow:hidden;}
+  .tt-global .tt-attr .tt-tmall{height:12px;width:83px;overflow:hidden;margin-bottom:0;background:url(http://img04.taobaocdn.com/tps/i4/T1HFI3XeNdXXcJ3xfp-83-37.png);background-position:0 -25px;}
+  .tt-global .tt-attr .tt-rank{margin-bottom:0;height:16px;overflow:hidden;background:url(http://img01.taobaocdn.com/tps/i1/T1zihIXkxyXXXXXXXX.png)}
+  .tt-global .tt-attr .tt-rank-0{width:0;}
+  .tt-global .tt-attr .tt-rank-1{background-position:0 0;width:17px;}
+  .tt-global .tt-attr .tt-rank-2{background-position:0 0;width:34px;}
+  .tt-global .tt-attr .tt-rank-3{background-position:0 0;width:51px;}
+  .tt-global .tt-attr .tt-rank-4{background-position:0 0;width:68px;}
+  .tt-global .tt-attr .tt-rank-5{background-position:0 0;width:85px;}
+  .tt-global .tt-attr .tt-rank-6{background-position:0 -32px;width:17px;}
+  .tt-global .tt-attr .tt-rank-7{background-position:0 -32px;width:34px;}
+  .tt-global .tt-attr .tt-rank-8{background-position:0 -32px;width:51px;}
+  .tt-global .tt-attr .tt-rank-9{background-position:0 -32px;width:68px;}
+  .tt-global .tt-attr .tt-rank-10{background-position:0 -32px;width:85px;}
+  .tt-global .tt-attr .tt-rank-11{background-position:0 -64px;width:17px;}
+  .tt-global .tt-attr .tt-rank-12{background-position:0 -64px;width:34px;}
+  .tt-global .tt-attr .tt-rank-13{background-position:0 -64px;width:51px;}
+  .tt-global .tt-attr .tt-rank-14{background-position:0 -64px;width:68px;}
+  .tt-global .tt-attr .tt-rank-15{background-position:0 -64px;width:85px;}
+  .tt-global .tt-attr .tt-rank-16{background-position:0 -100px;width:17px;}
+  .tt-global .tt-attr .tt-rank-17{background-position:0 -100px;width:34px;}
+  .tt-global .tt-attr .tt-rank-18{background-position:0 -100px;width:51px;}
+  .tt-global .tt-attr .tt-rank-19{background-position:0 -100px;width:68px;}
+  .tt-global .tt-attr .tt-rank-20{background-position:0 -100px;width:85px;}
+  .tt-global .tt-attr li{margin-bottom:10px;}
+  </style>
+</head>
+<body>
+
+<div id="tt-box" tt-width="140" tt-height="190">
+  <div id="tt-ds1" class="tt-global" tt-type="alkemia/shops">
+    <div class="tt-shop" tt-data="items">
+      <div class="tt-pic">
+        <a href="{{ds_shop_click}}" target="_blank" tt-data="ds_img"><img src="{{src}}"></a>
+      </div>
+      <ul class="tt-attr">
+        <li class="tt-shopname"><a href="{{ds_shop_click}}" title="{{ds_shopname}}" target="_blank">{{ds_shopname}}</a></li>
+        <li tt-if="ds_istmall" class="tt-tmall"></li>
+        <li tt-else class="tt-rank tt-rank-{{ds_rank}}"></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script src="http://img01.taobaocdn.com/L1/377/10001/sea.js"></script>
+<script src="http://img01.taobaocdn.com/L1/377/10001/assets/tdk/dent.js?t=201305301901"></script></body>
+</html>
