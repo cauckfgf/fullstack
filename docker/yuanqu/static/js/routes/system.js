@@ -372,12 +372,12 @@ const system = {
             // this.systemData[0].children[0].selected=false
             if(point[0].sid!=undefined){
                 this.system = point[0].sid
-                if(this.system==3){
-                    this.initDian(update=false)
-                }else{
-                    this.init(update=false)
-                }
-                
+                // if(this.system==3){
+                //     this.initDian(update=false)
+                // }else{
+                //     this.init(update=false)
+                // }
+                this.init(update=false)
             }
             
             // console.log(point)
