@@ -111,9 +111,9 @@ class HttpRest(object):
                 currPage += 1
                 p['currPage'] = currPage
                 for each in data['result']["list"]:
-                    areay = each.get('areay',None)
-                    areax = each.get('areax',None)
-                    structureName=each.get('structureName',None)
+                    areay = each.get('areay','')
+                    areax = each.get('areax','')
+                    structureName=each.get('structureName','')
                     try:
                         Device.objects.get_or_create(id=each['id'], name=each['name'], areay=areay, 
                                                      areax=areax, code=each['code'], structureName=structureName,
