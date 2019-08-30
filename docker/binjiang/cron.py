@@ -114,12 +114,12 @@ class HttpRest(object):
                     try:
                         Device.objects.get_or_create(id=each['id'], name=each['name'], areay=str(each['areay']), 
                                                      areax=str(each['areax']), code=each['code'], 
-                                                     structureName=each['structureName'], devicetype=devicetype)
+                                                     structureName=each.get('structureName',None), devicetype=devicetype)
                     except:
                         traceback.print_exc()
                         Device.objects.filter(id=each['id']).update(name=each['name'], areay=str(each['areay']), 
                                                                     areax=str(each['areax']), code=each['code'], 
-                                                                    structureName=each['structureName'], devicetype=devicetype)
+                                                                    structureName=each.get('structureName',None), devicetype=devicetype)
 
 test = HttpRest()
 test.getDeviceTypeCode()
