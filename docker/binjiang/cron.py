@@ -156,7 +156,7 @@ class HttpRest(object):
                 #告警级别：1 提醒、2 注意、3 警告、4 危险、5 事故
                 for level in range(3,6):
                     currPage = 1
-                    p = {'currPage': 1, 'pageSize': 80,'eventType':str(t.id),'alarmLevel':string(level)}
+                    p = {'currPage': 1, 'pageSize': 80,'eventType':str(t.id),'alarmLevel':str(level)}
                     totalPage = 0
                     while currPage!=totalPage:
                         data = self.post(self.urls['告警阈值设置']['url'], p)
