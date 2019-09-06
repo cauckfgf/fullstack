@@ -158,9 +158,9 @@ class HttpRest(object):
                     currPage = 1
                     p = {'currPage': 1, 'pageSize': 80,'eventType':str(t.id),'alarmLevel':str(level)}
                     totalPage = 0
-                    while currPage!=totalPage:
+                    while currPage<=totalPage:
                         data = self.post(self.urls['告警阈值设置']['url'], p)
-                        print data
+                        print 'currPage',currPage
                         data = json.loads(data)
                         totalPage = data['result']["totalPage"]
                         currPage += 1
