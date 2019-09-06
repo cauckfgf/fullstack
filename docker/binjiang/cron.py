@@ -161,6 +161,7 @@ class HttpRest(object):
                     while currPage<=totalPage:
                         data = self.post(self.urls['告警阈值设置']['url'], p)
                         print 'currPage',currPage
+                        print 'totalPage',totalPage
                         data = json.loads(data)
                         totalPage = data['result']["totalPage"]
                         currPage += 1
