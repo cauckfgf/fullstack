@@ -145,7 +145,7 @@ class HttpRest(object):
             # print data
             data = json.loads(data)
             for each in data['result']:
-                if not AlarmType.objects.get(id=each['id']):
+                if not AlarmType.objects.filter(id=each['id']):
                     AlarmType.objects.create(id=each['id'],name=each['name'],key=each['code'])
         except:
             traceback.print_exc()
