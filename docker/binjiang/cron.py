@@ -94,7 +94,7 @@ class HttpRest(object):
         data = response.read()  # 推送返回数据
         conn.close()
         if response.status == 200:
-            print datetime.datetime.now()
+            print datetime.datetime.now(), rest
             return data
         else:
             return None
@@ -113,7 +113,7 @@ class HttpRest(object):
             totalPage = 0
             while currPage!=totalPage:
                 data = self.post(self.urls['获取设备列表']['url'], p)
-                print data
+                # print data
                 data = json.loads(data)
                 totalPage = data['result']["totalPage"]
                 currPage += 1
