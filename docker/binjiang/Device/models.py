@@ -78,8 +78,12 @@ class Sensor(models.Model):
     create_datetime = models.DateTimeField("创建时间", auto_now_add=True)
     last_update_datetime = models.DateTimeField("最后修改时间", auto_now=True)
     key = models.CharField(max_length=96,default='对方公司起的名字',verbose_name='对方公司起的名字')
-
-
+    range11 = models.CharField(max_length=16,verbose_name=u'一级报警上线',null=True,blank=True)
+    range12 = models.CharField(max_length=16,verbose_name=u'一级报警下线',null=True,blank=True)
+    range21 = models.CharField(max_length=16,verbose_name=u'二级报警上线',null=True,blank=True)
+    range22 = models.CharField(max_length=16,verbose_name=u'二级报警下线',null=True,blank=True)
+    range31 = models.CharField(max_length=16,verbose_name=u'三级报警上线',null=True,blank=True)
+    range32 = models.CharField(max_length=16,verbose_name=u'三级报警下线',null=True,blank=True)
     def __unicode__(self):
         return "{}:{}".format(self.name,self.lastdata)
 
@@ -99,7 +103,20 @@ class SensorData(models.Model):
     class Meta:
         db_table = 'Device_SensorData'
 
+class AlarmType(models.Model):
+    key = models.CharField(max_length=96,default='对方公司起的名字',verbose_name='对方公司起的名字')
+    name =  models.CharField(max_length=96,default='名字',verbose_name='名字')
+    class Meta:
+        db_table = 'Device_AlarmType'
 
+
+class Alarm(models.Model):
+    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    alarm_level =  models.IntegerField(default=0,verbose_name='告警级别')
+    sensor = models.ForeignKey(Sensor)
+    abi_time =  models.IntegerField(default=0,verbose_name='持续时间')
+    class Meta:
+        db_table = 'Device_Alarm'
 # class Camera(models.Model):
 #     '''摄像头'''
 #     CHOICE = (
