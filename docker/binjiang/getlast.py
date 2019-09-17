@@ -40,10 +40,11 @@ def on_message(client, userdata, msg):
         code = data.get('code','')
         if not code:
             return 
-        device = Device.objects.get(code=code)
-        if device:
+        circuits = Circuit.objects.filter(code=code)
+        if not circuits:
             # 设备点位
             # SensorData_OBJ = sensor_map[device.devicetype_id]
+            device = Device.objects.get(code=code)
             result = data.get('sensors')
             if not result:
                 result = data.get('result')
@@ -70,7 +71,7 @@ def on_message(client, userdata, msg):
             #     'phaseVoltageUC':'voltage_C',
             #     'activeElectricalEnergy':'quantity',
             # } 
-            circuit = Circuit.objects.get(code=code)
+            circuit = circuits.first()
             result = data.get('sensors')
             if not result:
                 result = data.get('result')
