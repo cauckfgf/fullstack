@@ -200,5 +200,5 @@ class HttpRest(object):
 test = HttpRest()
 test.getDeviceTypeCode()
 test.getDevicePage()
-test.getAlarmType()
-test.getAlarmSetList()
+# test.getAlarmType()
+# test.getAlarmSetList()
