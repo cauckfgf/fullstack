@@ -14,9 +14,7 @@ django.setup()
 
 from Device.models  import *
 def sensordatatimetask():
-    now = datetime.datetime.now()
-    # 前一小时
-    t = now + relativedelta(hours=-1)
+
 
     querysetlist = []
     sensors = S_Sensor.objects.all()
@@ -26,6 +24,6 @@ def sensordatatimetask():
         t.sensor = s
         t.data = s.lastdata
         querysetlist.append(t)
-    SensorDataTime.objects.bulk_create(querysetlist)
+    S_SensorDataTime.objects.bulk_create(querysetlist)
 
 sensordatatimetask()
