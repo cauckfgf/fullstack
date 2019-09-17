@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+# 同时设备类型设备
 import os
 import sys
 import django

@@ -47,6 +47,7 @@ def on_message(client, userdata, msg):
         if not circuits:
             # 设备点位
             # SensorData_OBJ = sensor_map[device.devicetype_id]
+            # 信管
             device = Device.objects.get(code=code)
             result = data.get('sensors')
             if not result:
@@ -55,7 +56,14 @@ def on_message(client, userdata, msg):
                 s = Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
                 s.lastdata = sensor['data']
                 s.save()
-                SensorData.objects.create(sensor=s,data=sensor['data'])
+                SensorData.objects.create(sensor=s,data=sensor['data'],stime=t)
+            # 四建
+            device = S_Device.objects.get(code=code)
+            for sensor in result:
+                s = S_Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
+                s.lastdata = sensor['data']
+                s.save()
+
         else:
             # 能耗
             # IA => phaseCurrentIA

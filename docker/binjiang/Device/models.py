@@ -100,7 +100,7 @@ class SensorData(models.Model):
     """传感器监测数据"""
     sensor = models.ForeignKey(Sensor)
     data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
-    stime = models.DateTimeField(auto_now_add=True, verbose_name='记录时间')
+    stime = models.DateTimeField(verbose_name='记录时间')
     mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
 
     class Meta:
@@ -397,3 +397,47 @@ class MonitorDataTime(models.Model):
         verbose_name = '水电表中间数据'
         verbose_name_plural = '水电表中间数据'
         db_table = 'energymanage_MonitorDataTime'
+
+
+class S_Device(models.Model):
+    # 四建
+    code = models.CharField(max_length=96,default='',verbose_name='设备编码')
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = '设备'
+        verbose_name_plural = '设备'
+        db_table = 'devicemanage_device'
+
+class S_Sensor(models.Model):
+    name = models.CharField(max_length=96,default='点位名字',verbose_name='点位名字')
+    lastdata = models.CharField(max_length=96,default='最新数值',verbose_name='最新数值',null=True,blank=True)
+    device = models.ForeignKey('S_Device',null=True,verbose_name='设备',related_name='Sensor')
+
+    def __unicode__(self):
+        return "{}:{}".format(self.name,self.lastdata)
+
+    class Meta:
+        verbose_name = '传感器'
+        verbose_name_plural = '传感器'
+        db_table = 'devicemanage_sensor'
+
+
+
+class S_SensorDataTime(models.Model):
+    """传感器监测数据"""
+    STATUS_CHOICES = (
+        (1, '1一级报警'),
+        (2, '2二级报警'),
+        (3, '3三级报警'),
+        (4, '4中断'),
+        (5, '5正常'),
+    )
+    sensor = models.ForeignKey(S_Sensor)
+    data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
+    stime = models.DateTimeField(auto_now_add=True,verbose_name='记录时间', db_index=True)
+    mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记',choices=STATUS_CHOICES)
+    station = models.CharField(max_length=96, blank=True, null=True)
+    class Meta:
+        db_table = 'devicemanage_sensordatatime'

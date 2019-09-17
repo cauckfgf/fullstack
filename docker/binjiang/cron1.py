@@ -19,17 +19,12 @@ def sensordatatimetask():
     t = now + relativedelta(hours=-1)
 
     querysetlist = []
-    sensordata = SensorData.objects.filter(stime__gt=t).values('sensor','stime').annotate(Max('data'))
-    middle = {}
-    for each in sensordata:
-        if middle.get(each['sensor'], None):
-            middle[each['sensor']] = (each['data__max'], each['stime'])
+    sensors = S_Sensor.objects.all()
 
-    for key,value in middle.items():
-        t = SensorDataTime()
-        t.sensor = Sensor.objects.get(id=key)
-        t.data = value[0]
-        t.stime = value[1]
+    for s  in sensors:
+        t = S_SensorDataTime()
+        t.sensor = s
+        t.data = s.lastdata
         querysetlist.append(t)
     SensorDataTime.objects.bulk_create(querysetlist)
 
