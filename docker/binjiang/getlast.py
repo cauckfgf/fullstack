@@ -39,14 +39,14 @@ maplib = {
     'phaseVoltageUC':{'unit':'V','倍率':0.1,'name':'C相电压'},
     'activeElectricalEnergy':{'unit':'A','倍率':0.001,'name':'有功电能'},
 } 
-sensor_map = {
-    1 : SensorData_DeviceType1,
-    2 : SensorData_DeviceType2,
-    3 : SensorData_DeviceType3,
-    4 : SensorData_DeviceType4,
-    5 : SensorData_DeviceType5,
-    6 : SensorData_DeviceType6,
-}
+# sensor_map = {
+#     1 : SensorData_DeviceType1,
+#     2 : SensorData_DeviceType2,
+#     3 : SensorData_DeviceType3,
+#     4 : SensorData_DeviceType4,
+#     5 : SensorData_DeviceType5,
+#     6 : SensorData_DeviceType6,
+# }
 def on_message(client, userdata, msg):
     try:
         logging.debug(msg.topic+" " + ":" + str(msg.payload))
@@ -56,7 +56,7 @@ def on_message(client, userdata, msg):
         if not code:
             return 
         device = Device.objects.get(code=code)
-        SensorData_OBJ = sensor_map[device.devicetype_id]
+        # SensorData_OBJ = sensor_map[device.devicetype_id]
         for sensor in data['sensors']:
             if maplib.get(sensor['name'],None):
                 m = maplib.get(sensor['name'])
@@ -70,7 +70,7 @@ def on_message(client, userdata, msg):
                 s = Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
                 s.lastdata = sensor['data']
                 s.save()
-            SensorData_OBJ.objects.create(sensor=s,data=sensor['data'])
+            SensorData.objects.create(sensor=s,data=sensor['data'])
     except:
         traceback.print_exc()
  
