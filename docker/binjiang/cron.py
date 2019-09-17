@@ -122,7 +122,7 @@ class HttpRest(object):
                     areay = each.get('areay','')
                     areax = each.get('areax','')
                     structureName=each.get('structureName','')
-                    if not Device.objects.get(id=each['id']):
+                    if not Device.objects.filter(id=each['id']):
                         Device.objects.create(id=each['id'], name=each['name'], areay=areay, 
                                                      areax=areax, code=each['code'], structureName=structureName,
                                                      devicetype=devicetype)
