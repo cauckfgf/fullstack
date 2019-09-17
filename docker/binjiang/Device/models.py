@@ -414,7 +414,7 @@ class S_Sensor(models.Model):
     name = models.CharField(max_length=96,default='点位名字',verbose_name='点位名字')
     lastdata = models.CharField(max_length=96,default='最新数值',verbose_name='最新数值',null=True,blank=True)
     device = models.ForeignKey('S_Device',null=True,verbose_name='设备',related_name='Sensor')
-
+    key = models.CharField(max_length=96,default='对方公司起的名字',verbose_name='对方公司起的名字')
     def __unicode__(self):
         return "{}:{}".format(self.name,self.lastdata)
 
