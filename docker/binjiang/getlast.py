@@ -23,22 +23,7 @@ def on_connect(client, userdata, flags, rc):
     for i in DeviceType.objects.all():
         client.subscribe("device_data_out_{}".format(i.id))
 
-# IA => phaseCurrentIA
-# IB => phaseCurrentIB
-# IC => phaseCurrentIC
-# 相电压UA => phaseVoltageUA
-# 相电压UB => phaseVoltageUB
-# 相电压UC => phaseVoltageUC
-# 有功电能 => activeElectricalEnergy
-maplib = {
-    'phaseCurrentIA':{'unit':'A','倍率':0.1,'name':'A相电流'},
-    'phaseCurrentIB':{'unit':'A','倍率':0.1,'name':'B相电流'},
-    'phaseCurrentIC':{'unit':'A','倍率':0.1,'name':'C相电流'},
-    'phaseVoltageUA':{'unit':'V','倍率':0.1,'name':'A相电压'},
-    'phaseVoltageUB':{'unit':'V','倍率':0.1,'name':'B相电压'},
-    'phaseVoltageUC':{'unit':'V','倍率':0.1,'name':'C相电压'},
-    'activeElectricalEnergy':{'unit':'A','倍率':0.001,'name':'有功电能'},
-} 
+
 # sensor_map = {
 #     1 : SensorData_DeviceType1,
 #     2 : SensorData_DeviceType2,
@@ -56,24 +41,59 @@ def on_message(client, userdata, msg):
         if not code:
             return 
         device = Device.objects.get(code=code)
-        # SensorData_OBJ = sensor_map[device.devicetype_id]
-        result = data.get('sensors')
-        if not result:
-            result = data.get('result')
-        for sensor in result:
-            if maplib.get(sensor['name'],None):
-                m = maplib.get(sensor['name'])
-                name = m.get('name')
-                unit = m.get('unit')
-                bl = m.get('倍率')
-                s = Sensor.objects.get_or_create(key=sensor['name'],device=device,name=name,unit=unit)[0]
-                s.lastdata = str(float(sensor['data']) * bl)
-                s.save()
-            else:
+        if device:
+            # 设备点位
+            # SensorData_OBJ = sensor_map[device.devicetype_id]
+            result = data.get('sensors')
+            if not result:
+                result = data.get('result')
+            for sensor in result:
                 s = Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
                 s.lastdata = sensor['data']
                 s.save()
-            SensorData.objects.create(sensor=s,data=sensor['data'])
+                SensorData.objects.create(sensor=s,data=sensor['data'])
+        else:
+            # 能耗
+            # IA => phaseCurrentIA
+            # IB => phaseCurrentIB
+            # IC => phaseCurrentIC
+            # 相电压UA => phaseVoltageUA
+            # 相电压UB => phaseVoltageUB
+            # 相电压UC => phaseVoltageUC
+            # 有功电能 => activeElectricalEnergy
+            # dianlib = {
+            #     'phaseCurrentIA':'current_A',
+            #     'phaseCurrentIB':'current_B',
+            #     'phaseCurrentIC':'current_C',
+            #     'phaseVoltageUA':'voltage_A',
+            #     'phaseVoltageUB':'voltage_B',
+            #     'phaseVoltageUC':'voltage_C',
+            #     'activeElectricalEnergy':'quantity',
+            # } 
+            circuit = Circuit.objects.get(code=code)
+            result = data.get('sensors')
+            if not result:
+                result = data.get('result')
+            cdata = CircuitMonitorData(circuit=circuit)
+            for sensor in result:
+                name = sensor['name']
+                value = float(sensor['data'])
+                if name=='phaseCurrentIA':
+                    cdata.current_A = value
+                elif name=='phaseCurrentIB':
+                    cdata.current_B = value
+                elif name=='phaseCurrentIC':
+                    cdata.current_C = value
+                elif name=='phaseVoltageUA':
+                    cdata.voltage_A = value
+                elif name=='phaseCurrentIB':
+                    cdata.current_B = value
+                elif name=='phaseVoltageUC':
+                    cdata.voltage_C = value
+                elif name=='activeElectricalEnergy':
+                    cdata.quantity = value
+                cdata.save()
+                    
     except:
         logging.debug(sensor['data'])
         traceback.print_exc()
