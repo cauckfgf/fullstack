@@ -326,7 +326,7 @@ class Circuit(models.Model):
     def __str__(self):
         return name
 
-class Meta:
-    verbose_name = '回路表'
-    verbose_name_plural = '回路表'
-    db_table = 'energymanage_electricity_circuit'
+    class Meta:
+        verbose_name = '回路表'
+        verbose_name_plural = '回路表'
+        db_table = 'energymanage_electricity_circuit'
