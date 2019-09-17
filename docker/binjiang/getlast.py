@@ -23,21 +23,52 @@ def on_connect(client, userdata, flags, rc):
     for i in DeviceType.objects.all():
         client.subscribe("device_data_out_{}".format(i.id))
 
- 
- 
+# IA => phaseCurrentIA
+# IB => phaseCurrentIB
+# IC => phaseCurrentIC
+# 相电压UA => phaseVoltageUA
+# 相电压UB => phaseVoltageUB
+# 相电压UC => phaseVoltageUC
+# 有功电能 => activeElectricalEnergy
+maplib = {
+    'phaseCurrentIA':{'unit':'A','倍率':0.1,'name':'A相电流'},
+    'phaseCurrentIB':{'unit':'A','倍率':0.1,'name':'B相电流'},
+    'phaseCurrentIC':{'unit':'A','倍率':0.1,'name':'C相电流'},
+    'phaseVoltageUA':{'unit':'V','倍率':0.1,'name':'A相电压'},
+    'phaseVoltageUB':{'unit':'V','倍率':0.1,'name':'B相电压'},
+    'phaseVoltageUC':{'unit':'V','倍率':0.1,'name':'C相电压'},
+    'activeElectricalEnergy':{'unit':'A','倍率':0.001,'name':'有功电能'},
+} 
+sensor_map = {
+    1 : SensorData_DeviceType1,
+    2 : SensorData_DeviceType2,
+    3 : SensorData_DeviceType3,
+    4 : SensorData_DeviceType4,
+    5 : SensorData_DeviceType5,
+    6 : SensorData_DeviceType6,
+}
 def on_message(client, userdata, msg):
     try:
         logging.debug(msg.topic+" " + ":" + str(msg.payload))
-    
         # print(msg.topic+" " + ":" + str(msg.payload))
         data = json.loads(msg.payload)
         code = data.get('code','')
         device = Device.objects.get(code=code)
+        SensorData_OBJ = sensor_map[device.devicetype_id]
         for sensor in data['sensors']:
-            s = Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
-            s.lastdata = sensor['data']
-            s.save()
-            SensorData.objects.create(sensor=s,data=sensor['data'])
+            if maplib.get(sensor['name'],None):
+                m = maplib.get(sensor['name'])
+                name = m.get('name')
+                unit = m.get('unit')
+                bl = m.get('unit')
+                s = Sensor.objects.get_or_create(key=sensor['name'],device=device,name=name,unit=unit)[0]
+                s.lastdata = str(float(sensor['data']) * bl)
+                s.save()
+            else:
+                s = Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
+                s.lastdata = sensor['data']
+                s.save()
+            SensorData_OBJ.objects.create(sensor=s,data=sensor['data'])
     except:
         traceback.print_exc()
  

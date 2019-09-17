@@ -103,6 +103,86 @@ class SensorData(models.Model):
     class Meta:
         db_table = 'Device_SensorData'
 
+# class SensorDataFull(models.Model):
+#     """传感器监测数据"""
+#     sensor = models.ForeignKey(Sensor)
+#     data = models.CharField(max_length=96, blank=True,null=True,verbose_name='传感器数据')
+#     stime = models.DateTimeField(auto_now_add=True,verbose_name='记录时间',db_index=True)
+#     mark = models.CharField(max_length=96, blank=True,null=True,verbose_name='标记')
+#     def dbid(self):
+#         try:
+#             return self.sensor.pbelement.dbid()
+#         except:
+#             traceback.print_exc()
+#             return None
+#     def sensorname(self):
+#         return self.sensor.name
+
+#     class Meta:
+#         verbose_name = '历史数据'
+#         unique_together=("id","stime")
+#         db_table = 'devicemanage_sensordata_all'
+
+class SensorData_DeviceType1(models.Model):
+    """传感器监测数据"""
+    sensor = models.ForeignKey(Sensor)
+    data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
+    stime = models.DateTimeField(auto_now_add=True, verbose_name='记录时间')
+    mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
+
+    class Meta:
+        db_table = 'Device_SensorData_DeviceType1'
+
+class SensorData_DeviceType2(models.Model):
+    """传感器监测数据"""
+    sensor = models.ForeignKey(Sensor)
+    data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
+    stime = models.DateTimeField(auto_now_add=True, verbose_name='记录时间')
+    mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
+
+    class Meta:
+        db_table = 'Device_SensorData_DeviceType2'
+
+class SensorData_DeviceType3(models.Model):
+    """传感器监测数据"""
+    sensor = models.ForeignKey(Sensor)
+    data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
+    stime = models.DateTimeField(auto_now_add=True, verbose_name='记录时间')
+    mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
+
+    class Meta:
+        db_table = 'Device_SensorData_DeviceType3'
+
+class SensorData_DeviceType4(models.Model):
+    """传感器监测数据"""
+    sensor = models.ForeignKey(Sensor)
+    data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
+    stime = models.DateTimeField(auto_now_add=True, verbose_name='记录时间')
+    mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
+
+    class Meta:
+        db_table = 'Device_SensorData_DeviceType4'
+
+class SensorData_DeviceType5(models.Model):
+    """传感器监测数据"""
+    sensor = models.ForeignKey(Sensor)
+    data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
+    stime = models.DateTimeField(auto_now_add=True, verbose_name='记录时间')
+    mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
+
+    class Meta:
+        db_table = 'Device_SensorData_DeviceType5'
+
+class SensorData_DeviceType6(models.Model):
+    """传感器监测数据"""
+    sensor = models.ForeignKey(Sensor)
+    data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
+    stime = models.DateTimeField(auto_now_add=True, verbose_name='记录时间')
+    mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
+
+    class Meta:
+        db_table = 'Device_SensorData_DeviceType6'
+
 class AlarmType(models.Model):
     key = models.CharField(max_length=96,default='对方公司起的名字',verbose_name='对方公司起的名字')
     name =  models.CharField(max_length=96,default='名字',verbose_name='名字')
