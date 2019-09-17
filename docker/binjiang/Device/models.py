@@ -330,3 +330,70 @@ class Circuit(models.Model):
         verbose_name = '回路表'
         verbose_name_plural = '回路表'
         db_table = 'energymanage_electricity_circuit'
+
+
+class CircuitMonitorData(models.Model):
+    circuit = models.ForeignKey(Circuit,verbose_name='回路区域')
+    quantity = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'功',null=True,blank=True)
+    power = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'功率',null=True,blank=True)
+    voltage_A = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'A相电压读数',null=True,blank=True)
+    voltage_B = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'B相电压读数',null=True,blank=True)
+    voltage_C = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'C相电压读数',null=True,blank=True)
+    current_A = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'A相电流读数',null=True,blank=True)
+    current_B = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'B相电流读数',null=True,blank=True)
+    current_C = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'C相电流读数',null=True,blank=True)
+    time = models.DateTimeField(auto_now=True)
+    istrue = models.BooleanField(verbose_name='是否是真实数据(异常数据平均值)',default=True)
+
+    def A(self):
+        return self.voltage_A * self.current_A
+
+    def B(self):
+        return self.voltage_B * self.current_B
+
+    def C(self):
+        return self.voltage_C * self.current_C
+
+
+    def __str__(self):
+        return self.circuit.name
+    
+    class Meta:
+        verbose_name = '回路监测表'
+        verbose_name_plural = '回路监测表'
+        db_table = 'energymanage_electricity_circuit_monitor_data'
+
+class MonitorDataTime(models.Model):
+    CHOICES= (
+        ('hour', 'hour'),
+        ('day', 'day'),
+        ('month', 'month'),
+    )
+    Circuit = models.ForeignKey(Circuit,verbose_name='电表',null=True,blank=True)
+    CategoryItem = models.ForeignKey(CategoryItem,verbose_name='一级分项',null=True,blank=True)
+    EnergyCategory = models.ForeignKey(EnergyCategory,verbose_name='电能监测分类',null=True,blank=True)
+    # WaterCirruit = models.ForeignKey(WaterCirruit,verbose_name='水表',null=True,blank=True)
+    time = models.DateTimeField(auto_now_add=True)
+    # time = models.DateTimeField(null=True,blank=True,default='2020-09-08 00:00:00')
+    D_value = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'差值',null=True,blank=True)
+    power = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'功率',null=True,blank=True)
+    type = models.CharField(max_length=12,choices=CHOICES,verbose_name='类型')
+    power_density = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'功率密度',null=True,blank=True)
+
+    def __str__(self):
+        if self.Circuit:
+            return self.Circuit.name
+        elif self.EnergyCategory:
+            return self.EnergyCategory.name
+        elif self.CategoryItem:
+            return self.CategoryItem.name
+        else:
+            return ''
+
+    def name(self):
+        return self.__str__()
+        
+    class Meta:
+        verbose_name = '水电表中间数据'
+        verbose_name_plural = '水电表中间数据'
+        db_table = 'energymanage_MonitorDataTime'
