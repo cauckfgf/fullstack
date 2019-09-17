@@ -110,7 +110,7 @@ class HttpRest(object):
         for devicetype in DeviceType.objects.all():
             currPage = 1
             p = {'currPage': 1, 'pageSize': 80,'deviceTypeId':devicetype.id}
-            totalPage = 0
+            totalPage = 1
             while currPage<=totalPage:
                 data = self.post(self.urls['获取设备列表']['url'], p)
                 # print data
