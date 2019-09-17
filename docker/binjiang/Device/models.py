@@ -342,7 +342,7 @@ class CircuitMonitorData(models.Model):
     current_A = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'A相电流读数',null=True,blank=True)
     current_B = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'B相电流读数',null=True,blank=True)
     current_C = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'C相电流读数',null=True,blank=True)
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField()
     istrue = models.BooleanField(verbose_name='是否是真实数据(异常数据平均值)',default=True)
 
     def A(self):

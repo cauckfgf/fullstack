@@ -7,6 +7,7 @@ import httplib
 import datetime
 import traceback
 import logging
+from dateutil.relativedelta import relativedelta
 logging.basicConfig(level=logging.DEBUG,filename='/app/getdata.log',filemode='a',format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',stream=sys.stdout)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
@@ -40,6 +41,8 @@ def on_message(client, userdata, msg):
         code = data.get('code','')
         if not code:
             return 
+        _t = int(data.get('timestamp',''))
+        t = datetime.datetime.utcfromtimestamp(_t/1000) +relativedelta(hours=8)
         circuits = Circuit.objects.filter(code=code)
         if not circuits:
             # 设备点位
@@ -75,7 +78,7 @@ def on_message(client, userdata, msg):
             result = data.get('sensors')
             if not result:
                 result = data.get('result')
-            cdata = CircuitMonitorData(circuit=circuit)
+            cdata = CircuitMonitorData(circuit=circuit,time=t)
             for sensor in result:
                 name = sensor['name']
                 value = float(sensor['data'])
