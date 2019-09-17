@@ -125,12 +125,12 @@ class HttpRest(object):
                     if not Device.objects.filter(id=each['id']):
                         Device.objects.create(id=each['id'], name=each['name'], areay=areay, 
                                                      areax=areax, code=each['code'], structureName=structureName,
-                                                     devicetype=devicetype)
+                                                     devicetype_id=each['device_type_id'])
                     else:
                         # traceback.print_exc()
                         Device.objects.filter(id=each['id']).update(name=each['name'], areay=areay, 
-                                                                     areax=areax, code=each['code'], structureName=structureName,
-                                                                     devicetype=devicetype)
+                                                                    areax=areax, code=each['code'], structureName=structureName,
+                                                                    devicetype_id=each['device_type_id'])
     # def getAlarmType(self):
     #     data = self.post(self.urls['告警事件类型列表']['url'],{})
     #     # print data
