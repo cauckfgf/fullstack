@@ -8,6 +8,7 @@ import httplib
 import datetime
 import traceback
 from dateutil.relativedelta import relativedelta
+from django.db.models import Max,Min
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
 django.setup()
 
