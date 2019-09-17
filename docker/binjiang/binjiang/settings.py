@@ -105,7 +105,7 @@ DATABASES = {
             #'NAME': 'scc4pms',
             # 'NAME': 'xhyyfm',
 
-            'NAME': 'ypbjcyds',
+            'NAME': 'fmdemo2',
             'USER':'fmmanager',
             'PASSWORD':'Zzkj3333',
             'HOST':'rm-bp1x76yga76x16n4ybo.mysql.rds.aliyuncs.com',
