@@ -7,6 +7,7 @@ RUN  pip install django-ckeditor
 RUN  pip install ipython
 RUN  pip install paho-mqtt
 #RUN  pip install django-crontab
+RUN pip install python-dateutil
 RUN mkdir /app
 #ENTRYPOINT ["/docker-entrypoint.sh","runserver", "0.0.0.0:8000"]
 CMD python /app/getlast.py 
