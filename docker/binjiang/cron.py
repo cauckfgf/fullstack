@@ -131,71 +131,71 @@ class HttpRest(object):
                         Device.objects.filter(id=each['id']).update(name=each['name'], areay=areay, 
                                                                      areax=areax, code=each['code'], structureName=structureName,
                                                                      devicetype=devicetype)
-    def getAlarmType(self):
-        data = self.post(self.urls['告警事件类型列表']['url'],{})
-        # print data
-        data = json.loads(data)
-        for each in data['result']:
-            if not AlarmType.objects.get(id=each['id']):
-                AlarmType.objects.create(id=each['id'],name=each['name'],key=each['code'])
+    # def getAlarmType(self):
+    #     data = self.post(self.urls['告警事件类型列表']['url'],{})
+    #     # print data
+    #     data = json.loads(data)
+    #     for each in data['result']:
+    #         if not AlarmType.objects.get(id=each['id']):
+    #             AlarmType.objects.create(id=each['id'],name=each['name'],key=each['code'])
 
-    def getAlarmType(self):
-        try:
-            data = self.post(self.urls['告警事件类型列表']['url'],{})
-            # print data
-            data = json.loads(data)
-            for each in data['result']:
-                if not AlarmType.objects.filter(id=each['id']):
-                    AlarmType.objects.create(id=each['id'],name=each['name'],key=each['code'])
-        except:
-            traceback.print_exc()
+    # def getAlarmType(self):
+    #     try:
+    #         data = self.post(self.urls['告警事件类型列表']['url'],{})
+    #         # print data
+    #         data = json.loads(data)
+    #         for each in data['result']:
+    #             if not AlarmType.objects.filter(id=each['id']):
+    #                 AlarmType.objects.create(id=each['id'],name=each['name'],key=each['code'])
+    #     except:
+    #         traceback.print_exc()
 
-    def getAlarmSetList(self):
-        try:
-            for t in AlarmType.objects.all():
-                #告警级别：1 提醒、2 注意、3 警告、4 危险、5 事故
-                for level in range(3,6):
-                    currPage = 1
-                    p = {'currPage': 1, 'pageSize': 80,'eventType':str(t.id),'alarmLevel':str(level)}
-                    totalPage = 2
-                    while currPage<=totalPage:
-                        data = self.post(self.urls['告警阈值设置']['url'], p)
-                        print data
-                        data = json.loads(data)
-                        totalPage = data['result']["totalPage"]
-                        currPage += 1
-                        p['currPage'] = currPage
-                        for each in data['result']["list"]:
-                            state = each.get('state','')
-                            ss = None
-                            if state==1:
-                                begin_value = str(each.get('begin_value',''))
-                                end_value = str(each.get('end_value',''))
-                                dev_type = each.get('dev_type')
-                                ss = Sensor.objects.filter(device__devicetype_id=dev_type,key=t.key)
-                            elif state==2:
-                                begin_value = str(each.get('begin_value',''))
-                                end_value = str(each.get('end_value',''))
-                                dev_id = each.get('dev_id')
-                                ss = Sensor.objects.filter(device_id=dev_id,key=t.key)
-                            if ss:
-                                if level==5:
-                                    ss.update(range11=begin_value,range12=end_value)
-                                elif level==4:
-                                    ss.update(range21=begin_value,range22=end_value)
-                                elif level==3:
-                                    ss.update(range31=begin_value,range32=end_value)
+    # def getAlarmSetList(self):
+    #     try:
+    #         for t in AlarmType.objects.all():
+    #             #告警级别：1 提醒、2 注意、3 警告、4 危险、5 事故
+    #             for level in range(3,6):
+    #                 currPage = 1
+    #                 p = {'currPage': 1, 'pageSize': 80,'eventType':str(t.id),'alarmLevel':str(level)}
+    #                 totalPage = 2
+    #                 while currPage<=totalPage:
+    #                     data = self.post(self.urls['告警阈值设置']['url'], p)
+    #                     print data
+    #                     data = json.loads(data)
+    #                     totalPage = data['result']["totalPage"]
+    #                     currPage += 1
+    #                     p['currPage'] = currPage
+    #                     for each in data['result']["list"]:
+    #                         state = each.get('state','')
+    #                         ss = None
+    #                         if state==1:
+    #                             begin_value = str(each.get('begin_value',''))
+    #                             end_value = str(each.get('end_value',''))
+    #                             dev_type = each.get('dev_type')
+    #                             ss = Sensor.objects.filter(device__devicetype_id=dev_type,key=t.key)
+    #                         elif state==2:
+    #                             begin_value = str(each.get('begin_value',''))
+    #                             end_value = str(each.get('end_value',''))
+    #                             dev_id = each.get('dev_id')
+    #                             ss = Sensor.objects.filter(device_id=dev_id,key=t.key)
+    #                         if ss:
+    #                             if level==5:
+    #                                 ss.update(range11=begin_value,range12=end_value)
+    #                             elif level==4:
+    #                                 ss.update(range21=begin_value,range22=end_value)
+    #                             elif level==3:
+    #                                 ss.update(range31=begin_value,range32=end_value)
       
-                                p={
-                                    'id' : each['id'],
-                                    'create_time' : each['create_time'],
-                                    'alarm_level' : each['alarm_level'],
-                                    'sensor' : ss.first(),
-                                    'abi_time' : each['abi_time'],
-                                }
-                                Alarm.objects.get_or_create(**p)
-        except:
-            traceback.print_exc()
+    #                             p={
+    #                                 'id' : each['id'],
+    #                                 'create_time' : each['create_time'],
+    #                                 'alarm_level' : each['alarm_level'],
+    #                                 'sensor' : ss.first(),
+    #                                 'abi_time' : each['abi_time'],
+    #                             }
+    #                             Alarm.objects.get_or_create(**p)
+    #     except:
+    #         traceback.print_exc()
 
 test = HttpRest()
 test.getDeviceTypeCode()
