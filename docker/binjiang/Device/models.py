@@ -326,6 +326,49 @@ class Circuit(models.Model):
     def __str__(self):
         return name
 
+    def getALL(self,start,end,typ):
+        c = MonitorDataTime.objects.filter(time__range=(start,end),Circuit=self,type=typ)
+        l = c.count()
+        if l>0:
+            # rdata = round(float(c[0].power),2)
+            return c[0].D_value
+        else:
+            return 0
+
+
+
+    def month(self,t=None):
+        #每月统计，或者t月份的统计
+        if t:
+            # t = '2018-2'
+            # end = datetime.datetime.strptime(t,'%Y-%m')
+            end = t
+        else:
+            end = datetime.datetime.now()
+        start = end + relativedelta(months=-1)
+        return self.getALL(start, end, 'month')
+
+    def day(self,t=None):
+        if t:
+            # t = '2018-2-4'
+            # end = datetime.datetime.strptime(t,'%Y-%m-%d')
+            end = t
+        else:
+            end = datetime.datetime.now()
+        start = end + relativedelta(days=-1)
+        return self.getALL(start, end, 'day')
+
+    def hour(self,t=None):
+        if t:
+            # t = '2018-2-4 15'
+            # end = datetime.datetime.strptime(t,'%Y-%m-%d %H')
+            end = t
+        else:
+            end = datetime.datetime.now()
+        start = end + relativedelta(hours=-1)
+        data = self.getALL(start, end , 'hour')
+        return data
+
     class Meta:
         verbose_name = '回路表'
         verbose_name_plural = '回路表'
