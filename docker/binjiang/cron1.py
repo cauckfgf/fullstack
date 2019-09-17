@@ -14,8 +14,6 @@ django.setup()
 
 from Device.models  import *
 def sensordatatimetask():
-
-
     querysetlist = []
     sensors = S_Sensor.objects.all()
 
@@ -26,4 +24,13 @@ def sensordatatimetask():
         querysetlist.append(t)
     S_SensorDataTime.objects.bulk_create(querysetlist)
 
+def dianliang():
+    # 计算每小时的用电量
+    querysetlist = []
+    for each in Circuit.objects.all():
+        d = each.hour()
+        q = MonitorDataTime(Circuit=each,D_value=d,type='hour')
+        querysetlist.append(q)
+    MonitorDataTime.objects.bulk_create(querysetlist)
 sensordatatimetask()
+dianliang()
