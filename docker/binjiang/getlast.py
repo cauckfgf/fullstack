@@ -57,7 +57,10 @@ def on_message(client, userdata, msg):
             return 
         device = Device.objects.get(code=code)
         # SensorData_OBJ = sensor_map[device.devicetype_id]
-        for sensor in data['sensors']:
+        result = data.get('sensors')
+        if not result:
+            result = data.get('result')
+        for sensor in result:
             if maplib.get(sensor['name'],None):
                 m = maplib.get(sensor['name'])
                 name = m.get('name')
