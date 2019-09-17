@@ -53,6 +53,8 @@ def on_message(client, userdata, msg):
         # print(msg.topic+" " + ":" + str(msg.payload))
         data = json.loads(msg.payload)
         code = data.get('code','')
+        if not code:
+            return 
         device = Device.objects.get(code=code)
         SensorData_OBJ = sensor_map[device.devicetype_id]
         for sensor in data['sensors']:
