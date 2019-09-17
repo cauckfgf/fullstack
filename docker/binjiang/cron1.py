@@ -31,3 +31,5 @@ def sensordatatimetask():
         t.stime = value[1]
         querysetlist.append(t)
     SensorDataTime.objects.bulk_create(querysetlist)
+
+sensordatatimetask()
