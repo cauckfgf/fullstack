@@ -67,6 +67,7 @@ def on_message(client, userdata, msg):
                 unit = m.get('unit')
                 bl = m.get('unit')
                 s = Sensor.objects.get_or_create(key=sensor['name'],device=device,name=name,unit=unit)[0]
+                logging.debug(sensor['data'])
                 s.lastdata = str(float(sensor['data']) * bl)
                 s.save()
             else:
