@@ -121,16 +121,28 @@ class HttpRest(object):
                 for each in data['result']["list"]:
                     areay = each.get('areay','')
                     areax = each.get('areax','')
-                    structureName=each.get('structureName','')
-                    if not Device.objects.filter(id=each['id']):
+                    structureName = each.get('structureName','')
+                    devicetype_id = each.get('device_type_id','')
+                    qs = None
+                    if devicetype_id==1:
+                        qs = Circuit.objects.filter(code=each['code'])
+                        if not qs:
+                            Circuit.objects.create(id=each['id'], name=each['name'], 
+                                                   code=each['code'], describe=structureName)
+                        else:
+                            # traceback.print_exc()
+                            Circuit.objects.filter(code=each['code']).update(name=each['name'], describe=structureName)
+
+                    qs = Device.objects.filter(id=each['id'])
+                    if not qs:
                         Device.objects.create(id=each['id'], name=each['name'], areay=areay, 
                                                      areax=areax, code=each['code'], structureName=structureName,
-                                                     devicetype_id=each['device_type_id'])
+                                                     devicetype_id=devicetype_id)
                     else:
                         # traceback.print_exc()
                         Device.objects.filter(id=each['id']).update(name=each['name'], areay=areay, 
                                                                     areax=areax, code=each['code'], structureName=structureName,
-                                                                    devicetype_id=each['device_type_id'])
+                                                                    devicetype_id=devicetype_id)
     # def getAlarmType(self):
     #     data = self.post(self.urls['告警事件类型列表']['url'],{})
     #     # print data

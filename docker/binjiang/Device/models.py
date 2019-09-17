@@ -4,6 +4,9 @@ from __future__ import unicode_literals
 from django.db import models
 import json
 import urllib2
+from dateutil.relativedelta import relativedelta
+import datetime 
+import os,traceback
 # Create your models here.
 
 # class System(models.Model):
@@ -241,3 +244,89 @@ class SensorDataTime(models.Model):
 #         return self.name
 #     class Meta:
 #         db_table = 'XGWK_Camera'
+
+
+# 用电
+class EnergyCategory(models.Model):
+    '''电能监测分类'''
+    name = models.CharField(max_length=120,verbose_name='分项名称')
+    # mepsystemtype= models.ForeignKey('DeviceManage.MepSystemType',verbose_name='所属机电系统id',blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = '电能监测分类'
+        verbose_name_plural = '电能监测分类'
+        db_table = 'energymanage_electricity_category'
+
+
+class CategoryItem(models.Model):
+    '''电能监测一级分项'''
+    name = models.CharField(max_length=120,verbose_name='一级分项名称')
+    category= models.ForeignKey(EnergyCategory,verbose_name='所属电能分项',blank=True, null=True)
+    # mep_system= models.ForeignKey('DeviceManage.MepSystem',verbose_name='关联机电系统',blank=True, null=True)
+    # device_type= models.ForeignKey('DeviceManage.DeviceType',verbose_name='关联机电设备类型',blank=True, null=True)
+    # department = models.ForeignKey('User.Department',verbose_name='部门',blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = '电能监测分类项目'
+        verbose_name_plural = '电能监测分类项目'
+        db_table = 'energymanage_electricity_firstlevel'
+
+class EndlevelItem(models.Model):
+    '''电能监测二级分项'''
+    name = models.CharField(max_length=120,verbose_name='分项名称')
+    category_item= models.ForeignKey(CategoryItem,verbose_name='所属分类项目id',blank=True, null=True)
+    # device_type= models.ForeignKey('DeviceManage.DeviceType',verbose_name='关联机电设备类型',blank=True, null=True)
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = '电能监测二级分项'
+        verbose_name_plural = '电能监测二级分项'
+        db_table = 'energymanage_electricity_endlevel'
+
+class Circuit(models.Model):
+    '''回路表'''
+    number = models.IntegerField(verbose_name='回路编号',blank=True, null=True)
+    Instrument_number = models.CharField(max_length=120,verbose_name='仪表编号',default='')
+    name = models.CharField(max_length=120,verbose_name='回路名称',default='')
+    describe = models.CharField(max_length=120,verbose_name='回路描述',default='')
+    is_spare = models.BooleanField(default=False,verbose_name='使用状态（是否备用')
+    quantity =  models.DecimalField(max_digits=10,decimal_places=2,verbose_name='回路额定用电量',blank=True, null=True)
+    quantity_unit = models.CharField(max_length=120,verbose_name='回路用电量单位',default='kw')
+    # zone = models.ForeignKey('SpaceManage.Zone',verbose_name='回路区域',blank=True, null=True)
+    # floor = models.ManyToManyField('SpaceManage.Floor',verbose_name='回路区域')
+    # cabinet =  models.IntegerField(verbose_name='箱柜编号',blank=True, null=True)
+    cabinet_number = models.CharField(max_length=120,verbose_name='箱柜编号',blank=True, null=True)
+    branch_number = models.CharField(max_length=120,verbose_name='支路编号',blank=True, null=True)
+    magnification = models.CharField(max_length=120,verbose_name='回路倍率',default='1')
+    control_cabinet = models.CharField(max_length=120,verbose_name='上级柜号',blank=True, null=True)
+    # room = models.ForeignKey('SpaceManage.Room',verbose_name='所属配电间',blank=True, null=True)
+    # belong_device = models.ForeignKey('DeviceManage.Device',related_name='Device3',verbose_name='所属设备箱',blank=True, null=True)
+    meter_address =  models.IntegerField(verbose_name='表地址',blank=True, null=True)
+    endlevel = models.ForeignKey(EndlevelItem,verbose_name='二级分项',blank=True, null=True)
+    firstlevel = models.ForeignKey(CategoryItem,verbose_name='一级分项',blank=True, null=True)
+    # devices = models.ManyToManyField('DeviceManage.Device',related_name='Circuit1',verbose_name='配电箱')
+    # floors = models.ManyToManyField('SpaceManage.Floor',related_name='Circuit2')
+    # cabinet  = models.ForeignKey('DeviceManage.Device',verbose_name='配电柜',related_name='Circuit3',blank=True, null=True)
+    status = models.BooleanField(default=False,verbose_name='回路状态')#False 正常
+    ip = models.CharField(max_length=15, blank=True,null=True,verbose_name='采集IP地址')
+    port = models.IntegerField(default=0,blank=True,null=True)
+    address = models.IntegerField(blank=True,null=True,verbose_name='寄存器地址')
+    busy_start = models.TimeField(default='08:00:00')
+    busy_end = models.TimeField(default='20:00:00')
+    ref_power_density = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'标准功率密度',null=True,blank=True)
+    lastdata = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=u'功',null=True,blank=True)
+    code = models.CharField(max_length=96,default='',verbose_name='设备编码')
+    # facility = models.ForeignKey('PrjManage.Facility', blank=True, null=True)
+
+    def __str__(self):
+        return name
+
+class Meta:
+    verbose_name = '回路表'
+    verbose_name_plural = '回路表'
+    db_table = 'energymanage_electricity_circuit'
