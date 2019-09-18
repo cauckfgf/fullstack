@@ -164,7 +164,7 @@ class HttpRest(object):
             data = self.post(self.urls['获取海康监控视频流播放地址']['url'],{'id':c.id})
             # print data
             data = json.loads(data)
-            c.addr = str(data['result'])
+            c.addr = json.dump(data['result'])
             c.save()
     # def getAlarmType(self):
     #     data = self.post(self.urls['告警事件类型列表']['url'],{})
