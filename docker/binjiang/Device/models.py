@@ -327,11 +327,11 @@ class Circuit(models.Model):
         return name
 
     def getALL(self,start,end,typ):
-        c = MonitorDataTime.objects.filter(time__range=(start,end),Circuit=self,type=typ)
+        c = CircuitMonitorData.objects.filter(time__range=(start,end),Circuit=self,type=typ)
         l = c.count()
         if l>0:
             # rdata = round(float(c[0].power),2)
-            return c[0].D_value
+            return c.last().quantity - c.first().quantity
         else:
             return 0
 
