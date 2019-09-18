@@ -99,7 +99,7 @@ def on_message(client, userdata, msg):
                 elif name=='phaseVoltageUA':
                     cdata.voltage_A = value
                 elif name=='phaseVoltageUB':
-                    cdata.current_B = value
+                    cdata.voltage_B = value
                 elif name=='phaseVoltageUC':
                     cdata.voltage_C = value
                 elif name=='activeElectricalEnergy':
