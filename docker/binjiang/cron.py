@@ -7,6 +7,10 @@ import json
 import httplib
 import datetime
 import traceback
+import logging
+from dateutil.relativedelta import relativedelta
+logging.basicConfig(level=logging.DEBUG,filename='/app/getdata.log',filemode='a',format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',stream=sys.stdout)
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
 django.setup()
 
@@ -173,7 +177,7 @@ class HttpRest(object):
                     totalPage = 1
                     while currPage<=totalPage:
                         data = self.post(self.urls['告警阈值设置']['url'], p)
-                        print data
+                        logging.debug(data)
                         data = json.loads(data)
                         totalPage = data['result']["totalPage"]
                         currPage += 1
