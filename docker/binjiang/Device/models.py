@@ -326,8 +326,8 @@ class Circuit(models.Model):
     def __str__(self):
         return name
 
-    def getALL(self,start,end,typ):
-        c = CircuitMonitorData.objects.filter(time__range=(start,end),Circuit=self,type=typ)
+    def getALL(self,start,end):
+        c = CircuitMonitorData.objects.filter(time__range=(start,end),Circuit=self)
         l = c.count()
         if l>0:
             # rdata = round(float(c[0].power),2)
@@ -346,7 +346,7 @@ class Circuit(models.Model):
         else:
             end = datetime.datetime.now()
         start = end + relativedelta(months=-1)
-        return self.getALL(start, end, 'month')
+        return self.getALL(start, end)
 
     def day(self,t=None):
         if t:
@@ -356,7 +356,7 @@ class Circuit(models.Model):
         else:
             end = datetime.datetime.now()
         start = end + relativedelta(days=-1)
-        return self.getALL(start, end, 'day')
+        return self.getALL(start, end)
 
     def hour(self,t=None):
         if t:
@@ -366,7 +366,7 @@ class Circuit(models.Model):
         else:
             end = datetime.datetime.now()
         start = end + relativedelta(hours=-1)
-        data = self.getALL(start, end , 'hour')
+        data = self.getALL(start, end)
         return data
 
     class Meta:
