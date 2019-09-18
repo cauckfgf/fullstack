@@ -135,19 +135,19 @@ class HttpRest(object):
                         qs = Circuit.objects.filter(code=each['code'])
                         if not qs:
                             Circuit.objects.create(id=each['id'], name=each['name'], 
-                                                   code=each['code'], addr='')
+                                                   code=each['code'], describe=structureName)
                         else:
                             # traceback.print_exc()
-                            Circuit.objects.filter(code=each['code']).update(name=each['name'])
+                            Circuit.objects.filter(code=each['code']).update(name=each['name'], describe=structureName)
                     elif devicetype_id==4 or devicetype_id==5:
                         # 摄像机
                         qs = Camera.objects.filter(code=each['code'])
                         if not qs:
                             Camera.objects.create(id=each['id'], name=each['name'], 
-                                                   code=each['code'], describe=structureName)
+                                                   code=each['code'], addr='')
                         else:
                             # traceback.print_exc()
-                            Circuit.objects.filter(code=each['code']).update(name=each['name'], describe=structureName)
+                            Camera.objects.filter(code=each['code']).update(name=each['name'])
                     qs = Device.objects.filter(id=each['id'])
                     if not qs:
                         Device.objects.create(id=each['id'], name=each['name'], areay=areay, 
@@ -158,6 +158,14 @@ class HttpRest(object):
                         Device.objects.filter(id=each['id']).update(name=each['name'], areay=areay, 
                                                                     areax=areax, code=each['code'], structureName=structureName,
                                                                     devicetype_id=devicetype_id)
+
+    def getdeviceLiubyId(self):
+        for c in Camera.objects.all()
+            data = self.post(self.urls['获取海康监控视频流播放地址']['url'],{'id':c.id})
+            # print data
+            data = json.loads(data)
+            c.addr = str(data['result'])
+            c.save()
     # def getAlarmType(self):
     #     data = self.post(self.urls['告警事件类型列表']['url'],{})
     #     # print data
@@ -177,16 +185,6 @@ class HttpRest(object):
         except:
             traceback.print_exc()
 
-    def getdeviceLiubyId(self):
-        try:
-            for c in Camera.objects.all():
-                data = self.post(self.urls['获取海康监控视频流播放地址']['url'],{'id':c.id})
-                # print data
-                data = json.loads(data)
-                c.addr = str(data['result'])
-
-        except:
-            traceback.print_exc()
     def getAlarmSetList(self):
         try:
             for t in AlarmType.objects.all():
@@ -239,4 +237,3 @@ test.getDeviceTypeCode()
 test.getDevicePage()
 test.getAlarmType()
 test.getAlarmSetList()
-test.getdeviceLiubyId()
