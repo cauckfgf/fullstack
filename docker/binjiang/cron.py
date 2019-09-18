@@ -130,14 +130,23 @@ class HttpRest(object):
                     devicetype_id = each.get('device_type_id','')
                     qs = None
                     if devicetype_id==1:
+                        # 电表
                         qs = Circuit.objects.filter(code=each['code'])
                         if not qs:
                             Circuit.objects.create(id=each['id'], name=each['name'], 
+                                                   code=each['code'], addr='')
+                        else:
+                            # traceback.print_exc()
+                            Circuit.objects.filter(code=each['code']).update(name=each['name'])
+                    elif devicetype_id==4 or devicetype_id==5:
+                        # 摄像机
+                        qs = Camera.objects.filter(code=each['code'])
+                        if not qs:
+                            Camera.objects.create(id=each['id'], name=each['name'], 
                                                    code=each['code'], describe=structureName)
                         else:
                             # traceback.print_exc()
                             Circuit.objects.filter(code=each['code']).update(name=each['name'], describe=structureName)
-
                     qs = Device.objects.filter(id=each['id'])
                     if not qs:
                         Device.objects.create(id=each['id'], name=each['name'], areay=areay, 
@@ -167,6 +176,16 @@ class HttpRest(object):
         except:
             traceback.print_exc()
 
+    def getdeviceLiubyId(self):
+        try:
+            for c in Camera.objects.all():
+                data = self.post(self.urls['获取海康监控视频流播放地址']['url'],{'id':c.id})
+                # print data
+                data = json.loads(data)
+                c.addr = str(data['result'])
+
+        except:
+            traceback.print_exc()
     def getAlarmSetList(self):
         try:
             for t in AlarmType.objects.all():
@@ -219,3 +238,4 @@ test.getDeviceTypeCode()
 test.getDevicePage()
 test.getAlarmType()
 test.getAlarmSetList()
+test.getdeviceLiubyId()

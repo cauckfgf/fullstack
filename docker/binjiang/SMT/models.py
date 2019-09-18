@@ -47,18 +47,18 @@ class Camera(models.Model):
     name = models.CharField(max_length=64, verbose_name='摄像头名字')
     code = models.CharField(max_length=64, verbose_name='摄像头编码')
     ctype = models.ForeignKey(CameraType, null=True, blank=True)
-    floor = models.ForeignKey('Space.Floor', null=True, blank=True)
-    room = models.ForeignKey('Space.Room', null=True, blank=True, related_name='Camera')
+    # floor = models.ForeignKey('Space.Floor', null=True, blank=True)
+    # room = models.ForeignKey('Space.Room', null=True, blank=True, related_name='Camera')
     datatype = models.CharField(max_length=64, verbose_name='摄像头数据类型',default='')
-    addr = models.TextField(max_length=128, verbose_name='访问地址',default='')
-    ip = models.CharField(
-        max_length=128, verbose_name='ip地址', null=True, blank=True)
-    cameraUuid = models.CharField(
-        max_length=128, verbose_name='摄像机对应海康8700cameraUuid', null=True, blank=True)
-    onLineStatus = models.IntegerField(
-        default=1, verbose_name='是否在线', choices=CHOICE)
-    create_datetime = models.DateTimeField("创建时间", auto_now_add=True)
-    last_update_datetime = models.DateTimeField("最后修改时间", auto_now=True)
+    addr = models.TextField(verbose_name='访问地址',default='')
+    # ip = models.CharField(
+    #     max_length=128, verbose_name='ip地址', null=True, blank=True)
+    # cameraUuid = models.CharField(
+    #     max_length=128, verbose_name='摄像机对应海康8700cameraUuid', null=True, blank=True)
+    # onLineStatus = models.IntegerField(
+    #     default=1, verbose_name='是否在线', choices=CHOICE)
+    # create_datetime = models.DateTimeField("创建时间", auto_now_add=True)
+    # last_update_datetime = models.DateTimeField("最后修改时间", auto_now=True)
 
     # zone = models.ManyToManyField('SpaceManage.Zone',blank=True,verbose_name='分区')
 
