@@ -324,10 +324,10 @@ class Circuit(models.Model):
     # facility = models.ForeignKey('PrjManage.Facility', blank=True, null=True)
 
     def __str__(self):
-        return name
+        return self.name
 
     def getALL(self,start,end):
-        c = CircuitMonitorData.objects.filter(time__range=(start,end),Circuit=self)
+        c = CircuitMonitorData.objects.filter(time__range=(start,end),circuit=self)
         l = c.count()
         if l>0:
             # rdata = round(float(c[0].power),2)
