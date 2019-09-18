@@ -15,6 +15,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "binjiang.settings")
 django.setup()
 
 from Device.models  import *
+from SMT.models import *
 class HttpRest(object):
 
     urls = {
