@@ -160,7 +160,7 @@ class HttpRest(object):
                                                                     devicetype_id=devicetype_id)
 
     def getdeviceLiubyId(self):
-        for c in Camera.objects.all()
+        for c in Camera.objects.all():
             data = self.post(self.urls['获取海康监控视频流播放地址']['url'],{'id':c.id})
             # print data
             data = json.loads(data)
