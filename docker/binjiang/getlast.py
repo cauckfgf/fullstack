@@ -83,7 +83,7 @@ def on_message(client, userdata, msg):
             #     'activeElectricalEnergy':'quantity',
             # } 
             circuit = circuits.first()
-            result = data.get('sensors')
+            result = data.get('sensors',None)
             if not result:
                 result = data.get('result')
             cdata = CircuitMonitorData(circuit=circuit,time=t)
@@ -98,7 +98,7 @@ def on_message(client, userdata, msg):
                     cdata.current_C = value
                 elif name=='phaseVoltageUA':
                     cdata.voltage_A = value
-                elif name=='phaseCurrentIB':
+                elif name=='phaseVoltageUB':
                     cdata.current_B = value
                 elif name=='phaseVoltageUC':
                     cdata.voltage_C = value
