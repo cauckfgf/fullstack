@@ -203,11 +203,11 @@ class SensorDataTime(models.Model):
 #     class Meta:
 #         db_table = 'XGWK_SensorData_DeviceType6'
 
-# class AlarmType(models.Model):
-#     key = models.CharField(max_length=96,default='对方公司起的名字',verbose_name='对方公司起的名字')
-#     name =  models.CharField(max_length=96,default='名字',verbose_name='名字')
-#     class Meta:
-#         db_table = 'XGWK_AlarmType'
+class AlarmType(models.Model):
+    key = models.CharField(max_length=96,default='对方公司起的名字',verbose_name='对方公司起的名字')
+    name =  models.CharField(max_length=96,default='名字',verbose_name='名字')
+    class Meta:
+        db_table = 'XGWK_AlarmType'
 
 
 # class Alarm(models.Model):
