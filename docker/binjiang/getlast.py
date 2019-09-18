@@ -104,7 +104,7 @@ def on_message(client, userdata, msg):
                     cdata.voltage_C = value
                 elif name=='activeElectricalEnergy':
                     cdata.quantity = value
-                cdata.save()
+            cdata.save()
                     
     except:
         logging.debug(sensor['data'])
