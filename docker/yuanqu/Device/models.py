@@ -154,3 +154,14 @@ class Sensor(models.Model):
         verbose_name = '传感器'
         verbose_name_plural = '传感器'
         db_table = 'Device_Sensor'
+
+class SensorData(models.Model):
+    """传感器监测数据"""
+    sensor = models.ForeignKey(Sensor)
+    data = models.CharField(max_length=96, blank=True, null=True, verbose_name='传感器数据')
+    stime = models.DateTimeField(verbose_name='记录时间',auto_now_add=True)
+    mark = models.CharField(max_length=96, blank=True, null=True, verbose_name='标记')
+
+    class Meta:
+        db_table = 'Device_SensorData'
+
