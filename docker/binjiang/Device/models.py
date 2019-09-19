@@ -338,7 +338,20 @@ class Circuit(models.Model):
         except:
             return  0
 
-
+    def lasthour(self,t=None):
+        if t:
+            # t = '2018-2-4 15'
+            # end = datetime.datetime.strptime(t,'%Y-%m-%d %H')
+            end = t
+        else:
+            end = datetime.datetime.now()
+        start = end + relativedelta(minute=0,second=0,microsecond=0)
+        data = self.getALL(start, end)
+        mds = MonitorDataTime.objects.filter(Circuit=self,time__gte=start)
+        if mds:
+            mds.update(D_value=data) 
+        else:
+            MonitorDataTime.objects.create(Circuit=self,D_value=data)
 
     def month(self,t=None):
         #每月统计，或者t月份的统计
