@@ -83,6 +83,7 @@ def on_message(client, userdata, msg):
             #     'activeElectricalEnergy':'quantity',
             # } 
             circuit = circuits.first()
+
             result = data.get('sensors',None)
             if not result:
                 result = data.get('result')
@@ -106,6 +107,7 @@ def on_message(client, userdata, msg):
                     cdata.quantity = value
             if cdata.quantity:
                 cdata.save()
+            circuit.lasthour()
                     
     except:
         logging.debug(sensor['data'])
