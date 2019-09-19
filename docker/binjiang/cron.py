@@ -138,7 +138,7 @@ class HttpRest(object):
                                                    code=each['code'], describe=structureName)
                         else:
                             # traceback.print_exc()
-                            Circuit.objects.filter(code=each['code']).update(name=each['name'], describe=structureName)
+                            Circuit.objects.filter(code=each['code']).update(name=each['name'])
                     elif devicetype_id==4 or devicetype_id==5:
                         # 摄像机
                         qs = Camera.objects.filter(code=each['code'])
