@@ -59,6 +59,7 @@ class Device(models.Model):
     isrun = models.BooleanField(default=False,verbose_name='是否显示动态图')
     size = models.CharField(max_length=96,default='200,100',verbose_name='大小')
     label_position = models.CharField(max_length=96,default='bottom',verbose_name='设备文字位置',choices=CHOICES)
+    tuya_code = models.CharField(max_length=96,default='',verbose_name='涂鸦设备code',blank=True)
     def __unicode__(self):
         return self.name
 
