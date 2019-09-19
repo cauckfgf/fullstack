@@ -336,6 +336,7 @@ class Circuit(models.Model):
             else:
                 return 0
         except:
+            traceback.print_exc()
             return  0
 
     def lasthour(self,t=None):
