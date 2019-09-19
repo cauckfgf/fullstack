@@ -105,7 +105,7 @@ def on_message(client, userdata, msg):
                     cdata.voltage_C = value
                 elif name=='activeElectricalEnergy':
                     cdata.quantity = value
-            if cdata.quantity:
+            if cdata.quantity is not None:
                 cdata.save()
             circuit.lasthour()
                     
