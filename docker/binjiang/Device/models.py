@@ -348,7 +348,7 @@ class Circuit(models.Model):
             end = datetime.datetime.now()
         start = end + relativedelta(minute=0,second=0,microsecond=0)
         data = self.getALL(start, end)
-        mds = MonitorDataTime.objects.filter(Circuit=self,time__gte=start)
+        mds = MonitorDataTime.objects.filter(Circuit=self,time__gte=start,type='hour')
         if mds:
             mds.update(D_value=data) 
         else:
