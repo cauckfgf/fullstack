@@ -351,7 +351,7 @@ class Circuit(models.Model):
         if mds:
             mds.update(D_value=data) 
         else:
-            MonitorDataTime.objects.create(Circuit=self,D_value=data)
+            MonitorDataTime.objects.create(Circuit=self,D_value=data,type='hour')
 
     def month(self,t=None):
         #每月统计，或者t月份的统计
