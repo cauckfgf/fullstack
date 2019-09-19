@@ -8,8 +8,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.4/build/pannellum.js"></script>
     <style>
     #panorama {
-        width: 600px;
-        height: 400px;
+        width: 100vw;
+        height: 100vh;
     }
     </style>
 </head>
@@ -20,7 +20,9 @@
 pannellum.viewer('panorama', {
     "type": "equirectangular",
     // "panorama": "https://pannellum.org/images/alma.jpg"
-    "panorama": "/static/image/qj.jpg"
+    "panorama": "/static/image/qj.jpg",
+    "autoLoad": true,
+    "preview": "/static/image/qj.jpg"
     
 });
 </script>
