@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for yuanqu project.
 
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'Device',
-    'SystemManage'
+    'SystemManage',
+    'social_django'
 ]
 
 REST_FRAMEWORK = {
@@ -81,6 +83,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -178,3 +182,33 @@ STATICFILES_DIRS = (
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media').replace("\\","/")
 STATIC_PATH=STATIC_ROOT
+
+AppID = 'wx5e36e6d9e9c8c6f3'
+AppSecret = '12f0e0bb748a1fb1ce4680f24ebd6d99'
+Token = 'fgf1987'
+SOCIAL_AUTH_WEIXIN_KEY = AppID
+SOCIAL_AUTH_WEIXIN_SECRET = AppSecret
+
+# SOCIAL_AUTH_PIPELINE = (
+#     'social.pipeline.social_auth.social_details',
+#     'social.pipeline.social_auth.social_uid',
+#     'social.pipeline.social_auth.auth_allowed',
+#     'social_auth.backends.pipeline.social.social_auth_user',
+#     # 用户名与邮箱关联，文档说可能出现问题
+#     # 'social_auth.backends.pipeline.associate.associate_by_email',
+#     'social_auth.backends.pipeline.misc.save_status_to_session',
+#     'social_auth.backends.pipeline.user.create_user',
+#     'social_auth.backends.pipeline.social.associate_user',
+#     'social_auth.backends.pipeline.social.load_extra_data',
+#     'social_auth.backends.pipeline.user.update_user_details',
+#     'social_auth.backends.pipeline.misc.save_status_to_session',
+
+# )
+AUTHENTICATION_BACKENDS = (
+   # 'social.backends.weibo.WeiboOAuth2',      #微博的功能
+   # 'social.backends.qq.QQOAuth2',            #QQ的功能
+   'social.backends.weixin.WeixinOAuth2',    #这个是导入微信的功能
+   # 'oscar.apps.customer.auth_backends.EmailBackend',
+   'django.contrib.auth.backends.ModelBackend',
+)
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/' 
