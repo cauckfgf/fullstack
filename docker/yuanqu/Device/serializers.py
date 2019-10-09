@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from .models import *
-
+import json
 class SystemSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
@@ -16,6 +16,21 @@ class DeviceTypeSerializer(serializers.ModelSerializer):
         model = DeviceType
         fields = '__all__'
 
+class Jsonserializer(serializers.JSONField):
+    default_error_messages = {
+        'invalid_json': _('无效的json数据格式')
+    }
+    def to_representation(self, value):
+        return json.loads(value)
+ 
+    def to_internal_value(self, data):
+        try:
+            json.loads(data)
+        except (TypeError, ValueError):
+            self.fail('invalid_json')
+
+
+
 class DeviceSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
@@ -25,7 +40,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     sensors = serializers.ReadOnlyField()
     sizeXY = serializers.SerializerMethodField()
     showname = serializers.ReadOnlyField()
-    lastdata = serializers.DictField()
+    lastdata = Jsonserializer()
     def get_sizeXY(self,obj):
         xy = obj.size.split(',')
         return {
