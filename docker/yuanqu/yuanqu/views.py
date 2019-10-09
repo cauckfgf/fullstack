@@ -62,7 +62,7 @@ def wx(request):
             openid = request.POST.get('openid')
             user = User.objects.filter(username=openid).first()
             if not user:
-                user = User(username=now)
+                user = User(username=openid)
                 user.set_password('111111')
                 user.save()
             msg = parse_message(request.body)
