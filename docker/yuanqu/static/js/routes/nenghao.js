@@ -18,7 +18,7 @@ const nenghao = {
                         {{ item.name }}
                     </p>
 
-                    <ul>
+                    <ul style="list-style-type: none;">
                         <li v-for="(value, key, index) in item.lastdata">
                             <a :href="item.url" target="_blank">{{ key }}</a>
                             <span>
