@@ -61,7 +61,7 @@ def wx(request):
             msg_dict = msg.__dict__['_data']
             # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
             if msg.type == 'text':
-                pass
+                print msg_dict
             elif msg.type == 'event':
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
