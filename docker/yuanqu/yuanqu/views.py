@@ -41,6 +41,7 @@ from wechatpy import parse_message, create_reply
 from wechatpy.replies import BaseReply
 from wechatpy import WeChatClient
 from wechatpy.oauth import WeChatOAuth
+# from wechatpy.replies import TextReply
 from django.contrib.auth.models import User
 import datetime
 # import wx.wechat as wx_wechat
@@ -60,10 +61,9 @@ def wx(request):
             response = HttpResponse(echo_str)
 
         if request.method == 'POST':
-            
+            reply = ''
             msg = parse_message(request.body)
             msg_dict = msg.__dict__['_data']
-            rep = ''
             # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
             if msg.type == 'text':
                 openid = msg.source
@@ -87,7 +87,8 @@ def wx(request):
                     else:
                         device.update(user=user)
                         lastdata = SensorData.objects.filter(sensor__device_id=device.first().id).last()
-                        rep = "用电量:{}KWh\r\n时  间:{}".format(lastdata.data,str(lastdata.stime))
+                        reply = create_reply("用电量:{}KWh\r\n时  间:{}".format(lastdata.data,str(lastdata.stime)), msg)
+                        # rep = "用电量:{}KWh\r\n时  间:{}".format(lastdata.data,str(lastdata.stime))
             elif msg.type == 'event':
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
@@ -100,7 +101,7 @@ def wx(request):
                     pass
             else:
                 pass
-            response = HttpResponse(rep, content_type="application/xml")
+            response = HttpResponse(reply.render(), content_type="application/xml")
         return response
     except:
         traceback.print_exc()
