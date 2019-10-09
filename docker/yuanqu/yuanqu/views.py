@@ -87,7 +87,7 @@ def wx(request):
                     else:
                         device.update(user=user)
                         lastdata = SensorData.objects.filter(sensor__device_id=device.first().id).last()
-                        reply = create_reply("用电量:{}KWh\r\n时  间:{}".format(lastdata.data,str(lastdata.stime)), msg)
+                        reply = create_reply("用电量: {}KWh\r\n时    间: {}".format(lastdata.data,str(lastdata.stime)), msg)
                         # rep = "用电量:{}KWh\r\n时  间:{}".format(lastdata.data,str(lastdata.stime))
             elif msg.type == 'event':
                 if msg_dict['Event'] == 'subscribe':
