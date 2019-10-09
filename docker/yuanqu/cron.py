@@ -148,7 +148,7 @@ class HttpRest(object):
                 print >> f, '{}电量:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
                 f.close()
                 if data.get('success'):
-                    d.lastdata[s.name] = data['result']['total']
+                    d.lastdata[s.name] = json.dumps(data['result']['total'])
                     d.save()
                     s.lastdata = data['result']['total']
                     s.save()
