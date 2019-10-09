@@ -46,6 +46,20 @@ class HttpRest(object):
                 "Content-type": "application/json"
             }
         },
+        '获取插座实时状态':{
+            'url': '/v1.0/devices/{}',
+            'params': {
+                'parentId':'1'
+            },
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
 
     }
     access_token = ''
@@ -131,7 +145,7 @@ class HttpRest(object):
                 else:
                     s = Sensor.objects.create(device=d,name='用电量',unit='W')
                 f = open("/app/info.txt", "a+") 
-                print >> f, data
+                print >> f, '{}电量:'.format(d.name),data
                 f.close()
                 if data.get('success'):
                     s.lastdata = data['result']['total']
@@ -145,6 +159,32 @@ class HttpRest(object):
             # self.getToken()
             # self.getEle()
 
+    def getStatus(self):
+        try:
+            headers = self.urls['获取插座实时状态']['headers']
+            headers['access_token'] = self.access_token
+            headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+            message = headers['client_id'] + self.access_token + str(headers['t'])
+            self.get_hmac_sha256(message)
+            headers['sign'] = self.signature
+            qs = []
+            for d in Device.objects.filter(devicetype_id=24):
+                
+                url = self.urls['获取插座实时状态']['url'].format(d.tuya_code)
+                # print headers['sign']
+                print headers
+                data = self.get(url,{},headers)
+                # print data
+                data = json.loads(data)
+                
+                f = open("/app/info.txt", "a+") 
+                print >> f, '{}电量:'.format(d.name),data
+                f.close()
+        except:
+            # traceback.print_exc()
+            traceback.print_exc(file=open('/app/error.txt','a+'))
+            # self.getToken()
+            # self.getEle()
 
 h = HttpRest()
 t = h.getToken()
