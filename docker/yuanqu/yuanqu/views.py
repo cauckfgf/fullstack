@@ -41,6 +41,7 @@ from wechatpy import parse_message, create_reply
 from wechatpy.replies import BaseReply
 from wechatpy import WeChatClient
 from wechatpy.oauth import WeChatOAuth
+from django.contrib.auth.models import User
 # import wx.wechat as wx_wechat
 import traceback
 @csrf_exempt
@@ -58,6 +59,12 @@ def wx(request):
             response = HttpResponse(echo_str)
 
         if request.method == 'POST':
+            openid = request.POST.get('openid')
+            user = User.objects.filter(username=openid).first()
+            if not user:
+                user = User(username=now)
+                user.set_password('111111')
+                user.save()
             msg = parse_message(request.body)
             msg_dict = msg.__dict__['_data']
             # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
@@ -66,8 +73,12 @@ def wx(request):
                 f = open("/app/weixin.txt", "a+") 
                 # print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
                 print >> f,msg_dict
+                print >> f,msg.source
                 # print >> f,'openid:{}'.format(msg.sourc)
                 f.close()
+                if len(msg.source)==len('235063032cf432acb184'):
+                    pass
+
             elif msg.type == 'event':
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
