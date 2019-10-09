@@ -178,7 +178,7 @@ class HttpRest(object):
                 data = json.loads(data)
                 
                 f = open("/app/info.txt", "a+") 
-                print >> f, '{}电量:'.format(d.name),data
+                print >> f, '{}状态:'.format(d.name),data
                 f.close()
         except:
             # traceback.print_exc()
@@ -189,3 +189,4 @@ class HttpRest(object):
 h = HttpRest()
 t = h.getToken()
 e = h.getEle()
+s = h.getStatus()
