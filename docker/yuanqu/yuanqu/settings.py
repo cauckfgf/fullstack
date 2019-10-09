@@ -204,11 +204,11 @@ SOCIAL_AUTH_WEIXIN_SECRET = AppSecret
 #     'social_auth.backends.pipeline.misc.save_status_to_session',
 
 # )
-AUTHENTICATION_BACKENDS = (
+# AUTHENTICATION_BACKENDS = (
    # 'social.backends.weibo.WeiboOAuth2',      #微博的功能
    # 'social.backends.qq.QQOAuth2',            #QQ的功能
    # 'social.backends.weixin.WeixinOAuth2',    #这个是导入微信的功能
    # 'oscar.apps.customer.auth_backends.EmailBackend',
    # 'django.contrib.auth.backends.ModelBackend',
-)
+# )
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/' 
