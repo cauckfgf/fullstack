@@ -131,7 +131,7 @@ class HttpRest(object):
             headers['sign'] = self.signature
             qs = []
             for d in Device.objects.filter(devicetype_id=24):
-                d.lastdata = {} if not d.lastdata else d.lastdata
+                lastdata = {} if not d.lastdata else json.loads(d.lastdata)
                 url = self.urls['获取电量']['url'].format(d.tuya_code)
                 # print headers['sign']
                 print headers
@@ -148,7 +148,8 @@ class HttpRest(object):
                 print >> f, '{}电量:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
                 f.close()
                 if data.get('success'):
-                    d.lastdata[s.name] = json.dumps(data['result']['total'])
+                    lastdata[s.name] = data['result']['total']
+                    d.lastdata = json.dumps(lastdata)
                     d.save()
                     s.lastdata = data['result']['total']
                     s.save()
@@ -171,7 +172,7 @@ class HttpRest(object):
             headers['sign'] = self.signature
             qs = []
             for d in Device.objects.filter(devicetype_id=24):
-                d.lastdata = {} if not d.lastdata else d.lastdata
+                lastdata = {} if not d.lastdata else json.loads(d.lastdata)
                 url = self.urls['获取插座实时状态']['url'].format(d.tuya_code)
                 # print headers['sign']
                 print headers
@@ -185,7 +186,8 @@ class HttpRest(object):
                 if data.get('success'):
                     d.name = data['result']['name']
                     for point in data['status']:
-                        d.lastdata[point['code']] = point['value']
+                        lastdata[point['code']] = point['value']
+                    d.lastdata = json.dumps(lastdata)
                     d.save()
         except:
             # traceback.print_exc()
