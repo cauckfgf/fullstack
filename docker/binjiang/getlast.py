@@ -58,11 +58,13 @@ def on_message(client, userdata, msg):
                 s.save()
                 SensorData.objects.create(sensor=s,data=sensor['data'],stime=t)
             # 四建
-            device = S_Device.objects.get(code=code)
-            for sensor in result:
-                s = S_Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
-                s.lastdata = sensor['data']
-                s.save()
+            devices = S_Device.objects.filter(code=code)
+            if devices:
+                device = devices.first()
+                for sensor in result:
+                    s = S_Sensor.objects.get_or_create(key=sensor['name'],device=device)[0]
+                    s.lastdata = sensor['data']
+                    s.save()
 
         else:
             # 能耗
