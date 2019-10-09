@@ -60,7 +60,7 @@ def wx(request):
         if request.method == 'POST':
             msg = parse_message(request.body)
             msg_dict = msg.__dict__['_data']
-            print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
+            # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
             if msg.type == 'text':
                 print msg_dict
             elif msg.type == 'event':
