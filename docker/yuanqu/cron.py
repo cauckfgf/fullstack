@@ -145,7 +145,7 @@ class HttpRest(object):
                 else:
                     s = Sensor.objects.create(device=d,name='用电量',unit='W')
                 f = open("/app/info.txt", "a+") 
-                print >> f, '{}电量:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '))
+                print >> f, '{}电量:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
                 f.close()
                 if data.get('success'):
                     s.lastdata = data['result']['total']
@@ -178,7 +178,7 @@ class HttpRest(object):
                 data = json.loads(data)
                 
                 f = open("/app/info.txt", "a+") 
-                print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '))
+                print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
                 f.close()
         except:
             # traceback.print_exc()
