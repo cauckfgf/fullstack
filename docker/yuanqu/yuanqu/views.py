@@ -59,16 +59,17 @@ def wx(request):
             response = HttpResponse(echo_str)
 
         if request.method == 'POST':
-            openid = request.POST.get('openid')
-            user = User.objects.filter(username=openid).first()
-            if not user:
-                user = User(username=openid)
-                user.set_password('111111')
-                user.save()
+            
             msg = parse_message(request.body)
             msg_dict = msg.__dict__['_data']
             # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
             if msg.type == 'text':
+                openid = msg_dict.get('FromUserName')
+                user = User.objects.filter(username=openid).first()
+                if not user:
+                    user = User(username=openid)
+                    user.set_password('111111')
+                    user.save()
                 # print msg_dict
                 f = open("/app/weixin.txt", "a+") 
                 # print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
