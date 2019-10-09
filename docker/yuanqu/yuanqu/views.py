@@ -62,8 +62,7 @@ def wx(request):
             msg_dict = msg.__dict__['_data']
             # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
             if msg.type == 'text':
-                print msg_dict
-                print msg.sourc
+                # print msg_dict
                 f = open("/app/weixin.txt", "a+") 
                 # print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
                 print >> f,msg_dict
