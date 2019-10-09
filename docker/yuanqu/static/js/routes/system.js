@@ -10,6 +10,9 @@ const system = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 100%;">
+        <audio ref="voice" id='test'>
+                <source src="/media/upload/tishi.mp3">
+        </audio>
         <Split v-model="split1" @on-move-end="datazoom" style="background: url('/static/image/systembg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
             
             <div slot="left" class="demo-split-pane">
@@ -520,6 +523,11 @@ const system = {
             this.change_show = false;
             this.init();
         },
+        playVoice(){
+            // 播放声音
+            // this.$refs.voice.play()
+
+        },
         change_device(){
             this.change_show=false
             if(this.select_obj.type!='lines'){
@@ -569,6 +577,7 @@ const system = {
             this.imageChange()
         },
         init(update=true){
+            this.playVoice()
             this.source&&this.source.cancel('取消上个请求')
             if(update){
                 this.source = this.CancelToken.source()

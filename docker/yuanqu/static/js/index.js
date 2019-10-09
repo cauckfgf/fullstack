@@ -27,6 +27,7 @@ function initVue() {
       { path: '/yuanqu', component: yuanqu },
       { path: '/louyu', component: louyu },
       { path: '/system', component: system },
+      { path: '/nenghao', component: nenghao },
     ]
     const router = new VueRouter({
         routes // （缩写）相当于 routes: routes
@@ -42,7 +43,7 @@ function initVue() {
             <div style="width: 100%;  height: calc(100%);background: url('/static/image/bg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
                 <Row v-show='show' style="height:100%">
                     <Col span="6" style="height:100%">
-                        <v-chart autoresize style="width: 100%;  height: 50%;padding:4px; border-radius: 1.5em;" :options="option1" theme="dark"/>
+                        <v-chart autoresize style="width: 100%;  height: 50%;padding:4px; border-radius: 1.5em;" @click="nenghaoClick" :options="option1" theme="dark"/>
                         <v-chart autoresize style="width: 100%;  height: 50%;padding:4px; border-radius: 1.5em;" :options="option2" theme="dark"/>
                     </Col>
                     <Col span="12" style="height:100%">
@@ -694,6 +695,10 @@ function initVue() {
 
                 // // 带查询参数,变成 /register?plan=private
                 // router.push({ path: 'register', query: { plan: 'private' }})
+            },
+            nenghaoClick(event){
+                this.show = false
+                router.push({ path: '/nenghao', query: {nenghao: event.name}})
             },
             chartClick(event){
                 
