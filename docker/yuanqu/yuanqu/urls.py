@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url='/index/')),
     url(r'^index/$', index),
+    url(r'^wx/', wx),
     # url('', include('social_django.urls', namespace='social'))
 ]
 
