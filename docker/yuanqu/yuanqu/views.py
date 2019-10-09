@@ -63,6 +63,7 @@ def wx(request):
             
             msg = parse_message(request.body)
             msg_dict = msg.__dict__['_data']
+            rep = ''
             # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
             if msg.type == 'text':
                 openid = msg.source
@@ -85,7 +86,8 @@ def wx(request):
                         Device.objects.create(tuya_code=msg.content,name=name,user=user,devicetype_id=24)
                     else:
                         device.update(user=user)
-
+                        lastdata = SensorData.objects.filter(sensor_device_id=device.first().id).lastdata()
+                        rep = "用电量:{}KWh\r\n时  间:{}".format(lastdata.data,str(lastdata.stime))
             elif msg.type == 'event':
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
@@ -98,7 +100,7 @@ def wx(request):
                     pass
             else:
                 pass
-            response = HttpResponse('', content_type="application/xml")
+            response = HttpResponse(rep, content_type="application/xml")
         return response
     except:
         traceback.print_exc()
