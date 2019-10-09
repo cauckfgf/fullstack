@@ -133,9 +133,10 @@ class HttpRest(object):
                 f = open("/app/info.txt", "a+") 
                 print >> f, data
                 f.close()
-                s.lastdata = data['result']['total']
-                s.save()
-                qs.append(SensorData(sensor=s,data=data['result']['total']))
+                if data.get('success'):
+                    s.lastdata = data['result']['total']
+                    s.save()
+                    qs.append(SensorData(sensor=s,data=data['result']['total']))
             SensorData.objects.bulk_create(qs)
 
         except:
