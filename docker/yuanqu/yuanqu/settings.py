@@ -211,4 +211,4 @@ AUTHENTICATION_BACKENDS = (
    # 'oscar.apps.customer.auth_backends.EmailBackend',
    # 'django.contrib.auth.backends.ModelBackend',
 )
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/' 
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/' 
