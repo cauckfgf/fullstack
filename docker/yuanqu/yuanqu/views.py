@@ -63,6 +63,12 @@ def wx(request):
             # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
             if msg.type == 'text':
                 print msg_dict
+                print msg.sourc
+                f = open("/app/weixin.txt", "a+") 
+                # print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
+                print >> f,msg_dict
+                print >> f,'openid:{}'.format(msg.sourc)
+                f.close()
             elif msg.type == 'event':
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
