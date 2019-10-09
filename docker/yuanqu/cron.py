@@ -180,6 +180,9 @@ class HttpRest(object):
                 f = open("/app/info.txt", "a+") 
                 print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
                 f.close()
+                if data.get('success'):
+                    d.name = data['result']['name']
+                    d.save()
         except:
             # traceback.print_exc()
             traceback.print_exc(file=open('/app/error.txt','a+'))
