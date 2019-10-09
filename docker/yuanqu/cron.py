@@ -185,7 +185,7 @@ class HttpRest(object):
                 f.close()
                 if data.get('success'):
                     d.name = data['result']['name']
-                    for point in data['status']:
+                    for point in data['result']['status']:
                         lastdata[point['code']] = point['value']
                     d.lastdata = json.dumps(lastdata)
                     d.save()
