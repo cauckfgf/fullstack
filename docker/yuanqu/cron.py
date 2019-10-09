@@ -163,6 +163,13 @@ class HttpRest(object):
             # self.getEle()
 
     def getStatus(self):
+        m = {
+            'cur_current':'电流',
+            'cur_voltage':'电压',
+            'cur_power':'功率',
+            'switch_1':'开关状态',
+            'countdown_1':'倒计时',
+        }
         try:
             headers = self.urls['获取插座实时状态']['headers']
             headers['access_token'] = self.access_token
@@ -186,7 +193,7 @@ class HttpRest(object):
                 if data.get('success'):
                     d.name = data['result']['name']
                     for point in data['result']['status']:
-                        lastdata[point['code']] = point['value']
+                        lastdata[m.get(point['code'])] = point['value']
                     d.lastdata = json.dumps(lastdata)
                     d.save()
         except:
