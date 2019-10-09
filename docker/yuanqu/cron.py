@@ -131,7 +131,7 @@ class HttpRest(object):
                 else:
                     s = Sensor.objects.create(device=d,name='用电量',unit='W')
                 f = open("/app/info.txt", "a+") 
-                print >> f, "{}:yuce_dianbiao被调用".format(str(datetime.datetime.now()))
+                print >> f, data
                 f.close()
                 s.lastdata = data['result']['total']
                 s.save()
