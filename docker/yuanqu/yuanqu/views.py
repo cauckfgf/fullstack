@@ -42,7 +42,7 @@ from wechatpy.replies import BaseReply
 from wechatpy import WeChatClient
 from wechatpy.oauth import WeChatOAuth
 from django.contrib.auth.models import User
-imort datetime
+import datetime
 # import wx.wechat as wx_wechat
 import traceback
 @csrf_exempt
@@ -83,6 +83,8 @@ def wx(request):
                     if not device:
                         name = 'wifi插座{}'.format(str(datetime.datetime.now()))
                         Device.objects.create(tuya_code=msg.content,name=name,user=user,devicetype_id=24)
+                    else:
+                        device.update(user=user)
 
             elif msg.type == 'event':
                 if msg_dict['Event'] == 'subscribe':
