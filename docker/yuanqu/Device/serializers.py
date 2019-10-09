@@ -17,9 +17,7 @@ class DeviceTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class Jsonserializer(serializers.JSONField):
-    default_error_messages = {
-        'invalid_json': _('无效的json数据格式')
-    }
+
     def to_representation(self, value):
         return json.loads(value)
  
