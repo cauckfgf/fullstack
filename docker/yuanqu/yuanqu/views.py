@@ -66,7 +66,7 @@ def wx(request):
                 print msg.sourc
                 f = open("/app/weixin.txt", "a+") 
                 # print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
-                print >> f,msg_dict
+                # print >> f,msg_dict
                 print >> f,'openid:{}'.format(msg.sourc)
                 f.close()
             elif msg.type == 'event':
