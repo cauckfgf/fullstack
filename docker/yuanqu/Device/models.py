@@ -62,6 +62,7 @@ class Device(models.Model):
     label_position = models.CharField(max_length=96,default='bottom',verbose_name='设备文字位置',choices=CHOICES)
     tuya_code = models.CharField(max_length=96,default='',verbose_name='涂鸦设备code',blank=True)
     user = models.ForeignKey(User,blank=True,null=True,related_name='device2User')
+    lastdata = models.TextField(blank=True,null=True,verbose_name='最新数据json')
     def __unicode__(self):
         return self.name
 
