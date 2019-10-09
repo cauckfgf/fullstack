@@ -8,6 +8,7 @@ RUN  pip install ipython
 RUN pip install python-dateutil
 RUN pip install crypto
 RUN pip install wechatpy
+RUN pip install pycryptodome==3.1
 #RUN pip install social-auth-app-django
 RUN mkdir /app
 ADD  ./widgets.py /usr/local/lib/python2.7/site-packages/ckeditor/widgets.py 
