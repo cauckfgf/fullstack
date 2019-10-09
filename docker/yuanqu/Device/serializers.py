@@ -25,7 +25,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     sensors = serializers.ReadOnlyField()
     sizeXY = serializers.SerializerMethodField()
     showname = serializers.ReadOnlyField()
-    lastdata = serializers.JSONField()
+    lastdata = serializers.DictField()
     def get_sizeXY(self,obj):
         xy = obj.size.split(',')
         return {
