@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'Device',
     'SystemManage',
-    'social_django'
+    # 'social_django'
 ]
 
 REST_FRAMEWORK = {
