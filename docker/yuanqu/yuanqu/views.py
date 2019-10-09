@@ -42,6 +42,7 @@ from wechatpy.replies import BaseReply
 from wechatpy import WeChatClient
 from wechatpy.oauth import WeChatOAuth
 # import wx.wechat as wx_wechat
+import traceback
 @csrf_exempt
 def wx(request):
     try:
