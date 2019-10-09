@@ -130,15 +130,19 @@ class HttpRest(object):
                     s = ss.first()
                 else:
                     s = Sensor.objects.create(device=d,name='用电量',unit='W')
+                f = open("/app/info.txt", "a+") 
+                print >> f, "{}:yuce_dianbiao被调用".format(str(datetime.datetime.now()))
+                f.close()
                 s.lastdata = data['result']['total']
                 s.save()
                 qs.append(SensorData(sensor=s,data=data['result']['total']))
             SensorData.objects.bulk_create(qs)
 
         except:
-            traceback.print_exc()
-            self.getToken()
-            self.getEle()
+            # traceback.print_exc()
+            traceback.print_exc(file=open('/app/error.txt','a+'))
+            # self.getToken()
+            # self.getEle()
 
 
 h = HttpRest()
