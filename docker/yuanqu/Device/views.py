@@ -60,7 +60,24 @@ class DeviceSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
     filter_class = DeviceFilter
 
+    @detail_route(methods=['get'])
+    def switch_off(self,request,pk):
+        h = HttpRest()
+        t = h.getToken()
+        d = Device.objects.get(id=pk)
+        h.switch_off(d.tuya_code)
+        # h.switch_on('23506303c44f33b30e1f')
+        return JsonResponse({})
 
+    @detail_route(methods=['get'])
+    def switch_on(self,request,pk):
+        h = HttpRest()
+        t = h.getToken()
+        d = Device.objects.get(id=pk)
+        h.switch_on(d.tuya_code)
+        return JsonResponse({})
+        # h.switch_off('23506303c44f33b30e1f')
+        # h.switch_on('23506303c44f33b30e1f')
 
 
 class Device2DeviceFilter(rest_framework_filters.FilterSet):
