@@ -164,11 +164,11 @@ class HttpRest(object):
 
     def getStatus(self):
         m = {
-            'cur_current':'电流',
-            'cur_voltage':'电压',
-            'cur_power':'功率',
-            'switch_1':'开关状态',
-            'countdown_1':'倒计时',
+            'cur_current':u'电流',
+            'cur_voltage':u'电压',
+            'cur_power':u'功率',
+            'switch_1':u'开关状态',
+            'countdown_1':u'倒计时',
         }
         try:
             headers = self.urls['获取插座实时状态']['headers']
