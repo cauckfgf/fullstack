@@ -33,4 +33,4 @@ def dianliang():
         querysetlist.append(q)
     MonitorDataTime.objects.bulk_create(querysetlist)
 sensordatatimetask()
-dianliang()
+# dianliang()
