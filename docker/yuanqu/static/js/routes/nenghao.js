@@ -63,11 +63,11 @@ const nenghao = {
         },
         change(status,item){
             if(status){
-                ajax.get(`/device/rest/device/${item.id}/switch_on`).then(res => {
+                ajax.get(`/device/rest/device/${item.id}/switch_on/`).then(res => {
 
                 })
             }else{
-                ajax.get(`/device/rest/device/${item.id}/switch_off`).then(res => {
+                ajax.get(`/device/rest/device/${item.id}/switch_off/`).then(res => {
 
                 })
             }
