@@ -17,7 +17,7 @@ const nenghao = {
                         <Icon type="ios-outlet"></Icon>
                         {{ item.name }}
                     </p>
-                    <i-switch slot="extra" v-model="item.switch" @on-change="change($status,item)" >
+                    <i-switch slot="extra" v-model="item.switch" @on-change="change(item,$status)" >
                         <span slot="open">开启</span>
                         <span slot="close">关闭</span>
                     </i-switch>
@@ -61,7 +61,7 @@ const nenghao = {
                 window.setTimeout(this.init,60000)
             })
         },
-        change(status,item){
+        change(item,status){
             if(status){
                 ajax.get(`/device/rest/device/${item.id}/switch_on/`).then(res => {
 
