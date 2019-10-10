@@ -149,7 +149,7 @@ class HttpRest(object):
                 f.close()
                 if data.get('success'):
                     lastdata[s.name] = data['result']['total']
-                    d.lastdata = json.dumps(lastdata)
+                    d.lastdata = json.dumps(lastdata,ensure_ascii=False)
                     d.save()
                     s.lastdata = data['result']['total']
                     s.save()
@@ -194,7 +194,7 @@ class HttpRest(object):
                     d.name = data['result']['name']
                     for point in data['result']['status']:
                         lastdata[m.get(point['code'])] = point['value']
-                    d.lastdata = json.dumps(lastdata)
+                    d.lastdata = json.dumps(lastdata,ensure_ascii=False)
                     d.save()
         except:
             # traceback.print_exc()
