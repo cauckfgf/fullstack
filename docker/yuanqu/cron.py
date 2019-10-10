@@ -205,4 +205,4 @@ class HttpRest(object):
 h = HttpRest()
 t = h.getToken()
 e = h.getEle()
-s = h.getStatus()
+# s = h.getStatus()
