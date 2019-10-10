@@ -66,6 +66,7 @@ class DeviceSet(viewsets.ModelViewSet):
         t = h.getToken()
         d = Device.objects.get(id=pk)
         h.switch_off(d.tuya_code)
+        s = h.getStatus()
         # h.switch_on('23506303c44f33b30e1f')
         return JsonResponse({})
 
@@ -75,6 +76,7 @@ class DeviceSet(viewsets.ModelViewSet):
         t = h.getToken()
         d = Device.objects.get(id=pk)
         h.switch_on(d.tuya_code)
+        s = h.getStatus()
         return JsonResponse({})
         # h.switch_off('23506303c44f33b30e1f')
         # h.switch_on('23506303c44f33b30e1f')
