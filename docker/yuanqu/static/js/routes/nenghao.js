@@ -11,7 +11,7 @@ const nenghao = {
     },
     template:`<div style="width: 100%;  height: 100%;">
         <Row :gutter="32">
-            <Col :lg="8 :xs="24"  v-for="item in chazuos">
+            <Col :lg="8" :xs="24"  v-for="item in chazuos">
                 <Card style="width:100%" >
                     <p slot="title">
                         <Icon type="ios-outlet"></Icon>
