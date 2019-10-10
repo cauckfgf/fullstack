@@ -92,7 +92,7 @@ def wx(request):
                         # rep = "用电量:{}KWh\r\n时  间:{}".format(lastdata.data,str(lastdata.stime))
                 devices = Device.objects.filter(name=msg.content)
                 if devices:
-                    device.update(user=user)
+                    devices.update(user=user)
                     d = devices.first()
                     lastdata = SensorData.objects.filter(sensor__device_id=d.id).last()
                     reply = create_reply("名称: {}\r\n用电量: {}KWh\r\n时间: {}".format(d.name,lastdata.data,str(lastdata.stime)), msg)
