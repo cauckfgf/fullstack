@@ -86,9 +86,16 @@ def wx(request):
                         Device.objects.create(tuya_code=msg.content,name=name,user=user,devicetype_id=24)
                     else:
                         device.update(user=user)
-                        lastdata = SensorData.objects.filter(sensor__device_id=device.first().id).last()
-                        reply = create_reply("用电量: {}KWh\r\n时    间: {}".format(lastdata.data,str(lastdata.stime)), msg)
+                        d = device.first()
+                        lastdata = SensorData.objects.filter(sensor__device_id=d.id).last()
+                        reply = create_reply("名称: {}\r\n用电量: {}KWh\r\n时间: {}".format(d.name,lastdata.data,str(lastdata.stime)), msg)
                         # rep = "用电量:{}KWh\r\n时  间:{}".format(lastdata.data,str(lastdata.stime))
+                devices = Device.objects.filter(name=msg.content)
+                if devices:
+                    device.update(user=user)
+                    d = devices.first()
+                    lastdata = SensorData.objects.filter(sensor__device_id=d.id).last()
+                    reply = create_reply("名称: {}\r\n用电量: {}KWh\r\n时间: {}".format(d.name,lastdata.data,str(lastdata.stime)), msg)
             elif msg.type == 'event':
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
