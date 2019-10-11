@@ -370,6 +370,28 @@ class HttpRest(object):
             ]
         }
         print self.post(url,params,headers)
+
+    def getStatus_one(self,d):
+        headers = self.urls['获取插座实时状态']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        lastdata = {} if not d.lastdata else json.loads(d.lastdata)
+        url = self.urls['获取插座实时状态']['url'].format(d.tuya_code)
+        # print headers['sign']
+        print headers
+        data = self.get(url,{},headers)
+        # print data
+        data = json.loads(data)
+        if data.get('success'):
+            d.name = data['result']['name']
+            for point in data['result']['status']:
+                lastdata[m.get(point['code'])] = point['value']
+            d.lastdata = json.dumps(lastdata,ensure_ascii=False)
+            d.save()
+        return d 
     def getStatus(self):
         m = {
             'cur_current':u'电流',
