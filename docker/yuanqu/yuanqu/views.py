@@ -100,7 +100,7 @@ def wx(request):
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
                     # wx_wechat.subscribe(getWxUserInfo(msg.source))
-                    print 'openid',msg.sourc
+                    print 'openid',msg.source
                     print getWxUserInfo(msg.source)
                 elif msg_dict['Event'] == 'unsubscribe':
                     # 取关后，将用户的关注状态更改为 未关注
