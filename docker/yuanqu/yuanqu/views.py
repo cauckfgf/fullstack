@@ -100,8 +100,18 @@ def wx(request):
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
                     # wx_wechat.subscribe(getWxUserInfo(msg.source))
+                    articles = [
+                        {
+                            'title': 'test',
+                            'description': 'test',
+                            'image': '',
+                            'url': 'http://energy.shuhuhu.com/index/#/nenghao'
+                        },
+                        # add more ...
+                    ]
                     print 'openid',msg.source
-                    print getWxUserInfo(msg.source)
+                    # print getWxUserInfo(msg.source)
+                    reply = create_reply("名称: {}\r\n用电量: {}KWh\r\n时间: {}".format(d.name,lastdata.data,str(lastdata.stime)), msg)
                 elif msg_dict['Event'] == 'unsubscribe':
                     # 取关后，将用户的关注状态更改为 未关注
                     # wx_wechat.unsubscribe(msg.source)
