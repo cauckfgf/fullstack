@@ -372,6 +372,13 @@ class HttpRest(object):
         print self.post(url,params,headers)
 
     def getStatus_one(self,d):
+        m = {
+            'cur_current':u'电流',
+            'cur_voltage':u'电压',
+            'cur_power':u'功率',
+            'switch_1':u'开关状态',
+            'countdown_1':u'倒计时',
+        }
         headers = self.urls['获取插座实时状态']['headers']
         headers['access_token'] = self.access_token
         headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
