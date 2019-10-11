@@ -102,9 +102,9 @@ def wx(request):
                     # wx_wechat.subscribe(getWxUserInfo(msg.source))
                     articles = [
                         {
-                            'title': 'test',
-                            'description': 'test',
-                            'image': '',
+                            'title': 'wifi插座管理',
+                            'description': 'wifi插座管理',
+                            'image': 'https://mmbiz.qpic.cn/mmbiz_png/uvEWHtO4sbiaCUyibY9UyHqD1y5Fe5FEZavZ701bKTRRjLxDUXnNYeZT9Yf6DdwCbic70QWerRdfFKLWaR3QWiahjQ/0?wx_fmt=png',
                             'url': 'http://energy.shuhuhu.com/index/#/nenghao'
                         },
                         # add more ...
