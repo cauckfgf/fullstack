@@ -83,7 +83,12 @@ def wx(request):
                     device = Device.objects.filter(tuya_code=msg.content)
                     if not device:
                         name = 'wifi插座{}'.format(str(datetime.datetime.now()))
-                        Device.objects.create(tuya_code=msg.content,name=name,user=user,devicetype_id=24)
+                        
+                        d = Device.objects.create(tuya_code=msg.content,name=name,user=user,devicetype_id=24)
+                        h = HttpRest()
+                        t = h.getToken()
+                        s = h.getStatus_one(d)
+                        reply = create_reply("{}已经添加".format(d.name), msg)
                     else:
                         device.update(user=user)
                         d = device.first()
