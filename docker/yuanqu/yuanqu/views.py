@@ -111,7 +111,7 @@ def wx(request):
                     ]
                     print 'openid',msg.source
                     # print getWxUserInfo(msg.source)
-                    reply = create_reply("名称: {}\r\n用电量: {}KWh\r\n时间: {}".format(d.name,lastdata.data,str(lastdata.stime)), msg)
+                    reply = create_reply(articles, msg)
                 elif msg_dict['Event'] == 'unsubscribe':
                     # 取关后，将用户的关注状态更改为 未关注
                     # wx_wechat.unsubscribe(msg.source)
