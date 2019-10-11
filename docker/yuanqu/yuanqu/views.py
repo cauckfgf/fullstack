@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 # from django.contrib.auth.models import User as DjangoUser
 #import sys, urllib2, json
 from Device.models  import *
-from .settings import *
+import settings
 @csrf_exempt
 # @login_required(login_url="/login/")
 def index(request):
