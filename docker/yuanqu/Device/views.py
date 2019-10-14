@@ -51,6 +51,7 @@ class DeviceFilter(rest_framework_filters.FilterSet):
             'name':['exact','in'],
             'system':['exact','in'],
             'devicetype':['exact','in'],
+            'user__username':['exact'],
 
         }
 

@@ -61,7 +61,7 @@ class Device(models.Model):
     size = models.CharField(max_length=96,default='200,100',verbose_name='大小')
     label_position = models.CharField(max_length=96,default='bottom',verbose_name='设备文字位置',choices=CHOICES)
     tuya_code = models.CharField(max_length=96,default='',verbose_name='涂鸦设备code',blank=True)
-    user = models.ForeignKey(User,blank=True,null=True,related_name='device2User')
+    user = models.ForeignKey(User,blank=True,null=True,related_name='device2User',on_delete=models.SET_NULL)
     lastdata = models.TextField(blank=True,null=True,verbose_name='最新数据json')
     def __unicode__(self):
         return self.name
