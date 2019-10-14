@@ -82,8 +82,8 @@ def wx(request):
                     g = Group.objects.get_or_create(name='微信用户')[0]
                     user = User(username=openid)
                     user.set_password('111111')
-                    user.groups.add(g)
                     user.save()
+                    user.groups.add(g)
                 # print msg_dict
                 f = open("/app/weixin.txt", "a+") 
                 # print >> f, '{}状态:\r\n'.format(d.name),json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': '),ensure_ascii=False)
