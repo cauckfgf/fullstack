@@ -10,30 +10,32 @@ const nenghao = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 100%;">
-        <Row :gutter="32">
-            <Col :lg="8" :xs="24"  v-for="item in chazuos">
-                <Card style="width:100%" >
-                    <p slot="title">
-                        <Icon type="ios-outlet"></Icon>
-                        {{ item.name }}
-                    </p>
-                    <i-switch slot="extra" v-model="item.switch" @on-change="change(...arguments,item)" >
-                        <span slot="open">开启</span>
-                        <span slot="close">关闭</span>
-                    </i-switch>
-                    <ul style="list-style-type: none;">
-                        <li v-for="(value, key, index) in item.lastdata">
-                            <a :href="item.url" target="_blank">{{ key }}</a>
-                            <span>
-                                <Icon type="ios-arrow-forward" v-for="n in 4" :key="n"/>
-                                {{ value }}
-                            </span>
-                        </li>
-                    </ul>
-                    
-                </Card>
-            </Col>
-        </Row>
+        <Scroll>
+            <Row :gutter="32" style="margin:0">
+                <Col :lg="8" :xs="24"  v-for="item in chazuos">
+                    <Card style="width:100%" >
+                        <p slot="title">
+                            <Icon type="ios-outlet"></Icon>
+                            {{ item.name }}
+                        </p>
+                        <i-switch slot="extra" v-model="item.switch" @on-change="change(...arguments,item)" >
+                            <span slot="open">开启</span>
+                            <span slot="close">关闭</span>
+                        </i-switch>
+                        <ul style="list-style-type: none;">
+                            <li v-for="(value, key, index) in item.lastdata">
+                                <a :href="item.url" target="_blank">{{ key }}</a>
+                                <span>
+                                    <Icon type="ios-arrow-forward" v-for="n in 4" :key="n"/>
+                                    {{ value }}
+                                </span>
+                            </li>
+                        </ul>
+                        
+                    </Card>
+                </Col>
+            </Row>
+        </Scroll>
     </div>`,
 
     data(){
