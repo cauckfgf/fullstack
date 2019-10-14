@@ -61,8 +61,18 @@ def wx(request):
             response = HttpResponse(echo_str)
 
         if request.method == 'POST':
-            reply = ''
             msg = parse_message(request.body)
+            articles = [
+                {
+                    'title': 'wifi插座管理',
+                    'description': 'wifi插座管理',
+                    'image': 'https://mmbiz.qpic.cn/mmbiz_png/uvEWHtO4sbiaCUyibY9UyHqD1y5Fe5FEZavZ701bKTRRjLxDUXnNYeZT9Yf6DdwCbic70QWerRdfFKLWaR3QWiahjQ/0?wx_fmt=png',
+                    'url': 'http://energy.shuhuhu.com/index/#/nenghao?openid={}'.format(msg.source)
+                },
+                # add more ...
+            ]
+            reply = create_reply(articles, msg)
+            
             msg_dict = msg.__dict__['_data']
             # print(msg.id, msg.source, msg.create_time, msg.type, msg.target, msg.time, msg.__dict__['_data']['Event'], '====')
             if msg.type == 'text':
@@ -105,18 +115,10 @@ def wx(request):
                 if msg_dict['Event'] == 'subscribe':
                     # 关注后 将获取的用户的信息保存到数据库
                     # wx_wechat.subscribe(getWxUserInfo(msg.source))
-                    articles = [
-                        {
-                            'title': 'wifi插座管理',
-                            'description': 'wifi插座管理',
-                            'image': 'https://mmbiz.qpic.cn/mmbiz_png/uvEWHtO4sbiaCUyibY9UyHqD1y5Fe5FEZavZ701bKTRRjLxDUXnNYeZT9Yf6DdwCbic70QWerRdfFKLWaR3QWiahjQ/0?wx_fmt=png',
-                            'url': 'http://energy.shuhuhu.com/index/#/nenghao'
-                        },
-                        # add more ...
-                    ]
+                    
                     print 'openid',msg.source
                     # print getWxUserInfo(msg.source)
-                    reply = create_reply(articles, msg)
+                    pass
                 elif msg_dict['Event'] == 'unsubscribe':
                     # 取关后，将用户的关注状态更改为 未关注
                     # wx_wechat.unsubscribe(msg.source)
