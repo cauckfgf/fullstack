@@ -42,7 +42,7 @@ from wechatpy.replies import BaseReply
 from wechatpy import WeChatClient
 from wechatpy.oauth import WeChatOAuth
 # from wechatpy.replies import TextReply
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 import datetime
 # import wx.wechat as wx_wechat
 import traceback
@@ -79,8 +79,10 @@ def wx(request):
                 openid = msg.source
                 user = User.objects.filter(username=openid).first()
                 if not user:
+                    g = Group.objects.get_or_create(name='微信用户')[0]
                     user = User(username=openid)
                     user.set_password('111111')
+                    user.groups.add(g)
                     user.save()
                 # print msg_dict
                 f = open("/app/weixin.txt", "a+") 
