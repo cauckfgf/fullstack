@@ -10,7 +10,7 @@ const nenghao = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 100%;">
-        <Scroll>
+        <Scroll :height="height">
             <Row :gutter="32" style="margin:0">
                 <Col :lg="8" :xs="24"  v-for="item in chazuos">
                     <Card style="width:100%" >
@@ -40,7 +40,8 @@ const nenghao = {
 
     data(){
         return {
-            chazuos:[]
+            chazuos:[],
+            height:0,
         }
     },
     filters: {
@@ -62,6 +63,7 @@ const nenghao = {
                 }
                 window.setTimeout(this.init,60000)
             })
+            this.height = document.body.clientHeight
         },
         change(status,item){
             if(status){
