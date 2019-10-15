@@ -103,9 +103,9 @@ DATABASES = {
             # 'NAME': 'xhyyfm',
 
             'NAME': 'yuanqu',
-            'USER':'root',
-            'PASSWORD':'zzkjyunwei',
-            'HOST':'116.62.228.242',
+            'USER':'zzkj',
+            'PASSWORD':'zzkjyunwei123456',
+            'HOST':'180.167.191.174',
             'PORT':3306,
         },
         'default': {
@@ -114,9 +114,9 @@ DATABASES = {
             # 'NAME': 'xhyyfm',
 
             'NAME': 'yuanqu',
-            'USER':'root',
-            'PASSWORD':'zzkjyunwei',
-            'HOST':'116.62.228.242',
+            'USER':'zzkj',
+            'PASSWORD':'zzkjyunwei123456',
+            'HOST':'180.167.191.174',
             'PORT':3306,
         },
         'slave': {
@@ -125,9 +125,9 @@ DATABASES = {
             # 'NAME': 'xhyyfm',
 
             'NAME': 'yuanqu',
-            'USER':'root',
-            'PASSWORD':'zzkjyunwei',
-            'HOST':'116.62.228.242',
+            'USER':'zzkj',
+            'PASSWORD':'zzkjyunwei123456',
+            'HOST':'180.167.191.174',
             'PORT':3306,
         },
 
