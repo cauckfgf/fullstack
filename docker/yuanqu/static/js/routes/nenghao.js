@@ -206,6 +206,7 @@ const nenghao = {
             ajax.get(`/device/rest/device/${device.id}/timer/`).then(res => {
                 if(res.data.success){
                     this.timer_value=true
+                    this.timerData.timers = []
                     for(var r in res.data.result){
                         for(var i in res.data.result[r].groups){
                             for(var j in res.data.result[r].groups[i].timers){
