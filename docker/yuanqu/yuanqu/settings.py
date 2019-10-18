@@ -137,21 +137,21 @@ DATABASES = {
 }
 
 
-DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            #'NAME': 'scc4pms',
-            # 'NAME': 'xhyyfm',
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             #'NAME': 'scc4pms',
+#             # 'NAME': 'xhyyfm',
 
-            'NAME': 'yuanqu',
-            'USER':'root',
-            'PASSWORD':'zzkjyunwei',
-            'HOST':'116.62.228.242',
-            'PORT':3306,
-        },
+#             'NAME': 'yuanqu',
+#             'USER':'root',
+#             'PASSWORD':'zzkjyunwei',
+#             'HOST':'116.62.228.242',
+#             'PORT':3306,
+#         },
 
 
-}
+# }
 # DATABASE_ROUTERS = ['yuanqu.dbrouter.Router',]  
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
