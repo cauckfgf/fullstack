@@ -12,11 +12,15 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 # from django.contrib.auth.models import User as DjangoUser
 #import sys, urllib2, json
 from Device.models  import *
+from django.contrib.auth.models import User,Group
 import settings
 @csrf_exempt
 # @login_required(login_url="/login/")
 def index(request):
     # return render_to_response('index.html')
+    openid = request.GET.get('openid')
+    user = auth.authenticate(openid=openid)
+    auth.login(request,user)
     return render(request, 'index.html',locals())
 
 
@@ -42,7 +46,7 @@ from wechatpy.replies import BaseReply
 from wechatpy import WeChatClient
 from wechatpy.oauth import WeChatOAuth
 # from wechatpy.replies import TextReply
-from django.contrib.auth.models import User,Group
+
 import datetime
 # import wx.wechat as wx_wechat
 import traceback

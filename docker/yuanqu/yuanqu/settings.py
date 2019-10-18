@@ -96,6 +96,8 @@ WSGI_APPLICATION = 'yuanqu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+
+
 DATABASES = {
         'auth': {
             'ENGINE': 'django.db.backends.mysql',
@@ -134,7 +136,23 @@ DATABASES = {
 
 }
 
-DATABASE_ROUTERS = ['yuanqu.dbrouter.Router',]  
+
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            #'NAME': 'scc4pms',
+            # 'NAME': 'xhyyfm',
+
+            'NAME': 'yuanqu',
+            'USER':'root',
+            'PASSWORD':'zzkjyunwei',
+            'HOST':'116.62.228.242',
+            'PORT':3306,
+        },
+
+
+}
+# DATABASE_ROUTERS = ['yuanqu.dbrouter.Router',]  
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -204,11 +222,8 @@ SOCIAL_AUTH_WEIXIN_SECRET = AppSecret
 #     'social_auth.backends.pipeline.misc.save_status_to_session',
 
 # )
-# AUTHENTICATION_BACKENDS = (
-   # 'social.backends.weibo.WeiboOAuth2',      #微博的功能
-   # 'social.backends.qq.QQOAuth2',            #QQ的功能
-   # 'social.backends.weixin.WeixinOAuth2',    #这个是导入微信的功能
-   # 'oscar.apps.customer.auth_backends.EmailBackend',
-   # 'django.contrib.auth.backends.ModelBackend',
-# )
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'yuanqu.wechatAuth.WechatOpenidAuth',
+)
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/' 
