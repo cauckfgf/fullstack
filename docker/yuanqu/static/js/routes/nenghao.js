@@ -44,7 +44,7 @@ const nenghao = {
         >
             <Form :model="timerData">
                 <Row :gutter="32">
-                    <Col span="24" v-for="t,tindex in timerData.timers">
+                    <Col :lg="8" :xs="24"  v-for="t,tindex in timerData.timers">
                         <FormItem label="时间"">
                             <TimePicker :steps="[1,1,60]" type="time" format="HH:mm" v-model="t.time" placeholder="Select time" style="width: 168px"></TimePicker>
                         </FormItem>
