@@ -5,6 +5,7 @@ from django.shortcuts import render,render_to_response
 #from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.contrib import auth
 #from django.contrib.auth.decorators import login_required
 #import time,traceback
 #from rest_framework import viewsets,generics,filters
