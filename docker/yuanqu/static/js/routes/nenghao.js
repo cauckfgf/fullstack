@@ -64,8 +64,12 @@ const nenghao = {
                         </FormItem>
                         <Divider />
                     </Col>
-                    <Button type="success" @click="save">保存</Button>
-                    <Button type="dashed" @click="newtimer">新增</Button>
+                    <Col span="24">
+                        <FormItem>
+                            <Button type="success" @click="save">保存</Button>
+                            <Button type="dashed" @click="newtimer">新增</Button>
+                        </FormItem>
+                    </Col>
                 </Row>
             </Form>
         </Drawer>
