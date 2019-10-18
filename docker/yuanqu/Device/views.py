@@ -91,8 +91,8 @@ class DeviceSet(viewsets.ModelViewSet):
             return JsonResponse(p)
         elif request.method == 'POST':
             # print request.data
-            body = json.loads(request.data)
-            print body
+            body = request.data
+            print type(body)
             h = HttpRest()
             t = h.getToken()
             d = Device.objects.get(id=pk)
