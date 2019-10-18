@@ -90,8 +90,8 @@ class DeviceSet(viewsets.ModelViewSet):
             p = h.getTimer(d.tuya_code)
             return JsonResponse(p)
         elif request.method == 'POST':
-            print request.data
-            body = json.loads(request.body)
+            # print request.data
+            body = json.loads(request.data)
             print body
             h = HttpRest()
             t = h.getToken()
