@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 import json
+from dateutil.relativedelta import relativedelta
 # Create your models here.
 
 class System(models.Model):
@@ -234,6 +235,42 @@ class HttpRest(object):
                 "Content-type": "application/json"
             }
         },
+        '查询设备定时任务':{
+            'url': '/v1.0/devices/{}/timers',
+            'params': {
+                'parentId':'1'
+            },
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
+        '下发定时任务':{
+            'url': '/v1.0/devices/{}/timers',
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
+        '删除设备下的所有定时任务':{
+            'url': '/v1.0/devices/{}/timers',
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
 
     }
     access_token = ''
@@ -253,7 +290,20 @@ class HttpRest(object):
             return data
         else:
             return None
-
+    def delete(self, rest, headers={}):
+        # rest = /spm-api/rest/structure/findStructureList
+        # v = {'a':'a'}
+        conn = httplib.HTTPSConnection("openapi.tuyacn.com")  # 微信接口链接
+        # headers = {"Content-type": "application/json"}
+        conn.request("DELETE", rest, json.JSONEncoder().encode({}), headers)
+        response = conn.getresponse()
+        data = response.read()  # 推送返回数据
+        conn.close()
+        if response.status == 200:
+            print datetime.datetime.now(), rest
+            return data
+        else:
+            return None
     def get(self, rest, v, headers={}):
         # rest = /spm-api/rest/structure/findStructureList
         # v = {'a':'a'}
@@ -366,6 +416,59 @@ class HttpRest(object):
                 {
                     "code": "switch_1",
                     "value":False
+                }
+            ]
+        }
+        print self.post(url,params,headers)
+    def getTimer(self,code):
+        # end_time = (t + relativedelta(seconds=4)).strftime("%H:%M")
+        headers = self.urls['查询设备定时任务']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        url = self.urls['查询设备定时任务']['url'].format(code)
+        data = self.get(url,{},headers)
+        return json.loads(data)
+
+    def delTimer(self,code):
+        headers = self.urls['删除设备下的所有定时任务']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        url = self.urls['删除设备下的所有定时任务']['url'].format(code)
+        data = self.delete(url,headers)
+        return json.loads(data)
+
+    def setTimer(self,code,t,value,week_day):
+        
+        # time = "19:22"
+        # t=datetime.datetime.strptime(t,"%H:%M")
+        # end_time = (t + relativedelta(seconds=4)).strftime("%H:%M")
+        headers = self.urls['下发定时任务']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        url = self.urls['下发定时任务']['url'].format(code)
+        params = {   
+            "category":"device{}".format(code),
+            "loops":week_day,
+            "time_zone":"+08:00",
+            "timezone_id":"Asia/shanghai",
+            "instruct":[
+                {
+                    "time":t,
+                    "functions":[
+                        {
+                            "code":"switch_1",
+                            "value":value
+                        }
+                    ]
                 }
             ]
         }

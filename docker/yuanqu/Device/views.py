@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
 from rest_framework.decorators import detail_route, list_route
-
+import json
 # Create your views here.
 
 class SystemFilter(rest_framework_filters.FilterSet):
@@ -81,6 +81,28 @@ class DeviceSet(viewsets.ModelViewSet):
         return JsonResponse({})
         # h.switch_off('23506303c44f33b30e1f')
         # h.switch_on('23506303c44f33b30e1f')
+    @detail_route(methods=['get','post','delete'])
+    def timer(self,request,pk):
+        if request.method == 'GET':
+            h = HttpRest()
+            t = h.getToken()
+            d = Device.objects.get(id=pk)
+            p = h.getTimer(d.tuya_code)
+            return JsonResponse(p)
+        elif request.method == 'POST':
+            body = json.loads(request.body)
+            print body
+            h = HttpRest()
+            t = h.getToken()
+            d = Device.objects.get(id=pk)
+            h.delTimer(d.tuya_code)
+            for t in body['timers']:
+                h.setTimer(d.tuya_code,t['time'],t['functions'][0]['value'],''.join(t['loops']))
+            return JsonResponse({})
+        elif request.method == 'DELETE':
+            request.DELETE.get('')
+            return JsonResponse({})
+
 
 
 class Device2DeviceFilter(rest_framework_filters.FilterSet):
