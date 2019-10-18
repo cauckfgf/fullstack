@@ -20,6 +20,7 @@ import settings
 def index(request):
     # return render_to_response('index.html')
     openid = request.GET.get('openid')
+    print openid
     user = auth.authenticate(openid=openid)
     print user.truename
     auth.login(request,user)
