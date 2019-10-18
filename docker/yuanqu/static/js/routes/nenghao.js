@@ -214,6 +214,7 @@ const nenghao = {
                     // this.timerData = res.data.result[0].groups[0]
                     
                 }else{
+                    this.timerData.timers=[]
                     this.timer_value=true
                     this.$Message.info("该设备没有定时任务")
                 }
