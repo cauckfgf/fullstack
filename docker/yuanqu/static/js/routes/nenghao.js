@@ -126,7 +126,7 @@ const nenghao = {
                                 text: '日',
                                 icon: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2541928986,283009610&fm=58',
                                 onclick: ()=>{
-                                    this.timerage('周')
+                                    this.timerage('日')
                                 }
                             },
                             myTool1: {
