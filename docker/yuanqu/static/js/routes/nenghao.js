@@ -124,7 +124,7 @@ const nenghao = {
                                 show: true,
                                 title: '日',
                                 text: '日',
-                                icon: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2541928986,283009610&fm=58',
+                                icon: 'image://https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2541928986,283009610&fm=58',
                                 onclick: ()=>{
                                     this.timerage('日')
                                 }
@@ -361,7 +361,7 @@ const nenghao = {
         history(d,t='日'){
             this.device=d
             var date = new Date()
-            var ft = date.format("yyyy-MM-dd 00:00")
+            var ft =date.format("yyyy-MM-dd 00:00")
             if(t=='周'){
                ft = this.getBeforeWeek(date).format("yyyy-MM-dd hh:mm")
             }else if(t=='月'){
