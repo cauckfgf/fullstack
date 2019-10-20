@@ -139,6 +139,7 @@ class SensorDataFilter(rest_framework_filters.FilterSet):
         fields = {
             'id':['exact','in'],
             'sensor__device':['exact','in'],
+            'stime':['gte']
         }
 class SensorDataSet(viewsets.ModelViewSet):
     queryset = SensorData.objects.all()

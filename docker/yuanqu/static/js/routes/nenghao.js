@@ -97,7 +97,7 @@ const nenghao = {
             placement=''
             width='100'
         >
-            <v-chart autoresize style="width: 100%;  height: 100%;" :options="history_draw.history_option"   ref="chart"/>
+        <v-chart autoresize style="width: 100%;  height: 100%;" :options="history_draw.history_option"   ref="chart"/>
         </Drawer>
     </div>`,
 
@@ -111,11 +111,43 @@ const nenghao = {
             history_draw:{
                 show:false,
                 title:'',
+                radio:'周',
                 history_option: {
                     title: {
                         text: '',
                         subtext: '',
                         left: 'center'
+                    },
+                    toolbox: {
+                        feature: {
+                            myTool1: {
+                                show: true,
+                                title: '周',
+                                text: '周',
+                                icon: 'image://https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2754478880,138256405&fm=58',
+                                onclick: ()=>{
+                                    this.timerage('周')
+                                }
+                            },
+                            myTool2: {
+                                show: true,
+                                title: '月',
+                                text: '月',
+                                icon: 'image://https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2605606428,551422860&fm=58',
+                                onclick: ()=>{
+                                    this.timerage('月')
+                                }
+                            },
+                            myTool3: {
+                                show: true,
+                                title: '年',
+                                text: '年',
+                                icon: 'image://https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2395718531,4285100317&fm=58',
+                                onclick: ()=>{
+                                    this.timerage('年')
+                                }
+                            }
+                        }
                     },
                     tooltip: {
                         trigger: 'axis',
@@ -161,7 +193,7 @@ const nenghao = {
                     yAxis: {
                         axisLabel: {
                             formatter: function (val) {
-                                return val+'kwh';
+                                return val+'°';
                             }
                         },
                         axisPointer: {
@@ -257,8 +289,80 @@ const nenghao = {
         }
     },
     methods:{
-        history(d){
-            ajax.get(`/device/rest/sensordata/?sensor__device__in=${d.id}`).then(res => {
+        timerage(t){
+            this.history(this.device,t)
+        },
+        getBeforeWeek(d){
+            d = new Date(d);
+            d = +d - 1000*60*60*24*6;
+            d = new Date(d);
+            var year = d.getFullYear();
+            var mon = d.getMonth()+1;
+            var day = d.getDate();
+            s = year+"-"+(mon<10?('0'+mon):mon)+"-"+(day<10?('0'+day):day);
+            return new Date(s);
+        },
+        //获取指定日期前一个月
+        getBeforeMonth(date){  
+            var daysInMonth = new Array([0],[31],[28],[31],[30],[31],[30],[31],[31],[30],[31],[30],[31]);  
+            var strYear = date.getFullYear();    
+            var strDay = date.getDate();    
+            var strMonth = date.getMonth()+1;  
+            if(strYear%4 == 0 && strYear%100 != 0){  
+                daysInMonth[2] = 29;  
+            }  
+            if(strMonth - 1 == 0)  
+            {  
+                strYear -= 1;  
+                strMonth = 12;  
+            }  
+            else  
+            {  
+                strMonth -= 1;  
+            }  
+            strDay = daysInMonth[strMonth] >= strDay ? strDay : daysInMonth[strMonth];  
+            if(strMonth<10)    
+            {    
+                strMonth="0"+strMonth;    
+            }  
+            if(strDay<10)    
+            {    
+                strDay="0"+strDay;    
+            }  
+            datastr = strYear+"-"+strMonth+"-"+strDay;  
+            return new Date(datastr);  
+         },
+
+        //获取指定日期前一年
+        getLastYearYestdy(date){  
+            var strYear = date.getFullYear() - 1;    
+            var strDay = date.getDate();    
+            var strMonth = date.getMonth()+1;  
+            if(strMonth<10)    
+            {    
+                strMonth="0"+strMonth;    
+            }  
+            if(strDay<10)    
+            {    
+                strDay="0"+strDay;    
+            }  
+            datastr = strYear+"-"+strMonth+"-"+strDay;  
+            return new Date(datastr);
+        }, 
+        history(d,t='周'){
+            this.device=d
+            var date = new Date()
+            var ft =''
+            if(t=='周'){
+               ft = this.getBeforeWeek(date).format("yyyy-MM-dd hh:mm")
+            }else if(t=='月'){
+                ft = this.getBeforeMonth(date).format("yyyy-MM-dd hh:mm")
+            }
+            else if(t=='年'){
+                ft = this.getLastYearYestdy(date).format("yyyy-MM-dd hh:mm")
+            }
+
+            ajax.get(`/device/rest/sensordata/?sensor__device__in=${d.id}&stime__gte=${ft}`).then(res => {
                 var sensordatas  = res.data
                 // this.history_draw.history_option.title.text = 
                 this.history_draw.title = `${d.name}历史数据`
