@@ -120,6 +120,15 @@ const nenghao = {
                     },
                     toolbox: {
                         feature: {
+                            myTool0: {
+                                show: true,
+                                title: '日',
+                                text: '日',
+                                icon: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2541928986,283009610&fm=58',
+                                onclick: ()=>{
+                                    this.timerage('周')
+                                }
+                            },
                             myTool1: {
                                 show: true,
                                 title: '周',
@@ -349,11 +358,13 @@ const nenghao = {
             datastr = strYear+"-"+strMonth+"-"+strDay;  
             return new Date(datastr);
         }, 
-        history(d,t='周'){
+        history(d,t='日'){
             this.device=d
             var date = new Date()
             var ft =''
-            if(t=='周'){
+            if(t=='日'){
+               ft = date.format("yyyy-MM-dd 00:00")
+            }else if(t=='周'){
                ft = this.getBeforeWeek(date).format("yyyy-MM-dd hh:mm")
             }else if(t=='月'){
                 ft = this.getBeforeMonth(date).format("yyyy-MM-dd hh:mm")
