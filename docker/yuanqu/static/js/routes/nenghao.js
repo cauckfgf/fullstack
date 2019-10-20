@@ -31,7 +31,7 @@ const nenghao = {
                                 </span>
                             </li>
                         </ul>
-                        <Button @click="timer(item)" type="primary">定时策略</Button>
+                        <Button :disabled="!item.editabe" @click="timer(item)" type="primary">定时策略</Button>
                     </Card>
                 </Col>
             </Row>
