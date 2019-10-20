@@ -18,7 +18,7 @@ const nenghao = {
                             <Icon type="ios-outlet"></Icon>
                             {{ item.name }}
                         </p>
-                        <i-switch slot="extra" v-model="item.switch" @on-change="change(...arguments,item)" >
+                        <i-switch :disabled="item.editabe" slot="extra" v-model="item.switch" @on-change="change(...arguments,item)" >
                             <span slot="open">开启</span>
                             <span slot="close">关闭</span>
                         </i-switch>

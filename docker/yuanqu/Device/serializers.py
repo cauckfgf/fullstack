@@ -39,6 +39,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     sizeXY = serializers.SerializerMethodField()
     showname = serializers.ReadOnlyField()
     lastdata = Jsonserializer()
+    editabe = serializers.SerializerMethodField()
     def get_sizeXY(self,obj):
         xy = obj.size.split(',')
         return {
@@ -46,7 +47,11 @@ class DeviceSerializer(serializers.ModelSerializer):
             'y':xy[1]
         } 
 
-
+    def get_editabe(self,obj):
+        user =  self.context['request'].user
+        if obj.user.username==user.username:
+            return True
+        return False
 
     def get_postion(self,obj):
         def toInt(i):
