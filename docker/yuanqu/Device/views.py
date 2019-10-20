@@ -131,3 +131,18 @@ class Device2DeviceSet(viewsets.ModelViewSet):
         Device2Device.objects.filter(system_id=system,device_from_id=device).update(position_from='{},{}'.format(x,y))
         Device2Device.objects.filter(system_id=system,device_to_id=device).update(position_to='{},{}'.format(x,y))
         return JsonResponse({})
+
+
+class SensorDataFilter(rest_framework_filters.FilterSet):
+    class Meta:
+        model = SensorData
+        fields = {
+            'id':['exact','in'],
+            'sensor__device':['exact','in'],
+        }
+class SensorDataSet(viewsets.ModelViewSet):
+    queryset = SensorData.objects.all()
+    serializer_class = SensorDataSerializer
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
+    filter_class = SensorDataFilter
+    pagination_class = None

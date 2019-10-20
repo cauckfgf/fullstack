@@ -104,3 +104,11 @@ class Device2DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device2Device
         fields = '__all__'
+
+class SensorDataSerializer(serializers.ModelSerializer):
+    '''备品备件类型'''
+    id = serializers.ReadOnlyField()
+    stime = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
+    class Meta:
+        model = SensorData
+        fields = '__all__'

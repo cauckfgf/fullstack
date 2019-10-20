@@ -3,7 +3,24 @@ ajax = axios.create({
     timeout: 30000,
     headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
 });
-
+Date.prototype.format = function(fmt)   
+{ //author: meizz   
+  var o = {   
+    "M+" : this.getMonth()+1,                 //月份   
+    "d+" : this.getDate(),                    //日   
+    "h+" : this.getHours(),                   //小时   
+    "m+" : this.getMinutes(),                 //分   
+    "s+" : this.getSeconds(),                 //秒   
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+    "S"  : this.getMilliseconds()             //毫秒   
+  };   
+  if(/(y+)/.test(fmt))   
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+  for(var k in o)   
+    if(new RegExp("("+ k +")").test(fmt))   
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+  return fmt;   
+}
 const nenghao = { 
     components:{
         // transactions
@@ -32,6 +49,7 @@ const nenghao = {
                             </li>
                         </ul>
                         <Button :disabled="!item.editabe" @click="timer(item)" type="primary">定时策略</Button>
+                        <Button @click="history(item)" type="primary">历史数据</Button>
                     </Card>
                 </Col>
             </Row>
@@ -73,6 +91,14 @@ const nenghao = {
                 </Row>
             </Form>
         </Drawer>
+        <Drawer
+            :title="history_draw.title"
+            v-model="history_draw.show"
+            placement=''
+            width='100'
+        >
+            <v-chart autoresize style="width: 100%;  height: 100%;" :options="history_draw.history_option"   ref="chart"/>
+        </Drawer>
     </div>`,
 
     data(){
@@ -82,6 +108,102 @@ const nenghao = {
             timer_value:false,
             timerData:{timers:[]},
             device:{},
+            history_draw:{
+                show:false,
+                title:'',
+                history_option: {
+                    title: {
+                        text: '',
+                        subtext: '',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            animation: false,
+                            label: {
+                                backgroundColor: '#ccc',
+                                borderColor: '#aaa',
+                                borderWidth: 1,
+                                shadowBlur: 0,
+                                shadowOffsetX: 0,
+                                shadowOffsetY: 0,
+                                textStyle: {
+                                    color: '#222'
+                                }
+                            }
+                        },
+                        // formatter: function (params) {
+                        //     return params[2].name + '<br />' + params[2].value;
+                        // }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: [],
+                        axisLabel: {
+                            formatter: function (value, idx) {
+                                var date = new Date(value);
+                                return idx === 0 ? value : date.format("MM-dd\r\nhh:mm");  
+                            }
+                        },
+                        splitLine: {
+                            show: false
+                        },
+                        boundaryGap: false
+                    },
+                    yAxis: {
+                        axisLabel: {
+                            formatter: function (val) {
+                                return val+'kwh';
+                            }
+                        },
+                        axisPointer: {
+                            label: {
+                                formatter: function (params) {
+                                    return params.data;
+                                }
+                            }
+                        },
+                        splitNumber: 3,
+                        splitLine: {
+                            show: false
+                        }
+                    },
+                    dataZoom: [
+                        {
+                            type: 'slider',
+                            xAxisIndex: 0,
+                            filterMode: 'empty'
+                        },
+
+                        {
+                            type: 'inside',
+                            xAxisIndex: 0,
+                            filterMode: 'empty'
+                        },
+                    ],
+                    series: [{
+                        name: '',
+                        type: 'line',
+                        data: [],
+                        // lineStyle: {
+                        //     normal: {
+                        //         opacity: 0
+                        //     }
+                        // },
+                        step:'start',
+                        stack: 'confidence-band',
+                        symbol: 'none'
+                    }]
+                }
+            }
         }
     },
     filters: {
@@ -135,6 +257,21 @@ const nenghao = {
         }
     },
     methods:{
+        history(d){
+            ajax.get(`/device/rest/sensordata/?sensor__device__in=${d.id}`).then(res => {
+                var sensordatas  = res.data
+                // this.history_draw.history_option.title.text = 
+                this.history_draw.title = `${d.name}历史数据`
+                this.history_draw.history_option.xAxis.data = sensordatas.map(function (item) {
+                    return item.stime;
+                })
+                this.history_draw.history_option.series[0].data = sensordatas.map(function (item) {
+                    return item.data;
+                })
+                this.history_draw.show=true
+            })
+            
+        },
         save(){
             ajax({
                 url:`/device/rest/device/${this.device.id}/timer/`,

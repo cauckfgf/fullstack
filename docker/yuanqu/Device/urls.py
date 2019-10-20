@@ -6,6 +6,7 @@ router = routers.DefaultRouter()
 router.register(r'device', DeviceSet)
 router.register(r'device2device', Device2DeviceSet)
 router.register(r'system', SystemSet)
+router.register(r'sensordata', SensorDataSet)
 
 
 
