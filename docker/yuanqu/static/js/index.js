@@ -591,8 +591,8 @@ function initVue() {
                     series: [{
                         name: '1季度',
                         type: 'pictorialBar',
-                        symbolSize: [100, 45],
-                        symbolOffset: [0, -20],
+                        symbolSize: [50, 20],
+                        symbolOffset: [0, -13],
                         z: 12,
                         itemStyle: {
                             normal: {
@@ -612,8 +612,8 @@ function initVue() {
                     }, {
                         name: '2季度',
                         type: 'pictorialBar',
-                        symbolSize: [100, 45],
-                        symbolOffset: [0, 20],
+                        symbolSize: [50, 20],
+                        symbolOffset: [0, 15],
                         z: 12,
                         itemStyle: {
                             normal: {
@@ -624,8 +624,8 @@ function initVue() {
                     }, {
                         name: '3季度',
                         type: 'pictorialBar',
-                        symbolSize: [150, 75],
-                        symbolOffset: [0, 37],
+                        symbolSize: [100, 40],
+                        symbolOffset: [0, 25],
                         z: 11,
                         itemStyle: {
                             normal: {
@@ -638,8 +638,8 @@ function initVue() {
                     }, {
                         name: '4季度',
                         type: 'pictorialBar',
-                        symbolSize: [200,100],
-                        symbolOffset: [0, 50],
+                        symbolSize: [150,50],
+                        symbolOffset: [0, 30],
                         z: 10,
                         itemStyle: {
                             normal: {
@@ -659,7 +659,7 @@ function initVue() {
                             }
                         },
                         silent: true,
-                        barWidth: 100,
+                        barWidth: 50,
                         barGap: '-100%', // Make series be overlap
                         data: [100, 50, 20]
                     }]
