@@ -519,19 +519,6 @@ function initVue() {
                             }
                         },
                         data: ['5', '4', '3', '2', '1']
-                    }, {
-                        name: '工单数量',
-                        nameGap: '50',
-                        nameTextStyle: {
-                            color: '#ffffff',
-                            fontSize: '16',
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                color: 'rgba(0,0,0,0)'
-                            }
-                        },
-                        data: [],
                     }],
                     series: [{
                             name: '条',
