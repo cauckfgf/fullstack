@@ -202,7 +202,7 @@ const nenghao = {
                     yAxis: {
                         axisLabel: {
                             formatter: function (val) {
-                                return val+'°';
+                                return val+'kW‧h';
                             }
                         },
                         axisPointer: {
