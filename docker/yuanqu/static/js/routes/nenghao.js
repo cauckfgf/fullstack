@@ -214,7 +214,7 @@ const nenghao = {
                         },
                         splitNumber: 3,
                         splitLine: {
-                            show: false
+                            // show: false
                         }
                     },
                     dataZoom: [
