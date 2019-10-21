@@ -501,7 +501,7 @@ function initVue() {
                     yAxis: [{
                         axisTick: 'none',
                         axisLine: 'none',
-                        offset: '5',
+                        offset: '8',
                         axisLabel: {
                             textStyle: {
                                 color: '#ffffff',
@@ -520,7 +520,7 @@ function initVue() {
                         },
                         data: ['5', '4', '3', '2', '1']
                     }, {
-                        name: '工单数量',
+                        name: '',
                         nameGap: '50',
                         nameTextStyle: {
                             color: '#ffffff',
