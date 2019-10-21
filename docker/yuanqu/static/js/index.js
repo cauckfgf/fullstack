@@ -560,7 +560,7 @@ function initVue() {
                     backgroundColor: 'rgba(20,20,20,0.5)',
                     tooltip: {},
                     xAxis: {
-                        data: ["企业", "农专", "个体"],
+                        data: ["北京", "东莞", "苏州"],
                         axisTick: {
                             show: false
                         },
@@ -589,7 +589,7 @@ function initVue() {
                         }
                     },
                     series: [{
-                        name: '年报上报率3',
+                        name: '1季度',
                         type: 'pictorialBar',
                         symbolSize: [100, 45],
                         symbolOffset: [0, -20],
@@ -610,7 +610,7 @@ function initVue() {
                             symbolPosition: 'end'
                         }]
                     }, {
-                        name: '年报上报率2',
+                        name: '2季度',
                         type: 'pictorialBar',
                         symbolSize: [100, 45],
                         symbolOffset: [0, 20],
@@ -622,7 +622,7 @@ function initVue() {
                         },
                         data: [100, 50, 20]
                     }, {
-                        name: '年报上报率1',
+                        name: '3季度',
                         type: 'pictorialBar',
                         symbolSize: [150, 75],
                         symbolOffset: [0, 37],
@@ -636,7 +636,7 @@ function initVue() {
                         },
                         data: [100, 50, 20]
                     }, {
-                        name: '年报上报率',
+                        name: '4季度',
                         type: 'pictorialBar',
                         symbolSize: [200,100],
                         symbolOffset: [0, 50],
