@@ -501,7 +501,7 @@ function initVue() {
                     yAxis: [{
                         axisTick: 'none',
                         axisLine: 'none',
-                        offset: '0',
+                        offset: '5',
                         axisLabel: {
                             textStyle: {
                                 color: '#ffffff',
