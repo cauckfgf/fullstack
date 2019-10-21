@@ -212,7 +212,7 @@ const nenghao = {
                                 }
                             }
                         },
-                        splitNumber: 3,
+                        // splitNumber: 3,
                         splitLine: {
                             // show: false
                         }
