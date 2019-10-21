@@ -551,9 +551,9 @@ function initVue() {
                             barWidth: 12,
                             itemStyle: {
                                 normal: {
-                                    color: function(params) {
-                                        var num = myColor.length;
-                                        return myColor[params.dataIndex % num]
+                                    color: (params)=>{
+                                        var num = this.option2.color.length;
+                                        return this.option2.color[params.dataIndex % num]
                                     },
                                 }
                             },
@@ -581,9 +581,9 @@ function initVue() {
                             barWidth: 24,
                             itemStyle: {
                                 normal: {
-                                    color: function(params) {
-                                        var num = myColor.length;
-                                        return myColor[params.dataIndex % num]
+                                    color: (params)=>{
+                                        var num = this.option2.color.length;
+                                        return this.option2.color[params.dataIndex % num]
                                     },
                                     barBorderRadius: 5,
                                 }
@@ -599,9 +599,9 @@ function initVue() {
                             symbolSize: 35,
                             itemStyle: {
                                 normal: {
-                                    color: function(params) {
-                                        var num = myColor.length;
-                                        return myColor[params.dataIndex % num]
+                                    color: (params)=>{
+                                        var num = this.option2.color.length;
+                                        return this.option2.color[params.dataIndex % num]
                                     },
                                     opacity: 1,
                                 }
