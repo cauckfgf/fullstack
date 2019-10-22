@@ -201,6 +201,7 @@ const nenghao = {
                     },
                     yAxis: {
                         type: 'value',
+                        scale: true,
                         axisLabel: {
                             formatter: function (val) {
                                 return val+'kW‧h';
