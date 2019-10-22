@@ -200,6 +200,7 @@ const nenghao = {
                         boundaryGap: false
                     },
                     yAxis: {
+                        type: 'value',
                         axisLabel: {
                             formatter: function (val) {
                                 return val+'kW‧h';
