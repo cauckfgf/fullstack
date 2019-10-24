@@ -49,7 +49,7 @@ class DeviceSerializer(serializers.ModelSerializer):
 
     def get_editabe(self,obj):
         user =  self.context['request'].user
-        if obj.user.username==user.username:
+        if user and obj.user and  obj.user.username==user.username:
             return True
         return False
 
