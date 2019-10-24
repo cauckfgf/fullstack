@@ -126,6 +126,13 @@ def wx(request):
                     # wx_wechat.subscribe(getWxUserInfo(msg.source))
                     
                     print 'openid',msg.source
+                    user = User.objects.filter(username=openid).first()
+                    if not user:
+                        g = Group.objects.get_or_create(name='微信用户')[0]
+                        user = User(username=openid)
+                        user.set_password('111111')
+                        user.save()
+                        user.groups.add(g)
                     # print getWxUserInfo(msg.source)
                     pass
                 elif msg_dict['Event'] == 'unsubscribe':
