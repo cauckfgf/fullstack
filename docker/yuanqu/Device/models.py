@@ -275,6 +275,11 @@ class HttpRest(object):
     }
     access_token = ''
     signature = ''
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(HttpRest,'_instance'):
+            HttpRest._instance = object.__new__(cls)
+        return HttpRest._instance
+        
     def post(self, rest, v, headers={}):
         # rest = /spm-api/rest/structure/findStructureList
         # v = {'a':'a'}
