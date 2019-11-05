@@ -32,9 +32,10 @@ const nenghao = {
                 <Col :lg="8" :xs="24"  v-for="item in chazuos">
                     <Card style="width:100%" >
                         <p slot="title">
+                            <Checkbox v-model="item.choose" size='large'></Checkbox>
                             <Icon type="ios-outlet"></Icon>
                             {{ item.name }}
-                            <Checkbox v-model="item.choose"></Checkbox>
+                            
                         </p>
                         <i-switch :disabled="!item.editabe" slot="extra" v-model="item.switch" @on-change="change(...arguments,item)" >
                             <span slot="open">开启</span>
