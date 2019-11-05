@@ -55,8 +55,8 @@ const nenghao = {
                 </Col>
                 <Col :lg="24" :xs="24">
                     <Divider>批量添加定时策略到设备</Divider>
-
                     <Button style="margin-left:10px" type="success" v-for="i in timer_proxy" icon="md-add" @click="edit_timer_to_device(i)" >{{i.describe}}</Button>
+                    <Button style="margin:10px"  type="dashed" @click="show_add_proxy" long icon="md-add">添加策略</Button>
                 </Col>
             </Row>
         </Scroll>
@@ -98,6 +98,48 @@ const nenghao = {
             </Form>
         </Drawer>
         <Drawer
+            title="添加定时策略"
+            v-model="add_timer_value"
+            placement=''
+            width='100'
+        >
+            <Form :model="addtimerData">
+                <Row :gutter="32">
+                    <Col :lg="8" :xs="24"  v-for="t,tindex in addtimerData.data.timers">
+                        <FormItem label="时间"">
+                            <TimePicker :steps="[1,1,60]" type="time" format="HH:mm" v-model="t.time" placeholder="Select time" style="width: 168px"></TimePicker>
+                        </FormItem>
+                        <FormItem label="动作">
+                            <i-switch v-model="t.functions[0].value" size="large">
+                                <span slot="open">开启</span>
+                                <span slot="close">关闭</span>
+                            </i-switch>
+                        </FormItem>
+                        <FormItem label="循环方式">
+                            <div>星期</div>
+                            <Tag v-for="l,index in t.loops" checkable color="success" @on-change="loop_change(...arguments,tindex,index)" :checked="l==1">星期{{index|xingqi}}</Tag>
+                            
+                        </FormItem>
+                        <FormItem>
+                            <Button type="error" @click="deletetimer(tindex)">删除</Button>
+                        </FormItem>
+                        <Divider />
+                    </Col>
+                    <Col span="24">
+                        <FormItem>
+                            <Input v-model="addtimerData.describe" type="textarea" :rows="4" placeholder="描述" />
+                        </FormItem>
+                    </Col>
+                    <Col span="24">
+                        <FormItem>
+                            <Button type="success" @click="save_timer_proxy">保存</Button>
+                            <Button type="dashed" @click="new_timer_proxy">新增</Button>
+                        </FormItem>
+                    </Col>
+                </Row>
+            </Form>
+        </Drawer>
+        <Drawer
             :title="history_draw.title"
             v-model="history_draw.show"
             placement=''
@@ -112,7 +154,9 @@ const nenghao = {
             chazuos:[],
             height:0,
             timer_value:false,
+            add_timer_value:false,
             timerData:{timers:[]},
+            addtimerData:{data:{timers:[]},describe:''},
             device:{},
             timer_proxy:[],//定时策略，对应models 》》 TimerTuYa
             history_draw:{
@@ -316,6 +360,9 @@ const nenghao = {
         }
     },
     methods:{
+        show_add_proxy(){
+            this.add_timer_value=true
+        },
         timerage(t){
             this.history(this.device,t)
         },
@@ -403,6 +450,28 @@ const nenghao = {
             })
             
         },
+        save_timer_proxy(){
+            var data = {
+                describe:this.addtimerData.describe,
+                // data:this.addtimerData.data
+                data:JSON.stringify(this.addtimerData.data)
+            }
+            ajax({
+                url:`/device/rest/timer/`,
+                // transformRequest: [function (data) {
+                //     return Qs.stringify(data, {
+                //         encode: false,
+                //         arrayFormat: 'brackets'
+                //     });
+                // }],
+                data:data,
+                method: 'post'
+            }).then(res=>{
+                // this.init()
+                this.get_timer_proxy()
+                this.$Message.info("保存成功")
+            })
+        },
         save(){
             ajax({
                 url:`/device/rest/device/${this.device.id}/timer/`,
@@ -450,6 +519,18 @@ const nenghao = {
             }).then(res=>{
                 this.$Message.info("添加成功")
                 // this.init()
+            })
+        },
+        new_timer_proxy(){
+            this.addtimerData.data.timers.push({
+                    functions: [
+                        {
+                            code: "switch_1",
+                            value: false
+                        }
+                    ],
+                    loops: "1111111",
+                    time: "12:00",
             })
         },
         newtimer(){

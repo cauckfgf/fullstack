@@ -117,6 +117,11 @@ class TimerTuYaSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
     data = Jsonserializer()
+    def create(self, validated_data):
+        describe = validated_data['describe']
+        d = self.context['request'].data
+        t = TimerTuYa.objects.create(data=d.get('data'),describe=describe)
+        return t
     class Meta:
         model = TimerTuYa
         fields = '__all__'
