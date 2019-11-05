@@ -31,9 +31,14 @@ class SensorAdmin(admin.ModelAdmin):
     list_display = ('name', 'lastdata')
     model = Sensor
     
+class TimerTuYaAdmin(admin.ModelAdmin):
+    list_display = ('describe', )
+    model = TimerTuYa
+
 admin.site.register(System, SystemAdmin)
 admin.site.register(DeviceType, DeviceTypeAdmin)
 admin.site.register(Device, DeviceAdmin)
 admin.site.register(Device2Device, Device2DeviceAdmin)
 admin.site.register(Sensor, SensorAdmin)
+admin.site.register(TimerTuYa, TimerTuYaAdmin)
 
