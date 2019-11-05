@@ -175,6 +175,8 @@ class TimerTuYa(models.Model):
     data = models.TextField(verbose_name='定时内容')
 
     class Meta:
+        verbose_name = '插座定时策略'
+        verbose_name_plural = '插座定时策略'
         db_table = 'Device_Timer'
 
 import datetime, time, httplib
