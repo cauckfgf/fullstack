@@ -416,6 +416,7 @@ const nenghao = {
                 method: 'post'
             }).then(res=>{
                 // this.init()
+                this.$Message.info("保存成功")
             })
         },
         loop_change(b,i,j){
@@ -447,7 +448,7 @@ const nenghao = {
                 data:{'devices':devices},
                 method: 'post'
             }).then(res=>{
-
+                this.$Message.info("添加成功")
                 // this.init()
             })
         },

@@ -165,7 +165,7 @@ class TimerTuYaSet(viewsets.ModelViewSet):
         devices = body.get('devices')
         for d in devices:
             devcie = Device.objects.get(id=d)
-            h.delTimer(devcie.tuya_code)
+            # h.delTimer(devcie.tuya_code)
             for t in timers:
                 h.setTimer(devcie.tuya_code,t['time'],t['functions'][0]['value'],''.join(t['loops']))
         return JsonResponse({})
