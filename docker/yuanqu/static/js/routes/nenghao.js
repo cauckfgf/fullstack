@@ -55,9 +55,8 @@ const nenghao = {
                 </Col>
                 <Col :lg="24" :xs="24">
                     <Divider>批量添加定时策略到设备</Divider>
-                    <ButtonGroup vertical>
-                        <Button type="success" v-for="i in timer_proxy" icon="md-add" @click="edit_timer_to_device(i)" >{{i.describe}}</Button>
-                    </ButtonGroup>
+
+                    <Button type="success" v-for="i in timer_proxy" icon="md-add" @click="edit_timer_to_device(i)" >{{i.describe}}</Button>
                 </Col>
             </Row>
         </Scroll>
