@@ -169,7 +169,13 @@ class SensorData(models.Model):
     class Meta:
         db_table = 'Device_SensorData'
 
+class TimerTuYa(models.Model):
+    """涂鸦插座定时"""
+    describe = models.TextField(verbose_name='任务描述')
+    data = models.TextField(verbose_name='定时内容')
 
+    class Meta:
+        db_table = 'Device_Timer'
 
 import datetime, time, httplib
 import hashlib

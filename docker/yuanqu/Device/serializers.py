@@ -112,3 +112,11 @@ class SensorDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorData
         fields = '__all__'
+
+class TimerTuYaSerializer(serializers.ModelSerializer):
+    '''备品备件类型'''
+    id = serializers.ReadOnlyField()
+    data = Jsonserializer()
+    class Meta:
+        model = TimerTuYa
+        fields = '__all__'

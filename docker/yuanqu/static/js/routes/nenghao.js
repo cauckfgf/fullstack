@@ -34,6 +34,7 @@ const nenghao = {
                         <p slot="title">
                             <Icon type="ios-outlet"></Icon>
                             {{ item.name }}
+                            <Checkbox v-model="item.choose"></Checkbox>
                         </p>
                         <i-switch :disabled="!item.editabe" slot="extra" v-model="item.switch" @on-change="change(...arguments,item)" >
                             <span slot="open">开启</span>
@@ -51,6 +52,12 @@ const nenghao = {
                         <Button :disabled="!item.editabe" @click="timer(item)" type="primary">定时策略</Button>
                         <Button @click="history(item)" type="primary">历史数据</Button>
                     </Card>
+                </Col>
+                <Col :lg="24" :xs="24">
+                    <Divider>批量添加定时策略到设备</Divider>
+                    <ButtonGroup vertical>
+                        <Button type="success" v-for="i in timer_proxy" icon="md-add" @click="edit_timer_to_device(i)" >{{i.describe}}</Button>
+                    </ButtonGroup>
                 </Col>
             </Row>
         </Scroll>
@@ -108,6 +115,7 @@ const nenghao = {
             timer_value:false,
             timerData:{timers:[]},
             device:{},
+            timer_proxy:[],//定时策略，对应models 》》 TimerTuYa
             history_draw:{
                 show:false,
                 title:'',
@@ -422,6 +430,28 @@ const nenghao = {
         deletetimer(i){
             this.timerData.timers.splice(i,1)
         },
+        edit_timer_to_device(i){
+            var devices = []
+            for(var c in this.chazuos){
+                if(this.chazuos[c].choose){
+                    devices.push(this.chazuos[c].id)
+                }
+            }
+            ajax({
+                url:`/device/rest/timer/${i.id}/add2device/`,
+                // transformRequest: [function (data) {
+                //     return Qs.stringify(data, {
+                //         encode: false,
+                //         arrayFormat: 'brackets'
+                //     });
+                // }],
+                data:{'devices':devices},
+                method: 'post'
+            }).then(res=>{
+
+                // this.init()
+            })
+        },
         newtimer(){
             this.timerData.timers.push({
 
@@ -444,6 +474,7 @@ const nenghao = {
                     }else{
                         this.chazuos[i].switch = false
                     }
+                    this.chazuos[i].choose = false
                     
                 }
                 window.setTimeout(this.init,60000)
@@ -486,10 +517,17 @@ const nenghao = {
                 }
                 
             })
+        },
+        get_timer_proxy(){
+            ajax.get(`/device/rest/timer/`).then(res =>{
+                this.timer_proxy = res.data.results
+            })
+            
         }
     },
     created(){
         this.init()
+        this.get_timer_proxy()
     }
 
 }

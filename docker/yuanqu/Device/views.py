@@ -147,3 +147,25 @@ class SensorDataSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
     filter_class = SensorDataFilter
     pagination_class = None
+
+class TimerTuYaSet(viewsets.ModelViewSet):
+    queryset = TimerTuYa.objects.all()
+    serializer_class = TimerTuYaSerializer
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
+    # filter_class = SensorDataFilter
+    # pagination_class = None
+    @detail_route(methods=['get','post','delete'])
+    def add2device(self,request,pk):
+        body = request.data
+        print body
+        tuya = TimerTuYa.objects.get(id=pk)
+        timers = json.loads(tuya.data)['timers']
+        h = HttpRest()
+        h.getToken()
+        devices = body.get('devices')
+        for d in devices:
+            devcie = Device.objects.get(id=d)
+            h.delTimer(devcie.tuya_code)
+            for t in timers:
+                h.setTimer(devcie.tuya_code,t['time'],t['functions'][0]['value'],''.join(t['loops']))
+        return JsonResponse({})
