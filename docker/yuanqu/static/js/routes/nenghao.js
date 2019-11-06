@@ -32,7 +32,7 @@ const nenghao = {
                 <Col :lg="8" :xs="24"  v-for="item in chazuos">
                     <Card style="width:100%" >
                         <p slot="title">
-                            <Checkbox v-model="item.choose" size='large'></Checkbox>
+                            <Checkbox v-model="item.choose" size='large' :disabled="!item.editabe"></Checkbox>
                             <Icon type="ios-outlet"></Icon>
                             {{ item.name }}
                             
