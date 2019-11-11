@@ -524,7 +524,7 @@ const system = {
              })
             var p2 = new Promise((resolve,reject)=>{
                 if(devicetype!=null){
-                    ajax.get(`/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false&devicetype=${devicetype}`).then(res => {
+                    ajax.get(`/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false&devicetype__in=${devicetype}`).then(res => {
                         resolve(res)
                     })
                 }else{
