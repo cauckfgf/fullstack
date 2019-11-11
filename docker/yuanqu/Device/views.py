@@ -39,8 +39,11 @@ class SystemSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
     filter_class = SystemFilter
 
-
-
+    @detail_route(methods=['get'])
+    def devicetype(self,request,pk):
+        devicetype_ids = set(Device.objects.filter(system_id=pk,Sensor__isnull=False).exclude(devicetype_id=4).values_list('devicetype_id',flat=True))
+        r = DeviceType.objects.filter(id__in=devicetype_ids).values('id','name')
+        return JsonResponse({'data':list(r)})
 
 
 class DeviceTypeFilter(rest_framework_filters.FilterSet):
@@ -77,7 +80,7 @@ class DeviceFilter(rest_framework_filters.FilterSet):
         }
 
 class DeviceSet(viewsets.ModelViewSet):
-    queryset = Device.objects.all()
+    queryset = Device.objects.all().distinct()
     serializer_class = DeviceSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
     filter_class = DeviceFilter

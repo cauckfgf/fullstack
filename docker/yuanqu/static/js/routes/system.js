@@ -34,10 +34,17 @@ const system = {
                 <Button type="success" long>添加系统</Button>
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
-                <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style" v-show="gifshow"/>
-                <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished" @datazoom="datazoom"
-/>
-                
+                <Tabs type="card" value="name1" style="width: 100%;  height: 100%;" id='self-tab'>
+                    <TabPane label="运行图" name="name1" style="width: 100%;  height: 100%;">
+                        <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style" v-show="gifshow"/>
+                        <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished" @datazoom="datazoom"
+        />
+                    </TabPane>
+                    <TabPane label="设备列表" name="name2">
+                        <Table border :columns="device_list_head" :data="device_list"></Table>
+                    </TabPane>
+                    <TabPane label="设备曲线" name="name3">标签三的内容</TabPane>
+                </Tabs>
                 <Drawer
                     title="修改"
                     v-model="change_show"
@@ -129,6 +136,35 @@ const system = {
             t1:null,//定时更新数据定时器
             project:{name:''},
             sensors:[],//选中线的来源设备的传感器
+            device_list_head:[
+                {
+                    title: '设备名称',
+                    key: 'name',
+                    width: 200,
+                    fixed: 'left'
+                },
+                {
+                    title: '运行状态',
+                    key: 'status',
+                    width: 100
+                },
+                {
+                    title: '出口',
+                    key: 'status',
+                    width: 100
+                },
+                {
+                    title: '运行状态',
+                    key: 'status',
+                    width: 100
+                },
+                {
+                    title: '运行状态',
+                    key: 'status',
+                    width: 100
+                },
+            ],
+            device_list:[],
             columns_weixiu:[
                 {
                     title: '工单',
@@ -402,6 +438,7 @@ const system = {
                 // }else{
                 //     this.init(update=false)
                 // }
+                this.getDevice(this.system)
                 this.init(update=false)
 
             }else if(point[0].did!=undefined){
@@ -476,6 +513,72 @@ const system = {
                 this.gongdan_show = true
                 this.title = this.select_obj.name + '详情'
                 // this.getLineSensor()
+            })
+        },
+        getDevice(system,devicetype=null){
+            // 获取有传感器的设备
+            var p1 = new Promise((resolve,reject)=>{
+                ajax.get(`/device/rest/system/${system}/devicetype/`).then(res=>{
+                    resolve(res)
+                })
+             })
+            var p2 = new Promise((resolve,reject)=>{
+                if(devicetype!=null){
+                    ajax.get(`/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false&devicetype=${devicetype}`).then(res => {
+                        resolve(res)
+                    })
+                }else{
+                    ajax.get(`/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false`).then(res => {
+                        resolve(res)
+                    })
+                }
+            })
+            Promise.all([p1, p2]).then((ress)=>{
+                var filter_list =[]
+                for(var i in ress[0].data.data){
+                    filter_list.push({
+                        label:ress[0].data.data[i].name,
+                        value:ress[0].data.data[i].id,
+                    })
+                }
+                this.device_list_head=[
+                    {
+                        title: '设备名称',
+                        key: 'name',
+                        width: 200,
+                        fixed: 'left'
+                    },
+                    {
+                        title: '运行状态',
+                        key: 'status',
+                        width: 150,
+                        render: (h, params) => {
+                            var s = params.row.status==1?'运行':'停止'
+                            return h('div', s);
+                        }
+                    },
+                    {
+                        title: '设备类型',
+                        key: 'devicetype_name',
+                        width: 150,
+                        filters: filter_list,
+                        filterRemote:(value,row)=>{
+                            this.getDevice(system,value)
+                        }
+                    },
+                    {
+                        title: '数据',
+                        key: 'sensors',
+                        render: (h, params) => {
+                            var s =''
+                            for(var i in params.row.sensors){
+                                s += `${params.row.sensors[i].name}:${params.row.sensors[i].lastdata}${params.row.sensors[i].unit}   \r\n`
+                            }
+                            return h('div', s);
+                        }
+                    }
+                ]
+                this.device_list = ress[1].data.results
             })
         },
         chartClick(event, instance, echarts){
@@ -614,6 +717,7 @@ const system = {
             this.imageChange()
         },
         init(update=true){
+            
             this.playVoice()
             this.source&&this.source.cancel('取消上个请求')
             if(update){
@@ -1072,6 +1176,7 @@ const system = {
                 // this.systemData[0].selected=true
 
                 this.system = this.systemData[0].sid
+                this.getDevice(this.system)
                 this.init(update=false)
                 
             })

@@ -44,6 +44,7 @@ class Jsonserializer(serializers.JSONField):
 class DeviceSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
+    devicetype_name = serializers.ReadOnlyField(source='devicetype.name')
     postion = serializers.SerializerMethodField()
     icon = serializers.SerializerMethodField()
     gif = serializers.SerializerMethodField()

@@ -74,7 +74,7 @@ function initVue() {
                     // backgroundColor: 'rgba(0,0,0,0)',//canvas的背景颜色
                     environment: '/static/image/bg.jpg',//背景星空图
                     title: {
-                        text: '智能设备',
+                        text: '云眼监控',
                         subtext: '项目分布',
                         sublink: '/',
                         left: 'center',
@@ -92,7 +92,7 @@ function initVue() {
                         formatter: function(o) {
                             // debugger
                             // return o.name + ":" + o.value[2] + "起";
-                            r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}院区</span>`
+                            r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}站点</span>`
                             return r
                         }
                     },

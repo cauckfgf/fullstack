@@ -57,3 +57,25 @@
     z-index: 2;
     background: url('/static/image/systembg.jpg');
 }
+#self-tab>.ivu-tabs-content{
+    height: calc(100% - 37px);
+}
+#self-tab .ivu-tabs-nav-scroll{
+    padding-left: 10px;
+}
+#self-tab .ivu-table-wrapper{
+    max-height: calc(100% - 90px);
+}
+#self-tab .ivu-table-body{
+    max-height: calc(100% - 130px);
+}
+
+#self-tab td{
+    background: #fff0
+}
+#self-tab th{
+    background: #fff0
+}
+#self-tab .ivu-table{
+    background: #fff0
+}
