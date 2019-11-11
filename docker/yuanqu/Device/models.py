@@ -7,9 +7,40 @@ import json
 from dateutil.relativedelta import relativedelta
 # Create your models here.
 
+class Project(models.Model):
+    '''项目'''
+    name = models.CharField(max_length=96,default='项目',verbose_name='名字')
+    position = models.CharField(max_length=96,default='[]',verbose_name='经纬度')
+    create_time = models.DateTimeField(auto_now_add=True)
+    def __unicode__(self):
+        return self.name
+
+    def value(self):
+        return eval(self.position)
+
+    class Meta:
+        verbose_name = '项目'
+        verbose_name_plural = '项目'
+        db_table = 'Device_Project'
+
+class SystemType(models.Model):
+    '''系统类型'''
+    name = models.CharField(max_length=96,default='系统类型名字',verbose_name='名字')
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = '系统类型'
+        verbose_name_plural = '系统类型'
+        db_table = 'Device_SystemType'
+
 class System(models.Model):
     '''系统'''
     name = models.CharField(max_length=96,default='系统名字',verbose_name='名字')
+    system_type = models.ForeignKey(SystemType,verbose_name='系统类型名字', null=True, blank=True)
+    project = models.ForeignKey(Project,verbose_name='所属项目', null=True, blank=True)
     create_time = models.DateTimeField(auto_now_add=True)
     # devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
 
@@ -62,7 +93,8 @@ class Device(models.Model):
     size = models.CharField(max_length=96,default='200,100',verbose_name='大小')
     label_position = models.CharField(max_length=96,default='bottom',verbose_name='设备文字位置',choices=CHOICES)
     tuya_code = models.CharField(max_length=96,default='',verbose_name='涂鸦设备code',blank=True)
-    user = models.ForeignKey(User,blank=True,null=True,related_name='device2User',on_delete=models.SET_NULL)
+    user = models.ForeignKey(User,verbose_name='设备负责人',blank=True,null=True,related_name='device2User',on_delete=models.SET_NULL)
+    users = models.ManyToManyField(User,verbose_name='收藏设备的人',related_name='device2Users')
     lastdata = models.TextField(blank=True,null=True,verbose_name='最新数据json')
     def __unicode__(self):
         return self.name

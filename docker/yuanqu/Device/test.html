@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/hmac-sha256.min.js"></script>
+<script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/enc-base64.js"></script>
+<!-- <script src="https://cdn.bootcss.com/crypto-js/3.1.2/components/enc-base64-min.js"></script> -->
+
+<script>
+  var hash = CryptoJS.HmacSHA256("kptdvrpktjrkanxxw4741568865734445", "eujuuttq7hsgcs57ak7qx79sgkkkwxgw");
+  var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+  console.log(hashInBase64)
+  console.log(hash.toString())
+</script>
+
+</body>
+</html>

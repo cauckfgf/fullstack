@@ -19,7 +19,7 @@ const system = {
                 <Card style="background: #fff0;">
                     <p slot="title">
                         <a @click="back" title="切换院区"><Icon type="ios-home" />
-                        {{yuanqu}}院区</a>
+                        {{project.name}}站点</a>
                     </p>
                     <div slot="extra">
                         <span style="margin-left:20px">编辑模式</span>
@@ -28,8 +28,10 @@ const system = {
                             <span slot="close">关</span>
                         </i-switch>
                     </div>
-                    <Tree :data="systemData" @on-select-change='systemChange' style="margin-left:15px"></Tree>
+                    <Tree :data="systemData" :load-data="loadData" @on-select-change='systemChange' style="margin-left:15px"></Tree>
+                    
                 </Card>
+                <Button type="success" long>添加系统</Button>
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
                 <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style" v-show="gifshow"/>
@@ -88,7 +90,9 @@ const system = {
                     :mask-closable="false"
                     :styles="styles"
                     draggable
-                    placement='left'
+                    :placement='placement'
+                    :mask='false'
+                    transfer
                 >
                     <Tabs value="状态">
                         <TabPane label="状态" name="状态">
@@ -118,11 +122,12 @@ const system = {
     data(){
         return {
             CancelToken:null,
+            placement:'left',//设备详情抽屉左边还是右边
             source:null,
             imageChangeObj:[],
             gifshow:true,
             t1:null,//定时更新数据定时器
-            yuanqu:'',
+            project:{name:''},
             sensors:[],//选中线的来源设备的传感器
             columns_weixiu:[
                 {
@@ -174,30 +179,30 @@ const system = {
             planePath : 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
             split1:0.15,
             systemData:[
-                {
-                    title: '1#楼',
-                    expand: true,
-                    // disabled:true,
-                    children:[]
-                },
-                {
-                    title: '2#楼',
-                    expand: true,
-                    // disabled:true,
-                    children:[]
-                },
-                {
-                    title: '3#楼',
-                    expand: true,
-                    // disabled:true,
-                    children:[]
-                },
-                {
-                    title: '4#楼',
-                    expand: true,
-                    // disabled:true,
-                    children:[]
-                },
+                // {
+                //     title: '1#楼',
+                //     expand: true,
+                //     // disabled:true,
+                //     children:[]
+                // },
+                // {
+                //     title: '2#楼',
+                //     expand: true,
+                //     // disabled:true,
+                //     children:[]
+                // },
+                // {
+                //     title: '3#楼',
+                //     expand: true,
+                //     // disabled:true,
+                //     children:[]
+                // },
+                // {
+                //     title: '4#楼',
+                //     expand: true,
+                //     // disabled:true,
+                //     children:[]
+                // },
             ],
             option : {
                 // backgroundColor: '#1b1b1b',
@@ -371,16 +376,37 @@ const system = {
             this.$router.push('/')
             _app.show=true;
         },
+        loadData (item, callback) {
+            ajax.get(`/device/rest/device/?system=${this.system}&devicetype!=4&Sensor__isnull=false`).then(res=>{
+                var data = []
+                for(var i in res.data.results){
+                    data.push({
+                        title: res.data.results[i].name,
+                        did: res.data.results[i].id
+
+                    })
+                }
+                callback(data);
+            })
+
+        },
         systemChange(point){
             // this.systemData[0].children[0].selected=false
             if(point[0].sid!=undefined){
                 this.system = point[0].sid
+                if(this.systemData[0].sid!=point[0].sid){
+                    this.systemData[0].selected = false
+                }
                 // if(this.system==3){
                 //     this.initDian(update=false)
                 // }else{
                 //     this.init(update=false)
                 // }
                 this.init(update=false)
+
+            }else if(point[0].did!=undefined){
+                this.placement='right'
+                this.treeDeviceClick(point[0])
             }
             
             // console.log(point)
@@ -442,7 +468,18 @@ const system = {
             }
             
         },
+        treeDeviceClick(device){
+            ajax.get(`/device/rest/device/${device.did}/`).then(res=>{
+                this.select_obj = res.data
+                this.select_obj.value=[]
+                this.yibiaoSet()
+                this.gongdan_show = true
+                this.title = this.select_obj.name + '详情'
+                // this.getLineSensor()
+            })
+        },
         chartClick(event, instance, echarts){
+            this.placement='left'
             this.select_obj = event.data
             this.yibiaoSet()
             this.select_obj.type = event.seriesType 
@@ -1012,22 +1049,29 @@ const system = {
             })
         },
         initSystem(){
-            ajax.get(`/device/rest/system/?ordering=-id`).then(res => {
+            ajax.get(`/device/rest/system/?ordering=-id&project=${this.project.id}`).then(res => {
                 for(var i in res.data.results){
-
-                    for(var j in this.systemData){
-                        this.systemData[j].children.push({
-                            title : res.data.results[i].name,
-                            sid : res.data.results[i].id,
-                            selected:false
-                        })
-                    }
+                    this.systemData.push({
+                            title: res.data.results[i].name,
+                            // expand: true,
+                            // disabled:true,
+                            sid:res.data.results[i].id,
+                            children:[],
+                            loading: false,
+                    })
+                    // for(var j in this.systemData){
+                    //     this.systemData[j].children.push({
+                    //         title : res.data.results[i].name,
+                    //         sid : res.data.results[i].id,
+                    //         selected:false
+                    //     })
+                    // }
 
     
                 }
-                this.systemData[0].children[0].selected=true
+                // this.systemData[0].selected=true
 
-                this.system = this.systemData[0].children[0].sid
+                this.system = this.systemData[0].sid
                 this.init(update=false)
                 
             })
@@ -1063,7 +1107,7 @@ const system = {
     computed: {
     },
     mounted(){
-        this.yuanqu = this.$route.query.yuanqu
+        // this.project = this.$route.query.project
         
         this.chart = this.$refs.chart.chart
         var zr = this.chart.getZr()
@@ -1072,8 +1116,11 @@ const system = {
     },
     created(){
         this.CancelToken =axios.CancelToken;
+        ajax.get(`/device/rest/project/${this.$route.query.project}/`).then(res => {
+            this.project = res.data
+            this.initSystem()
+        })
         
-        this.initSystem()
         // setInterval(()=>{
         //     this.yibiao.series[0].data[0].value = (Math.random() * this.yibiao.series[0].max /2).toFixed(2) - 0;
 

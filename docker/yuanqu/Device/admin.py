@@ -6,6 +6,12 @@ reload(sys);
 sys.setdefaultencoding("utf8")
 # Register your models here.
 
+
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ('id','name', )
+    # ordering=['t']
+    model = Project
+    
 class SystemAdmin(admin.ModelAdmin):
     list_display = ('id','name', )
     # ordering=['t']
@@ -41,4 +47,4 @@ admin.site.register(Device, DeviceAdmin)
 admin.site.register(Device2Device, Device2DeviceAdmin)
 admin.site.register(Sensor, SensorAdmin)
 admin.site.register(TimerTuYa, TimerTuYaAdmin)
-
+admin.site.register(Project, ProjectAdmin)

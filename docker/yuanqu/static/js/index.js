@@ -74,8 +74,8 @@ function initVue() {
                     // backgroundColor: 'rgba(0,0,0,0)',//canvas的背景颜色
                     environment: '/static/image/bg.jpg',//背景星空图
                     title: {
-                        text: '立讯精密智慧园区',
-                        subtext: '院区分布',
+                        text: '智能设备',
+                        subtext: '项目分布',
                         sublink: '/',
                         left: 'center',
                         textStyle: {
@@ -195,26 +195,26 @@ function initVue() {
                             // type:'scatter3D',
                             coordinateSystem: 'geo',
                             data: [
-                                {
-                                    name: "东莞",
-                                    value: [113.75,23.04,10]
-                                },
-                                {
-                                    name: "北京",
-                                    value: [116.46,39.92,100]
-                                },
-                                {
-                                    name: "太原",
-                                    value: [112.53,37.87,0.1]
-                                },
-                                {
-                                    name: "成都",
-                                    value: [104.06,30.67],
-                                },
-                                {
-                                    name: "苏州",
-                                    value: [120.62,31.32]
-                                }
+                                // {
+                                //     name: "东莞",
+                                //     value: [113.75,23.04,10]
+                                // },
+                                // {
+                                //     name: "北京",
+                                //     value: [116.46,39.92,100]
+                                // },
+                                // {
+                                //     name: "太原",
+                                //     value: [112.53,37.87,0.1]
+                                // },
+                                // {
+                                //     name: "成都",
+                                //     value: [104.06,30.67],
+                                // },
+                                // {
+                                //     name: "苏州",
+                                //     value: [120.62,31.32]
+                                // }
                             ],
                             encode: {
                                 value: 2
@@ -839,7 +839,7 @@ function initVue() {
                 
                 if(event.componentType=='series'){
                     this.show = false
-                    router.push({ path: '/system', query: {yuanqu: event.name}})
+                    router.push({ path: '/system', query: {project: event.data.id}})
                 }
                 
                 // // 字符串
@@ -853,6 +853,12 @@ function initVue() {
 
                 // // 带查询参数,变成 /register?plan=private
                 // router.push({ path: 'register', query: { plan: 'private' }})
+            },
+            getProject(){
+                
+                ajax.get(`/device/rest/project/`).then(res => {
+                    this.option.series[0].data = res.data.results
+                })
             }
         },
         computed: {
@@ -881,6 +887,9 @@ function initVue() {
             //     }
             // })
             
+        },
+        created(){
+            this.getProject()
         }
     });
     

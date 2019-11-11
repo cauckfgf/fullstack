@@ -2,6 +2,16 @@
 from rest_framework import serializers
 from .models import *
 import json
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    '''备品备件类型'''
+    id = serializers.ReadOnlyField()
+    value = serializers.ReadOnlyField()
+    class Meta:
+        model = Project
+        fields = '__all__'
+
 class SystemSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()

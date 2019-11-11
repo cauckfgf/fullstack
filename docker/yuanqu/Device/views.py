@@ -10,12 +10,27 @@ from rest_framework.decorators import detail_route, list_route
 import json
 # Create your views here.
 
+
+class ProjectFilter(rest_framework_filters.FilterSet):
+    class Meta:
+        model = Project
+        fields = {
+            'name' : ['exact','in'],
+        }
+
+class ProjectSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
+    filter_class = ProjectFilter
+
 class SystemFilter(rest_framework_filters.FilterSet):
     class Meta:
         model = System
         fields = {
             'name' : ['exact','in'],
-            'create_time' : ['month__gte']
+            'create_time' : ['month__gte'],
+            'project':['exact'],
         }
 
 class SystemSet(viewsets.ModelViewSet):
@@ -45,6 +60,11 @@ class DeviceTypeSet(viewsets.ModelViewSet):
 
 
 class DeviceFilter(rest_framework_filters.FilterSet):
+    Sensor__isnull = rest_framework_filters.BooleanFilter(name='Sensor__isnull',label=u"是否由传感器", method='filter_Sensor__isnull')
+    
+    def filter_Sensor__isnull(self, qs, name, value):
+        return qs.filter(Sensor__isnull=value)
+
     class Meta:
         model = Device
         fields = {
@@ -52,6 +72,7 @@ class DeviceFilter(rest_framework_filters.FilterSet):
             'system':['exact','in'],
             'devicetype':['exact','in'],
             'user__username':['exact'],
+            # 'Sensor':['exact','isnull']
 
         }
 
