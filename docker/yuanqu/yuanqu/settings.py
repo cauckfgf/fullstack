@@ -54,7 +54,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
 
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'yuanqu.pagination.GlobalPageNumberPagination',
     'PAGE_SIZE': 1000
 }
 MIDDLEWARE_CLASSES = [

@@ -42,8 +42,11 @@ const system = {
                     </TabPane>
                     <TabPane label="设备列表" name="name2">
                         <Table border :columns="device_list_head" :data="device_list"></Table>
+                        <Page  :page-size="20" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
                     </TabPane>
-                    <TabPane label="设备曲线" name="name3">标签三的内容</TabPane>
+                    <TabPane label="设备曲线" name="name3">
+                        <v-chart autoresize style="width: 100%;" :options="status"/>
+                    </TabPane>
                 </Tabs>
                 <Drawer
                     title="修改"
@@ -165,6 +168,8 @@ const system = {
                 },
             ],
             device_list:[],
+            device_count:0,
+            device_filter:{devicetype:null,page:1},
             columns_weixiu:[
                 {
                     title: '工单',
@@ -413,7 +418,7 @@ const system = {
             _app.show=true;
         },
         loadData (item, callback) {
-            ajax.get(`/device/rest/device/?system=${this.system}&devicetype!=4&Sensor__isnull=false`).then(res=>{
+            ajax.get(`/device/rest/device/?system=${this.system}&devicetype!=4&Sensor__isnull=false&pagesize=200`).then(res=>{
                 var data = []
                 for(var i in res.data.results){
                     data.push({
@@ -438,6 +443,7 @@ const system = {
                 // }else{
                 //     this.init(update=false)
                 // }
+                this.resetDeviceFilter()
                 this.getDevice(this.system)
                 this.init(update=false)
 
@@ -447,6 +453,9 @@ const system = {
             }
             
             // console.log(point)
+        },
+        resetDeviceFilter(){
+            this.device_filter = {devicetype:null,page:1}
         },
         choosPoint(){
             if(this.choosing){
@@ -515,7 +524,11 @@ const system = {
                 // this.getLineSensor()
             })
         },
-        getDevice(system,devicetype=null){
+        pageChange(p){
+            this.device_filter.page=p
+            this.getDevice(this.system)
+        },
+        getDevice(system){
             // 获取有传感器的设备
             var p1 = new Promise((resolve,reject)=>{
                 ajax.get(`/device/rest/system/${system}/devicetype/`).then(res=>{
@@ -523,15 +536,13 @@ const system = {
                 })
              })
             var p2 = new Promise((resolve,reject)=>{
-                if(devicetype!=null){
-                    ajax.get(`/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false&devicetype__in=${devicetype}`).then(res => {
-                        resolve(res)
-                    })
-                }else{
-                    ajax.get(`/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false`).then(res => {
-                        resolve(res)
-                    })
+                url = `/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false&pagesize=20&page=${this.device_filter.page}`
+                if(this.device_filter.devicetype!=null){
+                    url = url + `&devicetype__in=${this.device_filter.devicetype}`
                 }
+                ajax.get(url).then(res => {
+                    resolve(res)
+                })
             })
             Promise.all([p1, p2]).then((ress)=>{
                 var filter_list =[]
@@ -563,7 +574,9 @@ const system = {
                         width: 150,
                         filters: filter_list,
                         filterRemote:(value,row)=>{
-                            this.getDevice(system,value)
+                            this.device_filter.devicetype=value
+                            this.device_filter.page=1
+                            this.getDevice(system)
                         }
                     },
                     {
@@ -579,6 +592,7 @@ const system = {
                     }
                 ]
                 this.device_list = ress[1].data.results
+                this.device_count = ress[1].data.count
             })
         },
         chartClick(event, instance, echarts){
