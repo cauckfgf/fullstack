@@ -418,7 +418,7 @@ const system = {
             _app.show=true;
         },
         loadData (item, callback) {
-            ajax.get(`/device/rest/device/?system=${this.system}&devicetype!=4&Sensor__isnull=false&pagesize=200`).then(res=>{
+            ajax.get(`/device/rest/device/?system=${item.sid}&devicetype!=4&Sensor__isnull=false&pagesize=200`).then(res=>{
                 var data = []
                 for(var i in res.data.results){
                     data.push({
