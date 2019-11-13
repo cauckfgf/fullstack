@@ -3,7 +3,24 @@ ajax = axios.create({
     timeout: 30000,
     headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
 });
-
+Date.prototype.format = function(fmt)   
+{ //author: meizz   
+  var o = {   
+    "M+" : this.getMonth()+1,                 //月份   
+    "d+" : this.getDate(),                    //日   
+    "h+" : this.getHours(),                   //小时   
+    "m+" : this.getMinutes(),                 //分   
+    "s+" : this.getSeconds(),                 //秒   
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+    "S"  : this.getMilliseconds()             //毫秒   
+  };   
+  if(/(y+)/.test(fmt))   
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+  for(var k in o)   
+    if(new RegExp("("+ k +")").test(fmt))   
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+  return fmt;   
+}
 const system = { 
     components:{
         // transactions
@@ -521,8 +538,65 @@ const system = {
     methods:{
         // 能耗开始
         timerage(t){
-            this.history(this.device,t)
+            this.history(t)
         },
+        getBeforeWeek(d){
+            d = new Date(d);
+            d = +d - 1000*60*60*24*6;
+            d = new Date(d);
+            var year = d.getFullYear();
+            var mon = d.getMonth()+1;
+            var day = d.getDate();
+            s = year+"-"+(mon<10?('0'+mon):mon)+"-"+(day<10?('0'+day):day);
+            return new Date(s);
+        },
+        //获取指定日期前一个月
+        getBeforeMonth(date){  
+            var daysInMonth = new Array([0],[31],[28],[31],[30],[31],[30],[31],[31],[30],[31],[30],[31]);  
+            var strYear = date.getFullYear();    
+            var strDay = date.getDate();    
+            var strMonth = date.getMonth()+1;  
+            if(strYear%4 == 0 && strYear%100 != 0){  
+                daysInMonth[2] = 29;  
+            }  
+            if(strMonth - 1 == 0)  
+            {  
+                strYear -= 1;  
+                strMonth = 12;  
+            }  
+            else  
+            {  
+                strMonth -= 1;  
+            }  
+            strDay = daysInMonth[strMonth] >= strDay ? strDay : daysInMonth[strMonth];  
+            if(strMonth<10)    
+            {    
+                strMonth="0"+strMonth;    
+            }  
+            if(strDay<10)    
+            {    
+                strDay="0"+strDay;    
+            }  
+            datastr = strYear+"-"+strMonth+"-"+strDay;  
+            return new Date(datastr);  
+         },
+
+        //获取指定日期前一年
+        getLastYearYestdy(date){  
+            var strYear = date.getFullYear() - 1;    
+            var strDay = date.getDate();    
+            var strMonth = date.getMonth()+1;  
+            if(strMonth<10)    
+            {    
+                strMonth="0"+strMonth;    
+            }  
+            if(strDay<10)    
+            {    
+                strDay="0"+strDay;    
+            }  
+            datastr = strYear+"-"+strMonth+"-"+strDay;  
+            return new Date(datastr);
+        }, 
         history(t='日'){
             var d = {id:109}
             var date = new Date()
