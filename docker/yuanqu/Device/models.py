@@ -95,7 +95,7 @@ class Device(models.Model):
     tuya_code = models.CharField(max_length=96,default='',verbose_name='涂鸦设备code',blank=True)
     user = models.ForeignKey(User,verbose_name='设备负责人',blank=True,null=True,related_name='device2User',on_delete=models.SET_NULL)
     users = models.ManyToManyField(User,verbose_name='收藏设备的人',blank=True,related_name='device2Users')
-    lastdata = models.TextField(blank=True,null=True,verbose_name='最新数据json')
+    lastdata = models.TextField(default=None,blank=True,null=True,verbose_name='最新数据json')
     def __unicode__(self):
         return self.name
 
