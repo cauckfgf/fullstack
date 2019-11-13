@@ -41,7 +41,9 @@ const system = {
         />
                     </TabPane>
                     <TabPane label="设备列表" name="name2">
-                        <Table border :columns="device_list_head" :data="device_list"></Table>
+                        <Table @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
+                        <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(true)">关注全部</Button>
+                        <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(false)">取消关注</Button>
                         <Page  :page-size="20" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
                     </TabPane>
                     <TabPane label="设备曲线" name="name3">
@@ -131,7 +133,9 @@ const system = {
 
     data(){
         return {
+            userinfo:{islogin:false},
             CancelToken:null,
+            guanzhu_button_loading:false,
             placement:'left',//设备详情抽屉左边还是右边
             source:null,
             imageChangeObj:[],
@@ -139,34 +143,7 @@ const system = {
             t1:null,//定时更新数据定时器
             project:{name:''},
             sensors:[],//选中线的来源设备的传感器
-            device_list_head:[
-                {
-                    title: '设备名称',
-                    key: 'name',
-                    width: 200,
-                    fixed: 'left'
-                },
-                {
-                    title: '运行状态',
-                    key: 'status',
-                    width: 100
-                },
-                {
-                    title: '出口',
-                    key: 'status',
-                    width: 100
-                },
-                {
-                    title: '运行状态',
-                    key: 'status',
-                    width: 100
-                },
-                {
-                    title: '运行状态',
-                    key: 'status',
-                    width: 100
-                },
-            ],
+            device_list_head:[],
             device_list:[],
             device_count:0,
             device_filter:{devicetype:null,page:1},
@@ -388,7 +365,8 @@ const system = {
                     },
                 ]
             },
-            yibiaos:[]
+            yibiaos:[],
+            
         }
     },
     filters: {
@@ -397,6 +375,45 @@ const system = {
         }
     },
     methods:{
+        guanzhu_change(l){
+            var devices = []
+            var devices_all = []
+            for(var i in l){
+                devices.push(l[i].id)
+            }
+            for(var i in this.device_list){
+                devices_all.push(this.device_list[i].id)
+            }
+            ajax({
+                url:'/device/rest/device/shoucang/',
+                transformRequest: [function (data) {
+                    return Qs.stringify(data, {
+                        encode: false,
+                        arrayFormat: 'brackets'
+                    });
+                }],
+                data:{
+                    devices:devices,
+                    devices_all:devices_all,
+                },
+                method: 'post'
+            }).then(res=>{
+                this.guanzhu_button_loading = false
+            })
+        },
+        guanzhu(status){
+            this.$refs.selection.selectAll(status);
+            this.guanzhu_button_loading = true
+            if(status){
+                this.$Notice.success({
+                    title:"关注后，您可以收到设备报警微信提示"
+                })
+            }else{
+                this.$Notice.warning({
+                    title:"取消关注后，收不到设备报警微信提示"
+                })
+            }
+        },
         datazoom(event){
             this.gifshow=false
             if(event!=undefined && event.type=='datazoom'){
@@ -554,10 +571,16 @@ const system = {
                 }
                 this.device_list_head=[
                     {
+                        type: 'selection',
+                        // key: 'name',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
                         title: '设备名称',
                         key: 'name',
                         width: 200,
-                        fixed: 'left'
+                        // fixed: 'left'
                     },
                     {
                         title: '运行状态',
@@ -592,6 +615,7 @@ const system = {
                     }
                 ]
                 this.device_list = ress[1].data.results
+                
                 this.device_count = ress[1].data.count
             })
         },
@@ -1239,169 +1263,10 @@ const system = {
             this.project = res.data
             this.initSystem()
         })
+        ajax.get(`/device/rest/device/userinfo/`).then(res => {
+            this.userinfo = res.data
+        })
         
-        // setInterval(()=>{
-        //     this.yibiao.series[0].data[0].value = (Math.random() * this.yibiao.series[0].max /2).toFixed(2) - 0;
-
-        // },2000)
-        // // 动态线
-        // this.option.series.push({
-        //     type: 'lines',
-        //     zlevel: 1,
-        //     effect: {
-        //         show: true,
-        //         period: 3,
-        //         trailLength: 0.1,
-        //         color: '#A6C84C',
-        //         symbolSize: 8
-        //     },
-        //     lineStyle: {
-        //         normal: {
-        //             color: 'red',
-        //             width: 0,
-        //             curveness: 0.2
-        //         }
-        //     },
-        //     coordinateSystem:'cartesian2d',
-        //     data: [
-        //         {
-        //             coords: [this.geoCoordMap['二次循环泵'], this.geoCoordMap['监控中心']],
-        //         }, {
-
-        //             coords: [this.geoCoordMap['分水器'], this.geoCoordMap['监控中心']]
-        //         }, {
-
-        //             coords: [this.geoCoordMap['集水器'], this.geoCoordMap['监控中心']]
-        //         }, {
-
-        //             coords: [this.geoCoordMap['空压机'], this.geoCoordMap['监控中心']]
-        //         }
-        //     ]
-        // })
-        // 静态线
-        // this.option.series.push({
-        //     type: 'lines',
-        //     zlevel: 2,
-        //     // effect: {
-        //     //     show: true,
-        //     //     period: 3,
-        //     //     trailLength: 0,
-        //     //     //symbol: 'image://',
-        //     //     symbol: this.planePath,
-        //     //     symbolSize: 15
-        //     // },
-        //     effect: {
-        //         period: 3,
-        //         // constantSpeed: 50,
-        //         show: true,
-        //         trailLength: 0.1,
-        //         symbolSize: 8,
-        //         color: '#a6c84c',
-        //     },
-        //     lineStyle: {
-        //         normal: {
-        //             // color: '#a6c84c',
-        //             width: 1,
-        //             opacity: 0.4,
-        //             curveness: 0.1
-        //         }
-        //     },
-        //     coordinateSystem:'cartesian2d',
-        //     data: [{
-        //         coords: [this.geoCoordMap['二次循环泵'], this.geoCoordMap['监控中心']],
-        //         lineStyle:{
-        //             normal:{
-        //                color: '#0D6695', 
-        //             }
-        //         }
-        //     }, {
-
-        //         coords: [this.geoCoordMap['分水器'], this.geoCoordMap['监控中心']],
-        //         lineStyle:{
-        //             normal:{
-        //                color: 'red', 
-        //             }
-        //         }
-        //     },{
-
-        //         coords: [this.geoCoordMap['监控中心'], this.geoCoordMap['分水器']],
-        //         lineStyle:{
-        //             normal:{
-        //                color: '#0D6695', 
-        //             }
-        //         }
-        //     }, {
-
-        //         coords: [this.geoCoordMap['集水器'], this.geoCoordMap['监控中心']],
-        //         lineStyle:{
-        //             normal:{
-        //                color: 'red', 
-        //             }
-        //         }
-        //     }, {
-
-        //         coords: [this.geoCoordMap['空压机'], this.geoCoordMap['集水器']],
-        //         lineStyle:{
-        //             normal:{
-        //                color: 'red', 
-        //             }
-        //         }
-        //     }]
-        // })
-        
-        // this.option.series.push({
-        //     // type: 'effectScatter',
-        //     type: 'scatter',
-        //     coordinateSystem: 'cartesian2d',
-        //     zlevel: 2,
-        //     rippleEffect: {
-        //         period: 4,
-        //         scale: 2.5,
-        //         brushType: 'stroke'
-        //     },
-        //     label: {
-        //         normal: {
-        //             show: true,
-        //             position: 'bottom',
-        //             formatter: '{b}'
-        //         }
-        //     },
-
-        //     symbolSize: '100',
-        //     itemStyle: {
-        //         normal: {
-        //             color: '#0D6695',
-        //         }
-        //     },
-        //     data: [{
-        //         name: '二次循环泵',
-        //         value: this.geoCoordMap['二次循环泵'].concat(this.data.二次循环泵),
-        //         symbol: 'image:///static/image/二次循环泵.jpg'
-        //                             // symbol: 'image:'+weixin
-        //     }, {
-        //         name: '分水器',
-        //         value: this.geoCoordMap['分水器'].concat(this.data.分水器),
-        //         symbol: 'image:///static/image/分水器.jpg'
-        //     }, {
-        //         name: '集水器',
-        //         value: this.geoCoordMap['集水器'].concat(this.data.集水器),
-        //         symbol: 'image:///static/image/集水器.jpg'
-        //     }, {
-        //         name: '空压机',
-        //         value: this.geoCoordMap['空压机'].concat(this.data.空压机),
-        //         symbol: 'image:///static/image/空压机.jpg'
-        //     }, {
-        //         name: '监控中心',
-        //         value: this.geoCoordMap['监控中心'].concat(100),
-        //         // itemStyle: {
-        //         //     normal: {
-        //         //         color: '#ffffff',
-        //         //         borderColor: '#000'
-        //         //     }
-        //         // },
-        //        symbol: 'image:///static/image/二次循环泵.jpg'
-        //     }]
-        // })
     },
 
 }

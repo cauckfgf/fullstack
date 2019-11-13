@@ -84,6 +84,22 @@ class DeviceSet(viewsets.ModelViewSet):
     serializer_class = DeviceSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
     filter_class = DeviceFilter
+    @list_route(methods=['get'])
+    def userinfo(self,request):
+        return JsonResponse({
+            'islogin':request.user.is_authenticated()
+        })
+
+    @list_route(methods=['post'])
+    def shoucang(self,request):
+        devices = request.POST.getlist('devices[]',[])
+        devices_all = request.POST.getlist('devices_all[]',[])
+        user = request.user
+        for device in Device.objects.filter(id__in=devices_all):
+            device.users.remove(user)
+        for device in Device.objects.filter(id__in=devices):
+            device.users.add(user)
+        return JsonResponse({})
 
     @detail_route(methods=['get'])
     def switch_off(self,request,pk):

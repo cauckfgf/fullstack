@@ -53,6 +53,24 @@ class DeviceSerializer(serializers.ModelSerializer):
     showname = serializers.ReadOnlyField()
     lastdata = Jsonserializer()
     editabe = serializers.SerializerMethodField()
+    _checked = serializers.SerializerMethodField()
+    _disabled = serializers.SerializerMethodField()
+    def get__checked(self,obj):
+        user =  self.context['request'].user
+        if user.is_authenticated():
+            if obj.users.filter(id=user.id):
+                return True
+            return False
+        else:
+            return False
+
+    def get__disabled(self,obj):
+        user =  self.context['request'].user
+        if user.is_authenticated():
+            return False
+        else:
+            return True
+
     def get_sizeXY(self,obj):
         xy = obj.size.split(',')
         return {
