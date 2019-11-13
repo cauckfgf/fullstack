@@ -1440,7 +1440,7 @@ const system = {
             })
         },
         initSystem(){
-            ajax.get(`/device/rest/system/?ordering=-id&project=${this.project.id}`).then(res => {
+            ajax.get(`/device/rest/system/?ordering=-order&project=${this.project.id}`).then(res => {
                 for(var i in res.data.results){
                     this.systemData.push({
                             title: res.data.results[i].name,
