@@ -46,8 +46,8 @@ const system = {
                         <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(false)">取消关注</Button>
                         <Page  :page-size="20" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
                     </TabPane>
-                    <TabPane label="设备曲线" name="name3">
-                        <v-chart autoresize style="width: 100%;" :options="status"/>
+                    <TabPane label="系统能耗" name="name3">
+                        <v-chart autoresize style="width: 100%;height: calc(100% - 130px);" :options="history_option" ref="chart"/>
                     </TabPane>
                 </Tabs>
                 <Drawer
@@ -133,6 +133,150 @@ const system = {
 
     data(){
         return {
+
+            history_option: {//能耗
+                title: {
+                    text: '',
+                    subtext: '',
+                    left: 'center'
+                },
+                toolbox: {
+                    feature: {
+                        myTool0: {
+                            show: true,
+                            title: '日',
+                            text: '日',
+                            icon: 'image://https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2541928986,283009610&fm=58',
+                            onclick: ()=>{
+                                this.timerage('日')
+                            }
+                        },
+                        myTool1: {
+                            show: true,
+                            title: '周',
+                            text: '周',
+                            icon: 'image://https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2754478880,138256405&fm=58',
+                            onclick: ()=>{
+                                this.timerage('周')
+                            }
+                        },
+                        myTool2: {
+                            show: true,
+                            title: '月',
+                            text: '月',
+                            icon: 'image://https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2605606428,551422860&fm=58',
+                            onclick: ()=>{
+                                this.timerage('月')
+                            }
+                        },
+                        myTool3: {
+                            show: true,
+                            title: '年',
+                            text: '年',
+                            icon: 'image://https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2395718531,4285100317&fm=58',
+                            onclick: ()=>{
+                                this.timerage('年')
+                            }
+                        }
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        animation: false,
+                        label: {
+                            backgroundColor: '#ccc',
+                            borderColor: '#aaa',
+                            borderWidth: 1,
+                            shadowBlur: 0,
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            textStyle: {
+                                color: '#222'
+                            }
+                        }
+                    },
+                    // formatter: function (params) {
+                    //     return params[2].name + '<br />' + params[2].value;
+                    // }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: [],
+                    axisLabel: {
+                        formatter: function (value, idx) {
+                            var date = new Date(value);
+                            return idx === 0 ? value : date.format("MM-dd\r\nhh:mm");  
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    boundaryGap: false
+                },
+                yAxis: {
+                    type: 'value',
+                    scale: true,
+                    axisLabel: {
+                        formatter: function (val) {
+                            return val+'kW‧h';
+                        }
+                    },
+                    axisPointer: {
+                        label: {
+                            formatter: function (params) {
+                                return params.data;
+                            }
+                        }
+                    },
+                    // splitNumber: 3,
+                    splitLine: {
+                        // show: false
+                    }
+                },
+                dataZoom: [
+                    {
+                        type: 'slider',
+                        xAxisIndex: 0,
+                        filterMode: 'empty'
+                    },
+                    // {
+                    //     type: 'slider',
+                    //     yAxisIndex: 0,
+                    //     filterMode: 'empty'
+                    // },
+                    {
+                        type: 'inside',
+                        xAxisIndex: 0,
+                        filterMode: 'empty'
+                    },
+                    // {
+                    //     type: 'inside',
+                    //     yAxisIndex: 0,
+                    //     filterMode: 'empty'
+                    // }
+                ],
+                series: [{
+                    name: '',
+                    type: 'line',
+                    data: [],
+                    // lineStyle: {
+                    //     normal: {
+                    //         opacity: 0
+                    //     }
+                    // },
+                    step:'start',
+                    stack: 'confidence-band',
+                    symbol: 'none'
+                }]
+            },
             userinfo:{islogin:false},
             CancelToken:null,
             guanzhu_button_loading:false,
@@ -375,6 +519,37 @@ const system = {
         }
     },
     methods:{
+        // 能耗开始
+        timerage(t){
+            this.history(this.device,t)
+        },
+        history(t='日'){
+            var d = {id:109}
+            var date = new Date()
+            var ft =date.format("yyyy-MM-dd 00:00")
+            if(t=='周'){
+               ft = this.getBeforeWeek(date).format("yyyy-MM-dd hh:mm")
+            }else if(t=='月'){
+                ft = this.getBeforeMonth(date).format("yyyy-MM-dd hh:mm")
+            }
+            else if(t=='年'){
+                ft = this.getLastYearYestdy(date).format("yyyy-MM-dd hh:mm")
+            }
+
+            ajax.get(`/device/rest/sensordata/?sensor__device__in=${d.id}&stime__gte=${ft}`).then(res => {
+                var sensordatas  = res.data
+                // this.history_option.title.text = 
+                this.title = `能耗历史数据`
+                this.history_option.xAxis.data = sensordatas.map(function (item) {
+                    return item.stime;
+                })
+                this.history_option.series[0].data = sensordatas.map(function (item) {
+                    return item.data;
+                })
+            })
+            
+        },
+        // 能耗结束
         guanzhu_change(l){
             var devices = []
             var devices_all = []
@@ -615,7 +790,7 @@ const system = {
                     }
                 ]
                 this.device_list = ress[1].data.results
-                
+
                 this.device_count = ress[1].data.count
             })
         },
@@ -1266,6 +1441,7 @@ const system = {
         ajax.get(`/device/rest/device/userinfo/`).then(res => {
             this.userinfo = res.data
         })
+        this.history()
         
     },
 
