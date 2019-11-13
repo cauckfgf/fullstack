@@ -47,7 +47,7 @@ const system = {
                         <Page  :page-size="20" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
                     </TabPane>
                     <TabPane label="系统能耗" name="name3">
-                        <v-chart autoresize style="width: 100%;height: calc(100% - 130px);" :options="history_option" ref="chart"/>
+                        <v-chart autoresize style="width: 100%;height: calc(100% - 130px);" :options="history_option"/>
                     </TabPane>
                 </Tabs>
                 <Drawer
