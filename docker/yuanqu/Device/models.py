@@ -42,6 +42,7 @@ class System(models.Model):
     system_type = models.ForeignKey(SystemType,verbose_name='系统类型名字', null=True, blank=True)
     project = models.ForeignKey(Project,verbose_name='所属项目', null=True, blank=True)
     create_time = models.DateTimeField(auto_now_add=True)
+    order = models.IntegerField(default=1,verbose_name='排序')
     # devicetype = models.ForeignKey(DeviceType,blank=True,null=True,related_name="Device",verbose_name='设备类型')
 
     def __unicode__(self):
