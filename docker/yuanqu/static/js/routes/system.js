@@ -903,7 +903,7 @@ const system = {
             this.getLineSensor()
         },
         yibiaoSet(){
-            var unitlist = ['℃','m³/h','rpm','MPa','A','V','毫米']
+            var unitlist = ['℃','m³/h','rpm','MPa','A','V','毫米','立方米/秒','厘米']
             this.yibiaos = []
             for(var i in this.select_obj.sensors){
                 if(unitlist.indexOf(this.select_obj.sensors[i].unit)!=-1){
