@@ -51,7 +51,7 @@ const system = {
                 <Button type="success" long>添加系统</Button>
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
-                <Tabs type="card" value="name1" style="width: 100%;  height: 100%;" id='self-tab'>
+                <Tabs type="card" value="name1" style="width: 100%;  height: 100%;padding-top:15px;" id='self-tab'>
                     <TabPane label="运行图" name="name1" icon="ios-analytics" style="width: 100%;  height: 100%;">
                         <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style" v-show="gifshow"/>
                         <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished" @datazoom="datazoom"/>
@@ -72,19 +72,22 @@ const system = {
                     </TabPane>
                 </Tabs>
                 <div class="demo-avatar" style="position:absolute;right:25px;top:0">
-                    <Avatar style="background-color: #87d068" icon="ios-person" />
-                    {{userinfo.username}}
+                    <Badge :count="1" style="margin-right:20px;margin-top:10px;">
+                        <a href="javascript:void(0)" >
+                            <Icon size="26" type="ios-mail-outline" @click="showWarn" />
+                        </a>
+                    </Badge>
+                     <Dropdown>
+                        <a href="javascript:void(0)" >
+                            <Avatar style="background-color: #87d068" icon="ios-person" />
+                            {{userinfo.username}}
+                        </a>
+                        <DropdownMenu slot="list">
+                            <DropdownItem>个人中心</DropdownItem>
+                            <DropdownItem>系统配置</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 </div>
-                 <Dropdown style="position:absolute;right:25px;top:0">
-                    <a href="javascript:void(0)">
-                        <Avatar style="background-color: #87d068" icon="ios-person" />
-                        {{userinfo.username}}
-                    </a>
-                    <DropdownMenu slot="list">
-                        <DropdownItem>个人中心</DropdownItem>
-                        <DropdownItem>系统配置</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
                 <Drawer
                     title="修改"
                     v-model="change_show"
@@ -554,6 +557,9 @@ const system = {
         }
     },
     methods:{
+        showWarn(){
+            debugger
+        },
         // 能耗开始
         timerage(t){
             this.history(t)
