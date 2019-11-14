@@ -1195,7 +1195,8 @@ const system = {
                             formatter: function(o) {
                                 // debugger
                                 // return o.name + "：" + o.value[2] + "起";
-                                r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
+                                // r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
+                                var r = ''
                                 if(o.data.sensors.length>0){
                                     r += '<br/>'
                                       + "<table  class='tooltipTable'>"
