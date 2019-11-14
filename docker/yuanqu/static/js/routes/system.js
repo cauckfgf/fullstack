@@ -1189,9 +1189,9 @@ const system = {
                                 // return o.name + "：" + o.value[2] + "起";
                                 r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
                                 r += '<br/>'
-                                    + 名称
+                                    + '名称'
                                     + '&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;'
-                                    + 数据;
+                                    + '数据';
                                 for(var i in o.data.sensors){
                                     var s =  o.data.sensors[i]
                                     r += '<br/>'
