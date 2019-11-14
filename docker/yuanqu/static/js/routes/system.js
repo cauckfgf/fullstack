@@ -52,21 +52,34 @@ const system = {
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
                 <Tabs type="card" value="name1" style="width: 100%;  height: 100%;" id='self-tab'>
-                    <TabPane label="运行图" name="name1" style="width: 100%;  height: 100%;">
+                    <TabPane label="运行图" name="name1" icon="ios-analytics" style="width: 100%;  height: 100%;">
                         <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style" v-show="gifshow"/>
-                        <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished" @datazoom="datazoom"
-        />
+                        <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished" @datazoom="datazoom"/>
                     </TabPane>
-                    <TabPane label="设备列表" name="name2">
-                        <Table @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
+                    <TabPane label="设备列表" name="name2" icon="ios-list-box-outline">
+                        <Table stripe @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
                         <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(true)">关注全部</Button>
                         <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(false)">取消关注</Button>
                         <Page  :page-size="20" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
                     </TabPane>
-                    <TabPane label="系统能耗" name="name3">
+                    <TabPane label="系统能耗" name="name3" icon="ios-outlet">
                         <v-chart autoresize style="width: 100%;height: calc(100% - 130px);" :options="history_option"/>
                     </TabPane>
                 </Tabs>
+                <div class="demo-avatar" style="position:absolute;right:25px;top:0">
+                    <Avatar style="background-color: #87d068" icon="ios-person" />
+                    {{userinfo.username}}
+                </div>
+                 <Dropdown style="position:absolute;right:25px;top:0">
+                    <a href="javascript:void(0)">
+                        <Avatar style="background-color: #87d068" icon="ios-person" />
+                        {{userinfo.username}}
+                    </a>
+                    <DropdownMenu slot="list">
+                        <DropdownItem>个人中心</DropdownItem>
+                        <DropdownItem>系统配置</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
                 <Drawer
                     title="修改"
                     v-model="change_show"
@@ -294,7 +307,7 @@ const system = {
                     symbol: 'none'
                 }]
             },
-            userinfo:{islogin:false},
+            userinfo:{islogin:false,username:''},
             CancelToken:null,
             guanzhu_button_loading:false,
             placement:'left',//设备详情抽屉左边还是右边

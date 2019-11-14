@@ -86,8 +86,10 @@ class DeviceSet(viewsets.ModelViewSet):
     filter_class = DeviceFilter
     @list_route(methods=['get'])
     def userinfo(self,request):
+        islogin = request.user.is_authenticated()
         return JsonResponse({
-            'islogin':request.user.is_authenticated()
+            'islogin' : islogin,
+            'username' : request.user.username if islogin else "游客"
         })
 
     @list_route(methods=['post'])
