@@ -146,11 +146,10 @@ const system = {
                 >
                     <Tabs value="状态">
                         <TabPane label="状态" name="状态">
-                            <v-chart autoresize style="width: 100%;" :options="status"/>
+                            
                             <Row style="width: 100%;">
                                 <Col xs="12" sm="12" md="12" lg="6" xl="4" v-for="item in yibiaos">
-                                    <v-chart v-if="yibiaos.length==1"  autoresize style="width: 100%; " :options="item"/>
-                                    <v-chart v-else  autoresize style="width: 50%; " :options="item"/>
+                                    <v-chart  autoresize style="width: 100%; " :options="item"/>
                                 </Col>
                             </Row>
                             
