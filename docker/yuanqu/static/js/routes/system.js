@@ -65,7 +65,7 @@ const system = {
                     <TabPane label="系统能耗" name="name3" icon="ios-outlet">
                         <v-chart autoresize style="width: 100%;height: calc(100% - 130px);" :options="history_option"/>
                     </TabPane>
-                    <TabPane label="现场视频" name="name4" icon="ios-outlet">
+                    <TabPane label="现场视频" name="name4" icon="ios-videocam-outline">
                         
                     </TabPane>
                 </Tabs>
@@ -1188,13 +1188,22 @@ const system = {
                                 // debugger
                                 // return o.name + "：" + o.value[2] + "起";
                                 r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
+                                r += '<br/>'
+                                    + 名称
+                                    + '&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;'
+                                    + 数据;
                                 for(var i in o.data.sensors){
                                     var s =  o.data.sensors[i]
-                                    if(s.status!=1){
-                                        r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
-                                    }else{
-                                        r += `<br /><span style="text-shadow:0px 0px 2px  green;">${s.name}:${s.lastdata}${s.unit}</span>`
-                                    }
+                                    r += '<br/>'
+                                    + s.name
+                                    + '&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;'
+                                    + s.lastdata
+                                    + s.unit;
+                                    // if(s.status!=1){
+                                    //     r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
+                                    // }else{
+                                    //     r += `<br /><span style="text-shadow:0px 0px 2px  green;">${s.name}:${s.lastdata}${s.unit}</span>`
+                                    // }
                                     
                                 }
                                 return r
