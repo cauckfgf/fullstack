@@ -1193,7 +1193,7 @@ const system = {
                                   + "<tr><th align='left'>名称</th><th align='left'>数值</th></tr>";
                                 for(var i in o.data.sensors){
                                     var s =  o.data.sensors[i]
-                                    r += `<tr><td style="padding-right:10px">${s.name}:</td><td>${s.lastdata}${s.unit}</td></tr>`
+                                    r += `<tr><td style="padding-right:10px">${s.name}</td><td>${s.lastdata}${s.unit}</td></tr>`
                                     // if(s.status!=1){
                                     //     r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
                                     // }else{
