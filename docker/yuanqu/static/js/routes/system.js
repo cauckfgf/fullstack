@@ -57,13 +57,16 @@ const system = {
                         <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished" @datazoom="datazoom"/>
                     </TabPane>
                     <TabPane label="设备列表" name="name2" icon="ios-list-box-outline">
-                        <Table stripe @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
+                        <Table stripe  @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
                         <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(true)">关注全部</Button>
                         <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(false)">取消关注</Button>
                         <Page  :page-size="20" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
                     </TabPane>
                     <TabPane label="系统能耗" name="name3" icon="ios-outlet">
                         <v-chart autoresize style="width: 100%;height: calc(100% - 130px);" :options="history_option"/>
+                    </TabPane>
+                    <TabPane label="现场视频" name="name4" icon="ios-outlet">
+                        
                     </TabPane>
                 </Tabs>
                 <div class="demo-avatar" style="position:absolute;right:25px;top:0">
@@ -898,7 +901,7 @@ const system = {
             this.getLineSensor()
         },
         yibiaoSet(){
-            var unitlist = ['℃','m³/h','rpm','MPa','A','V']
+            var unitlist = ['℃','m³/h','rpm','MPa','A','V','毫米']
             this.yibiaos = []
             for(var i in this.select_obj.sensors){
                 if(unitlist.indexOf(this.select_obj.sensors[i].unit)!=-1){
