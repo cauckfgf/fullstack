@@ -66,7 +66,9 @@ const system = {
                         <v-chart autoresize style="width: 100%;height: calc(100% - 130px);" :options="history_option"/>
                     </TabPane>
                     <TabPane label="现场视频" name="name4" icon="ios-videocam-outline">
-                        
+                        <video  style="width:100%;height:calc(100% - 130px);background:black" id="myPlayer"  controls playsInline webkit-playsinline autoplay>
+                            <source src="https://hls01open.ys7.com/openlive/f01018a141094b7fa138b9d0b856507b.m3u8" type="" />
+                        </video>
                     </TabPane>
                 </Tabs>
                 <div class="demo-avatar" style="position:absolute;right:25px;top:0">
@@ -1528,6 +1530,7 @@ const system = {
         var zr = this.chart.getZr()
         zr.on('click',this.chartClickNull)
         zr.on('mousemove',this.choosPoint)
+        var player = new EZUIPlayer('myPlayer');
     },
     created(){
         this.CancelToken =axios.CancelToken;
