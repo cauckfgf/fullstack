@@ -1198,8 +1198,7 @@ const system = {
                                 // r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
                                 var r = ''
                                 if(o.data.sensors.length>0){
-                                    r += '<br/>'
-                                      + "<table  class='tooltipTable'>"
+                                    r += "<table  class='tooltipTable'>"
                                       + "<tr><th align='left'>名称</th><th align='left'>数值</th></tr>";
                                     for(var i in o.data.sensors){
                                         var s =  o.data.sensors[i]
