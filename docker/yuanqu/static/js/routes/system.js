@@ -67,7 +67,7 @@ const system = {
                     </TabPane>
                     <TabPane label="现场视频" name="name4" icon="ios-videocam-outline">
                         <video  style="width:100%;height:calc(100% - 130px);background:black" id="myPlayer"  controls playsInline webkit-playsinline autoplay>
-                            <source src="https://hls01open.ys7.com/openlive/f01018a141094b7fa138b9d0b856507b.m3u8" type="" />
+                            <source src="http://hls01open.ys7.com/openlive/f01018a141094b7fa138b9d0b856507b.hd.m3u8" type="" />
                         </video>
                     </TabPane>
                 </Tabs>
