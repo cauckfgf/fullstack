@@ -1189,16 +1189,11 @@ const system = {
                                 // return o.name + "：" + o.value[2] + "起";
                                 r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}</span>`
                                 r += '<br/>'
-                                    + '名称'
-                                    + '&#160;&#160;:&#160;&#160;&#160;&#160;'
-                                    + '数据';
+                                  + "<table>"
+                                  + "<tr><th>名称</th><th>数值</th></tr>";
                                 for(var i in o.data.sensors){
                                     var s =  o.data.sensors[i]
-                                    r += '<br/>'
-                                    + s.name
-                                    + '&#160;&#160;:&#160;&#160;&#160;&#160;'
-                                    + s.lastdata
-                                    + s.unit;
+                                    r += `<tr><td>${s.name}</td><td>${s.lastdata}${s.unit}</td></tr>`
                                     // if(s.status!=1){
                                     //     r += `<br /><span style="text-shadow:0px 0px 2px  red;">${s.name}:${s.lastdata}${s.unit}</span>`
                                     // }else{
@@ -1206,6 +1201,7 @@ const system = {
                                     // }
                                     
                                 }
+                                r += "</table>"
                                 return r
                             }
                         },
