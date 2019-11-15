@@ -959,6 +959,7 @@ function initVue() {
         },
         created(){
             this.getProject()
+            this.getUserInfo()
         }
     });
     

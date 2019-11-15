@@ -1545,7 +1545,7 @@ const system = {
             this.project = res.data
             this.initSystem()
         })
-        this.$root.getUserInfo()
+        // this.$root.getUserInfo()
         this.history()
         
     },
