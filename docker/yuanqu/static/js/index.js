@@ -16,25 +16,29 @@
 //                             <Button size="large" type="primary" @click="move('left')" shape="circle" icon="arrow-left-a" style="margin:5px"></Button>
 //                         </div>
 //                     </figure>
-ajax = axios.create({
-    // baseURL: ajaxUrl,
-    timeout: 30000,
-    headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
-});
+// ajax = axios.create({
+//     // baseURL: ajaxUrl,
+//     timeout: 30000,
+//     headers: { 'X-CSRFToken': Cookies.get('csrftoken') }
+// });
 echarts.registerTheme('shine')
+
 function initVue() {
     const routes = [
       { path: '/yuanqu', component: yuanqu },
       { path: '/louyu', component: louyu },
       { path: '/system', component: system },
       { path: '/nenghao', component: nenghao },
+      { path: '/config', component: config },
     ]
     const router = new VueRouter({
         routes // （缩写）相当于 routes: routes
     })
+    
     _app = new Vue({
         el:"#app",
         router,
+        store,
         components:{
             // vueimage: vueImages.default
             'v-chart':VueECharts
@@ -61,12 +65,45 @@ function initVue() {
                         <router-view></router-view>
                     </Content>
                 </Layout>
+                <Modal
+                    v-model="login_show"
+                    title="登录"
+                    ok-text="登录"
+                    @on-ok="handleSubmit"
+                    transfer>
+                    <i-form ref="formInline" :model="formInline" :rules="ruleInline">
+                        <FormItem prop="user">
+                            <Input type="text" v-model="formInline.user" placeholder="用户名">
+                                <Icon type="ios-person-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input type="password" v-model="formInline.password" placeholder="密码">
+                                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                    </i-form>
+                </Modal>
             </div>`,
         created(){
             var self=this;
         },
         data(){
             return {
+                ruleInline: {
+                    user: [
+                        { required: true, message: '请输入用户名', trigger: 'blur' }
+                    ],
+                    password: [
+                        { required: true, message: '请输入密码', trigger: 'blur' },
+                        { type: 'string', min: 6, message: '密码位数不正确', trigger: 'blur' }
+                    ]
+                },
+                formInline:{
+                    user:'',
+                    password:''
+                },
+                login_show:false,
                 show : true,
                 isCollapsed: false,
                 option : {
@@ -814,6 +851,39 @@ function initVue() {
             }
         },
         methods:{
+            getUserInfo(){
+                ajax.get(`/device/rest/device/userinfo/`).then(res => {
+                    // this.$store.state.userinfo = res.data
+                    this.$store.commit('set_userinfo',res.data)
+                })
+            },
+            handleSubmit(){
+                // this.login_show=true
+                ajax({
+                    url:'/login/',
+                    transformRequest: [function (data) {
+                        return Qs.stringify(data, {
+                            encode: false,
+                            arrayFormat: 'brackets'
+                        });
+                    }],
+                    data:{
+                        csrfmiddlewaretoken:csrf_token.children[0].value,
+                        username:this.formInline.user,
+                        password:this.formInline.password,
+                    },
+                    method: 'post'
+                }).then(res=>{
+                    if(res.data.res=='succ'){
+                        this.getUserInfo()
+                        this.login_show=false
+                    }else{
+                        this.$Message.warning("用户名或密码错误")
+                        this.login_show=true
+                    }
+
+                })
+            },
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
@@ -833,7 +903,7 @@ function initVue() {
             },
             nenghaoClick(event){
                 this.show = false
-                router.push({ path: '/nenghao', query: {nenghao: event.name}})
+                router.push({ path: '/nenghao'})
             },
             chartClick(event){
                 
@@ -855,7 +925,6 @@ function initVue() {
                 // router.push({ path: 'register', query: { plan: 'private' }})
             },
             getProject(){
-                
                 ajax.get(`/device/rest/project/`).then(res => {
                     this.option.series[0].data = res.data.results
                 })

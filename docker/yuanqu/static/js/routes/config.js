@@ -1,4 +1,4 @@
-const system = { 
+const config = { 
     components:{
         // transactions
         'v-chart':VueECharts
@@ -9,7 +9,7 @@ const system = {
         </audio>
         <Split v-model="split1" @on-move-end="datazoom" style="background: url('/static/image/systembg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
             
-            <div slot="left" class="demo-split-pane" style="display:flex;flex-direction:column;justify-content:space-between;height:100vh;padding-bottom:10px;">
+            <div slot="left" class="demo-split-pane">
                 <Card style="background: #fff0;">
                     <p slot="title">
                         <a @click="back" title="切换院区"><Icon type="ios-home" />
@@ -25,7 +25,7 @@ const system = {
                     <Tree :data="systemData" :load-data="loadData" @on-select-change='systemChange' style="margin-left:15px"></Tree>
                     
                 </Card>
-                <Button type="success" v-show="userinfo.islogin" @click="toConfig" long>系统配置</Button>
+                <Button type="success" long>添加系统</Button>
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
                 <Tabs type="card" value="name1" style="width: 100%;  height: 100%;padding-top:15px;" id='self-tab'>
@@ -538,9 +538,6 @@ const system = {
         }
     },
     methods:{
-        toConfig(){
-            this.$router.push('/config/')
-        },
         userDrop(name){
             if(name=="个人中心"){
 

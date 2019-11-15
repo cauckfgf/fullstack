@@ -3,7 +3,7 @@ from django.shortcuts import render,render_to_response
 # Create your views here.
 #from django.contrib import auth
 #from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib import auth
 #from django.contrib.auth.decorators import login_required
@@ -15,6 +15,7 @@ from django.contrib import auth
 from Device.models  import *
 from django.contrib.auth.models import User,Group
 import settings
+from django.template import loader,Context,RequestContext
 @csrf_exempt
 # @login_required(login_url="/login/")
 def index(request):
@@ -26,9 +27,19 @@ def index(request):
             auth.login(request,user)
     except:
         pass
-    return render(request, 'index.html',locals())
-
-
+    return render_to_response('index.html',RequestContext(request, locals()))
+    # return render(request, 'index.html',locals())
+@csrf_protect
+def login(request):
+    username = request.POST.get('username')  
+    password = request.POST.get('password')
+    nextpage = request.POST.get('next',"/")
+    user = auth.authenticate(username=username,password=password)
+    if user and user.is_active:
+        auth.login(request, user)
+        return JsonResponse({'res':'succ'})
+    else:
+        return JsonResponse({'res':'error'})
 
 @csrf_exempt
 def page_not_found(request):
