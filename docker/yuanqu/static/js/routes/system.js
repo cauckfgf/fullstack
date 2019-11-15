@@ -548,7 +548,8 @@ const system = {
                 this.$router.push('/config/')
             }else if(name=="退出"){
                 ajax.get('/admin/logout/').then(res=>{
-                    this.$root.getUserInfo()
+                    // this.$root.getUserInfo()
+                    location.reload()
                 })
             }else if(name="登录"){
                 _app.login_show=true
