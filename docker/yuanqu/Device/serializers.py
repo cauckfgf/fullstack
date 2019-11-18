@@ -112,7 +112,7 @@ class DeviceSerializer(serializers.ModelSerializer):
         return [100,100]
     def get_gif(self,obj):
         devicetype = obj.devicetype
-        if devicetype.gif:
+        if devicetype and devicetype.gif:
             return devicetype.gif.url
         return ''
         
