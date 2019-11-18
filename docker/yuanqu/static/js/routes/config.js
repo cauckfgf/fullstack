@@ -65,9 +65,31 @@ const config = {
                             
 
                         <Table :height="table_height" stripe  border ref="selection" :columns="table_columns" :data="table_data">
+                            <template slot-scope="{ row, index }" v-for="item in table_columns" :slot="item.slot">
+                                <template v-if="edit.index==index">
+                                    <Input  type="text" v-if='item.filters==null' v-model="row[item.slot]"/>
+                                    <Select v-else v-model="row[item.slot]" style="width:200px">
+                                        <Option v-for="i in filters[item.slot]" :value="i.value" :key="i.value">{{ i.label }}</Option>
+                                    </Select>
+                                </template>
+                                <template v-else>
+                                    <template v-if='item.filters==null'>
+                                        {{row[item.slot]}}
+                                    </template>
+                                    <template v-else>
+                                        {{row[item.slot+'_name']}}
+                                    </template>
+                                </template>
+                            </template>
                             <template slot-scope="{ row, index }" slot="action">
-                                <Button type="primary" size="small" style="margin-right: 5px" @click="change(index)">修改</Button>
-                                <Button type="error" size="small" @click="remove(index)">删除</Button>
+                                <div v-if="edit.index === index">
+                                    <Button type="info" size="small" @click="handleSave(row,index)">保存</Button>
+                                    <Button type="warning" size="small" @click="edit.index = -1">取消</Button>
+                                </div>
+                                <div v-else>
+                                    <Button  type="primary" size="small" style="margin-right: 5px" @click="handleEdit(row, index)">修改</Button>
+                                    <Button type="error" size="small" @click="remove(index)">删除</Button>
+                                </div>
                             </template>
                         </Table>
                     </div>
@@ -87,6 +109,15 @@ const config = {
             table_columns:[],
             table_data:[],
             table_count:0,
+            filters:{
+                system:[],
+                system_type:[],
+                devicetype:[]
+            },
+            edit:{
+                index:-1,
+            },
+            save_url:''
         }
     },
     filters: {
@@ -97,11 +128,18 @@ const config = {
     methods:{
         submenuChange(name){
             this.menu_active2=name
+            this.resetFilter()
             this.initTable()
         },
         home(){
             this.$router.push('/')
             _app.show=true;
+        },
+        resetFilter(){
+            this.filter={
+                page:1
+            }
+            this.edit.index = -1;
         },
         menuChange(name){
             this.menu_active1=name
@@ -113,14 +151,41 @@ const config = {
                 this.submenu=['消息通知']
             }
             this.menu_active2=this.submenu[0]
+            this.resetFilter()
             this.initTable()
         },
         pageChange(p){
             this.filter.page=p
             this.initTable()
         },
-        change(){
+        handleEdit(row, index){
             //修改用户，站点等等
+            this.edit.index = index;
+        },
+        handleSave(row, index){
+            if(row.system==0){
+                row.system=null
+            }else if(row.devicetype==0){
+                row.devicetype=null
+            }else if(row.systemtype==0){
+                row.systemtype=null
+            }
+            ajax({
+                    url: `${this.save_url}${row.id}/`,
+                    // transformRequest: [function (data) {
+                    //     return Qs.stringify(data, {
+                    //         encode: false,
+                    //         arrayFormat: 'brackets'
+                    //     });
+                    // }],
+                    data:row,
+                    method: 'PATCH'
+                }).then(res=>{
+                    this.edit.index = -1;
+                    this.table_data[index]=res.data
+                    this.table_data.push({})
+                    this.table_data.pop()
+                })
         },
         remove(){
             //删除用户，站点等等
@@ -142,20 +207,40 @@ const config = {
 
             }
         },
+        getParams(){
+            // 获取table的过滤参数
+            var params = ''
+            for(var i in this.filter){
+                params += params+`&${i}=${this.filter[i]}`
+            }
+            return params
+        },
         deviceTable(){
-            ajax.get(`/device/rest/device/?pagesize=15&page=${this.filter.page}`).then(res=>{
+            var params = this.getParams()
+            this.save_url = '/device/rest/device/'
+            ajax.get(`/device/rest/device/?pagesize=15&${params}`).then(res=>{
                 this.table_columns=[
                     {
                         title: '设备名称',
-                        key: 'name'
+                        slot: 'name'
                     },
                     {
                         title: '设备类型',
-                        key: 'devicetype_name'
+                        slot: 'devicetype',
+                        filters: this.filters.devicetype,
+                        filterRemote:(value,row)=>{
+                            this.filter.devicetype=value
+                            this.initTable()
+                        }
                     },
                     {
                         title: '所属系统',
-                        key: 'system'
+                        slot: 'system',
+                        filters: this.filters.system,
+                        filterRemote:(value,row)=>{
+                            this.filter.system=value
+                            this.initTable()
+                        }
                     },
                     {
                         title: '操作',
@@ -169,15 +254,22 @@ const config = {
             })
         },
         systemTable(){
-            ajax.get(`/device/rest/system/?pagesize=15&page=${this.filter.page}`).then(res=>{
+            var params = this.getParams()
+            this.save_url = '/device/rest/system/'
+            ajax.get(`/device/rest/system/?pagesize=15&${params}`).then(res=>{
                 this.table_columns=[
                     {
                         title: '系统名称',
-                        key: 'name'
+                        slot: 'name'
                     },
                     {
                         title: '系统类型',
-                        key: 'system_type'
+                        slot: 'system_type',
+                        filters: this.filters.system_type,
+                        filterRemote:(value,row)=>{
+                            this.filter.systemtype=value
+                            this.initTable()
+                        }
                     },
                     {
                         title: '操作',
@@ -191,15 +283,17 @@ const config = {
             })
         },
         userTable(){
-            ajax.get(`/config/rest/user/?pagesize=15&page=${this.filter.page}`).then(res=>{
+            var params = this.getParams()
+            this.save_url = '/config/rest/user/'
+            ajax.get(`/config/rest/user/?pagesize=15&${params}`).then(res=>{
                 this.table_columns=[
                     {
                         title: '用户名',
-                        key: 'username'
+                        slot: 'username'
                     },
                     {
                         title: '是否是管理员',
-                        key: 'is_staff'
+                        slot: 'is_staff'
                     },
                     {
                         title: '操作',
@@ -213,21 +307,23 @@ const config = {
             })
         },
         projectTable(){
-            ajax.get(`/device/rest/project/?pagesize=15&page=${this.filter.page}`).then(res=>{
+            var params = this.getParams()
+            this.save_url = '/device/rest/project/'
+            ajax.get(`/device/rest/project/?pagesize=15&${params}`).then(res=>{
                 this.table_columns=[
                     {
                         title: '站点名称',
-                        key: 'name',
+                        slot: 'name',
                         width: 150,
                     },
                     {
                         title: '经纬度',
-                        key: 'position',
+                        slot: 'position',
                         width: 200,
                     },
                     {
                         title: '所属用户',
-                        key: 'users'
+                        slot: 'users'
                     },
                     {
                         title: '操作',
@@ -255,6 +351,46 @@ const config = {
                 _app.login_show=true
             }
         },
+        getDefault(){
+            //获取默认参数 设备类型 等用于过滤
+            ajax.get(`/device/rest/system/?pagesize=200`).then(res=>{
+                for(var i in res.data.results){
+                    this.filters.system.push({
+                        label:res.data.results[i].name,
+                        value:res.data.results[i].id,
+                    })
+                }
+                this.filters.system.push({
+                    label:'--',
+                    value:0,
+                })
+            })
+            ajax.get(`/device/rest/systemtype/?pagesize=200`).then(res=>{
+                for(var i in res.data.results){
+                    this.filters.system_type.push({
+                        label:res.data.results[i].name,
+                        value:res.data.results[i].id,
+                    })
+                }
+                this.filters.system_type.push({
+                    label:'--',
+                    value:0,
+                })
+            })
+            ajax.get(`/device/rest/devicetype/?pagesize=200`).then(res=>{
+                for(var i in res.data.results){
+                    this.filters.devicetype.push({
+                        label:res.data.results[i].name,
+                        value:res.data.results[i].id,
+                    })
+                }
+                this.filters.devicetype.push({
+                    label:'--',
+                    value:0,
+                })
+            })
+
+        }
     },
     computed:{
         userinfo(){
@@ -265,11 +401,10 @@ const config = {
         },
     },
     mounted(){
-
+        this.initTable()
     },
     created(){
-        this.initTable()
-        
+        this.getDefault()
     },
 
 }

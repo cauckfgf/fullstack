@@ -24,6 +24,18 @@ class ProjectSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
     filter_class = ProjectFilter
 
+class SystemTypeSet(viewsets.ModelViewSet):
+    queryset = SystemType.objects.all()
+    serializer_class = SystemTypeSerializer
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
+    # filter_class = SystemFilter
+
+    @detail_route(methods=['get'])
+    def devicetype(self,request,pk):
+        devicetype_ids = set(Device.objects.filter(system_id=pk,Sensor__isnull=False).exclude(devicetype_id=4).values_list('devicetype_id',flat=True))
+        r = DeviceType.objects.filter(id__in=devicetype_ids).values('id','name')
+        return JsonResponse({'data':list(r)})
+
 class SystemFilter(rest_framework_filters.FilterSet):
     class Meta:
         model = System

@@ -4,8 +4,10 @@ from rest_framework import routers
 from .views import *
 router = routers.DefaultRouter()
 router.register(r'project', ProjectSet)
+router.register(r'devicetype', DeviceTypeSet)
 router.register(r'device', DeviceSet)
 router.register(r'device2device', Device2DeviceSet)
+router.register(r'systemtype', SystemTypeSet)
 router.register(r'system', SystemSet)
 router.register(r'sensordata', SensorDataSet)
 router.register(r'timer', TimerTuYaSet)

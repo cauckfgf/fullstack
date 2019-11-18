@@ -12,6 +12,13 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = '__all__'
 
+class SystemTypeSerializer(serializers.ModelSerializer):
+    '''备品备件类型'''
+    id = serializers.ReadOnlyField()
+    class Meta:
+        model = SystemType
+        fields = '__all__'
+
 class SystemSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
@@ -29,15 +36,19 @@ class DeviceTypeSerializer(serializers.ModelSerializer):
 class Jsonserializer(serializers.JSONField):
 
     def to_representation(self, value):
-        return json.loads(value)
+        try:
+            return json.loads(value)
+        except:
+            return ''
  
     def to_internal_value(self, data):
         # print data,type(data)
         try:
+            print data
             json.loads(data)
         except (TypeError, ValueError):
-            self.fail('invalid_json')
-        return data
+            # self.fail('invalid_json')
+            return data
 
 
 
@@ -45,6 +56,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
     devicetype_name = serializers.ReadOnlyField(source='devicetype.name')
+    system_name = serializers.ReadOnlyField(source='system.name')
     postion = serializers.SerializerMethodField()
     icon = serializers.SerializerMethodField()
     gif = serializers.SerializerMethodField()
