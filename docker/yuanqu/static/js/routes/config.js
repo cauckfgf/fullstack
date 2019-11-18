@@ -115,7 +115,7 @@ const config = {
             this.menu_active2=this.submenu[0]
             this.initTable()
         },
-        pageChange(i){
+        pageChange(p){
             this.filter.page=p
             this.initTable()
         },
