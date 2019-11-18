@@ -6,7 +6,9 @@ const config = {
     template:`<div style="width: 100%;  height: 100%;">
                 <Header class='self-header'>
                     <Menu mode="horizontal" @on-select="menuChange" :theme="theme" :active-name="menu_active1" style="width: 100%;">
-                        <img class="layout-logo" src="/static/image/timg1.png"></img>
+                        <a href="javascript:void(0)" @click="home">
+                            <img class="layout-logo" src="/static/image/timg1.png" ></img>
+                        </a>
                         <div class="layout-nav">
                              <Dropdown @on-click='userDrop'>
                                 <a href="javascript:void(0)" >
@@ -40,19 +42,34 @@ const config = {
 
                     </Menu>
                 </Header>
-                <Breadcrumb :style="{margin: '16px'}">
-                    <BreadcrumbItem >{{menu_active1}}</BreadcrumbItem>
-                    <BreadcrumbItem >{{menu_active2}}</BreadcrumbItem>
-                </Breadcrumb>
-                <Split v-model="split1"  style="background: url('/static/image/systembg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
+
+                <Split v-model="split1">
                     
-                    <div slot="left" class="demo-split-pane">
+                    <div slot="left">
                         <Menu :theme="theme" style="width:100%;" @on-select="submenuChange" :active-name="menu_active2" >
                             <MenuItem v-for="s in submenu" :name="s">{{s}}</MenuItem>
                         </Menu>
                     </div>
                     <div slot="right" style="width: 100%;  height: 100%;">
+                        <Row>
+                            <Col span="12"><Breadcrumb :style="{margin: '16px'}">
+                                <Breadcrumb>
+                                    <BreadcrumbItem >{{menu_active1}}</BreadcrumbItem>
+                                    <BreadcrumbItem >{{menu_active2}}</BreadcrumbItem>
+                                </Breadcrumb>
+                            </Col>
+                            <Col span="12">
+                                <Page  :page-size="20" style="margin:15px;float:right;" :total="table_count" @on-change="pageChange" show-elevator />
+                            </Col>
+                        </Row>
+                            
 
+                        <Table :height="table_height" stripe  border ref="selection" :columns="table_columns" :data="table_data">
+                            <template slot-scope="{ row, index }" slot="action">
+                                <Button type="primary" size="small" style="margin-right: 5px" @click="change(index)">修改</Button>
+                                <Button type="error" size="small" @click="remove(index)">删除</Button>
+                            </template>
+                        </Table>
                     </div>
                 </Split>
     </div>`,
@@ -63,8 +80,13 @@ const config = {
             split1:0.15,
             menu_active1:'站点管理',
             menu_active2:'站点',
-            submenu:['站点','系统','设备']
-
+            filter:{
+                page:1
+            },
+            submenu:['站点','系统','设备'],
+            table_columns:[],
+            table_data:[],
+            table_count:0,
         }
     },
     filters: {
@@ -74,11 +96,15 @@ const config = {
     },
     methods:{
         submenuChange(name){
-            this.menu_active1=name
-
+            this.menu_active2=name
+            this.initTable()
+        },
+        home(){
+            this.$router.push('/')
+            _app.show=true;
         },
         menuChange(name){
-            this.menu_active2=name
+            this.menu_active1=name
             if(name=='站点管理'){
                 this.submenu=['站点','系统','设备']
             }else if(name=='用户管理'){
@@ -87,35 +113,134 @@ const config = {
                 this.submenu=['消息通知']
             }
             this.menu_active2=this.submenu[0]
-
+            this.initTable()
         },
-        guanzhu_change(l){
-            var devices = []
-            var devices_all = []
-            for(var i in l){
-                devices.push(l[i].id)
+        pageChange(i){
+            this.filter.page=p
+            this.initTable()
+        },
+        change(){
+            //修改用户，站点等等
+        },
+        remove(){
+            //删除用户，站点等等
+        },
+        initTable(){
+            if(this.menu_active2=='站点'){
+                this.projectTable()
+            }else if(this.menu_active2=='系统'){
+                this.systemTable()
+            }else if(this.menu_active2=='设备'){
+                this.deviceTable()
+            }else if(this.menu_active2=='用户'){
+                this.userTable()
+            }else if(this.menu_active2=='权限'){
+
+            }else if(this.menu_active2=='分组'){
+
+            }else if(this.menu_active2=='消息通知'){
+
             }
-            for(var i in this.device_list){
-                devices_all.push(this.device_list[i].id)
-            }
-            ajax({
-                url:'/device/rest/device/shoucang/',
-                transformRequest: [function (data) {
-                    return Qs.stringify(data, {
-                        encode: false,
-                        arrayFormat: 'brackets'
-                    });
-                }],
-                data:{
-                    devices:devices,
-                    devices_all:devices_all,
-                },
-                method: 'post'
-            }).then(res=>{
-                this.guanzhu_button_loading = false
+        },
+        deviceTable(){
+            ajax.get(`/device/rest/device/?pagesize=15&page=${this.filter.page}`).then(res=>{
+                this.table_columns=[
+                    {
+                        title: '设备名称',
+                        key: 'name'
+                    },
+                    {
+                        title: '设备类型',
+                        key: 'devicetype_name'
+                    },
+                    {
+                        title: '所属系统',
+                        key: 'system'
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
+                    }
+                ]
+                this.table_data=res.data.results
+                this.table_count=res.data.count
             })
         },
-
+        systemTable(){
+            ajax.get(`/device/rest/system/?pagesize=15&page=${this.filter.page}`).then(res=>{
+                this.table_columns=[
+                    {
+                        title: '系统名称',
+                        key: 'name'
+                    },
+                    {
+                        title: '系统类型',
+                        key: 'system_type'
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
+                    }
+                ]
+                this.table_data=res.data.results
+                this.table_count=res.data.count
+            })
+        },
+        userTable(){
+            ajax.get(`/config/rest/user/?pagesize=15&page=${this.filter.page}`).then(res=>{
+                this.table_columns=[
+                    {
+                        title: '用户名',
+                        key: 'username'
+                    },
+                    {
+                        title: '是否是管理员',
+                        key: 'is_staff'
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
+                    }
+                ]
+                this.table_data=res.data.results
+                this.table_count=res.data.count
+            })
+        },
+        projectTable(){
+            ajax.get(`/device/rest/project/?pagesize=15&page=${this.filter.page}`).then(res=>{
+                this.table_columns=[
+                    {
+                        title: '站点名称',
+                        key: 'name',
+                        width: 150,
+                    },
+                    {
+                        title: '经纬度',
+                        key: 'position',
+                        width: 200,
+                    },
+                    {
+                        title: '所属用户',
+                        key: 'users'
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
+                    }
+                ]
+                this.table_data=res.data.results
+                this.table_count=res.data.count
+            })
+        },
+        
         userDrop(name){
             if(name=="个人中心"){
 
@@ -134,13 +259,16 @@ const config = {
     computed:{
         userinfo(){
             return store.state.userinfo;
-        }
+        },
+        table_height(){
+            return store.state.clientHeight-130;
+        },
     },
     mounted(){
 
     },
     created(){
-
+        this.initTable()
         
     },
 

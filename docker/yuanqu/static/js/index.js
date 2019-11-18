@@ -928,7 +928,10 @@ function initVue() {
                 ajax.get(`/device/rest/project/`).then(res => {
                     this.option.series[0].data = res.data.results
                 })
-            }
+            },
+            windowResize(){
+                this.$store.commit('set_clientHeight',document.documentElement.clientHeight)
+            },
         },
         computed: {
             rotateIcon () {
@@ -950,11 +953,9 @@ function initVue() {
                 router.push({ path: this.$route.path, query: this.$route.query })
             }
             
-            // Vue.nextTick(()=>{
-            //     for(var i in $(".ttips")){
-            //         AddMarkerPingMian('red',$(".ttips")[i])
-            //     }
-            // })
+            window.onresize = ()=>{
+               this.windowResize()
+            }
             
         },
         created(){

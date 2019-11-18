@@ -20,3 +20,8 @@ class ConfigSet(viewsets.ModelViewSet):
     queryset = Config.objects.all()
     serializer_class = ConfigSerializer
     permission_classes = [IsAdminUser]
+
+class UserSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]

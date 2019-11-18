@@ -7,6 +7,7 @@ from django.views.decorators.cache import cache_page
 router = routers.DefaultRouter()
 
 router.register(r'config', ConfigSet)
+router.register(r'user', UserSet)
 
 
 urlpatterns = [

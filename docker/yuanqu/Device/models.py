@@ -12,6 +12,7 @@ class Project(models.Model):
     name = models.CharField(max_length=96,default='项目',verbose_name='名字')
     position = models.CharField(max_length=96,default='[]',verbose_name='经纬度')
     create_time = models.DateTimeField(auto_now_add=True)
+    users = models.ManyToManyField(User,verbose_name='能看到该站点的人',blank=True,related_name='Project2Users')
     def __unicode__(self):
         return self.name
 

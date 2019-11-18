@@ -7,7 +7,7 @@ const system = {
         <audio ref="voice" id='test'>
                 <source src="/media/upload/tishi.mp3">
         </audio>
-        <Split v-model="split1" @on-move-end="datazoom" style="background: url('/static/image/systembg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
+        <Split v-model="split1"  @on-move-end="datazoom" style="background: url('/static/image/systembg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
             
             <div slot="left" class="demo-split-pane" style="display:flex;flex-direction:column;justify-content:space-between;height:100vh;padding-bottom:10px;">
                 <Card style="background: #fff0;">

@@ -24,11 +24,15 @@ Date.prototype.format = function(fmt)
 Vue.use(Vuex)
 store = new Vuex.Store({
     state:{
-        userinfo:{islogin:false,username:''}
+        userinfo:{islogin:false,username:''},
+        clientHeight:document.documentElement.clientHeight,
     },
     mutations:{
         set_userinfo(state,userinfo){
             state.userinfo = userinfo
+        },
+        set_clientHeight(state,clientHeight){
+            state.clientHeight = clientHeight
         }
     }
 })
