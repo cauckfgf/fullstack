@@ -119,12 +119,13 @@ class DeviceSerializer(serializers.ModelSerializer):
     def get_icon(self,obj):
         devicetype = obj.devicetype
         l = []
-        if devicetype.icon1:
-            l.append(devicetype.icon1.url)
-        if devicetype.icon2:
-            l.append(devicetype.icon2.url)
-        if devicetype.icon3:
-            l.append(devicetype.icon3.url)
+        if devicetype
+            if devicetype.icon1:
+                l.append(devicetype.icon1.url)
+            if devicetype.icon2:
+                l.append(devicetype.icon2.url)
+            if devicetype.icon3:
+                l.append(devicetype.icon3.url)
         return l
         # if obj.status==1:
         #     return obj.devicetype.icon1.url
