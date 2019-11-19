@@ -24,7 +24,7 @@ Date.prototype.format = function(fmt)
 Vue.use(Vuex)
 store = new Vuex.Store({
     state:{
-        userinfo:{islogin:false,username:''},
+        userinfo:{islogin:false,username:'',is_staff:true},
         clientHeight:document.documentElement.clientHeight,
     },
     mutations:{
