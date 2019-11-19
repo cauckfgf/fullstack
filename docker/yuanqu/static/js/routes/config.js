@@ -68,7 +68,10 @@ const config = {
                             <template slot-scope="{ row, index }" v-for="item in table_columns" :slot="item.slot">
                                 <template v-if="edit.index==index">
                                     <Input  type="text" v-if='item.filters==null' v-model="row[item.slot]"/>
-                                    <Select v-else v-model="row[item.slot]" style="width:200px">
+                                    <Select v-else-if="typeof(row[item.slot])=='object'&&row[item.slot]!=null" v-model="row[item.slot]" style="width:200px" filterable multiple>
+                                        <Option v-for="i in filters[item.slot]" :value="i.value" :key="i.value">{{ i.label }}</Option>
+                                    </Select>
+                                    <Select v-else v-model="row[item.slot]" style="width:200px" filterable clearable>
                                         <Option v-for="i in filters[item.slot]" :value="i.value" :key="i.value">{{ i.label }}</Option>
                                     </Select>
                                 </template>
@@ -112,7 +115,9 @@ const config = {
             filters:{
                 system:[],
                 system_type:[],
-                devicetype:[]
+                devicetype:[],
+                groups:[],
+                users:[]
             },
             edit:{
                 index:-1,
@@ -163,12 +168,17 @@ const config = {
             this.edit.index = index;
         },
         handleSave(row, index){
-            if(row.system==0){
-                row.system=null
-            }else if(row.devicetype==0){
-                row.devicetype=null
-            }else if(row.systemtype==0){
-                row.systemtype=null
+            // if(row.system==0){
+            //     row.system=null
+            // }else if(row.devicetype==0){
+            //     row.devicetype=null
+            // }else if(row.systemtype==0){
+            //     row.systemtype=null
+            // }
+            for(var i in row){
+                if(row[i]==undefined){
+                    row[i]=null
+                }
             }
             ajax({
                     url: `${this.save_url}${row.id}/`,
@@ -200,9 +210,9 @@ const config = {
             }else if(this.menu_active2=='用户'){
                 this.userTable()
             }else if(this.menu_active2=='权限'){
-
+                this.authTable()
             }else if(this.menu_active2=='分组'){
-
+                this.groupTable()
             }else if(this.menu_active2=='消息通知'){
 
             }
@@ -211,7 +221,14 @@ const config = {
             // 获取table的过滤参数
             var params = ''
             for(var i in this.filter){
-                params += params+`&${i}=${this.filter[i]}`
+                if(typeof(this.filter[i])=='object'){
+                    for(var j in this.filter[i]){
+                        params += `&${i}=${this.filter[i][j]}`
+                    }
+                }else{
+                    params += `&${i}=${this.filter[i]}`
+                }
+                
             }
             return params
         },
@@ -289,11 +306,69 @@ const config = {
                 this.table_columns=[
                     {
                         title: '用户名',
-                        slot: 'username'
+                        slot: 'username',
+                        width: 300
+                    },
+                    {
+                        title: '所属组',
+                        slot: 'groups',
+                        filters: this.filters.groups,
+                        filterRemote:(value,row)=>{
+                            this.filter.groups=value
+                            this.initTable()
+                        }
                     },
                     {
                         title: '是否是管理员',
                         slot: 'is_staff'
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
+                    }
+                ]
+                this.table_data=res.data.results
+                this.table_count=res.data.count
+            })
+        },
+        authTable(){
+            var params = this.getParams()
+            this.save_url = '/config/rest/auth/'
+            ajax.get(`/config/rest/auth/?pagesize=15&${params}`).then(res=>{
+                this.table_columns=[
+                    {
+                        title: '权限名称',
+                        slot: 'name'
+                    },
+                    {
+                        title: '有权限的人员',
+                        slot: 'users'
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
+                    }
+                ]
+                this.table_data=res.data.results
+                this.table_count=res.data.count
+            })
+        },
+        groupTable(){
+            var params = this.getParams()
+            this.save_url = '/config/rest/group/'
+            ajax.get(`/config/rest/group/?pagesize=15&${params}`).then(res=>{
+                this.table_columns=[
+                    {
+                        title: '权限名称',
+                        slot: 'name'
+                    },
+                    {
+                        title: '有权限的人员',
+                        slot: 'users'
                     },
                     {
                         title: '操作',
@@ -323,7 +398,12 @@ const config = {
                     },
                     {
                         title: '所属用户',
-                        slot: 'users'
+                        slot: 'users',
+                        filters: this.filters.users,
+                        filterRemote:(value,row)=>{
+                            this.filter.users=value
+                            this.initTable()
+                        }
                     },
                     {
                         title: '操作',
@@ -360,10 +440,14 @@ const config = {
                         value:res.data.results[i].id,
                     })
                 }
-                this.filters.system.push({
-                    label:'--',
-                    value:0,
-                })
+            })
+            ajax.get(`/config/rest/group/?pagesize=200`).then(res=>{
+                for(var i in res.data.results){
+                    this.filters.groups.push({
+                        label:res.data.results[i].name,
+                        value:res.data.results[i].id,
+                    })
+                }
             })
             ajax.get(`/device/rest/systemtype/?pagesize=200`).then(res=>{
                 for(var i in res.data.results){
@@ -372,10 +456,6 @@ const config = {
                         value:res.data.results[i].id,
                     })
                 }
-                this.filters.system_type.push({
-                    label:'--',
-                    value:0,
-                })
             })
             ajax.get(`/device/rest/devicetype/?pagesize=200`).then(res=>{
                 for(var i in res.data.results){
@@ -384,10 +464,15 @@ const config = {
                         value:res.data.results[i].id,
                     })
                 }
-                this.filters.devicetype.push({
-                    label:'--',
-                    value:0,
-                })
+            })
+            ajax.get(`/config/rest/user/?pagesize=200`).then(res=>{
+                for(var i in res.data.results){
+                    this.filters.users.push({
+                        label:res.data.results[i].username,
+                        value:res.data.results[i].id,
+                    })
+                }
+
             })
 
         }

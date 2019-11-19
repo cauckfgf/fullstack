@@ -21,7 +21,28 @@ class ConfigSet(viewsets.ModelViewSet):
     serializer_class = ConfigSerializer
     permission_classes = [IsAdminUser]
 
+class UserFilter(rest_framework_filters.FilterSet):
+    class Meta:
+        model = User
+        fields = {
+            'groups' : ['exact'],
+        }
+
 class UserSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
+    filter_class = UserFilter
     permission_classes = [IsAdminUser]
+
+class GroupSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+class AuthSet(viewsets.ModelViewSet):
+    queryset = Auth.objects.all()
+    serializer_class = AuthSerializer
+    # permission_classes = [IsAdminUser]
+    
+
+    

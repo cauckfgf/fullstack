@@ -8,7 +8,8 @@ router = routers.DefaultRouter()
 
 router.register(r'config', ConfigSet)
 router.register(r'user', UserSet)
-
+router.register(r'auth', AuthSet)
+router.register(r'group', GroupSet)
 
 urlpatterns = [
 

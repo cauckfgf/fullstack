@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User 
 # from auditlog.registry import auditlog
 # from User.models import Department
 # Create your models here.
@@ -24,3 +25,9 @@ class Config(models.Model):
         verbose_name = "系统配置"
         verbose_name_plural = "系统配置"
 
+class Auth(models.Model):
+    name = models.CharField(max_length=64,verbose_name='权限名字',default='')
+    users = models.ManyToManyField(User,verbose_name='有权限的用户')
+    class Meta:
+        verbose_name = "权限"
+        verbose_name_plural = "权限"
