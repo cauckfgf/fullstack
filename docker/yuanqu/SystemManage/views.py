@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render,render_to_response
 from django.template import loader,Context,RequestContext
 from django.contrib.auth.decorators import login_required
+from django.contrib import auth
 import rest_framework_filters
 from  rest_framework.permissions import IsAdminUser
 from .models import *
@@ -33,7 +34,7 @@ class UserSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
     filter_class = UserFilter
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 class GroupSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
@@ -45,4 +46,8 @@ class AuthSet(viewsets.ModelViewSet):
     # permission_classes = [IsAdminUser]
     
 
-    
+@login_required(login_url="/login/")
+def logout(request):
+    auth.logout(request)
+    # curtime=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime());
+    return JsonResponse({})

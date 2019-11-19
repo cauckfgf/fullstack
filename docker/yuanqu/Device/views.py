@@ -102,7 +102,8 @@ class DeviceSet(viewsets.ModelViewSet):
         islogin = request.user.is_authenticated()
         return JsonResponse({
             'islogin' : islogin,
-            'username' : request.user.username if islogin else "游客"
+            'username' : request.user.username if islogin else "游客",
+            'is_staff': request.user.is_staff if islogin else False
         })
 
     @list_route(methods=['post'])

@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from django.conf.urls.static import static
 from .views import *
+from SystemManage.views import logout
 from yuanqu import  settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^index/$', index),
     url(r'^wx/', wx),
     url(r'^login/$', login),
+    url(r'^logout/', logout)
     # url('', include('social_django.urls', namespace='social'))
 ]
 

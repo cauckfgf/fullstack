@@ -17,7 +17,7 @@ const config = {
                                 </a>
                                 <DropdownMenu slot="list" v-if="userinfo.islogin" >
                                     <DropdownItem name="个人中心">个人中心</DropdownItem>
-                                    <DropdownItem name="系统配置">系统配置</DropdownItem>
+                                    <DropdownItem name="主页">主页</DropdownItem>
                                     <DropdownItem name="退出">退出</DropdownItem>
                                 </DropdownMenu>
                                 <DropdownMenu slot="list" v-else>
@@ -52,14 +52,15 @@ const config = {
                     </div>
                     <div slot="right" style="width: 100%;  height: 100%;">
                         <Row>
-                            <Col span="12"><Breadcrumb :style="{margin: '16px'}">
+                            <Col span="8"><Breadcrumb :style="{margin: '16px'}">
                                 <Breadcrumb>
                                     <BreadcrumbItem >{{menu_active1}}</BreadcrumbItem>
                                     <BreadcrumbItem >{{menu_active2}}</BreadcrumbItem>
                                 </Breadcrumb>
                             </Col>
-                            <Col span="12">
+                            <Col span="16">
                                 <Page  :page-size="20" style="margin:15px;float:right;" :total="table_count" @on-change="pageChange" show-elevator />
+                                <Button type="dashed" style="margin:15px;float:right;"icon="md-add" @click="addOBJ">添加</Button>
                             </Col>
                         </Row>
                             
@@ -91,15 +92,55 @@ const config = {
                                 </div>
                                 <div v-else>
                                     <Button  type="primary" size="small" style="margin-right: 5px" @click="handleEdit(row, index)">修改</Button>
-                                    <Button type="error" size="small" @click="remove(index)">删除</Button>
+                                    <Button type="error" size="small" @click="remove(row,index)">删除</Button>
                                 </div>
                             </template>
                         </Table>
+
                     </div>
                 </Split>
+                <Modal
+                    v-model="add_user_show"
+                    title="添加用户"
+                    ok-text="确认"
+                    @on-ok="addUserSubmit"
+                    transfer>
+                    <i-form ref="addUser" :model="addUser" :rules="ruleuser">
+                        <FormItem prop="username">
+                            <Input type="text" v-model="addUser.username" placeholder="用户名">
+                                <Icon type="ios-person-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input type="password" v-model="addUser.password" placeholder="密码">
+                                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="repassword">
+                            <Input type="password" v-model="addUser.repassword" placeholder="重复密码">
+                                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="isadmin">
+                            <Checkbox v-model="addUser.is_staff">管理员</Checkbox>
+                        </FormItem>
+                    </i-form>
+                </Modal>
     </div>`,
     
     data(){
+        // 验证重复密码
+        const repasswordValidate=(rul,value,callback)=>{
+            if(this.repassword){
+                if(value!==this.addUser.password){
+                    callback(new Error('两次密码不一致'))
+                }else{
+                    callback()
+                }
+            }
+            callback()
+            this.repassword=true
+        }
         return {
             theme:'light',//菜单主题
             split1:0.15,
@@ -122,7 +163,28 @@ const config = {
             edit:{
                 index:-1,
             },
-            save_url:''
+            save_url:'',
+            add_user_show:false,
+            addUser:{
+                username:'',
+                password:'',
+                repassword:'',
+                is_staff:false
+            },
+            ruleuser: {
+                username: [
+                    { required: true, message: '用户名', trigger: 'blur' }
+                ],
+                password: [
+                    { required: true, message: '密码', trigger: 'blur' },
+                    { type: 'string', min: 6, message: '密码位数不正确', trigger: 'blur' }
+                ],
+                repassword: [
+                    { required: true,  trigger: 'blur' },
+                    { validator:repasswordValidate, trigger: 'blur'}
+                ]
+            },
+            repassword:false
         }
     },
     filters: {
@@ -145,6 +207,44 @@ const config = {
                 page:1
             }
             this.edit.index = -1;
+        },
+        addUserSubmit(){
+            ajax({
+                url:this.save_url,
+                data:{
+                    username : this.addUser.username,
+                    is_staff : this.addUser.is_staff,
+                    password : this.addUser.password
+                },
+                method: 'post'
+            }).then(res=>{
+                this.table_data.push(res.data)
+
+            })
+        },
+        resetAddUser(){
+            this.addUser={
+                username:'',
+                password:'',
+                repassword:'',
+                is_staff:false
+            }
+        },
+        addOBJ(){
+            // 添加用户 用户组等
+            if(this.menu_active2=='用户'){
+                this.add_user_show=true
+                this.resetAddUser()
+            }else{
+                ajax({
+                    url:this.save_url,
+                    data:{},
+                    method: 'post'
+                }).then(res=>{
+                    this.table_data.push(res.data)
+                    this.edit.index = this.table_data.length-1
+                })
+            }
         },
         menuChange(name){
             this.menu_active1=name
@@ -181,24 +281,44 @@ const config = {
                 }
             }
             ajax({
-                    url: `${this.save_url}${row.id}/`,
-                    // transformRequest: [function (data) {
-                    //     return Qs.stringify(data, {
-                    //         encode: false,
-                    //         arrayFormat: 'brackets'
-                    //     });
-                    // }],
-                    data:row,
-                    method: 'PATCH'
-                }).then(res=>{
-                    this.edit.index = -1;
-                    this.table_data[index]=res.data
-                    this.table_data.push({})
-                    this.table_data.pop()
-                })
+                url: `${this.save_url}${this.table_data[index].id}/`,
+                // transformRequest: [function (data) {
+                //     return Qs.stringify(data, {
+                //         encode: false,
+                //         arrayFormat: 'brackets'
+                //     });
+                // }],
+                data:row,
+                method: 'PATCH'
+            }).then(res=>{
+                this.edit.index = -1;
+                this.table_data[index]=res.data
+                this.table_data.push({})
+                this.table_data.pop()
+            })
         },
-        remove(){
+        remove(row,index){
             //删除用户，站点等等
+            this.$Modal.confirm({
+                title:'确认删除',
+                onOk:()=>{
+                    ajax({
+                        url: `${this.save_url}${row.id}/`,
+                        // transformRequest: [function (data) {
+                        //     return Qs.stringify(data, {
+                        //         encode: false,
+                        //         arrayFormat: 'brackets'
+                        //     });
+                        // }],
+                        data:row,
+                        method: 'DELETE'
+                    }).then(res=>{
+                        this.table_data.splice(index,1)
+                        this.edit.index = -1;
+                    })
+                },
+            })
+                    
         },
         initTable(){
             if(this.menu_active2=='站点'){
@@ -425,10 +545,11 @@ const config = {
         userDrop(name){
             if(name=="个人中心"){
 
-            }else if(name=="系统配置"){
-                this.$router.push('/config/')
+            }else if(name=="主页"){
+                this.$router.push('/')
+                _app.show=true;
             }else if(name=="退出"){
-                ajax.get('/admin/logout/').then(res=>{
+                ajax.get('/logout/').then(res=>{
                     // this.$root.getUserInfo()
                     location.reload()
                 })
@@ -494,6 +615,9 @@ const config = {
         this.initTable()
     },
     created(){
+        if(!this.userinfo.is_staff){
+            this.$router.push('/')
+        }
         this.getDefault()
     },
 

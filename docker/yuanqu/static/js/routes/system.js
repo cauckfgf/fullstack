@@ -25,7 +25,7 @@ const system = {
                     <Tree :data="systemData" :load-data="loadData" @on-select-change='systemChange' style="margin-left:15px"></Tree>
                     
                 </Card>
-                <Button type="success" v-show="userinfo.islogin" @click="toConfig" long>系统配置</Button>
+                <Button type="success" v-show="userinfo.islogin&&userinfo.is_staff" @click="toConfig" long>系统配置</Button>
             </div>
             <div slot="right" style="width: 100%;  height: 100%;">
                 <Tabs type="card" value="name1" style="width: 100%;  height: 100%;padding-top:15px;" id='self-tab'>
@@ -61,7 +61,7 @@ const system = {
                         </a>
                         <DropdownMenu slot="list" v-if="userinfo.islogin" >
                             <DropdownItem name="个人中心">个人中心</DropdownItem>
-                            <DropdownItem name="系统配置">系统配置</DropdownItem>
+                            <DropdownItem name="系统配置" v-show="userinfo.is_staff">系统配置</DropdownItem>
                             <DropdownItem name="退出">退出</DropdownItem>
                         </DropdownMenu>
                         <DropdownMenu slot="list" v-else>
@@ -547,7 +547,7 @@ const system = {
             }else if(name=="系统配置"){
                 this.$router.push('/config/')
             }else if(name=="退出"){
-                ajax.get('/admin/logout/').then(res=>{
+                ajax.get('/logout/').then(res=>{
                     // this.$root.getUserInfo()
                     location.reload()
                 })

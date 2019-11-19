@@ -15,5 +15,4 @@ urlpatterns = [
 
 #restframe
     url(r'^rest/', include(router.urls)),
-
 ]
