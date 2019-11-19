@@ -605,7 +605,7 @@ const config = {
     },
     computed:{
         userinfo(){
-            if(!this.userinfo.is_staff){
+            if(!store.state.userinfo.is_staff){
                 this.$router.push('/')
             }
             return store.state.userinfo;
