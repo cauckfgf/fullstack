@@ -8,6 +8,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
     value = serializers.ReadOnlyField()
+    users_name = serializers.SerializerMethodField()
+    def get_users_name(self,obj):
+        return ','.join(obj.users.values_list('username',flat=True))
     class Meta:
         model = Project
         fields = '__all__'

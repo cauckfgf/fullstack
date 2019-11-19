@@ -16,6 +16,7 @@ class ProjectFilter(rest_framework_filters.FilterSet):
         model = Project
         fields = {
             'name' : ['exact','in'],
+            'users' : ['exact'],
         }
 
 class ProjectSet(viewsets.ModelViewSet):
