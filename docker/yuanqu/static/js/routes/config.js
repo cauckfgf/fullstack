@@ -238,7 +238,7 @@ const config = {
             }else{
                 ajax({
                     url:this.save_url,
-                    data:{},
+                    data:{name:'名称'},
                     method: 'post'
                 }).then(res=>{
                     this.table_data.push(res.data)
