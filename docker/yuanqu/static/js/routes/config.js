@@ -605,6 +605,9 @@ const config = {
     },
     computed:{
         userinfo(){
+            if(!this.userinfo.is_staff){
+                this.$router.push('/')
+            }
             return store.state.userinfo;
         },
         table_height(){
@@ -615,9 +618,7 @@ const config = {
         this.initTable()
     },
     created(){
-        if(!this.userinfo.is_staff){
-            this.$router.push('/')
-        }
+        
         this.getDefault()
     },
 
