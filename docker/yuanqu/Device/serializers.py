@@ -45,10 +45,11 @@ class Jsonserializer(serializers.JSONField):
             return ''
  
     def to_internal_value(self, data):
-        # print data,type(data)
+        print data,type(data)
         try:
             print data
             json.loads(data)
+            return data
         except (TypeError, ValueError):
             # self.fail('invalid_json')
             return data
