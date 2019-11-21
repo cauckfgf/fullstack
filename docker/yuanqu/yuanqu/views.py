@@ -29,6 +29,19 @@ def index(request):
         pass
     return render_to_response('index.html',RequestContext(request, locals()))
     # return render(request, 'index.html',locals())
+    
+@csrf_exempt
+# @login_required(login_url="/login/")
+def mobile(request):
+    openid = request.GET.get('openid')
+    try:
+        if openid:
+            user = auth.authenticate(openid=openid)
+            auth.login(request,user)
+    except:
+        pass
+    return render_to_response('mobile/index.html',RequestContext(request, locals()))
+
 @csrf_protect
 def login(request):
     username = request.POST.get('username')  

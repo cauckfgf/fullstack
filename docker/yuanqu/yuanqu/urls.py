@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^wx/', wx),
     url(r'^login/$', login),
     url(r'^logout/', logout)
+    url(r'^mobile/', mobile)
     # url('', include('social_django.urls', namespace='social'))
 ]
 
