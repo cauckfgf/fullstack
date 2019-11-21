@@ -4,40 +4,160 @@ const nenghao = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 100%;">
-        <Scroll :height="height">
-            <Row :gutter="32" style="margin:0">
-                <Col :lg="8" :xs="24"  v-for="item in chazuos">
-                    <Card style="width:100%" >
-                        <p slot="title">
-                            <Checkbox v-model="item.choose" size='large' :disabled="!item.editabe"></Checkbox>
-                            <Icon type="ios-outlet"></Icon>
-                            {{ item.name }}
-                            
-                        </p>
-                        <i-switch :disabled="!item.editabe" slot="extra" v-model="item.switch" @on-change="change(...arguments,item)" >
-                            <span slot="open">开启</span>
-                            <span slot="close">关闭</span>
-                        </i-switch>
-                        <ul style="list-style-type: none;">
-                            <li v-for="(value, key, index) in item.lastdata">
-                                <a :href="item.url" target="_blank">{{ key }}</a>
+        <Tabs>
+            <TabPane label="总计" icon="ios-analytics-outline">
+                <Row :gutter="32" style="margin:0">
+                    <Col :lg="8" :xs="24">
+                        <i-circle
+                            :size="250"
+                            :trail-width="4"
+                            :stroke-width="5"
+                            :percent="98"
+                            stroke-linecap="square"
+                            stroke-color="#43a3fb">
+                            <div class="demo-Circle-custom">
+                                <h1>156</h1>
+                                <p>在线插座数量</p>
                                 <span>
-                                    <Icon type="ios-arrow-forward" v-for="n in 4" :key="n"/>
-                                    {{ value }}
+                                    占总插座数量
+                                    <i>98%</i>
                                 </span>
-                            </li>
-                        </ul>
-                        <Button :disabled="!item.editabe" @click="timer(item)" type="primary">定时策略</Button>
-                        <Button @click="history(item)" type="primary">历史数据</Button>
-                    </Card>
-                </Col>
-                <Col :lg="24" :xs="24">
-                    <Divider>批量添加定时策略到设备</Divider>
-                    <Button style="margin:10px" type="success" v-for="i in timer_proxy" icon="md-add" @click="edit_timer_to_device(i)" >{{i.describe}}</Button>
-                    <Button type="dashed" @click="show_add_proxy" long icon="md-add">添加策略</Button>
-                </Col>
-            </Row>
-        </Scroll>
+                            </div>
+                        </i-circle>
+                    </Col>
+                    <Col :lg="8" :xs="24">
+                        <i-circle
+                            :size="250"
+                            :trail-width="4"
+                            :stroke-width="5"
+                            :percent="52"
+                            stroke-linecap="square"
+                            stroke-color="#43a3fb">
+                            <div class="demo-Circle-custom">
+                                <h1>81</h1>
+                                <p>插座通电数量</p>
+                                <span>
+                                    占在线插座数量
+                                    <i>52%</i>
+                                </span>
+                            </div>
+                        </i-circle>
+                    </Col>
+                    <Col :lg="8" :xs="24">
+                        <i-circle
+                            :size="250"
+                            :trail-width="4"
+                            :stroke-width="5"
+                            :percent="29"
+                            stroke-linecap="square"
+                            stroke-color="#43a3fb">
+                            <div class="demo-Circle-custom">
+                                <h1>45</h1>
+                                <p>空调数量</p>
+                                <span>
+                                    占在线插座数量
+                                    <i>29%</i>
+                                </span>
+                            </div>
+                        </i-circle>
+                    </Col>
+                    <Col :lg="8" :xs="24">
+                        <i-circle
+                            :size="250"
+                            :trail-width="4"
+                            :stroke-width="5"
+                            :percent="35"
+                            stroke-linecap="square"
+                            stroke-color="#43a3fb">
+                            <div class="demo-Circle-custom">
+                                <h1>35</h1>
+                                <p>电脑数量</p>
+                                <span>
+                                    占在线插座数量
+                                    <i>35%</i>
+                                </span>
+                            </div>
+                        </i-circle>
+                    </Col>
+                    <Col :lg="8" :xs="24">
+                        <i-circle
+                            :size="250"
+                            :trail-width="4"
+                            :stroke-width="5"
+                            :percent="3"
+                            stroke-linecap="square"
+                            stroke-color="#43a3fb">
+                            <div class="demo-Circle-custom">
+                                <h1>5</h1>
+                                <p>打印机数量</p>
+                                <span>
+                                    占在线插座数量
+                                    <i>3%</i>
+                                </span>
+                            </div>
+                        </i-circle>
+                    </Col>
+                    <Col :lg="8" :xs="24">
+                        <i-circle
+                            :size="250"
+                            :trail-width="4"
+                            :stroke-width="5"
+                            :percent="52"
+                            stroke-linecap="square"
+                            stroke-color="#43a3fb">
+                            <div class="demo-Circle-custom">
+                                <h1>71</h1>
+                                <p>其他用途数量</p>
+                                <span>
+                                    占在线插座数量
+                                    <i>45%</i>
+                                </span>
+                            </div>
+                        </i-circle>
+                    </Col>
+                </Row>
+            </TabPane>
+            <TabPane label="详情" icon="ios-outlet-outline">
+                <Scroll :height="height">
+                    <Row :gutter="32" style="margin:0">
+                        <Col :lg="8" :xs="24"  v-for="item in chazuos">
+                            <Card style="width:100%" >
+                                <p slot="title">
+                                    <Checkbox v-model="item.choose" size='large' :disabled="!item.editabe"></Checkbox>
+                                    <Icon type="ios-outlet"></Icon>
+                                    {{ item.name }}
+                                    
+                                </p>
+                                <i-switch :disabled="!item.editabe" slot="extra" v-model="item.switch" @on-change="change(...arguments,item)" >
+                                    <span slot="open">开启</span>
+                                    <span slot="close">关闭</span>
+                                </i-switch>
+                                <ul style="list-style-type: none;">
+                                    <li v-for="(value, key, index) in item.lastdata">
+                                        <a :href="item.url" target="_blank">{{ key }}</a>
+                                        <span>
+                                            <Icon type="ios-arrow-forward" v-for="n in 4" :key="n"/>
+                                            {{ value }}
+                                        </span>
+                                    </li>
+                                </ul>
+                                <Button :disabled="!item.editabe" @click="timer(item)" type="primary">定时策略</Button>
+                                <Button @click="history(item)" type="primary">历史数据</Button>
+                            </Card>
+                        </Col>
+                        <Col :lg="24" :xs="24">
+                            <Divider>批量添加定时策略到插座</Divider>
+                            <Button style="margin:10px" type="success" v-for="i in timer_proxy" icon="md-add" @click="edit_timer_to_device(i)" >{{i.describe}}</Button>
+                            <Button type="dashed" @click="show_add_proxy" long icon="md-add">添加策略</Button>
+                        </Col>
+                    </Row>
+                </Scroll>
+            </TabPane>
+            <TabPane label="对比" icon="ios-image-outline">
+                <v-chart autoresize style="width: 100%;  height: 90%;" theme="light" :options="history_duibi"   ref="duibi"/>
+            </TabPane>
+        </Tabs>
+                
         <Drawer
             title="定时策略"
             v-model="timer_value"
@@ -128,6 +248,7 @@ const nenghao = {
     </div>`,
 
     data(){
+
         return {
             chazuos:[],
             height:0,
@@ -284,6 +405,126 @@ const nenghao = {
                         symbol: 'none'
                     }]
                 }
+            },
+            history_duibi:{
+                title: {
+                    text: '节能开启前后,用电对比'
+                },
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                legend: {
+                    data:['开启前','开启后']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        myTool0: {
+                            show: true,
+                            title: '日',
+                            text: '日',
+                            icon: 'image://https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2541928986,283009610&fm=58',
+                            onclick: ()=>{
+                                this.randomData('日')
+                            }
+                        },
+                        myTool1: {
+                            show: true,
+                            title: '周',
+                            text: '周',
+                            icon: 'image://https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2754478880,138256405&fm=58',
+                            onclick: ()=>{
+                                this.randomData('周')
+                            }
+                        },
+                        myTool2: {
+                            show: true,
+                            title: '月',
+                            text: '月',
+                            icon: 'image://https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2605606428,551422860&fm=58',
+                            onclick: ()=>{
+                                this.randomData('月')
+                            }
+                        },
+
+                    }
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : [],
+                        axisLabel: {
+                            formatter: function (value, idx) {
+                                var date = new Date(value);
+                                return idx === 0 ? value : date.format("MM-dd\r\nhh:mm");  
+                            }
+                        },
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                dataZoom: [
+                        {
+                            type: 'slider',
+                            xAxisIndex: 0,
+                            filterMode: 'empty',
+                            start: 0,
+                            end: 100,
+                        },
+                        // {
+                        //     type: 'slider',
+                        //     yAxisIndex: 0,
+                        //     filterMode: 'empty'
+                        // },
+                        {
+                            type: 'inside',
+                            xAxisIndex: 0,
+                            filterMode: 'empty',
+                            start: 0,
+                            end: 100,
+                        },
+                        // {
+                        //     type: 'inside',
+                        //     yAxisIndex: 0,
+                        //     filterMode: 'empty'
+                        // }
+                    ],
+                series : [
+                    {
+                        name:'开启前',
+                        type:'line',
+                        areaStyle: {},
+                        step:'start',
+                        data:[0]
+                    },
+                    {
+                        name:'开启后',
+                        type:'line',
+                        areaStyle: {},
+                        step:'start',
+                        data:[0]
+                    },
+                ]
             }
         }
     },
@@ -338,6 +579,60 @@ const nenghao = {
         }
     },
     methods:{
+        randomNum(minNum, maxNum) {
+          switch (arguments.length) {
+            case 1:
+              return parseInt(Math.random() * minNum + 1, 10);
+              break;
+            case 2:
+              return parseInt(Math.random() * ( maxNum - minNum + 1 ) + minNum, 10);
+              //或者 Math.floor(Math.random()*( maxNum - minNum + 1 ) + minNum );
+              break;
+            default:
+              return 0;
+              break;
+          }
+        },
+        randomData(t='周') {
+            // 节能生成假数据
+            var nowdate = new Date();
+            var x = 0
+            var y = 0
+            if(t=='日'){
+                x = 24*3600*1000
+                y = 24
+            }else if(t=='周'){
+                x = 7*24*3600*1000
+                y = 24*7
+            }else if(t=='月'){
+                x = 30*24*3600*1000
+                y = 24*7*30
+            }
+            var oneweekdate = new Date(nowdate-x);
+            this.history_duibi.xAxis[0].data=[]
+            this.history_duibi.series[0].data=[0]
+            this.history_duibi.series[1].data=[0]
+            for(var i=0;i<y;i++){
+                var tmp = new Date(oneweekdate.valueOf()+i*3600*1000);
+                var hour = tmp.getHours()
+                var randomdata = 0
+                var diff = 0
+                if(hour<9||hour>22){
+                    randomdata = this.randomNum(50,60)
+                    diff = this.randomNum(8,12)
+                }else{
+                    randomdata = this.randomNum(100,150)
+                }
+                this.history_duibi.xAxis[0].data.push(tmp.format("yyyy-MM-dd hh:00"))
+                this.history_duibi.series[0].data.push(this.history_duibi.series[0].data[i]+randomdata)
+                this.history_duibi.series[1].data.push(this.history_duibi.series[1].data[i]+randomdata-diff)
+            }
+            var sumbefor = eval(this.history_duibi.series[0].data.join('+'))
+            var sumnow = eval(this.history_duibi.series[1].data.join('+'))
+            var d = (sumbefor-sumnow)*100/sumbefor
+            this.history_duibi.title.text= `节能开启前后,用电对比 (节能${d.toFixed(2)}%)`
+            
+        },
         show_add_proxy(){
             this.add_timer_value=true
         },
@@ -572,7 +867,7 @@ const nenghao = {
                 }else{
                     this.timerData.timers=[]
                     this.timer_value=true
-                    this.$Message.info("该设备没有定时任务")
+                    this.$Message.info("该插座没有定时任务")
                 }
                 
             })
@@ -587,6 +882,7 @@ const nenghao = {
     created(){
         this.init()
         this.get_timer_proxy()
+        this.randomData()
     }
 
 }
