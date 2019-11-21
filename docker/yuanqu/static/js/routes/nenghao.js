@@ -132,15 +132,10 @@ const nenghao = {
                                     <span slot="open">开启</span>
                                     <span slot="close">关闭</span>
                                 </i-switch>
-                                <ul style="list-style-type: none;">
-                                    <li v-for="(value, key, index) in item.lastdata">
-                                        <a :href="item.url" target="_blank">{{ key }}</a>
-                                        <span>
-                                            <Icon type="ios-arrow-forward" v-for="n in 4" :key="n"/>
-                                            {{ value }}
-                                        </span>
-                                    </li>
-                                </ul>
+                                <CellGroup>
+                                    <Cell v-for="(value, key, index) in item.lastdata" v-if="key!='开关状态'&&key!='倒计时'" :title="key" :extra="value" />
+                                </CellGroup>
+    
                                 <Button :disabled="!item.editabe" @click="timer(item)" type="primary">定时策略</Button>
                                 <Button @click="history(item)" type="primary">历史数据</Button>
                             </Card>
