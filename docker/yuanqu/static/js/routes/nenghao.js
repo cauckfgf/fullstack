@@ -6,8 +6,8 @@ const nenghao = {
     template:`<div style="width: 100%;  height: 100%;">
         <Tabs>
             <TabPane label="总计" icon="ios-analytics-outline">
-                <Row :gutter="32" style="margin:0">
-                    <Col :lg="8" :xs="24">
+                <Row :gutter="32" style="margin:0;height: 98vh;overflow: auto;" type="flex" justify="center" >
+                    <Col :lg="8" :xs="24" class='self_col'>
                         <i-circle
                             :size="250"
                             :trail-width="4"
@@ -25,7 +25,7 @@ const nenghao = {
                             </div>
                         </i-circle>
                     </Col>
-                    <Col :lg="8" :xs="24">
+                    <Col :lg="8" :xs="24" class='self_col'>
                         <i-circle
                             :size="250"
                             :trail-width="4"
@@ -43,7 +43,7 @@ const nenghao = {
                             </div>
                         </i-circle>
                     </Col>
-                    <Col :lg="8" :xs="24">
+                    <Col :lg="8" :xs="24" class='self_col'>
                         <i-circle
                             :size="250"
                             :trail-width="4"
@@ -61,7 +61,7 @@ const nenghao = {
                             </div>
                         </i-circle>
                     </Col>
-                    <Col :lg="8" :xs="24">
+                    <Col :lg="8" :xs="24" class='self_col'>
                         <i-circle
                             :size="250"
                             :trail-width="4"
@@ -79,7 +79,7 @@ const nenghao = {
                             </div>
                         </i-circle>
                     </Col>
-                    <Col :lg="8" :xs="24">
+                    <Col :lg="8" :xs="24" class='self_col'>
                         <i-circle
                             :size="250"
                             :trail-width="4"
@@ -97,7 +97,7 @@ const nenghao = {
                             </div>
                         </i-circle>
                     </Col>
-                    <Col :lg="8" :xs="24">
+                    <Col :lg="8" :xs="24" class='self_col'>
                         <i-circle
                             :size="250"
                             :trail-width="4"
@@ -420,7 +420,8 @@ const nenghao = {
                     }
                 },
                 legend: {
-                    data:['开启前','开启后']
+                    data:['开启前','开启后'],
+                    top:40
                 },
                 toolbox: {
                     feature: {
@@ -434,6 +435,7 @@ const nenghao = {
                     containLabel: true
                 },
                 toolbox: {
+                    top:40,
                     feature: {
                         myTool0: {
                             show: true,
