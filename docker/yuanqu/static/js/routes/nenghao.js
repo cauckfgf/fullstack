@@ -848,8 +848,13 @@ const nenghao = {
             var url = `/device/rest/device/?devicetype=24`
             if(name=='重置'||name==undefined){
 
-            }else{
+            }else if(name=='空调'||name=='宿舍区'){
                 url += `&name__contains=${name}`
+            }else if(name=='其他'){
+                url += `&name__contains!=空调`
+            }
+            else if(name=='办公区'){
+                url += `&name__contains!=宿舍区`
             }
             ajax.get(url).then(res => {
                 this.chazuos = res.data.results
