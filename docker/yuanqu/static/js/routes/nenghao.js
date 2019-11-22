@@ -172,8 +172,8 @@ const nenghao = {
                     <Icon type="ios-arrow-down"></Icon>
                 </a>
                 <DropdownMenu slot="list" >
-                    <DropdownItem name="宿舍区">宿舍区</DropdownItem>
-                    <DropdownItem name="办公区">办公区</DropdownItem>
+                    <DropdownItem name="宿舍">宿舍区</DropdownItem>
+                    <DropdownItem name="办公">办公区</DropdownItem>
                     <DropdownItem name="重置">重置</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -853,8 +853,8 @@ const nenghao = {
             }else if(name=='其他'){
                 url += `&name__contains!=空调`
             }
-            else if(name=='办公区'){
-                url += `&name__contains!=宿舍区`
+            else if(name=='办公'){
+                url += `&name__contains!=宿舍`
             }
             ajax.get(url).then(res => {
                 this.chazuos = res.data.results
