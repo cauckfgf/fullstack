@@ -120,6 +120,7 @@ const nenghao = {
             <TabPane label="详情" icon="ios-outlet-outline">
                 <Scroll :height="height">
                     <Row :gutter="32" style="margin:0">
+                        
                         <Col :lg="8" :xs="24"  v-for="item in chazuos">
                             <Card style="width:100%" >
                                 <p slot="title">
@@ -152,7 +153,16 @@ const nenghao = {
                 <v-chart autoresize style="width: 100%;  height: 90%;" theme="light" :options="history_duibi"   ref="duibi"/>
             </TabPane>
         </Tabs>
-                
+        <Dropdown style="position:absolute;top:10px;right:10px;" @on-click="init">
+            <a href="javascript:void(0)">
+                筛选
+                <Icon type="ios-arrow-down"></Icon>
+            </a>
+            <DropdownMenu slot="list" >
+                <DropdownItem v-for="item in fenlei" :name="item">{{item}}</DropdownItem>
+                <DropdownItem name="重置">重置</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
         <Drawer
             title="定时策略"
             v-model="timer_value"
@@ -246,6 +256,7 @@ const nenghao = {
 
         return {
             chazuos:[],
+            fenlei:[],
             height:0,
             timer_value:false,
             add_timer_value:false,
@@ -817,8 +828,14 @@ const nenghao = {
                     time: "22:20",
             })
         },
-        init(){
-            ajax.get(`/device/rest/device/?devicetype=24`).then(res => {
+        init(name){
+            var url = `/device/rest/device/?devicetype=24`
+            if(name=='重置'||name==undefined){
+
+            }else{
+                url += `&name__contains=${name}`
+            }
+            ajax.get(url).then(res => {
                 this.chazuos = res.data.results
                 for(var i in this.chazuos){
                     if(this.chazuos[i].lastdata['开关状态']=='true'){
@@ -829,7 +846,7 @@ const nenghao = {
                     this.chazuos[i].choose = false
                     
                 }
-                window.setTimeout(this.init,60000)
+                // window.setTimeout(this.init(''),60000)
             })
             this.height = document.body.clientHeight
         },
@@ -881,6 +898,9 @@ const nenghao = {
         this.init()
         this.get_timer_proxy()
         this.randomData()
+        ajax.get(`/device/rest/device/fenlei/`).then(res =>{
+            this.fenlei = res.data.results
+        })
     }
 
 }
