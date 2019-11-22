@@ -84,7 +84,7 @@ class DeviceFilter(rest_framework_filters.FilterSet):
     class Meta:
         model = Device
         fields = {
-            'name':['exact','in'],
+            'name':['exact','in','contains'],
             'system':['exact','in'],
             'devicetype':['exact','in'],
             'user__username':['exact'],
@@ -98,6 +98,7 @@ class DeviceSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter,filters.SearchFilter)
     filter_class = DeviceFilter
     @list_route(methods=['get'])
+
     def userinfo(self,request):
         islogin = request.user.is_authenticated()
         return JsonResponse({
@@ -105,6 +106,14 @@ class DeviceSet(viewsets.ModelViewSet):
             'username' : request.user.username if islogin else "游客",
             'is_staff': request.user.is_staff if islogin else False
         })
+
+    @list_route(methods=['get'])
+    def fenlei(self,request):
+        dnames = Device.objects.filter(devicetype=24).values_list('name',flat=True)
+        data = []
+        for each in dnames:
+            data.append(each.split('-')[0])
+        return JsonResponse({'results':list(set(data))})
 
     @list_route(methods=['post'])
     def shoucang(self,request):
