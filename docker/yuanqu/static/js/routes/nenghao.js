@@ -121,7 +121,7 @@ const nenghao = {
                 <Scroll :height="height">
                     <Row :gutter="32" style="margin:0">
                         
-                        <Col :lg="8" :xs="24"  v-for="item in chazuos">
+                        <Col :lg="6" :xs="24"  v-for="item in chazuos">
                             <Card style="width:100%" >
                                 <p slot="title">
                                     <Checkbox v-model="item.choose" size='large' :disabled="!item.editabe"></Checkbox>
@@ -153,16 +153,31 @@ const nenghao = {
                 <v-chart autoresize style="width: 100%;  height: 90%;" theme="light" :options="history_duibi"   ref="duibi"/>
             </TabPane>
         </Tabs>
-        <Dropdown style="position:absolute;top:10px;right:10px;" @on-click="init">
-            <a href="javascript:void(0)">
-                筛选
-                <Icon type="ios-arrow-down"></Icon>
-            </a>
-            <DropdownMenu slot="list" >
-                <DropdownItem v-for="item in fenlei" :name="item">{{item}}</DropdownItem>
-                <DropdownItem name="重置">重置</DropdownItem>
-            </DropdownMenu>
-        </Dropdown>
+        <div style="position:absolute;top:10px;right:10px;">
+            <Dropdown style="margin:5px"  @on-click="init">
+                <a href="javascript:void(0)">
+                    用途
+                    <Icon type="ios-arrow-down"></Icon>
+                </a>
+                <DropdownMenu slot="list" >
+
+                    <DropdownItem name="空调">空调</DropdownItem>
+                    <DropdownItem name="其他">其他</DropdownItem>
+                    <DropdownItem name="重置">重置</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+            <Dropdown style="margin:5px" @on-click="init">
+                <a href="javascript:void(0)">
+                    分类
+                    <Icon type="ios-arrow-down"></Icon>
+                </a>
+                <DropdownMenu slot="list" >
+                    <DropdownItem name="宿舍区">宿舍区</DropdownItem>
+                    <DropdownItem name="办公区">办公区</DropdownItem>
+                    <DropdownItem name="重置">重置</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
         <Drawer
             title="定时策略"
             v-model="timer_value"
@@ -257,6 +272,7 @@ const nenghao = {
         return {
             chazuos:[],
             fenlei:[],
+            chazuo_filter:[],
             height:0,
             timer_value:false,
             add_timer_value:false,
