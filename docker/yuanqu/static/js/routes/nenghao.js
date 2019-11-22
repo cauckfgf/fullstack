@@ -4,8 +4,8 @@ const nenghao = {
         'v-chart':VueECharts
     },
     template:`<div style="width: 100%;  height: 100%;">
-        <Tabs>
-            <TabPane label="总计" icon="ios-analytics-outline">
+        <Tabs ref='tabs' value='总计'>
+            <TabPane label="总计" icon="ios-analytics-outline" name='总计'>
                 <Row :gutter="32" style="margin:0;height: 98vh;overflow: auto;" type="flex" justify="center" >
                     <Col :lg="8" :xs="24" class='self_col'>
                         <i-circle
@@ -117,7 +117,7 @@ const nenghao = {
                     </Col>
                 </Row>
             </TabPane>
-            <TabPane label="详情" icon="ios-outlet-outline">
+            <TabPane label="详情" icon="ios-outlet-outline" name='详情'>
                 <Scroll :height="height">
                     <Row :gutter="32" style="margin:0">
                         
@@ -149,11 +149,11 @@ const nenghao = {
                     </Row>
                 </Scroll>
             </TabPane>
-            <TabPane label="对比" icon="ios-image-outline">
+            <TabPane label="对比" icon="ios-image-outline" name='对比'>
                 <v-chart autoresize style="width: 100%;  height: 90%;" theme="light" :options="history_duibi"   ref="duibi"/>
             </TabPane>
         </Tabs>
-        <div style="position:absolute;top:35px;right:10px;">
+        <div style="position:absolute;top:35px;right:10px;" v-show="$refs.tabs!=undefined && $refs.tabs.activeKey=='详情'">
             <Dropdown style="margin:5px"  @on-click="init">
                 <a href="javascript:void(0)">
                     用途
