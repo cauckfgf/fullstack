@@ -616,9 +616,10 @@ const nenghao = {
                 var diff = 0
                 if(hour<9||hour>22){
                     randomdata = this.randomNum(50,60)
-                    diff = this.randomNum(8,12)
+                    diff = this.randomNum(10,15)
                 }else{
                     randomdata = this.randomNum(100,150)
+                    diff = this.randomNum(5,10)
                 }
                 this.history_duibi.xAxis[0].data.push(tmp.format("yyyy-MM-dd hh:00"))
                 this.history_duibi.series[0].data.push(this.history_duibi.series[0].data[i]+randomdata)
