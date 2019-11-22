@@ -153,7 +153,7 @@ const nenghao = {
                 <v-chart autoresize style="width: 100%;  height: 90%;" theme="light" :options="history_duibi"   ref="duibi"/>
             </TabPane>
         </Tabs>
-        <div style="position:absolute;top:10px;right:10px;">
+        <div style="position:absolute;top:35px;right:10px;">
             <Dropdown style="margin:5px"  @on-click="init">
                 <a href="javascript:void(0)">
                     用途
