@@ -95,10 +95,11 @@ class DeviceSerializer(serializers.ModelSerializer):
         } 
 
     def get_editabe(self,obj):
-        user =  self.context['request'].user
-        if user and obj.user and  obj.user.username==user.username:
-            return True
-        return False
+        return True
+        # user =  self.context['request'].user
+        # if user and obj.user and  obj.user.username==user.username:
+        #     return True
+        # return False
 
     def get_postion(self,obj):
         def toInt(i):
