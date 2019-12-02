@@ -68,6 +68,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     sizeXY = serializers.SerializerMethodField()
     showname = serializers.ReadOnlyField()
     lastdata = Jsonserializer(required=False)
+    infraed = Jsonserializer(required=False)
     editabe = serializers.SerializerMethodField()
     _checked = serializers.SerializerMethodField()
     _disabled = serializers.SerializerMethodField()
