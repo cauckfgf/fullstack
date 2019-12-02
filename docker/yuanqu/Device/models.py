@@ -628,7 +628,10 @@ class HttpRest(object):
                     d.name = data['result']['name']
                     lastdata['在线'] = '是' if data['result']['online'] else '否'
                     for point in data['result']['status']:
-                        lastdata[m.get(point['code'])] = point['value']
+                        if m.get(point['code']):
+                            lastdata[m.get(point['code'])] = point['value']
+                        else:
+                            lastdata[point['code']] = point['value']
                     d.lastdata = json.dumps(lastdata,ensure_ascii=False)
                     d.save()
         except:
