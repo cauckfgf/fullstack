@@ -137,6 +137,28 @@ class DeviceSet(viewsets.ModelViewSet):
         return JsonResponse({})
 
     @detail_route(methods=['get'])
+    def infraredStatus(self,request,pk):
+        h = HttpRest()
+        t = h.getToken()
+        d = Device.objects.get(id=pk)
+        # h.switch_on('23506303c44f33b30e1f')
+        return JsonResponse(h.getStatusinfrared_one(d))
+    
+    @detail_route(methods=['post'])
+    def infraredSend(self,request,pk):
+        h = HttpRest()
+        t = h.getToken()
+        d = Device.objects.get(id=pk)
+        # h.switch_on('23506303c44f33b30e1f')
+        power = request.POST.get('power',None)
+        mode = request.POST.get('mode',None)
+        temp = request.POST.get('temp',None)
+        wind = request.POST.get('wind',None)
+        swing = request.POST.get('swing',None)
+        h.infraredSend(d, power=None, mode=None, temp=None, wind=None, swing=None)
+        return JsonResponse(h.getStatusinfrared_one(d))
+
+    @detail_route(methods=['get'])
     def switch_on(self,request,pk):
         h = HttpRest()
         t = h.getToken()

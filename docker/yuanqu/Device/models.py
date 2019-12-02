@@ -98,6 +98,7 @@ class Device(models.Model):
     user = models.ForeignKey(User,verbose_name='设备负责人',blank=True,null=True,related_name='device2User',on_delete=models.SET_NULL)
     users = models.ManyToManyField(User,verbose_name='收藏设备的人',blank=True,related_name='device2Users')
     lastdata = models.TextField(default='{}',blank=True,null=True,verbose_name='最新数据json')
+    infraed = models.TextField(default='{}',blank=True,null=True,verbose_name='红外参数')
     def __unicode__(self):
         return self.name
 
@@ -249,10 +250,55 @@ class HttpRest(object):
                 "Content-type": "application/json"
             }
         },
+        '控制空调':{
+            'url': '/v1.0/infrareds/{}/ac/send-keys',
+            'params': {
+                 "remote_id": "6cd9303cb9164a744b2gwu",
+                 "remote_index": "10727",
+                 "power": "1",
+                 "mode": "1",
+                 "temp": "24",
+                 "wind": "3"
+            },
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
+        '获取空调当前状态':{
+            'url': '/v1.0/infrareds/{}/remotes/{}/ac/status',
+            'params': {
+            },
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
         '获取插座实时状态':{
             'url': '/v1.0/devices/{}',
             'params': {
                 'parentId':'1'
+            },
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
+        '获取遥控列表':{
+            'url': '/v1.0/infrareds/{}/remotes',
+            'params': {
             },
             'headers':{
                 'client_id':'kptdvrpktjrkanxxw474',
@@ -590,3 +636,100 @@ class HttpRest(object):
             traceback.print_exc(file=open('/app/error.txt','a+'))
             # self.getToken()
             # self.getEle()
+
+    def getRemotes(self,d):
+        # 获取空调伴侣遥控器列表
+        # 主要保存 remote_index remote_id
+        headers = self.urls['获取遥控列表']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        url = self.urls['获取遥控列表']['url'].format(d.tuya_code)
+        # print headers['sign']
+        print headers
+        data = self.get(url,{},headers)
+        # print data
+        data = json.loads(data)
+        if data.get('success'):
+            result = data.get('result')
+            if result:
+                d.infraed = json.dumps(result[0],ensure_ascii=False)
+                d.save()
+        return d
+
+    def getRemotesAll(self):
+        headers = self.urls['获取遥控列表']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        for d in Device.objects.exclude(tuya_code=''):
+            url = self.urls['获取遥控列表']['url'].format(d.tuya_code)
+            # print headers['sign']
+            data = self.get(url,{},headers)
+            # print data
+            data = json.loads(data)
+            if data.get('success'):
+                result = data.get('result')
+                if result:
+                    d.infraed = json.dumps(result[0],ensure_ascii=False)
+                    d.save()
+
+    def infraredSend(self, d, power=None, mode=None, temp=None, wind=None, swing=None):
+        # 遥控空调
+        # power 开关 1 开 0 关
+        # mode 模式 0制冷 1制热 2自动 3送风 4除湿
+        # temp 温度 16~30
+        # wind 风速 0 自动 1低 2中 3高
+        # swing 风向 0-2 暂不支持
+        headers = self.urls['控制空调']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        url = self.urls['设备指令下发']['url'].format(code)
+        infrare_param = json.loads(d.infraed)
+        params = {
+         "remote_id": infrare_param.get('remote_id'),
+         "remote_index": infrare_param.get('remote_index'),
+         # "power": "1",
+         # "mode": "1",
+         # "temp": "24",
+         # "wind": "3"
+        }
+        if power:
+            params['power'] = power
+        if mode:
+            params['mode'] = mode
+        if temp:
+            params['temp'] = temp
+        if wind:
+            params['wind'] = wind
+        print self.post(url,params,headers)
+
+    def getStatusinfrared_one(self,d):
+        m = {
+            'cur_current':u'电流',
+            'cur_voltage':u'电压',
+            'cur_power':u'功率',
+            'switch_1':u'开关状态',
+            'countdown_1':u'倒计时',
+        }
+        headers = self.urls['获取空调当前状态']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        infrare_param = json.loads(d.infraed)
+        url = self.urls['获取空调当前状态']['url'].format(d.tuya_code,infrare_param.get('remote_id'))
+        # print headers['sign']
+        print headers
+        data = self.get(url,{},headers)
+        # print data
+        data = json.loads(data)
+        return data
