@@ -139,6 +139,7 @@ const nenghao = {
     
                                 <Button :disabled="!item.editabe" @click="timer(item)" type="primary">定时策略</Button>
                                 <Button @click="history(item)" type="primary">历史数据</Button>
+                                <Button @click="infraed(item)" v-if="item.infraed!=null && item.infraed.remote_index!=undefined" type="primary">遥控器</Button>
                             </Card>
                         </Col>
                         <Col :lg="24" :xs="24">
@@ -216,6 +217,70 @@ const nenghao = {
             </Form>
         </Drawer>
         <Drawer
+            title="遥控器"
+            v-model="infrae_info.show"
+            placement=''
+            width='100'
+        >
+            <Form :model="infrae_info.data">
+                <Row :gutter="32">
+                    <Col :lg="8" :xs="24">
+                        <FormItem label="模式">
+                            <RadioGroup v-model="infrae_info.data.mode">
+                                <Radio label="0">
+                                    <span>制冷</span>
+                                </Radio>
+                                <Radio label="1">
+                                    <span>制热</span>
+                                </Radio>
+                                <Radio label="2">
+                                    <span>自动</span>
+                                </Radio>
+                                <Radio label="3">
+                                    <span>送风</span>
+                                </Radio>
+                                <Radio label="4">
+                                    <span>除湿</span>
+                                </Radio>
+                            </RadioGroup>
+                        </FormItem>
+                        <FormItem label="开关">
+                            <i-switch :value="infrae_info.data.power=='1'" size="large">
+                                <span slot="open">开启</span>
+                                <span slot="close">关闭</span>
+                            </i-switch>
+                        </FormItem>
+                        <FormItem label="温度">
+                            <InputNumber :disabled="infrae_info.data.mode=='2'" :max="30" :min="16" v-model="infrae_info.data.temp"></InputNumber>
+                        </FormItem>
+                        <FormItem label="风速">
+                            <RadioGroup v-model="infrae_info.data.wind">
+                                <Radio label="0">
+                                    <span>自动</span>
+                                </Radio>
+                                <Radio label="1">
+                                    <span>低</span>
+                                </Radio>
+                                <Radio label="2">
+                                    <span>中</span>
+                                </Radio>
+                                <Radio label="3">
+                                    <span>高</span>
+                                </Radio>
+                            </RadioGroup>
+                        </FormItem>
+                        <Divider />
+                    </Col>
+                    <Col span="24">
+                        <FormItem>
+                            <Button type="success" @click="save">保存</Button>
+                            <Button type="dashed" @click="newtimer">新增</Button>
+                        </FormItem>
+                    </Col>
+                </Row>
+            </Form>
+        </Drawer>
+        <Drawer
             title="添加定时策略"
             v-model="add_timer_value"
             placement=''
@@ -280,6 +345,10 @@ const nenghao = {
             addtimerData:{data:{timers:[]},describe:''},
             device:{},
             timer_proxy:[],//定时策略，对应models 》》 TimerTuYa
+            infrae_info:{
+                show:false,
+                data: {}
+            },
             history_draw:{
                 show:false,
                 title:'',
@@ -721,6 +790,12 @@ const nenghao = {
             datastr = strYear+"-"+strMonth+"-"+strDay;  
             return new Date(datastr);
         }, 
+        infraed(d){
+            ajax.get(`/device/rest/device/${d.id}/infraredStatus/`).then(res => {
+                this.infrae_info.show=true
+                this.infrae_info.data=res.data.result
+            })
+        },
         history(d,t='日'){
             this.device=d
             var date = new Date()
