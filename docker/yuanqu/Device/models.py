@@ -631,7 +631,8 @@ class HttpRest(object):
                         if m.get(point['code']):
                             lastdata[m.get(point['code'])] = point['value']
                         else:
-                            lastdata[point['code']] = point['value']
+                            # lastdata[point['code']] = point['value']
+                            pass
                     d.lastdata = json.dumps(lastdata,ensure_ascii=False)
                     d.save()
         except:
