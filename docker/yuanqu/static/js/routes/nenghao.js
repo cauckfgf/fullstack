@@ -226,7 +226,7 @@ const nenghao = {
                 <Row :gutter="32">
                     <Col :lg="8" :xs="24">
                         <FormItem label="模式">
-                            <RadioGroup v-model="infrae_info.data.mode">
+                            <RadioGroup v-model="infrae_info.data.mode" @on-change="yaokong(...arguments,'mode')">
                                 <Radio label="0">
                                     <span>制冷</span>
                                 </Radio>
@@ -245,16 +245,16 @@ const nenghao = {
                             </RadioGroup>
                         </FormItem>
                         <FormItem label="开关">
-                            <i-switch :value="infrae_info.data.power=='1'" size="large">
+                            <i-switch :value="infrae_info.data.power=='1'" size="large" @on-change="yaokong(...arguments,'power')">
                                 <span slot="open">开启</span>
                                 <span slot="close">关闭</span>
                             </i-switch>
                         </FormItem>
                         <FormItem label="温度">
-                            <InputNumber :disabled="infrae_info.data.mode=='2'" :max="30" :min="16" v-model="infrae_info.data.temp"></InputNumber>
+                            <InputNumber :disabled="infrae_info.data.mode=='2'" :max="30" :min="16" v-model="infrae_info.data.temp" @on-change="yaokong(...arguments,'temp')"></InputNumber>
                         </FormItem>
                         <FormItem label="风速">
-                            <RadioGroup v-model="infrae_info.data.wind">
+                            <RadioGroup v-model="infrae_info.data.wind" @on-change="yaokong(...arguments,'wind')">
                                 <Radio label="0">
                                     <span>自动</span>
                                 </Radio>
@@ -271,12 +271,7 @@ const nenghao = {
                         </FormItem>
                         <Divider />
                     </Col>
-                    <Col span="24">
-                        <FormItem>
-                            <Button type="success" @click="save">保存</Button>
-                            <Button type="dashed" @click="newtimer">新增</Button>
-                        </FormItem>
-                    </Col>
+
                 </Row>
             </Form>
         </Drawer>
@@ -733,6 +728,34 @@ const nenghao = {
         timerage(t){
             this.history(this.device,t)
         },
+        yaokong(v,key){
+            var data=this.infrae_info.data
+            console.log(v,key)
+            if(key=='power'){
+                if(v){
+                    v='1'
+                }else{
+                    v='0'
+                }
+            }
+            
+            data[key]=v
+            ajax({
+                url:`/device/rest/device/${this.device.id}/infraredSend/`,
+                transformRequest: [function (data) {
+                    return Qs.stringify(data, {
+                        encode: false,
+                        arrayFormat: 'brackets'
+                    });
+                }],
+                data:data,
+                method: 'post'
+            }).then(res=>{
+                // this.init()
+                this.$Message.info("成功")
+            })
+
+        },
         getBeforeWeek(d){
             d = new Date(d);
             d = +d - 1000*60*60*24*6;
@@ -791,6 +814,7 @@ const nenghao = {
             return new Date(datastr);
         }, 
         infraed(d){
+            this.device=d
             ajax.get(`/device/rest/device/${d.id}/infraredStatus/`).then(res => {
                 this.infrae_info.show=true
                 this.infrae_info.data=res.data.result

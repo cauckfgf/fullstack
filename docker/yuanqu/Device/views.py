@@ -154,9 +154,11 @@ class DeviceSet(viewsets.ModelViewSet):
         mode = request.POST.get('mode',None)
         temp = request.POST.get('temp',None)
         wind = request.POST.get('wind',None)
-        swing = request.POST.get('swing',None)
-        h.infraredSend(d, power=None, mode=None, temp=None, wind=None, swing=None)
-        return JsonResponse(h.getStatusinfrared_one(d))
+        swing = request.POST.get('swingg',None)
+        # print power,mode,temp,wind,swing
+        # h.infraredSend(d, power=None, mode=None, temp=None, wind=None, swing=None)
+        return JsonResponse(h.infraredSend(d, power=power, mode=mode, temp=temp, wind=wind, swing=swing))
+        # return JsonResponse(h.getStatusinfrared_one(d))
 
     @detail_route(methods=['get'])
     def switch_on(self,request,pk):

@@ -695,7 +695,7 @@ class HttpRest(object):
         message = headers['client_id'] + self.access_token + str(headers['t'])
         self.get_hmac_sha256(message)
         headers['sign'] = self.signature
-        url = self.urls['设备指令下发']['url'].format(code)
+        url = self.urls['控制空调']['url'].format(d.tuya_code)
         infrare_param = json.loads(d.infraed)
         params = {
          "remote_id": infrare_param.get('remote_id'),
@@ -705,15 +705,16 @@ class HttpRest(object):
          # "temp": "24",
          # "wind": "3"
         }
-        if power:
-            params['power'] = power
-        if mode:
-            params['mode'] = mode
-        if temp:
-            params['temp'] = temp
-        if wind:
-            params['wind'] = wind
-        print self.post(url,params,headers)
+        if power!=None:
+            params['power'] = str(power)
+        if mode!=None:
+            params['mode'] = str(mode)
+        if temp!=None:
+            params['temp'] = str(temp)
+        if wind!=None:
+            params['wind'] = str(wind)
+        print params
+        return json.loads(self.post(url,params,headers))
 
     def getStatusinfrared_one(self,d):
         m = {
