@@ -120,8 +120,38 @@ const nenghao = {
             <TabPane label="详情" icon="ios-outlet-outline" name='详情'>
                 <Scroll :height="height">
                     <Row :gutter="32" style="margin:0">
-                        
-                        <Col :lg="6" :xs="24"  v-for="item in chazuos">
+                        <Table v-if="!ismobile" stripe @on-selection-change="select_change" border ref="selection" :columns="chazuos_col" :data="chazuos">
+                            <template slot-scope="{ row, index }" slot="name">
+                                {{ row.name }}
+                            </template>
+                            <template slot-scope="{ row, index }" slot="online">
+                                {{ row.lastdata['在线'] }}
+                            </template>
+                            <template slot-scope="{ row, index }" slot="switch">
+                                <i-switch :disabled="!row.editabe" slot="extra" v-model="row.switch" @on-change="change(...arguments,row)" >
+                                    <span slot="open">开启</span>
+                                    <span slot="close">关闭</span>
+                                </i-switch>
+                            </template>
+                            <template slot-scope="{ row, index }" slot="ele">
+                                {{ row.lastdata['用电量'] }}
+                            </template>
+                            <template slot-scope="{ row, index }" slot="v">
+                                {{ row.lastdata['电压'] }}
+                            </template>
+                            <template slot-scope="{ row, index }" slot="w">
+                                {{ row.lastdata['功率'] }}
+                            </template>
+                            <template slot-scope="{ row, index }" slot="a">
+                                {{ row.lastdata['电流'] }}
+                            </template>
+                            <template slot-scope="{ row, index }" slot="action">
+                                <Button :disabled="!row.editabe" @click="timer(row)" size="small" type="primary">定时策略</Button>
+                                <Button @click="history(row)" type="primary" size="small">历史数据</Button>
+                                <Button @click="infraed(row)" size="small" v-if="row.infraed!=null && row.infraed.remote_index!=undefined" type="primary">遥控器</Button>
+                            </template>
+                        </Table>
+                        <Col v-if="ismobile" :lg="6" :xs="24"  v-for="item in chazuos">
                             <Card style="width:100%" >
                                 <p slot="title">
                                     <Checkbox v-model="item.choose" size='large' :disabled="!item.editabe"></Checkbox>
@@ -331,6 +361,62 @@ const nenghao = {
 
         return {
             chazuos:[],
+            chazuos_col:[
+                {
+                    type: 'selection',
+                    // key: 'name',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    title: '名称',
+                    slot: 'name',
+                    width: 200,
+                    // fixed: 'left'
+                },
+                {
+                    title: '是否在线',
+                    slot: 'online',
+
+                    // fixed: 'left'
+                },
+                {
+                    title: '开关',
+                    slot: 'switch',
+
+                    // fixed: 'left'
+                },
+                {
+                    title: '用电量',
+                    slot: 'ele',
+
+                    // fixed: 'left'
+                },
+                {
+                    title: '电压',
+                    slot: 'v',
+
+                    // fixed: 'left'
+                },
+                {
+                    title: '功率',
+
+                    // fixed: 'left'
+                },
+                {
+                    title: '电流',
+                    slot: 'a',
+
+                    // fixed: 'left'
+                },
+                {
+                    title: '电流',
+                    slot: 'action',
+
+                    // fixed: 'left'
+                },
+
+            ],
             fenlei:[],
             chazuo_filter:[],
             height:0,
@@ -666,7 +752,24 @@ const nenghao = {
             }
         }
     },
+    computed:{
+        ismobile(){
+            return store.state.ismoble;
+        },
+    },
     methods:{
+        choose_change(b,index){
+            this.chazuos[index]=b
+        },
+        select_change(l){
+            for(var i in this.chazuos){
+                this.chazuos[i].choose=false
+            }
+            for(var i in l){
+                var index = this.chazuos.findIndex( c => c.id === l[i].id )
+                this.chazuos[index].choose=true
+            }
+        },
         randomNum(minNum, maxNum) {
           switch (arguments.length) {
             case 1:
@@ -963,8 +1066,8 @@ const nenghao = {
                     }else{
                         this.chazuos[i].switch = false
                     }
+                    // this.chazuos[i].choose = false
                     this.chazuos[i].choose = false
-                    
                 }
                 // window.setTimeout(this.init(''),60000)
             })
@@ -1011,7 +1114,6 @@ const nenghao = {
             ajax.get(`/device/rest/timer/`).then(res =>{
                 this.timer_proxy = res.data.results
             })
-            
         }
     },
     created(){

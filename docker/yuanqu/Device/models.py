@@ -700,10 +700,6 @@ class HttpRest(object):
         params = {
          "remote_id": infrare_param.get('remote_id'),
          "remote_index": infrare_param.get('remote_index'),
-         # "power": "1",
-         # "mode": "1",
-         # "temp": "24",
-         # "wind": "3"
         }
         if power!=None:
             params['power'] = str(power)

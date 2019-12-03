@@ -26,6 +26,7 @@ store = new Vuex.Store({
     state:{
         userinfo:{islogin:false,username:'',is_staff:true},
         clientHeight:document.documentElement.clientHeight,
+        ismoble:false,
     },
     mutations:{
         set_userinfo(state,userinfo){
@@ -33,6 +34,9 @@ store = new Vuex.Store({
         },
         set_clientHeight(state,clientHeight){
             state.clientHeight = clientHeight
+        },
+        set_ismoble(state,flag){
+            state.ismoble = flag
         }
     }
 })
