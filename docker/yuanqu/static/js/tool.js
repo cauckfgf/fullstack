@@ -22,11 +22,17 @@ Date.prototype.format = function(fmt)
   return fmt;   
 }
 Vue.use(Vuex)
+let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+if(flag==null){
+    flag=false
+}else{
+    flag=true
+}
 store = new Vuex.Store({
     state:{
         userinfo:{islogin:false,username:'',is_staff:true},
         clientHeight:document.documentElement.clientHeight,
-        ismoble:false,
+        ismoble:flag,
     },
     mutations:{
         set_userinfo(state,userinfo){
@@ -40,3 +46,4 @@ store = new Vuex.Store({
         }
     }
 })
+
