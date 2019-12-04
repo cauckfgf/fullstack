@@ -1068,6 +1068,7 @@ const nenghao = {
                     }
                     // this.chazuos[i].choose = false
                     this.chazuos[i].choose = false
+                    this.chazuos[i]._disabled = false
                 }
                 // window.setTimeout(this.init(''),60000)
             })
