@@ -495,7 +495,8 @@ class HttpRest(object):
                 }
             ]
         }
-        print self.post(url,params,headers)
+        return json.loads(self.post(url,params,headers))
+
     def switch_off(self,code):
         headers = self.urls['设备指令下发']['headers']
         headers['access_token'] = self.access_token
@@ -512,7 +513,8 @@ class HttpRest(object):
                 }
             ]
         }
-        print self.post(url,params,headers)
+        return json.loads(self.post(url,params,headers))
+        
     def getTimer(self,code):
         # end_time = (t + relativedelta(seconds=4)).strftime("%H:%M")
         headers = self.urls['查询设备定时任务']['headers']

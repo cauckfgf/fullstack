@@ -131,10 +131,19 @@ class DeviceSet(viewsets.ModelViewSet):
         h = HttpRest()
         t = h.getToken()
         d = Device.objects.get(id=pk)
-        h.switch_off(d.tuya_code)
+        r = h.switch_off(d.tuya_code)
         s = h.getStatus()
         # h.switch_on('23506303c44f33b30e1f')
-        return JsonResponse({})
+        return JsonResponse(r)
+
+    @detail_route(methods=['get'])
+    def switch_on(self,request,pk):
+        h = HttpRest()
+        t = h.getToken()
+        d = Device.objects.get(id=pk)
+        r = h.switch_on(d.tuya_code)
+        s = h.getStatus()
+        return JsonResponse(r)
 
     @detail_route(methods=['get'])
     def infraredStatus(self,request,pk):
@@ -143,7 +152,9 @@ class DeviceSet(viewsets.ModelViewSet):
         d = Device.objects.get(id=pk)
         # h.switch_on('23506303c44f33b30e1f')
         return JsonResponse(h.getStatusinfrared_one(d))
+
     
+
     @detail_route(methods=['post'])
     def infraredSend(self,request,pk):
         h = HttpRest()
@@ -160,14 +171,7 @@ class DeviceSet(viewsets.ModelViewSet):
         return JsonResponse(h.infraredSend(d, power=power, mode=mode, temp=temp, wind=wind, swing=swing))
         # return JsonResponse(h.getStatusinfrared_one(d))
 
-    @detail_route(methods=['get'])
-    def switch_on(self,request,pk):
-        h = HttpRest()
-        t = h.getToken()
-        d = Device.objects.get(id=pk)
-        h.switch_on(d.tuya_code)
-        s = h.getStatus()
-        return JsonResponse({})
+    
         # h.switch_off('23506303c44f33b30e1f')
         # h.switch_on('23506303c44f33b30e1f')
     @detail_route(methods=['get','post','delete'])
