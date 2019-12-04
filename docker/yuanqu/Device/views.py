@@ -252,9 +252,10 @@ class TimerTuYaSet(viewsets.ModelViewSet):
         h = HttpRest()
         h.getToken()
         devices = body.get('devices')
+        r = {}
         for d in devices:
             devcie = Device.objects.get(id=d)
             # h.delTimer(devcie.tuya_code)
             for t in timers:
-                h.setTimer(devcie.tuya_code,t['time'],t['functions'][0]['value'],''.join(t['loops']))
-        return JsonResponse({})
+                r = h.setTimer(devcie.tuya_code,t['time'],t['functions'][0]['value'],''.join(t['loops']))
+        return JsonResponse(r)

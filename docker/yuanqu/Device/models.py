@@ -565,7 +565,7 @@ class HttpRest(object):
                 }
             ]
         }
-        print self.post(url,params,headers)
+        return json.loads(self.post(url,params,headers))
 
     def getStatus_one(self,d):
         m = {
