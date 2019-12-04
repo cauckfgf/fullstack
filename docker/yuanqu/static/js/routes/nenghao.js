@@ -410,7 +410,7 @@ const nenghao = {
                     // fixed: 'left'
                 },
                 {
-                    title: '电流',
+                    title: '操作',
                     slot: 'action',
 
                     // fixed: 'left'
