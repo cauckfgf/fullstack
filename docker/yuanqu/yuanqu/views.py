@@ -229,5 +229,8 @@ def get_wx_user_info(request):
 
 @csrf_exempt
 def ceshi(request):
-    print  json.loads(request.body)
+    try:
+        print  json.loads(request.body)
+    except:
+        traceback.print_exc()
     return JsonResponse({})
