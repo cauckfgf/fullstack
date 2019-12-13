@@ -233,4 +233,5 @@ def ceshi(request):
         print  json.loads(request.body)
     except:
         traceback.print_exc()
+    print 11111111111111111111
     return JsonResponse({})
