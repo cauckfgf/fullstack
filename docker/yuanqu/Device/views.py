@@ -180,7 +180,7 @@ class DeviceSet(viewsets.ModelViewSet):
             h = HttpRest()
             t = h.getToken()
             d = Device.objects.get(id=pk)
-            p = h.getTimer(d.tuya_code)
+            p = h.getTimer(d)
             return JsonResponse(p)
         elif request.method == 'POST':
             # print request.data
@@ -191,7 +191,10 @@ class DeviceSet(viewsets.ModelViewSet):
             d = Device.objects.get(id=pk)
             h.delTimer(d.tuya_code)
             for t in body['timers']:
-                h.setTimer(d.tuya_code,t['time'],t['functions'][0]['value'],''.join(t['loops']))
+                if d.devicetype.name=='红外wifi插座':
+                    h.setInfraredTimer(t['time'], d, ''.join(t['loops']), M='模式', T='温度', S='风速')
+                else:
+                    h.setTimer(d.tuya_code,t['time'],t['functions'][0]['value'],''.join(t['loops']))
             return JsonResponse({})
         elif request.method == 'DELETE':
             request.DELETE.get('')

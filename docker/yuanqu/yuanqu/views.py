@@ -12,6 +12,7 @@ from django.contrib import auth
 #from django_filters.rest_framework import DjangoFilterBackend
 # from django.contrib.auth.models import User as DjangoUser
 #import sys, urllib2, json
+import json
 from Device.models  import *
 from django.contrib.auth.models import User,Group
 import settings
@@ -225,3 +226,7 @@ def oauth(method):
 def get_wx_user_info(request):
     user_info = request.session.get('user_info')
     return HttpResponse(str(user_info))
+
+@csrf_exempt
+def ceshi(request):
+    print body = json.loads(request.body)

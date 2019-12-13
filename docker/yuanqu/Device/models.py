@@ -359,7 +359,42 @@ class HttpRest(object):
                 "Content-type": "application/json"
             }
         },
-
+        '下发红外定时任务':{
+            'url': '/v1.0/infrareds/{}/timers',
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
+        '查询红外定时任务':{
+            'url': '/v1.0/infrareds/{}/timers/categories/{}/remotes/{}',
+            'params': {
+                'parentId':'1'
+            },
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
+        '删除红外设备下的所有定时任务':{
+            'url': '/v1.0/devices/{}/timers',
+            'headers':{
+                'client_id':'kptdvrpktjrkanxxw474',
+                # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+                # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+                # 't':1568865734445,
+                'sign_method':'HMAC-SHA256',
+                "Content-type": "application/json"
+            }
+        },
     }
     access_token = ''
     signature = ''
@@ -515,7 +550,9 @@ class HttpRest(object):
         }
         return json.loads(self.post(url,params,headers))
         
-    def getTimer(self,code):
+    def getTimer(self,d):
+        if d.devicetype.name=='红外wifi插座':
+            return self.getInfraredTimer(d)
         # end_time = (t + relativedelta(seconds=4)).strftime("%H:%M")
         headers = self.urls['查询设备定时任务']['headers']
         headers['access_token'] = self.access_token
@@ -523,18 +560,20 @@ class HttpRest(object):
         message = headers['client_id'] + self.access_token + str(headers['t'])
         self.get_hmac_sha256(message)
         headers['sign'] = self.signature
-        url = self.urls['查询设备定时任务']['url'].format(code)
+        url = self.urls['查询设备定时任务']['url'].format(d.tuya_code)
         data = self.get(url,{},headers)
         return json.loads(data)
 
-    def delTimer(self,code):
+    def delTimer(self,d):
+        if d.devicetype.name=='红外wifi插座':
+            return self.delInfraredTimer(d)
         headers = self.urls['删除设备下的所有定时任务']['headers']
         headers['access_token'] = self.access_token
         headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
         message = headers['client_id'] + self.access_token + str(headers['t'])
         self.get_hmac_sha256(message)
         headers['sign'] = self.signature
-        url = self.urls['删除设备下的所有定时任务']['url'].format(code)
+        url = self.urls['删除设备下的所有定时任务']['url'].format(d.tuya_code)
         data = self.delete(url,headers)
         return json.loads(data)
 
@@ -592,6 +631,8 @@ class HttpRest(object):
         data = json.loads(data)
         if data.get('success'):
             d.name = data['result']['name']
+            if data['result']['product_name']=="计量插座+空调控制":
+                d.devicetype_id = 33
             lastdata['在线'] = '是' if data['result']['online'] else '否'
             for point in data['result']['status']:
                 lastdata[m.get(point['code'])] = point['value']
@@ -628,6 +669,8 @@ class HttpRest(object):
                 f.close()
                 if data.get('success'):
                     d.name = data['result']['name']
+                    if data['result']['product_name']=="计量插座+空调控制":
+                        d.devicetype_id = 33
                     lastdata['在线'] = '是' if data['result']['online'] else '否'
                     for point in data['result']['status']:
                         if m.get(point['code']):
@@ -663,7 +706,7 @@ class HttpRest(object):
             if result:
                 d.infraed = json.dumps(result[0],ensure_ascii=False)
                 d.save()
-        return d
+        return data
 
     def getRemotesAll(self):
         headers = self.urls['获取遥控列表']['headers']
@@ -736,3 +779,104 @@ class HttpRest(object):
         # print data
         data = json.loads(data)
         return data
+
+
+    def getRules(self,d,c,b,remote_index):
+        # 获取遥控器配对规则
+        url = '/v1.0/infrareds/{}/categories/{}/brands/{}/remotes/{}/rules'.format(d.tuya_code,c,b,remote_index)
+        headers={
+            'client_id':'kptdvrpktjrkanxxw474',
+            # 'sign':'eujuuttq7hsgcs57ak7qx79sgkkkwxgw',
+            # 't': int(time.mktime(datetime.datetime.now().timetuple()))*1000,
+            # 't':1568865734445,
+            'sign_method':'HMAC-SHA256',
+            "Content-type": "application/json"
+        }
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        data = self.get(url,{},headers)
+        return json.loads(data)
+
+    def setInfraredTimer(self, t, d, week_day, M='模式', T='温度', S='风速'):
+
+        remotes = self.getRemotes(d)
+        # {
+        #     "result": [
+        #         {
+        #             "brand_id": "97",
+        #             "category_id": "5",
+        #             "remote_id": "6cd9303cb9164a744b2gwu",
+        #             "remote_index": "10727",
+        #             "remote_name": "空调",
+        #             "t": 1575249017045
+        #         }
+        #     ],
+        #     "success": true,
+        #     "t": 1576208231228
+        # }
+        rules = self.getRules(d,remotes['result'][0]['category_id'],remotes['result'][0]['brand_id'],remotes['result'][0]['remote_index'])
+        key_name = "M{}_T{}_S{}".format(M,T,S)
+        key = ''
+        for r in rules['result']:
+            if r['key_name'] == key:
+                key = r['key']
+                break
+        headers = self.urls['下发红外定时任务']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        url = self.urls['下发红外定时任务']['url'].format(code)
+        params = {   
+            "infrared_id":"device{}".format(code),
+            "categoty_id":remotes['result'][0]['category_id'],
+            "loops":week_day,
+            "time_zone":"+08:00",
+            "timezone_id":"Asia/shanghai",
+            "instruct":[
+                {
+                    "key":key,
+                    "time":t
+                    # "date":
+                }
+            ]
+        }
+        return json.loads(self.post(url,params,headers))
+
+    def getInfraredTimer(self,d):
+        # end_time = (t + relativedelta(seconds=4)).strftime("%H:%M")
+        remotes = self.getRemotes(d)
+        headers = self.urls['查询红外定时任务']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        url = self.urls['查询红外定时任务']['url'].format(d.tuya_code,remotes['result'][0]['category_id'],remotes['result'][0]['remote_index'])
+        data = self.get(url,{},headers)
+        data = json.loads(data)
+        print data,'-------------'
+        print (d,remotes['result'][0]['category_id'],remotes['result'][0]['brand_id'],remotes['result'][0]['remote_index'])
+        rules = self.getRules(d,remotes['result'][0]['category_id'],remotes['result'][0]['brand_id'],remotes['result'][0]['remote_index'])
+        
+        for t in data['result']['groups'][0]['timers']:
+            for r in rules['result']:
+                if r['key'] == t['key']:
+                    t['key_name'] = r['key_name']
+                    break
+        return json.loads(data)
+
+    def delInfraredTimer(self,d):
+        headers = self.urls['删除红外设备下的所有定时任务']['headers']
+        headers['access_token'] = self.access_token
+        headers['t'] = int(time.mktime(datetime.datetime.now().timetuple()))*1000
+        message = headers['client_id'] + self.access_token + str(headers['t'])
+        self.get_hmac_sha256(message)
+        headers['sign'] = self.signature
+        url = self.urls['删除红外设备下的所有定时任务']['url'].format(d.tuya_code)
+        data = self.delete(url,headers)
+        return json.loads(data)
