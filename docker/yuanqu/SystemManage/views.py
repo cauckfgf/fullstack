@@ -40,9 +40,18 @@ class GroupSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+
+class AuthFilter(rest_framework_filters.FilterSet):
+    class Meta:
+        model = Auth
+        fields = {
+            'users' : ['exact'],
+        }
+
 class AuthSet(viewsets.ModelViewSet):
     queryset = Auth.objects.all()
     serializer_class = AuthSerializer
+    filter_class = AuthFilter
     # permission_classes = [IsAdminUser]
     
 

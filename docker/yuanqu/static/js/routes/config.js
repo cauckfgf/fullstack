@@ -69,7 +69,7 @@ const config = {
                             <template slot-scope="{ row, index }" v-for="item in table_columns" :slot="item.slot">
                                 <template v-if="edit.index==index">
                                     
-                                    <Checkbox v-if="row[item.slot]===true||row[item.slot]===false" v-model="row[item.slot]">Checkbox</Checkbox>
+                                    <Checkbox v-if="row[item.slot]===true||row[item.slot]===false" v-model="row[item.slot]"></Checkbox>
                                     <Input  type="text" v-else-if='item.filters==null' v-model="row[item.slot]"/>
                                     <Select v-else-if="typeof(row[item.slot])=='object'&&row[item.slot]!=null" v-model="row[item.slot]" style="width:200px" filterable multiple>
                                         <Option v-for="i in filters[item.slot]" :value="i.value" :key="i.value">{{ i.label }}</Option>
