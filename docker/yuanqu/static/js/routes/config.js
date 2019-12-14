@@ -474,7 +474,12 @@ const config = {
                     },
                     {
                         title: '有权限的人员',
-                        slot: 'users'
+                        slot: 'users',
+                        filters: this.filters.users,
+                        filterRemote:(value,row)=>{
+                            this.filter.users=value
+                            this.initTable()
+                        }
                     },
                     {
                         title: '操作',
