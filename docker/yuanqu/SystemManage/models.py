@@ -27,7 +27,7 @@ class Config(models.Model):
 
 class Auth(models.Model):
     name = models.CharField(max_length=64,verbose_name='权限名字',default='')
-    users = models.ManyToManyField(User,verbose_name='有权限的用户')
+    users = models.ManyToManyField(User,verbose_name='有权限的用户',blank=True)
     class Meta:
         verbose_name = "权限"
         verbose_name_plural = "权限"
