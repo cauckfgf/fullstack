@@ -30,7 +30,7 @@ class Auth(models.Model):
     users = models.ManyToManyField(User,verbose_name='有权限的用户',blank=True)
 
     def users_name(self):
-        return ','.join(self.users.values_list('truename',flat=True))
+        return ','.join(self.users.values_list('username',flat=True))
     class Meta:
         verbose_name = "权限"
         verbose_name_plural = "权限"
