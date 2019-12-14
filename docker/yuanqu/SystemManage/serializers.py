@@ -53,6 +53,7 @@ class GroupSerializer(serializers.ModelSerializer):
 class AuthSerializer(serializers.ModelSerializer):
     '''设备类型'''
     id = serializers.ReadOnlyField()
+    users_name = serializers.ReadOnlyField(source='users.values_list("name",flat=True)')
     class Meta:
         model = Auth
         fields = '__all__'
