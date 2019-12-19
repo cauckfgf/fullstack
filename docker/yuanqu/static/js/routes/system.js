@@ -1167,7 +1167,7 @@ const system = {
              })
             var p2 = new Promise((resolve,reject)=>{
                 // url = `/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false&pagesize=20&page=${this.device_filter.page}`
-                url = `/device/rest/device/?system=${system}&devicetype__in=24,33&pagesize=20&page=${this.device_filter.page}`
+                url = `/device/rest/device/?devicetype__in=24,33&pagesize=20&page=${this.device_filter.page}`
                 if(this.device_filter.devicetype!=null){
                     url = url + `&devicetype__in=${this.device_filter.devicetype}`
                 }
