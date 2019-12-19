@@ -1904,6 +1904,9 @@ const system = {
         
     },
     computed:{
+        userinfo(){
+            return store.state.userinfo;
+        },
         table_height(){
             return store.state.clientHeight/3;
         },
