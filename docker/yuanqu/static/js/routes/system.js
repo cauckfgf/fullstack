@@ -167,7 +167,7 @@ const system = {
                         <span>设备列表</span>
                         <img src="/static/image/ksh33.png">
                     </div>
-                    <Table class="transparentTable"   @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
+                    <Table class="transparentTable" :height="table_height"   @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
                     <Button class="btn" :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(true)">关注全部</Button>
                     <Button class="btn" :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(false)">取消关注</Button>
                     <Page class='page' :page-size="20" size="small" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
@@ -1904,9 +1904,9 @@ const system = {
         
     },
     computed:{
-        userinfo(){
-            return store.state.userinfo;
-        }
+        table_height(){
+            return store.state.clientHeight/3;
+        },
     },
     mounted(){
         // this.project = this.$route.query.project
