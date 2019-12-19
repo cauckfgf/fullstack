@@ -259,7 +259,9 @@
 .visual_conBot_3{position:absolute;right:0;bottom:0;}
 .visual_conBot_4{position:absolute;left:0;bottom:0;}
 
-
+.transparentTable{
+        height: 90%;
+}
 .transparentTable td {
     -webkit-box-shadow: rgba(0,177,255,.6) 0 0 5px inset;
     box-shadow: inset 0 0 5px rgba(0,177,255,.6)
