@@ -29,7 +29,7 @@ const system = {
                 </DropdownMenu>
             </Dropdown>
         </div>
-        <Row style="padding-top:20px;width: 100%;  calc(100% - 42px);">
+        <Row style="padding-top:20px;width: 100%;  height:calc(100% - 42px);">
             <Col :xs="24" :sm="24" :md="6" :lg="6" style="height: 100%;">
                 <Card class="zhandian_card" style="background: #fff0;border:none;height: 40%;">
                     <div class="visual_title" slot="title">
