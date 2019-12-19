@@ -128,10 +128,10 @@ class Device2Device(models.Model):
         ('dashed','长虚线'),
         ('dotted','短虚线'),
     )
-    # device_from = models.ForeignKey(Device,related_name="DeviceFrom",verbose_name='连接设备')
-    # position_from = models.CharField(max_length=96,default='1,2',verbose_name='连接设备在逻辑图中位置')
-    # device_to = models.ForeignKey(Device,related_name="DeviceTo",verbose_name='被连接设备')
-    # position_to = models.CharField(max_length=96,default='1,2',verbose_name='被连接设备在逻辑图中位置')
+    device_from = models.ForeignKey(Device,related_name="DeviceFrom",verbose_name='连接设备')
+    position_from = models.CharField(max_length=96,default='1,2',verbose_name='连接设备在逻辑图中位置')
+    device_to = models.ForeignKey(Device,related_name="DeviceTo",verbose_name='被连接设备')
+    position_to = models.CharField(max_length=96,default='1,2',verbose_name='被连接设备在逻辑图中位置')
     connection = models.CharField(max_length=96,default='green',verbose_name='线颜色')
     system = models.ForeignKey(System,blank=True,null=True,verbose_name='所属系统')
     sensor = models.ForeignKey('Sensor',null=True,blank=True,verbose_name='连接传感器', on_delete=models.SET_NULL)
