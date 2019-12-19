@@ -1,7 +1,8 @@
 const config = { 
     components:{
         // transactions
-        'v-chart':VueECharts
+        'v-chart':VueECharts,
+        'nenghao':nenghao
     },
     template:`<div style="width: 100%;  height: 100%;">
                 <Header class='self-header'>
@@ -51,60 +52,70 @@ const config = {
                         </Menu>
                     </div>
                     <div slot="right" style="width: 100%;  height: 100%;">
-                        <Row>
-                            <Col span="8"><Breadcrumb :style="{margin: '16px'}">
-                                <Breadcrumb>
-                                    <BreadcrumbItem >{{menu_active1}}</BreadcrumbItem>
-                                    <BreadcrumbItem >{{menu_active2}}</BreadcrumbItem>
-                                </Breadcrumb>
-                            </Col>
-                            <Col span="16">
-                                <Page  :page-size="20" style="margin:15px;float:right;" :total="table_count" @on-change="pageChange" show-elevator />
-                                <Button type="dashed" style="margin:15px;float:right;"icon="md-add" @click="addOBJ">添加</Button>
-                            </Col>
-                        </Row>
-                            
-
-                        <Table :height="table_height" stripe  border ref="selection" :columns="table_columns" :data="table_data">
-                            <template slot-scope="{ row, index }" v-for="item in table_columns" :slot="item.slot">
-                                <template v-if="edit.index==index">
-                                    
-                                    <Checkbox v-if="row[item.slot]===true||row[item.slot]===false" v-model="row[item.slot]"></Checkbox>
-                                    <Input  type="text" v-else-if='item.filters==null' v-model="row[item.slot]"/>
-                                    <Select v-else-if="typeof(row[item.slot])=='object'&&row[item.slot]!=null" v-model="row[item.slot]" style="width:200px" filterable multiple>
-                                        <Option v-for="i in filters[item.slot]" :value="i.value" :key="i.value">{{ i.label }}</Option>
-                                    </Select>
-                                    <Select v-else v-model="row[item.slot]" style="width:200px" filterable clearable>
-                                        <Option v-for="i in filters[item.slot]" :value="i.value" :key="i.value">{{ i.label }}</Option>
-                                    </Select>
-                                </template>
-                                <template v-else>
-                                    
-                                    <template v-if='row[item.slot]===true'>
-                                        是
-                                    </template>
-                                    <template v-else-if='row[item.slot]===false'>
-                                        否
-                                    </template>
-                                    <template v-else-if='item.filters==null'>
-                                        {{row[item.slot]}}
+                        <nenghao v-if="nenghao_show"></nenghao>
+                        <template v-else>
+                            <Row>
+                                <Col span="8"><Breadcrumb :style="{margin: '16px'}">
+                                    <Breadcrumb>
+                                        <BreadcrumbItem >{{menu_active1}}</BreadcrumbItem>
+                                        <BreadcrumbItem >{{menu_active2}}</BreadcrumbItem>
+                                    </Breadcrumb>
+                                </Col>
+                                <Col span="16">
+                                    <Page  :page-size="15" style="margin:15px;float:right;" :total="table_count" @on-change="pageChange" show-elevator />
+                                    <Button type="dashed" style="margin:15px;float:right;"icon="md-add" @click="addOBJ">添加</Button>
+                                </Col>
+                            </Row>
+                                
+                            <Table  :height="table_height" stripe  border ref="selection" :columns="table_columns" :data="table_data">
+                                <template slot-scope="{ row, index }" v-for="item in table_columns" :slot="item.slot">
+                                    <template v-if="edit.index==index">
+                                        
+                                        <Checkbox v-if="row[item.slot]===true||row[item.slot]===false" v-model="row[item.slot]"></Checkbox>
+                                        <ColorPicker v-else-if="item.iscolor===true" v-model="row[item.slot]" />
+                                        <Input  type="text" v-else-if='item.filters==null' v-model="row[item.slot]"/>
+                                        <Select v-else-if="typeof(row[item.slot])=='object'&&row[item.slot]!=null" v-model="row[item.slot]" style="width:200px" filterable multiple>
+                                            <Option v-for="i in filters[item.slot]" :value="i.value" :key="i.value">{{ i.label }}</Option>
+                                        </Select>
+                                        
+                                        <Select v-else v-model="row[item.slot]" style="width:200px" filterable clearable>
+                                            <Option v-for="i in filters[item.slot]" :value="i.value" :key="i.value">{{ i.label }}</Option>
+                                        </Select>
                                     </template>
                                     <template v-else>
-                                        {{row[item.slot+'_name']}}
+                                        
+                                        <template v-if='row[item.slot]===true'>
+                                            是
+                                        </template>
+                                        <template v-else-if='row[item.slot]===false'>
+                                            否
+                                        </template>
+                                        <ColorPicker v-else-if="item.iscolor===true" v-model="row[item.slot]" disabled="true" />
+                                        hasname
+                                        <template v-else-if='item.hasname===true'>
+                                            {{row[item.slot+'_name']}}
+                                        </template>
+                                        <template v-else-if='item.filters==null'>
+                                            {{row[item.slot]}}
+                                        </template>
+                                        
+                                        <template v-else>
+                                            {{row[item.slot+'_name']}}
+                                        </template>
                                     </template>
                                 </template>
-                            </template>
-                            <template slot-scope="{ row, index }" slot="action">
-                                <div v-if="edit.index === index">
-                                    <Button type="info" size="small" @click="handleSave(row,index)">保存</Button>
-                                    <Button type="warning" size="small" @click="edit.index = -1">取消</Button>
-                                </div>
-                                <div v-else>
-                                    <Button  type="primary" size="small" style="margin-right: 5px" @click="handleEdit(row, index)">修改</Button>
-                                    <Button type="error" size="small" @click="remove(row,index)">删除</Button>
-                                </div>
-                            </template>
-                        </Table>
+                                <template slot-scope="{ row, index }" slot="action">
+                                    <div v-if="edit.index === index">
+                                        <Button type="info" size="small" @click="handleSave(row,index)">保存</Button>
+                                        <Button type="warning" size="small" @click="edit.index = -1">取消</Button>
+                                    </div>
+                                    <div v-else>
+                                        <Button  type="primary" size="small" style="margin-right: 5px" @click="handleEdit(row, index)">修改</Button>
+                                        <Button type="error" size="small" @click="remove(row,index)">删除</Button>
+                                    </div>
+                                </template>
+                            </Table>
+                        </template>
 
                     </div>
                 </Split>
@@ -158,7 +169,8 @@ const config = {
             filter:{
                 page:1
             },
-            submenu:['站点','系统','设备'],
+            nenghao_show:false,
+            submenu:['站点','系统','设备','设备连接线','能耗'],
             table_columns:[],
             table_data:[],
             table_count:0,
@@ -167,7 +179,22 @@ const config = {
                 system_type:[],
                 devicetype:[],
                 groups:[],
-                users:[]
+                users:[],
+                project:[],
+                line_style_type:[
+                    {
+                        label:'实线',
+                        value:'solid',
+                    },
+                    {
+                        label:'长虚线',
+                        value:'dashed',
+                    },
+                    {
+                        label:'短虚线',
+                        value:'dotted',
+                    },
+                ]
             },
             edit:{
                 index:-1,
@@ -258,7 +285,7 @@ const config = {
         menuChange(name){
             this.menu_active1=name
             if(name=='站点管理'){
-                this.submenu=['站点','系统','设备']
+                this.submenu=['站点','系统','设备','设备连接线','能耗']
             }else if(name=='用户管理'){
                 this.submenu=['用户','权限','分组']
             }else if(name=='综合设置'){
@@ -332,16 +359,28 @@ const config = {
         },
         initTable(){
             if(this.menu_active2=='站点'){
+                this.nenghao_show=false
                 this.projectTable()
             }else if(this.menu_active2=='系统'){
+                this.nenghao_show=false
                 this.systemTable()
             }else if(this.menu_active2=='设备'){
+                this.nenghao_show=false
                 this.deviceTable()
-            }else if(this.menu_active2=='用户'){
+            }else if(this.menu_active2=='设备连接线'){
+                this.nenghao_show=false
+                this.device2deviceTable()
+            }else if(this.menu_active2=='能耗'){
+                this.nenghao_show=true
+            }
+            else if(this.menu_active2=='用户'){
+                this.nenghao_show=false
                 this.userTable()
             }else if(this.menu_active2=='权限'){
+                this.nenghao_show=false
                 this.authTable()
             }else if(this.menu_active2=='分组'){
+                this.nenghao_show=false
                 this.groupTable()
             }else if(this.menu_active2=='消息通知'){
 
@@ -361,6 +400,51 @@ const config = {
                 
             }
             return params
+        },
+        device2deviceTable(){
+            var params = this.getParams()
+            this.save_url = '/device/rest/device2device/'
+            ajax.get(`/device/rest/device2device/?pagesize=15&${params}`).then(res=>{
+                this.table_columns=[
+                    {
+                        title: '线颜色',
+                        slot: 'connection',
+                        iscolor:true,
+                        className: 'color_picker'
+                    },
+                    {
+                        title: '所属系统',
+                        slot: 'system',
+                        filters: this.filters.system,
+                        filterRemote:(value,row)=>{
+                            this.filter.system=value
+                            this.initTable()
+                        }
+                    },
+                    {
+                        title: '是否显示流向',
+                        slot: 'show_direction',
+                    },
+                    {
+                        title: '线的类型',
+                        slot: 'line_style_type',
+                        hasname: true,
+                        filters: this.filters.line_style_type,
+                        filterRemote:(value,row)=>{
+                            this.filter.line_style_type=value
+                            this.initTable()
+                        }
+                    },
+                    {
+                        title: '操作',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
+                    }
+                ]
+                this.table_data=res.data
+                
+            })
         },
         deviceTable(){
             var params = this.getParams()
@@ -415,6 +499,15 @@ const config = {
                         filters: this.filters.system_type,
                         filterRemote:(value,row)=>{
                             this.filter.systemtype=value
+                            this.initTable()
+                        }
+                    },
+                    {
+                        title: '站点',
+                        slot: 'project',
+                        filters: this.filters.project,
+                        filterRemote:(value,row)=>{
+                            this.filter.project=value
                             this.initTable()
                         }
                     },
@@ -582,6 +675,15 @@ const config = {
                     })
                 }
             })
+            ajax.get(`/device/rest/project/?pagesize=200`).then(res=>{
+                for(var i in res.data.results){
+                    this.filters.project.push({
+                        label:res.data.results[i].name,
+                        value:res.data.results[i].id,
+                    })
+                }
+            })
+
             ajax.get(`/config/rest/group/?pagesize=200`).then(res=>{
                 for(var i in res.data.results){
                     this.filters.groups.push({

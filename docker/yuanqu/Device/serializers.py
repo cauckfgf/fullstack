@@ -25,6 +25,7 @@ class SystemTypeSerializer(serializers.ModelSerializer):
 class SystemSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
+    project_name = serializers.ReadOnlyField(source='project.name')
     class Meta:
         model = System
         fields = '__all__'
@@ -61,7 +62,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     devicetype_name = serializers.ReadOnlyField(source='devicetype.name')
     system_name = serializers.ReadOnlyField(source='system.name')
-    postion = serializers.SerializerMethodField()
+    # postion = serializers.SerializerMethodField()
     icon = serializers.SerializerMethodField()
     gif = serializers.SerializerMethodField()
     sensors = serializers.ReadOnlyField()
@@ -102,19 +103,20 @@ class DeviceSerializer(serializers.ModelSerializer):
         #     return True
         # return False
 
-    def get_postion(self,obj):
-        def toInt(i):
-            return int(float(i))
-        # return Document.objects.filter(docdirectory__name=self.name)
-        system = self.context['request'].query_params.get('system',None)
-        if system:
-            p1 = Device2Device.objects.filter(device_from=obj,system_id=system).first()
+    # def get_postion(self,obj):
+    #     def toInt(i):
+    #         return int(float(i))
+    #     # return Document.objects.filter(docdirectory__name=self.name)
+    #     system = self.context['request'].query_params.get('system',None)
+    #     if system:
+    #         p1 = Device2Device.objects.filter(device_from=obj,system_id=system).first()
             
-            if p1:
-                return map(toInt,p1.position_from.split(','))
-            p2 = Device2Device.objects.filter(device_to=obj,system_id=system).first()
-            if p2:
-                return map(toInt,p2.position_to.split(','))
+    #         if p1:
+    #             return map(toInt,p1.position_from.split(','))
+    #         p2 = Device2Device.objects.filter(device_to=obj,system_id=system).first()
+    #         if p2:
+    #             return map(toInt,p2.position_to.split(','))
+                
         return [100,100]
     def get_gif(self,obj):
         devicetype = obj.devicetype
@@ -150,7 +152,9 @@ class Device2DeviceSerializer(serializers.ModelSerializer):
     '''备品备件类型'''
     id = serializers.ReadOnlyField()
     line = serializers.ReadOnlyField()
-    path_list = serializers.ListField()
+    path_list = serializers.ListField(read_only=True)
+    system_name = serializers.ReadOnlyField(source='system.name')
+    line_style_type_name = serializers.ReadOnlyField()
     class Meta:
         model = Device2Device
         fields = '__all__'

@@ -29,7 +29,7 @@ class DeviceAdmin(admin.ModelAdmin):
     model = Device
 
 class Device2DeviceAdmin(admin.ModelAdmin):
-    list_display = ('id','device_from', 'position_from', 'device_to', 'position_to', 'connection','system')
+    list_display = ('id','connection','system')
     list_filter = ('system',)
     model = Device2Device
 

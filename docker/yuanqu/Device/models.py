@@ -99,6 +99,7 @@ class Device(models.Model):
     users = models.ManyToManyField(User,verbose_name='收藏设备的人',blank=True,related_name='device2Users')
     lastdata = models.TextField(default='{}',blank=True,null=True,verbose_name='最新数据json')
     infraed = models.TextField(default='{}',blank=True,null=True,verbose_name='红外参数')
+    position = models.CharField(max_length=96,default='1,2',verbose_name='echarts 位置')
     def __unicode__(self):
         return self.name
 
@@ -127,12 +128,12 @@ class Device2Device(models.Model):
         ('dashed','长虚线'),
         ('dotted','短虚线'),
     )
-    device_from = models.ForeignKey(Device,related_name="DeviceFrom",verbose_name='连接设备')
-    position_from = models.CharField(max_length=96,default='1,2',verbose_name='连接设备在逻辑图中位置')
-    device_to = models.ForeignKey(Device,related_name="DeviceTo",verbose_name='被连接设备')
-    position_to = models.CharField(max_length=96,default='1,2',verbose_name='被连接设备在逻辑图中位置')
+    # device_from = models.ForeignKey(Device,related_name="DeviceFrom",verbose_name='连接设备')
+    # position_from = models.CharField(max_length=96,default='1,2',verbose_name='连接设备在逻辑图中位置')
+    # device_to = models.ForeignKey(Device,related_name="DeviceTo",verbose_name='被连接设备')
+    # position_to = models.CharField(max_length=96,default='1,2',verbose_name='被连接设备在逻辑图中位置')
     connection = models.CharField(max_length=96,default='green',verbose_name='线颜色')
-    system = models.ForeignKey(System,blank=True,null=True,verbose_name='设备所属系统')
+    system = models.ForeignKey(System,blank=True,null=True,verbose_name='所属系统')
     sensor = models.ForeignKey('Sensor',null=True,blank=True,verbose_name='连接传感器', on_delete=models.SET_NULL)
     mid = models.TextField(default='',blank=True,null=True,verbose_name='线路中间点位')
     show_direction = models.BooleanField(default=True,verbose_name='是否流向')
@@ -141,12 +142,19 @@ class Device2Device(models.Model):
         def toInt(i):
             return int(float(i))
         if self.mid:
-            return [map(toInt,self.position_from.split(','))] + json.loads(self.mid) + [map(toInt,self.position_to.split(','))]
+            mid  = json.loads(self.mid)
+            if len(mid)>1:
+                return mid
+            else:
+                return [[1,1]] + json.loads(self.mid)
         else:
-            return [map(toInt,self.position_from.split(',')), map(toInt,self.position_to.split(','))]
+            return [[1,1],[10,10]]
     def __unicode__(self):
-        return self.device_from.name+'-'+self.device_to.name
+        return self.mid
 
+    def line_style_type_name(self):
+        m = [('solid','实线'), ('dashed','长虚线'), ('dotted','短虚线')]
+        return dict(m).get(self.line_style_type)
     def line(self):
         if self.sensor:
             return {
@@ -176,6 +184,7 @@ class Sensor(models.Model):
     isnumber = models.BooleanField(default=True,verbose_name='是否是数值量')
     status = models.IntegerField(default=1,verbose_name='状态') #1正常 2报警
     isrun = models.BooleanField(default=False,verbose_name='是否是决定设备运行停止进而影响逻辑图中是否显示动态图')
+    isctr = models.BooleanField(default=False,verbose_name='是否可以控制')
     # 数据对接部分
     xieyi = models.CharField(max_length=96, blank=True,null=True,verbose_name='code',choices=CHOICES)
     ip = models.CharField(max_length=15, blank=True,null=True,verbose_name='采集IP地址')

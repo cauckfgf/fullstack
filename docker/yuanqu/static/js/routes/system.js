@@ -3,156 +3,266 @@ const system = {
         // transactions
         'v-chart':VueECharts
     },
-    template:`<div style="width: 100%;  height: 100%;">
-        <audio ref="voice" id='test'>
-                <source src="/media/upload/tishi.mp3">
-        </audio>
-        <Split v-model="split1"  @on-move-end="datazoom" style="background: url('/static/image/systembg.jpg') no-repeat center!important;background-size: 100% 100%!important;">
-            
-            <div slot="left" class="demo-split-pane" style="display:flex;flex-direction:column;justify-content:space-between;height:100vh;padding-bottom:10px;">
-                <Card style="background: #fff0;">
-                    <p slot="title">
-                        <a @click="back" title="切换院区"><Icon type="ios-home" />
-                        {{project.name}}站点</a>
-                    </p>
-                    <div slot="extra" v-show="userinfo.islogin">
-                        <span style="margin-left:20px">编辑模式</span>
-                        <i-switch v-model="editable">
-                            <span slot="open">开</span>
-                            <span slot="close">关</span>
-                        </i-switch>
+    template:`<div style="width: 100%;  height: 100%; background: url('/static/image/bg.png') no-repeat center!important;background-size: 100% 100%!important;">
+        <div class="head_top">
+            <span> 智能能耗管理 </span>
+        </div>
+        
+        <div class="demo-avatar" style="position:absolute;right:25px;top:45px;z-index:1">
+            <Badge :count="1" style="margin-right:20px;margin-top:10px;">
+                <a href="javascript:void(0)" >
+                    <span><Icon size="26" type="ios-mail-outline" @click="showWarn" /></span>
+                </a>
+            </Badge>
+             <Dropdown @on-click='userDrop'>
+                <a href="javascript:void(0)" >
+                    <Avatar style="background-color: #87d068" icon="ios-person" />
+                    <span>{{userinfo.username}}</span>
+                </a>
+                <DropdownMenu slot="list" v-if="userinfo.islogin" >
+                    <DropdownItem name="个人中心">个人中心</DropdownItem>
+                    <DropdownItem name="系统配置" v-show="userinfo.is_staff">系统配置</DropdownItem>
+                    <DropdownItem name="退出">退出</DropdownItem>
+                </DropdownMenu>
+                <DropdownMenu slot="list" v-else>
+                    <DropdownItem name="登录">登录</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
+        <Row style="padding-top:20px;width: 100%;  height: 100%;">
+            <Col :xs="24" :sm="24" :md="6" :lg="6" style="height: 100%;">
+                <Card class="zhandian_card" style="background: #fff0;border:none;height: 40%;">
+                    <div class="visual_title" slot="title">
+                        <span v-if="isgis">项目能耗</span>
+                        <span v-else>站点系统</span>
+                        <img src="/static/image/ksh33.png">
                     </div>
-                    <Tree :data="systemData" :load-data="loadData" @on-select-change='systemChange' style="margin-left:15px"></Tree>
+
                     
+                    <v-chart v-if="isgis" autoresize style="width: 100%;  height: 90%;padding:4px; border-radius: 1.5em;" :options="option4" theme="dark"/>
+                    <Tree v-else='!isgis' :data="systemData" :load-data="loadData" @on-select-change='systemChange' style="margin-left:15px"></Tree>
                 </Card>
-                <Button type="success" v-show="userinfo.islogin&&userinfo.is_staff" @click="toConfig" long>系统配置</Button>
-            </div>
-            <div slot="right" style="width: 100%;  height: 100%;">
-                <Tabs type="card" value="name1" style="width: 100%;  height: 100%;padding-top:15px;" id='self-tab'>
-                    <TabPane label="运行图" name="name1" icon="ios-analytics" style="width: 100%;  height: 100%;">
-                        <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style" v-show="gifshow"/>
-                        <v-chart autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  ref="chart" :style="styleObject" @rendered="finished" @datazoom="datazoom"/>
-                    </TabPane>
-                    <TabPane label="设备列表" name="name2" icon="ios-list-box-outline">
-                        <Table stripe  @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
-                        <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(true)">关注全部</Button>
-                        <Button :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(false)">取消关注</Button>
-                        <Page  :page-size="20" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
-                    </TabPane>
-                    <TabPane label="系统能耗" name="name3" icon="ios-outlet">
-                        <v-chart autoresize style="width: 100%;height: calc(100% - 130px);" :options="history_option"/>
-                    </TabPane>
-                    <TabPane label="现场视频" name="name4" icon="ios-videocam-outline">
-                        <video  style="width:100%;height:calc(100% - 130px);background:black" id="myPlayer"  controls playsInline webkit-playsinline autoplay>
-                            <source src="http://hls01open.ys7.com/openlive/f01018a141094b7fa138b9d0b856507b.hd.m3u8" type="" />
-                        </video>
-                    </TabPane>
-                </Tabs>
-                <div class="demo-avatar" style="position:absolute;right:25px;top:0">
-                    <Badge :count="1" style="margin-right:20px;margin-top:10px;">
-                        <a href="javascript:void(0)" >
-                            <Icon size="26" type="ios-mail-outline" @click="showWarn" />
-                        </a>
-                    </Badge>
-                     <Dropdown @on-click='userDrop'>
-                        <a href="javascript:void(0)" >
-                            <Avatar style="background-color: #87d068" icon="ios-person" />
-                            {{userinfo.username}}
-                        </a>
-                        <DropdownMenu slot="list" v-if="userinfo.islogin" >
-                            <DropdownItem name="个人中心">个人中心</DropdownItem>
-                            <DropdownItem name="系统配置" v-show="userinfo.is_staff">系统配置</DropdownItem>
-                            <DropdownItem name="退出">退出</DropdownItem>
-                        </DropdownMenu>
-                        <DropdownMenu slot="list" v-else>
-                            <DropdownItem name="登录">登录</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                </div>
-                <Drawer
-                    title="修改"
-                    v-model="change_show"
-                    width="720"
-                    :mask-closable="false"
-                    :styles="styles"
-                    draggable
-                    placement='left'
-                >
-                    <Form :model="select_obj">
-                        <Row :gutter="32">
-                            <Col span="24"  v-if="select_obj.type!='lines'">
-                                <FormItem label="x坐标" label-position="top">
-                                    <InputNumber :max="200"  v-model="select_obj.value[0]"></InputNumber>
-                                </FormItem>
-                                <FormItem label="y坐标" label-position="top">
-                                    <InputNumber :max="200"  v-model="select_obj.value[1]"></InputNumber>
-                                </FormItem>
-                            </Col>
-                            <Col span="24"  v-else>
-                                <FormItem  label-position="top" v-for='(item,index) in select_obj.coords'  :key="index" :label="index|formatLable">
-                                    <InputNumber :max="200"  v-model="item[0]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
-                                    <InputNumber :max="200"  v-model="item[1]" :disabled="index==0||index==select_obj.coords.length-1"></InputNumber>
-
-                                    <ButtonGroup>
-                                        <Button type="dashed" v-if="index!=select_obj.coords.length-1" @click="addPoint(index)">+</Button>
-                                        <Button type="dashed" v-if="index!=select_obj.coords.length-1" icon="ios-disc-outline" @click="positionLine(index)"></Button>
-                                        <Button type="dashed" v-if="index!=0 && index!=select_obj.coords.length-1" @click="delPoint(index)">-</Button>
-                                    </ButtonGroup>
-                                </FormItem>
-                                <FormItem  label-position="top" label="监测点位">
-                                    <Select v-model="select_obj.sensor" style="width:200px">
-                                        <Option v-for="item in sensors" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                                    </Select>
-                                </FormItem>
-                            </Col>
-
-                        </Row>
-                    </Form>
-                    <div class="demo-drawer-footer">
-                        <Button style="margin-right: 8px" @click="cancel">取消</Button>
-                        <Button type="dashed"icon="ios-disc-outline" @click="positionDevice" v-show="select_obj.type!='lines'">定位</Button>
-                        <Button type="primary" @click="change_device">确定</Button>
+                <Card class="zhandian_card visual_left" style="background: #fff0;border:none;height: 40%;">
+                    <div class="visual_title" slot="title">
+                        <span>可控设备</span>
+                        <img src="/static/image/ksh33.png">
                     </div>
-                </Drawer>
-                <Drawer
-                    :title="title"
-                    v-model="gongdan_show"
-                    width="600"
-                    :mask-closable="false"
-                    :styles="styles"
-                    draggable
-                    :placement='placement'
-                    :mask='false'
-                    transfer
-                >
-                    <Tabs value="状态">
-                        <TabPane label="状态" name="状态">
-                            
-                            <Row style="width: 100%;">
-                                <Col xs="12" sm="12" md="12" lg="6" xl="4" v-for="item in yibiaos">
-                                    <v-chart  autoresize style="width: 100%; " :options="item"/>
-                                </Col>
-                            </Row>
-                            
-                        </TabPane>
-                        <TabPane label="维修" name="维修">
-                            <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
-                        </TabPane>
-                        <TabPane label="维保" name="维保">
-                            <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
-                        </TabPane>
-                        <TabPane label="报警" name="报警">
-                            <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
-                        </TabPane>
-                    </Tabs>
-                </Drawer>
+
+                    <div class="visual_chart sfzcll">
+                        <div class="sfzcll_pos_box">
+                            <div class="sfzcll_box">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <label>办公室1空调</label>
+                                <div class="sfzcll_smallBk">
+                                    <div class="ygl">
+                                        <i-switch size="large">
+                                            <span slot="open">运行</span>
+                                            <span slot="close">关闭</span>
+                                        </i-switch>
+                                    </div>
+                                </div>
+                                <div class="sfzcll_smallBk">
+                                    <div class="ygh">
+                                        <span>3</span>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="sfzcll_box">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <label>办公室1打印机</label>
+                                <div class="sfzcll_smallBk">
+                                    <div class="ygl">
+                                        <i-switch size="large">
+                                            <span slot="open">运行</span>
+                                            <span slot="close">关闭</span>
+                                        </i-switch>
+                                    </div>
+                                </div>
+                                <div class="sfzcll_smallBk">
+                                    <div class="ygh" style="line-height: 54px;">
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="sfzcll_box">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <label>办公室1大屏</label>
+                                <div class="sfzcll_smallBk">
+                                    <div class="ygl">
+                                        <i-switch size="large">
+                                            <span slot="open">运行</span>
+                                            <span slot="close">关闭</span>
+                                        </i-switch>
+                                    </div>
+                                </div>
+                                <div class="sfzcll_smallBk">
+                                    <div class="ygh" style="line-height: 54px;">
+                                        <span>2</span>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="sfzcll_box" style="line-height: 56px;">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <img class="sfzcll_bkJk" src="/static/image/ksh34.png">
+                                <label>办公室1电脑</label>
+                                <div class="sfzcll_smallBk">
+                                    <div class="ygl" style="line-height: 54px;">
+                                        <i-switch size="large">
+                                            <span slot="open">运行</span>
+                                            <span slot="close">关闭</span>
+                                        </i-switch>
+                                    </div>
+                                </div>
+                                <div class="sfzcll_smallBk">
+                                    <div class="ygh" style="line-height: 54px;">
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </Card>
+            </Col>
+            <Col :xs="24" :sm="24" :md="12" :lg="12" style="height: 90%;margin-top:20px;">
+                <img class="visual_conBot_l" src="/static/image/ksh42.png">
+                <img class="visual_conBot_2" src="/static/image/ksh43.png">
+                <img class="visual_conBot_3" src="/static/image/ksh44.png">
+                <img class="visual_conBot_4" src="/static/image/ksh45.png">
+                <img v-for="item in imageChangeObj" :src="item.gif" :style="item.style" v-show="gifshow&&!isgis"/>
+                <div v-show="userinfo.islogin && !isgis" style="position: absolute;top:5px;right:5px;z-index: 1;">
+                    <Icon v-if="editable" size="24" type="ios-cog-outline" @click="editable=!editable" style="color:white" />
+                    <Icon v-else size="24" type="ios-cog-outline" @click="editable=!editable"/>
+                </div>
+                <v-chart v-show="!isgis" class="wangge" autoresize style="width: 100%;  height: 100%;" :options="option" @click="chartClick"  :style="styleObject" ref="chart" @rendered="finished" @datazoom="datazoom"/>
+                <v-chart v-show="isgis" class="wangge" autoresize style="width: 100%;  height: 100%;" :options="gis" @click="chartClick_gis"   theme="light"/>
+            </Col>
+            <Col :xs="24" :sm="24" :md="6" :lg="6" style="height: 100%;">
+                <Card class="zhandian_card" style="background: #fff0;border:none;height: 40%;">
+                    <div class="visual_title" slot="title">
+                        <span>监控画面</span>
+                        <img src="/static/image/ksh33.png">
+                    </div>
+                    <video  style="width:100%;height:calc(100% - 35px);background:black" id="myPlayer"  controls playsInline webkit-playsinline autoplay>
+                        <source src="http://hls01open.ys7.com/openlive/f01018a141094b7fa138b9d0b856507b.hd.m3u8" type="" />
+                    </video>
+                </Card>
+                <Card class="zhandian_card" style="background: #fff0;border:none;height: 40%;">
+                    <div class="visual_title" slot="title">
+                        <span>设备列表</span>
+                        <img src="/static/image/ksh33.png">
+                    </div>
+                    <Table class="transparentTable"   @on-selection-change="guanzhu_change" border ref="selection" :columns="device_list_head" :data="device_list"></Table>
+                    <Button class="btn" :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(true)">关注全部</Button>
+                    <Button class="btn" :disabled="!userinfo.islogin" :loading="guanzhu_button_loading" style="margin:15px;" @click="guanzhu(false)">取消关注</Button>
+                    <Page class='page' :page-size="20" size="small" style="float:right;margin:15px;" :total="device_count" @on-change="pageChange" show-elevator />
+                </Card>
+            </Col>
+        </Row>
+        <Drawer
+            title="修改"
+            v-model="change_show"
+            width="720"
+            :mask-closable="false"
+            :styles="styles"
+            draggable
+            placement='left'
+        >
+            <Form :model="select_obj">
+                <Row :gutter="32">
+                    <Col span="24"  v-if="select_obj.type!='lines'">
+                        <FormItem label="x坐标" label-position="top">
+                            <InputNumber :max="200"  v-model="select_obj.value[0]"></InputNumber>
+                        </FormItem>
+                        <FormItem label="y坐标" label-position="top">
+                            <InputNumber :max="200"  v-model="select_obj.value[1]"></InputNumber>
+                        </FormItem>
+                        <FormItem label="图片高" label-position="top">
+                            <InputNumber :max="200"  v-model="select_obj.sizeXY.y"></InputNumber>
+                        </FormItem>
+                        <FormItem label="图片宽" label-position="top">
+                            <InputNumber :max="200"  v-model="select_obj.sizeXY.x"></InputNumber>
+                        </FormItem>
+                    </Col>
+                    <Col span="24"  v-else>
+                        <FormItem  label-position="top" v-for='(item,index) in select_obj.coords'  :key="index" :label="index|formatLable">
+                            <InputNumber :max="200"  v-model="item[0]" ></InputNumber>
+                            <InputNumber :max="200"  v-model="item[1]" ></InputNumber>
+
+                            <ButtonGroup>
+                                <Button type="dashed" v-if="index!=select_obj.coords.length-1" @click="addPoint(index)">+</Button>
+                                <Button type="dashed" v-if="index!=select_obj.coords.length-1" icon="ios-disc-outline" @click="positionLine(index)"></Button>
+                                <Button type="dashed" v-if="index!=0 && index!=select_obj.coords.length-1" @click="delPoint(index)">-</Button>
+                            </ButtonGroup>
+                        </FormItem>
+                        <FormItem  label-position="top" label="监测点位">
+                            <Select v-model="select_obj.sensor" style="width:200px">
+                                <Option v-for="item in sensors" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                            </Select>
+                        </FormItem>
+                    </Col>
+
+                </Row>
+            </Form>
+            <div class="demo-drawer-footer">
+                <Button style="margin-right: 8px" @click="cancel">取消</Button>
+                <Button type="dashed"icon="ios-disc-outline" @click="positionDevice" v-show="select_obj.type!='lines'">定位</Button>
+                <Button type="primary" @click="change_device">确定</Button>
             </div>
-        </Split>
+        </Drawer>
+        <Drawer
+            :title="title"
+            v-model="gongdan_show"
+            width="600"
+            :mask-closable="false"
+            :styles="styles"
+            draggable
+            :placement='placement'
+            :mask='false'
+            transfer
+        >
+            <Tabs value="状态">
+                <TabPane label="状态" name="状态">
+                    
+                    <Row style="width: 100%;">
+                        <Col xs="12" sm="12" md="12" lg="6" xl="4" v-for="item in yibiaos">
+                            <v-chart  autoresize style="width: 100%; " :options="item"/>
+                        </Col>
+                    </Row>
+                    
+                </TabPane>
+                <TabPane label="维修" name="维修">
+                    <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
+                </TabPane>
+                <TabPane label="维保" name="维保">
+                    <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
+                </TabPane>
+                <TabPane label="报警" name="报警">
+                    <Table height="500" :columns="columns_weixiu" :data="data_weixiu"></Table>
+                </TabPane>
+            </Tabs>
+        </Drawer>
+
     </div>`,
     
     data(){
         return {
-
+            isgis:true,
             history_option: {//能耗
                 title: {
                     text: '',
@@ -296,6 +406,128 @@ const system = {
                     symbol: 'none'
                 }]
             },
+            gis : {
+                // backgroundColor: '#0a0022',
+                // backgroundColor: 'rgba(0,0,0,0)',//canvas的背景颜色
+                environment: '/static/image/bg.jpg',//背景星空图
+                title: {
+                    sublink: '/',
+                    left: 'center',
+                    textStyle: {
+                        color: '#80d8ee',
+                        fontSize: 24,
+                        textBorderWidth : 2,
+                        textBorderColor : 'blue',
+                        textShadowColor  :'blue',
+                        textShadowBlur :2,
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(o) {
+                        // debugger
+                        // return o.name + ":" + o.value[2] + "起";
+                        r = `<span style="text-shadow:0px 0px 2px  blue;font-weight: bolder;font-size:1.2rem">${o.name}站点</span>`
+                        return r
+                    }
+                },
+                geo: {
+                    map: 'china',
+                    label: {
+                        emphasis: {
+                            show: false
+                        },
+                        normal: {
+                            show: true,
+                            position: 'bottom',
+                            formatter: function(o) {
+                                // return o.name + ":" + o.value[2] + "起";
+                                // return o.data[0].name
+                                return ''
+                            },
+                            textStyle: {
+                                color: "#46daff"
+                            } //省份标签字体颜色
+                        },
+                        emphasis: {
+                            textStyle: {
+                                color: "#46daff"
+                            } //省份标签字体颜色
+                        },
+                    },
+                    roam: true,
+                    itemStyle: {
+                        normal: {
+                            areaColor : 'rgb(5, 39, 175,0)',
+                            borderColor : '#eee',
+                            borderWidth : 0.5,
+                            shadowColor : 'rgb(2, 89, 195)',
+                            shadowBlur : 10
+                        },
+                        emphasis: {
+                            areaColor: 'rgb(2, 89, 195)'
+                        },
+
+                    }
+                },
+                series : [
+
+                    {
+                        name: '',
+                        type: 'effectScatter',
+                        // type:'scatter3D',
+                        coordinateSystem: 'geo',
+                        data: [
+                            // {
+                            //     name: "东莞",
+                            //     value: [113.75,23.04,10]
+                            // },
+                            // {
+                            //     name: "北京",
+                            //     value: [116.46,39.92,100]
+                            // },
+                            // {
+                            //     name: "太原",
+                            //     value: [112.53,37.87,0.1]
+                            // },
+                            // {
+                            //     name: "成都",
+                            //     value: [104.06,30.67],
+                            // },
+                            // {
+                            //     name: "苏州",
+                            //     value: [120.62,31.32]
+                            // }
+                        ],
+                        encode: {
+                            value: 2
+                        },
+                        symbolSize: function (val) {
+                            return 20;
+                        },
+                        showEffectOn: 'render',
+                        rippleEffect: {
+                            brushType: 'stroke'
+                        },
+                        hoverAnimation: true,
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                position: 'right',
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#f4e925',
+                                shadowBlur: 10,
+                                shadowColor: '#333'
+                            }
+                        },
+                        zlevel: 1
+                    }
+                ]
+            },
             // userinfo:{islogin:false,username:''},
             CancelToken:null,
             guanzhu_button_loading:false,
@@ -355,6 +587,7 @@ const system = {
             },
             select_obj: {
                 value: [],
+                sizeXY:[]
             },
             seriesIndex:0,
             planePath : 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z',
@@ -529,7 +762,103 @@ const system = {
                 ]
             },
             yibiaos:[],
-            
+            option4 : {
+                    title: {
+                        // text: '设备报警',
+                        // subtext: 'Source: https://worldcoffeeresearch.org/work/sensory-lexicon/',
+                        left: 'center',
+                        textStyle: {
+                            // fontSize: 14,
+                            align: 'center',
+                            color: '#fff'
+                        },
+                        subtextStyle: {
+                            align: 'center'
+                        },
+                        // sublink: 'https://worldcoffeeresearch.org/work/sensory-lexicon/'
+                    },
+                    backgroundColor: 'rgba(20,20,20,0)',//canvas的背景颜色
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    // legend: {
+                    //     data: ['空调', '空压机','污水']
+                    // },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        top: '-5%',
+                        containLabel: true
+                    },
+                    yAxis:  {
+                        type: 'value'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: ['北京','太原','苏州','东莞','成都']
+                    },
+                    series: [
+                        {
+                            name: '空调',
+                            type: 'line',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+                            data: [320, 302, 301, 334, 390],
+                            itemStyle: {
+                                normal: {
+                                    color: 'red',
+                                    barBorderRadius: 5,
+                                }
+                            },
+                        },
+                        {
+                            name: '空压机',
+                            type: 'line',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+                            data: [120, 132, 101, 134, 90],
+                            itemStyle: {
+                                normal: {
+                                    color: 'yellow',
+                                    barBorderRadius: 5,
+                                }
+                            },
+                        },
+                        {
+                            name: '污水',
+                            type: 'line',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+                            data: [220, 182, 191, 234, 290],
+                            itemStyle: {
+                                normal: {
+                                    color: 'green',
+                                    barBorderRadius: 5,
+                                }
+                            },
+                        },
+                       
+                    ]
+                }
         }
     },
     filters: {
@@ -538,6 +867,15 @@ const system = {
         }
     },
     methods:{
+        getProject(){
+            ajax.get(`/device/rest/project/`).then(res => {
+                this.gis.series[0].data = res.data.results
+                ajax.get(`/device/rest/project/${this.gis.series[0].data[1].id}/`).then(res => {
+                    this.project = res.data
+                    this.initSystem()
+                })
+            })
+        },
         toConfig(){
             this.$router.push('/config/')
         },
@@ -701,12 +1039,13 @@ const system = {
             }
             this.imageChange()
         },
-        back(){
-            this.$router.push('/')
-            _app.show=true;
-        },
+        // back(){
+        //     this.$router.push('/')
+        //     _app.show=true;
+        // },
         loadData (item, callback) {
-            ajax.get(`/device/rest/device/?system=${item.sid}&devicetype!=4&Sensor__isnull=false&pagesize=200`).then(res=>{
+            // ajax.get(`/device/rest/device/?system=${item.sid}&devicetype!=4&Sensor__isnull=false&pagesize=200`).then(res=>{
+            ajax.get(`/device/rest/device/?system=${item.sid}&devicetype!=4&pagesize=200`).then(res=>{
                 var data = []
                 for(var i in res.data.results){
                     data.push({
@@ -721,6 +1060,9 @@ const system = {
         },
         systemChange(point){
             // this.systemData[0].children[0].selected=false
+            if(point.length==0){
+                return
+            }
             if(point[0].sid!=undefined){
                 this.system = point[0].sid
                 if(this.systemData[0].sid!=point[0].sid){
@@ -824,7 +1166,8 @@ const system = {
                 })
              })
             var p2 = new Promise((resolve,reject)=>{
-                url = `/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false&pagesize=20&page=${this.device_filter.page}`
+                // url = `/device/rest/device/?system=${system}&devicetype!=4&Sensor__isnull=false&pagesize=20&page=${this.device_filter.page}`
+                url = `/device/rest/device/?system=${system}&devicetype__in=24,33&pagesize=20&page=${this.device_filter.page}`
                 if(this.device_filter.devicetype!=null){
                     url = url + `&devicetype__in=${this.device_filter.devicetype}`
                 }
@@ -848,24 +1191,24 @@ const system = {
                         align: 'center'
                     },
                     {
-                        title: '设备名称',
+                        title: '名称',
                         key: 'name',
-                        width: 200,
+                        // width: 100,
                         // fixed: 'left'
                     },
                     {
-                        title: '运行状态',
+                        title: '状态',
                         key: 'status',
-                        width: 150,
+                        // width: 60,
                         render: (h, params) => {
                             var s = params.row.status==1?'运行':'停止'
                             return h('div', s);
                         }
                     },
                     {
-                        title: '设备类型',
+                        title: '类型',
                         key: 'devicetype_name',
-                        width: 150,
+                        // width: 100,
                         filters: filter_list,
                         filterRemote:(value,row)=>{
                             this.device_filter.devicetype=value
@@ -876,6 +1219,7 @@ const system = {
                     {
                         title: '数据',
                         key: 'sensors',
+                        // width: 60,
                         render: (h, params) => {
                             var s =''
                             for(var i in params.row.sensors){
@@ -890,7 +1234,17 @@ const system = {
                 this.device_count = ress[1].data.count
             })
         },
+        chartClick_gis(event, instance, echarts){
+            if(event.componentType=='series'){
+                this.isgis = false
+                ajax.get(`/device/rest/project/${event.data.id}/`).then(res => {
+                    this.project = res.data
+                    this.initSystem()
+                })
+            }
+        },
         chartClick(event, instance, echarts){
+
             this.placement='left'
             this.select_obj = event.data
             this.yibiaoSet()
@@ -905,6 +1259,7 @@ const system = {
             this.title = this.select_obj.name + '详情'
             this.seriesIndex = event.seriesIndex
             this.getLineSensor()
+
         },
         yibiaoSet(){
             var unitlist = ['℃','m³/h','rpm','MPa','A','V','毫米','立方米/秒','厘米']
@@ -958,6 +1313,7 @@ const system = {
                 if(this.select_obj.type!='lines'){
                     this.select_obj.value = r
                     this.option.series[this.seriesIndex].data[0].value = this.select_obj.value
+
                 }
                 else{
                     // 鼠标点击位置对应xy 坐标值
@@ -981,7 +1337,7 @@ const system = {
             this.change_show=false
             if(this.select_obj.type!='lines'){
                 ajax({
-                    url:'/device/rest/device2device/setdevicepostion/',
+                    url:`/device/rest/device/${this.select_obj.deviceid}/`,
                     transformRequest: [function (data) {
                         return Qs.stringify(data, {
                             encode: false,
@@ -989,12 +1345,10 @@ const system = {
                         });
                     }],
                     data:{
-                        x:this.select_obj.value[0],
-                        y:this.select_obj.value[1],
-                        system:this.system,
-                        device:this.select_obj.deviceid
+                        position:`${this.select_obj.value[0]},${this.select_obj.value[1]}`,
+                        size:`${this.select_obj.sizeXY.x},${this.select_obj.sizeXY.y}`,
                     },
-                    method: 'post'
+                    method: 'PATCH'
                 }).then(res=>{
                     this.init()
                 })
@@ -1002,15 +1356,15 @@ const system = {
                 var b=[]
 
                 for(var i in this.select_obj.coords){
-                    if(i!=0 &&i !=this.select_obj.coords.length-1){
+                    // if(i!=0 &&i !=this.select_obj.coords.length-1){
                         b.push(this.select_obj.coords[i])
-                    }
+                    // }
                 }
                 ajax({
                     url:`/device/rest/device2device/${this.option.series[this.seriesIndex].device2deviceid}/`,
                     data:{
                         mid:JSON.stringify(b),
-                        sensor:this.select_obj.sensor
+                        // sensor:this.select_obj.sensor
                     },
                     method: 'PATCH'
                 }).then(res=>{
@@ -1081,7 +1435,7 @@ const system = {
                             zlevel: zlevel,
                             device2deviceid:d.id,
                             sensor:d.sensor,//自定义字段
-                            fromDevice:d.device_from,
+                            // fromDevice:d.device_from,
                             // effect: {
                             //     show: true,
                             //     period: 3,
@@ -1096,8 +1450,8 @@ const system = {
                                 show: d.show_direction,
                                 // trailLength: 0.1,
                                 // symbol: 'image:///static/image/up.svg',
-                                symbolSize: 8,
-                                color: d.line.sensor_status,
+                                symbolSize: 12,
+                                // color: d.line.sensor_status,
                             },
                             label: {
                                 normal: {
@@ -1114,7 +1468,20 @@ const system = {
                             lineStyle: {
                                 normal: {
                                     // color: '#a6c84c',
-                                    width: 2,
+                                    color: {
+                                        type: 'linear',
+                                        x: 0,
+                                        y: 0,
+                                        x2: 0,
+                                        y2: 1,
+                                        colorStops: [{
+                                            offset: 0, color: 'red' // 0% 处的颜色
+                                        }, {
+                                            offset: 1, color: 'blue' // 100% 处的颜色
+                                        }],
+                                        global: false // 缺省为 false
+                                    },
+                                    width: 5,//线宽
                                     opacity: 0.4,
                                     curveness: 0.1,//曲线弯曲
                                     type:d.line_style_type//虚线
@@ -1140,7 +1507,7 @@ const system = {
                     var data = []
                     if(d.isrun){
                         this.imageChangeObj.push({
-                            postion : d.postion,
+                            postion : d.position.split(','),
                             gif : d.gif,
                             sizeXY: d.sizeXY,
                             style:{
@@ -1163,7 +1530,7 @@ const system = {
                     // }
                     data.push({
                         name: name,
-                        value: d.postion,
+                        value: d.position.split(','),
                         symbol: `image://${d.icon[0]}`,
                         deviceid:d.id,
                         sensors:d.sensors,
@@ -1246,7 +1613,7 @@ const system = {
                         },
                         itemStyle: {
                             normal: {
-                                color: '#0D6695',
+                                color: 'rgb(46, 195, 241)',
                                 opacity:1//透明度
                             }
                         },
@@ -1315,7 +1682,7 @@ const system = {
                             zlevel: 1,
                             device2deviceid:d.id,
                             sensor:d.sensor,//自定义字段
-                            fromDevice:d.device_from,
+                            // fromDevice:d.device_from,
                             // effect: {
                             //     show: true,
                             //     period: 3,
@@ -1373,7 +1740,7 @@ const system = {
                     var data = []
                     if(d.isrun){
                         this.imageChangeObj.push({
-                            postion : d.postion,
+                            postion : d.position.split(','),
                             gif : d.gif,
                             style:{
                                 position: 'absolute',
@@ -1387,7 +1754,7 @@ const system = {
                     }
                     data.push({
                         name: d.name,
-                        value: d.postion,
+                        value: d.position.split(','),
                         symbol: `image://${d.icon[d.status-1]}`,
                         deviceid:d.id,
                         sensors:d.sensors
@@ -1470,6 +1837,7 @@ const system = {
         },
         initSystem(){
             ajax.get(`/device/rest/system/?ordering=-order&project=${this.project.id}`).then(res => {
+                this.systemData=[]
                 for(var i in res.data.results){
                     this.systemData.push({
                             title: res.data.results[i].name,
@@ -1490,10 +1858,12 @@ const system = {
     
                 }
                 // this.systemData[0].selected=true
-
-                this.system = this.systemData[0].sid
-                this.getDevice(this.system)
-                this.init(update=false)
+                if(this.systemData.length>0){
+                    this.system = this.systemData[0].sid
+                    this.getDevice(this.system)
+                    this.init(update=false)
+                }
+                
                 
             })
         },
@@ -1509,17 +1879,23 @@ const system = {
             //                     display: 'none';
             //                 }
             //             })
+            if(this.isgis){
+                return
+            }
             for(var i in this.imageChangeObj){
                 var b = (this.option.dataZoom[0].end - this.option.dataZoom[0].start)/10
                 var x = (this.imageChangeObj[i].sizeXY.x/b)
                 var y = (this.imageChangeObj[i].sizeXY.y/b)
                 var xy = this.chart.convertToPixel ({xAxisIndex: 0, yAxisIndex: 0}, [this.imageChangeObj[i].postion[0], this.imageChangeObj[i].postion[1]]);
-                this.imageChangeObj[i].style.left = (xy[0]-x/2)+'px'
-                this.imageChangeObj[i].style.top = (xy[1]-y/2)+'px'
-                this.imageChangeObj[i].style.display = 'block'
-                this.imageChangeObj[i].style.height = y + 'px'
-                this.imageChangeObj[i].style.width = x + 'px'
-                this.imageChangeObj[i].style.position ='absolute'
+                if(xy!=undefined){
+                    this.imageChangeObj[i].style.left = (xy[0]-x/2)+'px'
+                    this.imageChangeObj[i].style.top = (xy[1]-y/2)+'px'
+                    this.imageChangeObj[i].style.display = 'block'
+                    this.imageChangeObj[i].style.height = y + 'px'
+                    this.imageChangeObj[i].style.width = x + 'px'
+                    this.imageChangeObj[i].style.position ='absolute'
+                }
+                
             }
             this.gifshow=true
         },
@@ -1541,13 +1917,10 @@ const system = {
     },
     created(){
         this.CancelToken =axios.CancelToken;
-        ajax.get(`/device/rest/project/${this.$route.query.project}/`).then(res => {
-            this.project = res.data
-            this.initSystem()
-        })
+        
         // this.$root.getUserInfo()
         this.history()
-        
+        this.getProject()
     },
 
 }
