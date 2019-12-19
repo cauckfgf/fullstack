@@ -1381,7 +1381,9 @@ const system = {
         },
         init(update=true){
             
-            this.playVoice()
+            if(isgis){
+                return
+            }
             this.source&&this.source.cancel('取消上个请求')
             if(update){
                 this.source = this.CancelToken.source()
