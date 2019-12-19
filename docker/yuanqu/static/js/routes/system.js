@@ -1381,7 +1381,7 @@ const system = {
         },
         init(update=true){
             
-            if(isgis){
+            if(this.isgis){
                 return
             }
             this.source&&this.source.cancel('取消上个请求')
