@@ -138,7 +138,7 @@ def wx(request):
                 print >> f,msg.source
                 # print >> f,'openid:{}'.format(msg.sourc)
                 f.close()
-                if len(msg.content)==len('235063032cf432acb184'):
+                if len(msg.content)==len('235063032cf432acb184') or len(msg.content)==len('6ceddf80f74f7cc073nufk'):
                     device = Device.objects.filter(tuya_code=msg.content)
                     if not device:
                         name = 'wifi插座{}'.format(str(datetime.datetime.now()))
