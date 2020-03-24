@@ -1047,7 +1047,7 @@ const nenghao = {
             })
         },
         init(name){
-            var url = `/device/rest/device/?devicetype=24`
+            var url = `/device/rest/device/?devicetype__in=24,33`
             if(name=='重置'||name==undefined){
 
             }else if(name=='空调'||name=='宿舍区'){
