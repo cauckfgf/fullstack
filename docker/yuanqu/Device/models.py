@@ -640,7 +640,7 @@ class HttpRest(object):
         data = json.loads(data)
         if data.get('success'):
             d.name = data['result']['name']
-            if data['result']['product_name']=="计量插座+空调控制":
+            if data['result']['product_name']=="LSP空调":
                 d.devicetype_id = 33
             lastdata['在线'] = '是' if data['result']['online'] else '否'
             for point in data['result']['status']:
@@ -678,7 +678,7 @@ class HttpRest(object):
                 f.close()
                 if data.get('success'):
                     d.name = data['result']['name']
-                    if data['result']['product_name']=="计量插座+空调控制":
+                    if data['result']['product_name']=="LSP空调":
                         d.devicetype_id = 33
                     lastdata['在线'] = '是' if data['result']['online'] else '否'
                     for point in data['result']['status']:
