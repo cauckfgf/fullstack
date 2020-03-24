@@ -249,8 +249,8 @@ const nenghao = {
         <Drawer
             title="遥控器"
             v-model="infrae_info.show"
-            placement=''
-            width='100'
+            placement="left"
+            width='400'
         >
             <Form :model="infrae_info.data">
                 <Row :gutter="32">
@@ -412,7 +412,7 @@ const nenghao = {
                 {
                     title: '操作',
                     slot: 'action',
-
+                    width:350,
                     // fixed: 'left'
                 },
 
