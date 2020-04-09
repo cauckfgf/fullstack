@@ -664,7 +664,7 @@ class HttpRest(object):
             self.get_hmac_sha256(message)
             headers['sign'] = self.signature
             qs = []
-            for d in Device.objects.filter(devicetype_id=24):
+            for d in Device.objects.filter(devicetype_id__in=[24,33]):
                 lastdata = {} if not d.lastdata else json.loads(d.lastdata)
                 url = self.urls['获取插座实时状态']['url'].format(d.tuya_code)
                 # print headers['sign']
